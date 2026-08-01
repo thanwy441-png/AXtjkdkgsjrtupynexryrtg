@@ -1,1796 +1,2946 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>🎰 عجلة حظ يلا كيمياء</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة الإدارة - يلا كيمياء</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Lalezar&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         /* ============================================================
-           RESET & BASE - WHITE THEME
+           ROOT VARIABLES
            ============================================================ */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        :root {
+            --admin-bg: #f0f4f8;
+            --admin-card: #ffffff;
+            --admin-text: #1a2332;
+            --admin-text2: #64748b;
+            --admin-border: #e2e8f0;
+            --admin-primary: #0B4F8C;
+            --admin-primary2: #1E81CE;
+            --admin-success: #22C55E;
+            --admin-danger: #EF4444;
+            --admin-warning: #F59E0B;
+            --admin-sidebar: #0B4F8C;
+            --admin-sidebar-text: #ffffff;
+            --admin-shadow: 0 4px 16px rgba(0,0,0,0.08);
+            --admin-radius: 12px;
+            --admin-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        body {
-            min-height: 100vh;
-            background: linear-gradient(135deg, #f0f9ff 0%, #e0f0ff 30%, #f5f0ff 60%, #f0f9ff 100%);
-            overflow-x: hidden;
-            position: relative;
+        [data-theme="admin-dark"] {
+            --admin-bg: #0f172a;
+            --admin-card: #1e293b;
+            --admin-text: #f1f5f9;
+            --admin-text2: #94a3b8;
+            --admin-border: #334155;
+            --admin-shadow: 0 4px 16px rgba(0,0,0,0.3);
+            --admin-sidebar: #0f172a;
         }
 
         /* ============================================================
-           ANIMATED BACKGROUND PARTICLES
+           GLOBAL
            ============================================================ */
-        #particlesCanvas {
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: var(--admin-bg);
+            color: var(--admin-text);
+            transition: var(--admin-transition);
+            overflow-x: hidden;
+        }
+
+        /* ============================================================
+           SCROLLBAR
+           ============================================================ */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--admin-bg); }
+        ::-webkit-scrollbar-thumb { background: var(--admin-primary); border-radius: 10px; }
+
+        /* ============================================================
+           SIDEBAR
+           ============================================================ */
+        .admin-sidebar {
             position: fixed;
             top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 0;
-            opacity: 0.4;
+            right: 0;
+            width: 260px;
+            height: 100vh;
+            background: var(--admin-sidebar);
+            color: var(--admin-sidebar-text);
+            padding: 20px 0;
+            overflow-y: auto;
+            z-index: 1000;
+            transition: var(--admin-transition);
+            box-shadow: 4px 0 20px rgba(0,0,0,0.1);
         }
-
-        /* ============================================================
-           MAIN CONTAINER
-           ============================================================ */
-        .main-container {
-            position: relative;
-            z-index: 1;
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 20px;
-            min-height: 100vh;
+        .admin-sidebar .logo {
             display: flex;
-            flex-direction: column;
             align-items: center;
+            gap: 12px;
+            padding: 0 20px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 16px;
         }
-
-        /* ============================================================
-           LOGO - محسن بالكامل
-           ============================================================ */
-        .logo-container {
-            text-align: center;
-            margin: 10px 0 20px;
-            position: relative;
-        }
-
-        .logo-container .logo {
-            width: 200px;
-            height: auto;
-            filter: drop-shadow(0 0 30px rgba(74, 158, 255, 0.4)) drop-shadow(0 0 60px rgba(74, 158, 255, 0.2));
-            animation: logoFloat 3s ease-in-out infinite;
-            transition: transform 0.3s;
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 20px;
-            padding: 10px;
-            border: 2px solid rgba(74, 158, 255, 0.1);
-        }
-
-        .logo-container .logo:hover {
-            transform: scale(1.05);
-        }
-
-        @keyframes logoFloat {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-        }
-
-        .logo-container .glow-ring {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 250px;
-            height: 250px;
+        .admin-sidebar .logo img {
+            width: 45px;
+            height: 45px;
+            object-fit: contain;
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(74, 158, 255, 0.2) 0%, transparent 70%);
-            animation: glowPulse 2s ease-in-out infinite;
-            pointer-events: none;
         }
-
-        @keyframes glowPulse {
-            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
-            50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+        .admin-sidebar .logo h1 {
+            font-family: 'Lalezar', cursive;
+            font-size: 1.4rem;
+            color: #fff;
         }
-
-        /* ============================================================
-           THREE COLUMN LAYOUT
-           ============================================================ */
-        .three-columns {
+        .admin-sidebar .logo span {
+            font-size: 0.7rem;
+            opacity: 0.7;
+            display: block;
+        }
+        .admin-sidebar .nav-item {
             display: flex;
-            gap: 30px;
-            width: 100%;
-            flex: 1;
             align-items: center;
-            justify-content: center;
-            margin: 10px 0;
+            gap: 12px;
+            padding: 12px 20px;
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            transition: var(--admin-transition);
+            cursor: pointer;
+            border-right: 3px solid transparent;
+            font-size: 0.9rem;
         }
-
-        @media (max-width: 1024px) {
-            .three-columns {
-                flex-direction: column;
-                gap: 30px;
-            }
+        .admin-sidebar .nav-item:hover {
+            background: rgba(255,255,255,0.08);
+            color: #fff;
         }
-
-        /* ============================================================
-           LEFT COLUMN - IMAGE محسنة
-           ============================================================ */
-        .left-column {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-width: 200px;
+        .admin-sidebar .nav-item.active {
+            background: rgba(255,255,255,0.12);
+            color: #fff;
+            border-right-color: #FFD60A;
         }
-
-        .image-container {
-            width: 300px;
-            height: 420px;
-            border-radius: 30px;
-            box-shadow: 0 20px 60px rgba(74, 158, 255, 0.2), 0 0 40px rgba(74, 158, 255, 0.08);
-            overflow: hidden;
-            border: 4px solid rgba(255, 255, 255, 0.9);
-            transition: all 0.3s;
-            background: #fff;
-            position: relative;
+        .admin-sidebar .nav-item i {
+            width: 20px;
+            text-align: center;
+            font-size: 1rem;
         }
-
-        .image-container::after {
-            content: '';
+        .admin-sidebar .nav-item .badge {
+            margin-right: auto;
+            background: var(--admin-danger);
+            color: #fff;
+            padding: 1px 10px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+        }
+        .admin-sidebar .sidebar-footer {
             position: absolute;
-            top: 0;
+            bottom: 0;
             left: 0;
             right: 0;
-            bottom: 0;
-            background: linear-gradient(180deg, rgba(255,255,255,0) 60%, rgba(255,255,255,0.3) 100%);
-            pointer-events: none;
-        }
-
-        .image-container:hover {
-            transform: scale(1.02);
-            box-shadow: 0 30px 80px rgba(74, 158, 255, 0.3);
-        }
-
-        .image-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-
-        /* ============================================================
-           CENTER COLUMN - WHEEL
-           ============================================================ */
-        .center-column {
-            flex: 1.5;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-width: 300px;
-        }
-
-        .wheel-wrapper {
-            position: relative;
-            width: 100%;
-            max-width: 500px;
-            aspect-ratio: 1;
-        }
-
-        /* LED Ring */
-        .led-ring {
-            position: absolute;
-            top: -15px;
-            left: -15px;
-            right: -15px;
-            bottom: -15px;
-            border-radius: 50%;
-            border: 3px solid transparent;
-            background: conic-gradient(from 0deg, #ffd700, #ff6b6b, #4a9eff, #6bcb77, #ffd93d, #a78bfa, #ffd700);
-            mask: radial-gradient(farthest-side, transparent calc(100% - 4px), #000 calc(100% - 3px));
-            -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 4px), #000 calc(100% - 3px));
-            animation: ledSpin 4s linear infinite;
+            padding: 16px 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.75rem;
             opacity: 0.6;
-        }
-
-        @keyframes ledSpin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .led-ring::after {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: 50%;
-            width: 12px;
-            height: 12px;
-            background: #ffd700;
-            border-radius: 50%;
-            box-shadow: 0 0 20px #ffd700, 0 0 40px #ffd700;
-            transform: translateX(-50%);
-        }
-
-        /* Wheel Canvas */
-        #wheelCanvas {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            box-shadow: 0 0 40px rgba(74, 158, 255, 0.15), 0 0 80px rgba(74, 158, 255, 0.05);
-            background: rgba(255, 255, 255, 0.5);
-            transition: transform 0.05s;
-            cursor: pointer;
-            position: relative;
-            z-index: 2;
-        }
-
-        /* Golden Pointer */
-        .pointer {
-            position: absolute;
-            top: -18px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 10;
-            filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.5));
-        }
-
-        .pointer svg {
-            width: 40px;
-            height: 50px;
-            display: block;
-        }
-
-        /* ============================================================
-           RIGHT COLUMN - CONTROLS
-           ============================================================ */
-        .right-column {
-            flex: 1;
-            min-width: 250px;
-        }
-
-        .controls-panel {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-radius: 30px;
-            padding: 24px;
-            border: 1px solid rgba(255, 255, 255, 0.9);
-            box-shadow: 0 20px 60px rgba(74, 158, 255, 0.08);
-            max-height: 600px;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .controls-panel h3 {
-            color: #1a3a5c;
-            font-weight: 600;
-            font-size: 1rem;
-            margin-bottom: 12px;
-            text-align: center;
-            letter-spacing: 1px;
-        }
-
-        .input-group {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 12px;
-        }
-
-        .input-group input {
-            flex: 1;
-            padding: 10px 16px;
-            border-radius: 20px;
-            border: 1px solid rgba(74, 158, 255, 0.2);
-            background: rgba(255, 255, 255, 0.9);
-            font-size: 0.9rem;
-            outline: none;
-            transition: 0.3s;
-            color: #1a3a5c;
-        }
-
-        .input-group input:focus {
-            border-color: #4a9eff;
-            box-shadow: 0 0 0 3px rgba(74, 158, 255, 0.1);
-            background: #fff;
-        }
-
-        .input-group input::placeholder {
-            color: rgba(26, 58, 92, 0.3);
-        }
-
-        .btn {
-            padding: 10px 18px;
-            border: none;
-            border-radius: 20px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-size: 0.85rem;
-            white-space: nowrap;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #4a9eff, #7c5cfc);
-            color: #fff;
-            box-shadow: 0 4px 15px rgba(74, 158, 255, 0.3);
-        }
-
-        .btn-primary:hover {
-            transform: scale(1.05);
-            box-shadow: 0 6px 25px rgba(74, 158, 255, 0.4);
-        }
-
-        .btn-success {
-            background: linear-gradient(135deg, #6bcb77, #34d399);
-            color: #fff;
-            box-shadow: 0 4px 15px rgba(107, 203, 119, 0.3);
-        }
-
-        .btn-success:hover {
-            transform: scale(1.05);
-            box-shadow: 0 6px 25px rgba(107, 203, 119, 0.4);
-        }
-
-        .btn-warning {
-            background: linear-gradient(135deg, #ffd93d, #f97316);
-            color: #1a3a5c;
-            box-shadow: 0 4px 15px rgba(255, 217, 61, 0.3);
-        }
-
-        .btn-warning:hover {
-            transform: scale(1.05);
-            box-shadow: 0 6px 25px rgba(255, 217, 61, 0.4);
-        }
-
-        .btn-danger {
-            background: linear-gradient(135deg, #ff6b6b, #f472b6);
-            color: #fff;
-            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
-        }
-
-        .btn-danger:hover {
-            transform: scale(1.05);
-            box-shadow: 0 6px 25px rgba(255, 107, 107, 0.4);
-        }
-
-        .btn-gold {
-            background: linear-gradient(135deg, #ffd700, #ffb347);
-            color: #1a3a5c;
-            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
-            font-size: 1rem;
-            padding: 14px 28px;
-        }
-
-        .btn-gold:hover {
-            transform: scale(1.05);
-            box-shadow: 0 6px 30px rgba(255, 215, 0, 0.5);
-        }
-
-        .btn:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-            transform: none !important;
-        }
-
-        .btn-group {
-            display: flex;
-            gap: 6px;
-            flex-wrap: wrap;
-            margin: 4px 0;
-        }
-
-        .btn-group .btn {
-            flex: 1;
-            min-width: 60px;
             text-align: center;
         }
 
         /* ============================================================
-           NAMES LIST
+           MAIN CONTENT
            ============================================================ */
-        .names-list {
-            flex: 1;
-            overflow-y: auto;
-            margin: 8px 0;
-            padding-right: 4px;
-            max-height: 250px;
+        .admin-main {
+            margin-right: 260px;
+            padding: 20px;
+            min-height: 100vh;
+            transition: var(--admin-transition);
         }
 
-        .names-list::-webkit-scrollbar {
-            width: 4px;
-        }
-
-        .names-list::-webkit-scrollbar-track {
-            background: rgba(74, 158, 255, 0.05);
-            border-radius: 10px;
-        }
-
-        .names-list::-webkit-scrollbar-thumb {
-            background: rgba(74, 158, 255, 0.2);
-            border-radius: 10px;
-        }
-
-        .name-item {
+        /* ============================================================
+           TOP BAR
+           ============================================================ */
+        .admin-topbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 6px 12px;
-            margin: 3px 0;
-            background: rgba(255, 255, 255, 0.7);
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.9);
-            transition: 0.2s;
-            animation: slideIn 0.3s ease;
+            padding: 12px 20px;
+            background: var(--admin-card);
+            border-radius: var(--admin-radius);
+            margin-bottom: 20px;
+            box-shadow: var(--admin-shadow);
+            border: 1px solid var(--admin-border);
         }
-
-        .name-item:hover {
-            background: rgba(255, 255, 255, 0.95);
+        .admin-topbar .page-title {
+            font-family: 'Lalezar', cursive;
+            font-size: 1.5rem;
+            color: var(--admin-text);
         }
-
-        .name-item .name-text {
+        .admin-topbar .topbar-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .admin-topbar .topbar-actions .admin-user {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px 6px 10px;
+            border-radius: 50px;
+            background: var(--admin-bg);
+            border: 1px solid var(--admin-border);
+        }
+        .admin-topbar .topbar-actions .admin-user .avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--admin-primary);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.8rem;
+        }
+        .admin-topbar .topbar-actions .admin-user .name {
+            font-weight: 600;
             font-size: 0.85rem;
-            color: #1a3a5c;
-            font-weight: 500;
-            flex: 1;
         }
-
-        .name-item .delete-btn {
+        .admin-topbar .topbar-actions .theme-toggle {
             background: none;
             border: none;
-            color: #ff6b6b;
+            font-size: 1.2rem;
             cursor: pointer;
-            font-size: 1.1rem;
-            padding: 0 6px;
-            transition: 0.2s;
-            opacity: 0.4;
+            color: var(--admin-text2);
+            padding: 6px 10px;
+            border-radius: 50%;
+            transition: var(--admin-transition);
+        }
+        .admin-topbar .topbar-actions .theme-toggle:hover {
+            background: var(--admin-bg);
+        }
+        .admin-topbar .topbar-actions .logout-btn {
+            background: var(--admin-danger);
+            color: #fff;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Cairo', sans-serif;
+            transition: var(--admin-transition);
+            font-size: 0.8rem;
+        }
+        .admin-topbar .topbar-actions .logout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(239,68,68,0.3);
         }
 
-        .name-item .delete-btn:hover {
-            opacity: 1;
-            transform: scale(1.2);
+        /* ============================================================
+           DASHBOARD CARDS
+           ============================================================ */
+        .dashboard-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 16px;
+            margin-bottom: 20px;
         }
-
-        @keyframes slideIn {
-            0% { opacity: 0; transform: translateX(-20px); }
-            100% { opacity: 1; transform: translateX(0); }
+        .stat-card {
+            background: var(--admin-card);
+            border: 1px solid var(--admin-border);
+            border-radius: var(--admin-radius);
+            padding: 16px 18px;
+            transition: var(--admin-transition);
+            box-shadow: var(--admin-shadow);
         }
-
-        .names-count {
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+        }
+        .stat-card .stat-icon {
+            font-size: 1.8rem;
+            margin-bottom: 6px;
+        }
+        .stat-card .stat-number {
+            font-family: 'Lalezar', cursive;
+            font-size: 1.8rem;
+            color: var(--admin-text);
+        }
+        .stat-card .stat-label {
+            font-size: 0.75rem;
+            color: var(--admin-text2);
+            font-weight: 600;
+        }
+        .stat-card .stat-change {
             font-size: 0.7rem;
-            color: rgba(26, 58, 92, 0.4);
+            font-weight: 600;
+            margin-top: 4px;
+        }
+        .stat-card .stat-change.up { color: var(--admin-success); }
+        .stat-card .stat-change.down { color: var(--admin-danger); }
+
+        /* ============================================================
+           SECTIONS
+           ============================================================ */
+        .admin-section {
+            display: none;
+        }
+        .admin-section.active {
+            display: block;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        .section-header h2 {
+            font-family: 'Lalezar', cursive;
+            font-size: 1.5rem;
+            color: var(--admin-text);
+        }
+
+        /* ============================================================
+           TABLES
+           ============================================================ */
+        .table-responsive {
+            overflow-x: auto;
+            background: var(--admin-card);
+            border-radius: var(--admin-radius);
+            border: 1px solid var(--admin-border);
+            box-shadow: var(--admin-shadow);
+        }
+        .table-responsive table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 800px;
+        }
+        .table-responsive th {
+            background: var(--admin-bg);
+            padding: 12px 16px;
+            text-align: right;
+            font-weight: 700;
+            font-size: 0.8rem;
+            color: var(--admin-text2);
+            border-bottom: 2px solid var(--admin-border);
+            white-space: nowrap;
+        }
+        .table-responsive td {
+            padding: 10px 16px;
+            border-bottom: 1px solid var(--admin-border);
+            font-size: 0.85rem;
+            vertical-align: middle;
+        }
+        .table-responsive tr:hover td {
+            background: var(--admin-bg);
+        }
+        .table-responsive .avatar-sm {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: var(--admin-primary);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.7rem;
+        }
+        .table-responsive .status-badge {
+            padding: 2px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+        .status-badge.active { background: #22C55E20; color: #22C55E; }
+        .status-badge.inactive { background: #EF444420; color: #EF4444; }
+        .status-badge.banned { background: #EF444440; color: #EF4444; }
+        .status-badge.premium { background: #F59E0B20; color: #F59E0B; }
+        .status-badge.free { background: #0B4F8C20; color: #0B4F8C; }
+
+        /* ============================================================
+           LIVE USERS
+           ============================================================ */
+        .live-users-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 12px;
+        }
+        .live-user-card {
+            background: var(--admin-card);
+            border: 1px solid var(--admin-border);
+            border-radius: var(--admin-radius);
+            padding: 14px;
             text-align: center;
+            transition: var(--admin-transition);
+            box-shadow: var(--admin-shadow);
+            position: relative;
+        }
+        .live-user-card .online-dot {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #22C55E;
+            animation: pulse-dot 1.5s infinite;
+        }
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.8); }
+        }
+        .live-user-card .avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            margin: 0 auto 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: 700;
+            background: var(--admin-primary);
+            color: #fff;
+            overflow: hidden;
+        }
+        .live-user-card .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .live-user-card .name {
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+        .live-user-card .info {
+            font-size: 0.7rem;
+            color: var(--admin-text2);
+        }
+        .live-user-card .time {
+            font-size: 0.65rem;
+            color: var(--admin-text2);
             margin-top: 4px;
         }
 
         /* ============================================================
-           WINNER OVERLAY
+           SEARCH
            ============================================================ */
-        #winnerOverlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(255, 255, 255, 0.92);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            animation: overlayFade 0.5s ease;
-        }
-
-        #winnerOverlay.active {
+        .search-box {
             display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
         }
-
-        @keyframes overlayFade {
-            0% { opacity: 0; transform: scale(0.95); }
-            100% { opacity: 1; transform: scale(1); }
+        .search-box input {
+            flex: 1;
+            min-width: 200px;
+            padding: 10px 16px;
+            border: 2px solid var(--admin-border);
+            border-radius: var(--admin-radius);
+            background: var(--admin-card);
+            color: var(--admin-text);
+            font-family: 'Cairo', sans-serif;
+            font-size: 0.9rem;
+            transition: var(--admin-transition);
         }
-
-        .winner-content {
-            text-align: center;
-            position: relative;
-            z-index: 2;
-            max-width: 700px;
-            width: 90%;
-            padding: 40px;
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--admin-primary);
         }
-
-        /* ============================================================
-           CONFETTI CANVAS
-           ============================================================ */
-        #confettiCanvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
+        .search-box select {
+            padding: 10px 16px;
+            border: 2px solid var(--admin-border);
+            border-radius: var(--admin-radius);
+            background: var(--admin-card);
+            color: var(--admin-text);
+            font-family: 'Cairo', sans-serif;
+            font-size: 0.9rem;
         }
-
-        /* ============================================================
-           GIFT BOX
-           ============================================================ */
-        .gift-box {
-            position: relative;
-            width: 220px;
-            height: 220px;
-            margin: 0 auto 20px;
-            perspective: 800px;
-        }
-
-        .gift-box-inner {
-            width: 100%;
-            height: 100%;
-            position: relative;
-            transform-style: preserve-3d;
-            animation: giftFloat 2s ease-in-out infinite;
-        }
-
-        @keyframes giftFloat {
-            0%, 100% { transform: translateY(0) rotateY(0deg); }
-            50% { transform: translateY(-10px) rotateY(5deg); }
-        }
-
-        .gift-box-body {
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(145deg, #ff6b6b, #ee5a24);
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(255, 107, 107, 0.3);
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 3px solid #ffd700;
-        }
-
-        .gift-box-body::before {
-            content: '';
-            position: absolute;
-            top: -20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 30px;
-            height: 40px;
-            background: #ffd700;
-            border-radius: 5px 5px 0 0;
-            box-shadow: 0 -10px 20px rgba(255, 215, 0, 0.3);
-        }
-
-        .gift-box-body .ribbon {
-            position: absolute;
-            top: 0;
-            left: 50%;
-            width: 20px;
-            height: 100%;
-            background: #ffd700;
-            transform: translateX(-50%);
-        }
-
-        .gift-box-body .ribbon-h {
-            position: absolute;
-            top: 50%;
-            left: 0;
-            width: 100%;
-            height: 20px;
-            background: #ffd700;
-            transform: translateY(-50%);
-        }
-
-        .gift-box-body .bow {
-            position: absolute;
-            top: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 2.5rem;
-            animation: bowPulse 1s ease-in-out infinite;
-        }
-
-        @keyframes bowPulse {
-            0%, 100% { transform: translateX(-50%) scale(1); }
-            50% { transform: translateX(-50%) scale(1.1); }
-        }
-
-        /* ============================================================
-           WINNER CARD
-           ============================================================ */
-        .winner-card {
-            background: linear-gradient(145deg, rgba(255, 215, 0, 0.08), rgba(255, 255, 255, 0.5));
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-radius: 40px;
-            padding: 40px 30px;
-            border: 2px solid rgba(255, 215, 0, 0.2);
-            box-shadow: 0 30px 80px rgba(255, 215, 0, 0.1);
-            margin: 20px 0;
-            animation: cardAppear 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .winner-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: conic-gradient(from 0deg, transparent, rgba(255, 215, 0, 0.05), transparent, rgba(255, 215, 0, 0.05), transparent);
-            animation: cardShine 4s linear infinite;
-        }
-
-        @keyframes cardShine {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        @keyframes cardAppear {
-            0% { opacity: 0; transform: scale(0.5) rotate(-5deg); }
-            100% { opacity: 1; transform: scale(1) rotate(0deg); }
-        }
-
-        .winner-card .trophy {
-            font-size: 5rem;
-            display: block;
-            margin-bottom: 10px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .winner-card .congrats {
-            font-size: 2.8rem;
-            font-weight: 800;
-            color: #ffd700;
-            text-shadow: 0 0 30px rgba(255, 215, 0, 0.2);
-            margin-bottom: 5px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .winner-card .winner-name {
-            font-size: 3.5rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #ffd700, #ffb347, #ff6b6b, #ffd700);
-            background-size: 300% 300%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: goldShine 2s ease-in-out infinite;
-            margin: 10px 0;
-            position: relative;
-            z-index: 1;
-        }
-
-        @keyframes goldShine {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-
-        .winner-card .subtitle {
-            color: rgba(26, 58, 92, 0.6);
-            font-size: 1.2rem;
-            letter-spacing: 2px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .winner-card .prize-message {
-            color: #1a3a5c;
-            font-size: 1.3rem;
+        .search-box .btn {
+            padding: 10px 24px;
+            border: none;
+            border-radius: var(--admin-radius);
+            background: var(--admin-primary);
+            color: #fff;
             font-weight: 700;
-            margin-top: 15px;
-            padding: 15px 20px;
-            background: rgba(255, 215, 0, 0.08);
-            border-radius: 20px;
-            border: 1px solid rgba(255, 215, 0, 0.15);
-            position: relative;
-            z-index: 1;
-            animation: prizePulse 1.5s ease-in-out infinite;
+            cursor: pointer;
+            font-family: 'Cairo', sans-serif;
+            transition: var(--admin-transition);
+        }
+        .search-box .btn:hover {
+            background: var(--admin-primary2);
+            transform: translateY(-2px);
+        }
+        .search-box .btn-outline {
+            background: transparent;
+            border: 2px solid var(--admin-border);
+            color: var(--admin-text2);
+        }
+        .search-box .btn-outline:hover {
+            background: var(--admin-bg);
+            transform: none;
         }
 
-        @keyframes prizePulse {
-            0%, 100% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.1); }
-            50% { box-shadow: 0 0 40px rgba(255, 215, 0, 0.2); }
+        /* ============================================================
+           MODAL
+           ============================================================ */
+        .admin-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(6px);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
         }
-
-        .winner-card .prize-message .highlight {
-            color: #ffd700;
-            font-weight: 800;
+        .admin-modal.open { display: flex; }
+        .admin-modal .modal-content {
+            background: var(--admin-card);
+            border-radius: var(--admin-radius-lg);
+            padding: 32px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            border: 1px solid var(--admin-border);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: modalIn 0.3s ease;
         }
-
-        .winner-actions {
+        .admin-modal .modal-content h3 {
+            font-family: 'Lalezar', cursive;
+            font-size: 1.5rem;
+            color: var(--admin-text);
+            margin-bottom: 16px;
+        }
+        .admin-modal .modal-content .form-group {
+            margin-bottom: 12px;
+        }
+        .admin-modal .modal-content .form-group label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin-bottom: 4px;
+            color: var(--admin-text2);
+        }
+        .admin-modal .modal-content .form-group input,
+        .admin-modal .modal-content .form-group select,
+        .admin-modal .modal-content .form-group textarea {
+            width: 100%;
+            padding: 10px 14px;
+            border: 2px solid var(--admin-border);
+            border-radius: var(--admin-radius);
+            background: var(--admin-card);
+            color: var(--admin-text);
+            font-family: 'Cairo', sans-serif;
+            font-size: 0.9rem;
+            transition: var(--admin-transition);
+        }
+        .admin-modal .modal-content .form-group input:focus,
+        .admin-modal .modal-content .form-group select:focus,
+        .admin-modal .modal-content .form-group textarea:focus {
+            outline: none;
+            border-color: var(--admin-primary);
+        }
+        .admin-modal .modal-content .modal-actions {
             display: flex;
             gap: 12px;
-            justify-content: center;
+            margin-top: 16px;
             flex-wrap: wrap;
-            margin-top: 20px;
-            position: relative;
-            z-index: 1;
+        }
+        .admin-modal .modal-content .modal-actions .btn {
+            padding: 10px 32px;
+            border: none;
+            border-radius: var(--admin-radius);
+            font-weight: 700;
+            cursor: pointer;
+            font-family: 'Cairo', sans-serif;
+            transition: var(--admin-transition);
+        }
+        .admin-modal .modal-content .modal-actions .btn-primary {
+            background: var(--admin-primary);
+            color: #fff;
+        }
+        .admin-modal .modal-content .modal-actions .btn-primary:hover {
+            background: var(--admin-primary2);
+        }
+        .admin-modal .modal-content .modal-actions .btn-danger {
+            background: var(--admin-danger);
+            color: #fff;
+        }
+        .admin-modal .modal-content .modal-actions .btn-danger:hover {
+            background: #dc2626;
+        }
+        .admin-modal .modal-content .modal-actions .btn-secondary {
+            background: var(--admin-border);
+            color: var(--admin-text);
+        }
+        .admin-modal .modal-content .modal-actions .btn-secondary:hover {
+            background: var(--admin-bg);
         }
 
-        .winner-actions .btn {
-            padding: 12px 28px;
-            font-size: 1rem;
-        }
-
-        /* ============================================================
-           FLOATING LOGOS
-           ============================================================ */
-        .floating-logo {
-            position: fixed;
-            pointer-events: none;
-            z-index: 1;
-            opacity: 0;
-            animation: floatLogo var(--duration) ease-in-out forwards;
-            width: var(--size);
-            height: var(--size);
-        }
-
-        .floating-logo img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            filter: drop-shadow(0 0 30px rgba(74, 158, 255, 0.2));
-            background: rgba(255, 255, 255, 0.8);
-            border-radius: 10px;
-            padding: 5px;
-        }
-
-        @keyframes floatLogo {
-            0% { opacity: 0; transform: translate(0, 0) rotate(0deg) scale(0.3); }
-            10% { opacity: 0.9; }
-            90% { opacity: 0.9; }
-            100% { opacity: 0; transform: translate(var(--tx), var(--ty)) rotate(var(--rot)) scale(var(--scale)); }
+        @keyframes modalIn {
+            from { opacity: 0; transform: scale(0.95) translateY(10px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
         }
 
         /* ============================================================
-           CELEBRATION STATUS
+           CHARTS
            ============================================================ */
-        .celebration-status {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 1001;
-            color: rgba(26, 58, 92, 0.5);
-            font-size: 0.8rem;
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
-            padding: 8px 20px;
-            border-radius: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.9);
-            display: none;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        .chart-box {
+            background: var(--admin-card);
+            border: 1px solid var(--admin-border);
+            border-radius: var(--admin-radius);
+            padding: 16px;
+            box-shadow: var(--admin-shadow);
+        }
+        .chart-box h4 {
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--admin-text2);
+            margin-bottom: 12px;
+        }
+        .chart-box canvas {
+            width: 100% !important;
+            max-height: 200px;
         }
 
-        .celebration-status.active {
-            display: block;
+        /* ============================================================
+           ACTIVITY LOG
+           ============================================================ */
+        .log-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 12px;
+            border-bottom: 1px solid var(--admin-border);
+            font-size: 0.85rem;
         }
+        .log-item .log-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 0.9rem;
+        }
+        .log-item .log-icon.login { background: #22C55E20; color: #22C55E; }
+        .log-item .log-icon.edit { background: #F59E0B20; color: #F59E0B; }
+        .log-item .log-icon.delete { background: #EF444420; color: #EF4444; }
+        .log-item .log-icon.add { background: #0B4F8C20; color: #0B4F8C; }
+        .log-item .log-icon.ban { background: #EF444440; color: #EF4444; }
+        .log-item .log-content { flex: 1; }
+        .log-item .log-content .log-action { font-weight: 600; }
+        .log-item .log-content .log-details { font-size: 0.75rem; color: var(--admin-text2); }
+        .log-item .log-time { font-size: 0.7rem; color: var(--admin-text2); white-space: nowrap; }
 
         /* ============================================================
            RESPONSIVE
            ============================================================ */
-        @media (max-width: 1024px) {
-            .three-columns {
-                flex-direction: column;
-                gap: 20px;
+        .sidebar-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--admin-text);
+            cursor: pointer;
+            padding: 4px 8px;
+        }
+
+        @media (max-width: 992px) {
+            .admin-sidebar {
+                transform: translateX(100%);
+                width: 280px;
             }
-            .left-column { order: 3; }
-            .center-column { order: 1; }
-            .right-column { order: 2; }
-            .image-container {
-                width: 220px;
-                height: 320px;
+            .admin-sidebar.open {
+                transform: translateX(0);
             }
-            .controls-panel {
-                max-height: 400px;
+            .admin-main {
+                margin-right: 0;
             }
-            .names-list {
-                max-height: 150px;
+            .sidebar-toggle {
+                display: block;
+            }
+            .sidebar-overlay {
+                display: none;
+                position: fixed;
+                inset: 0;
+                background: rgba(0,0,0,0.4);
+                z-index: 999;
+            }
+            .sidebar-overlay.open {
+                display: block;
+            }
+            .dashboard-cards {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
             }
         }
 
-        @media (max-width: 480px) {
-            .main-container { padding: 10px; }
-            .logo-container .logo { width: 140px; }
-            .wheel-wrapper { max-width: 320px; }
-            .controls-panel { padding: 16px; }
-            .winner-card .winner-name { font-size: 2.2rem; }
-            .winner-card .congrats { font-size: 2rem; }
-            .winner-card .prize-message { font-size: 1.1rem; padding: 10px 16px; }
-            .gift-box { width: 160px; height: 160px; }
-            .winner-actions .btn { padding: 10px 20px; font-size: 0.85rem; }
-            .image-container { width: 180px; height: 260px; }
+        @media (max-width: 576px) {
+            .admin-topbar {
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+            .admin-topbar .topbar-actions {
+                flex-wrap: wrap;
+            }
+            .dashboard-cards {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+            .stat-card .stat-number {
+                font-size: 1.3rem;
+            }
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+            .admin-modal .modal-content {
+                padding: 20px;
+            }
         }
 
         /* ============================================================
-           UTILITY
+           LOADING
            ============================================================ */
-        .hidden { display: none !important; }
-
-        @keyframes shake {
-            0%, 100% { transform: translateX(0) rotate(0deg); }
-            10%, 30%, 50%, 70%, 90% { transform: translateX(-15px) rotate(-3deg); }
-            20%, 40%, 60%, 80% { transform: translateX(15px) rotate(3deg); }
-        }
-        .shake { animation: shake 0.8s ease-in-out 3; }
-
-        @keyframes flash {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            25% { opacity: 0.2; transform: scale(0.95); }
-            75% { opacity: 0.2; transform: scale(0.95); }
-        }
-        .flash { animation: flash 0.3s ease 5; }
-
-        .white-flash {
+        .loading-overlay {
+            display: none;
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: white;
-            z-index: 999;
-            pointer-events: none;
-            animation: whiteFlash 0.5s ease forwards;
+            inset: 0;
+            background: rgba(0,0,0,0.3);
+            backdrop-filter: blur(4px);
+            z-index: 9998;
+            align-items: center;
+            justify-content: center;
         }
-        @keyframes whiteFlash {
-            0% { opacity: 1; }
-            100% { opacity: 0; display: none; }
+        .loading-overlay.open { display: flex; }
+        .loading-overlay .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid var(--admin-border);
+            border-top-color: var(--admin-primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
         }
-
-        @keyframes screenShake {
-            0%, 100% { transform: translate(0, 0); }
-            10% { transform: translate(-10px, -5px); }
-            20% { transform: translate(10px, 5px); }
-            30% { transform: translate(-5px, 10px); }
-            40% { transform: translate(5px, -10px); }
-            50% { transform: translate(-8px, 8px); }
-            60% { transform: translate(8px, -8px); }
-            70% { transform: translate(-3px, 3px); }
-            80% { transform: translate(3px, -3px); }
-            90% { transform: translate(-5px, 5px); }
-        }
-        .screen-shake { animation: screenShake 0.5s ease; }
+        @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
 
     <!-- ============================================================
-    PARTICLES BACKGROUND
-    ============================================================ -->
-    <canvas id="particlesCanvas"></canvas>
+         SIDEBAR OVERLAY (Mobile)
+         ============================================================ -->
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
 
     <!-- ============================================================
-    CONFETTI CANVAS
-    ============================================================ -->
-    <canvas id="confettiCanvas"></canvas>
+         LOADING OVERLAY
+         ============================================================ -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner"></div>
+    </div>
 
     <!-- ============================================================
-    MAIN CONTAINER
-    ============================================================ -->
-    <div class="main-container" id="mainContainer">
-
-        <!-- LOGO - محسن -->
-        <div class="logo-container">
-            <div class="glow-ring"></div>
-            <img class="logo" src="https://i.ibb.co/67wcPSGc/logo.png" alt="Yalla Chemistry Logo" id="mainLogo" 
-                 style="background: white; padding: 15px; border-radius: 25px; border: 3px solid rgba(74,158,255,0.2);" />
+         SIDEBAR
+         ============================================================ -->
+    <aside class="admin-sidebar" id="adminSidebar">
+        <div class="logo">
+            <img src="https://res.cloudinary.com/dbahe7lxz/image/upload/v1785593692/idraaak/ogvolfsxxnvk24gho8eb.jpg" alt="يلا كيمياء">
+            <div>
+                <h1>يلا كيمياء</h1>
+                <span>لوحة الإدارة</span>
+            </div>
         </div>
 
-        <!-- THREE COLUMNS -->
-        <div class="three-columns">
+        <nav>
+            <div class="nav-item active" data-section="dashboard" onclick="showSection('dashboard')">
+                <i class="fas fa-chart-pie"></i> الرئيسية
+            </div>
+            <div class="nav-item" data-section="live" onclick="showSection('live')">
+                <i class="fas fa-circle"></i> المتصلون الآن <span class="badge" id="liveCount">0</span>
+            </div>
+            <div class="nav-item" data-section="students" onclick="showSection('students')">
+                <i class="fas fa-users"></i> الطلاب
+            </div>
+            <div class="nav-item" data-section="courses" onclick="showSection('courses')">
+                <i class="fas fa-book"></i> الكورسات
+            </div>
+            <div class="nav-item" data-section="exams" onclick="showSection('exams')">
+                <i class="fas fa-file-alt"></i> الامتحانات
+            </div>
+            <div class="nav-item" data-section="logs" onclick="showSection('logs')">
+                <i class="fas fa-history"></i> سجل العمليات
+            </div>
+            <div class="nav-item" data-section="notifications" onclick="showSection('notifications')">
+                <i class="fas fa-bell"></i> الإشعارات
+            </div>
+        </nav>
 
-            <!-- LEFT: Image محسنة -->
-            <div class="left-column">
-                <div class="image-container">
-                    <img src="https://i.ibb.co/q328tph7/badge.png" alt="Mr. Yalla Chemistry" 
-                         style="width:100%;height:100%;object-fit:cover;" />
+        <div class="sidebar-footer">
+            <i class="fas fa-shield-alt"></i> يلا كيمياء Admin v1.0
+        </div>
+    </aside>
+
+    <!-- ============================================================
+         MAIN CONTENT
+         ============================================================ -->
+    <main class="admin-main">
+
+        <!-- ============================================================
+             TOP BAR
+             ============================================================ -->
+        <div class="admin-topbar">
+            <div style="display:flex;align-items:center;gap:12px;">
+                <button class="sidebar-toggle" onclick="toggleSidebar()">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h1 class="page-title" id="pageTitle">📊 الرئيسية</h1>
+            </div>
+            <div class="topbar-actions">
+                <div class="admin-user">
+                    <div class="avatar" id="adminAvatar">A</div>
+                    <span class="name" id="adminName">Admin</span>
+                </div>
+                <button class="theme-toggle" onclick="toggleAdminTheme()">
+                    <i class="fas fa-moon" id="themeIcon"></i>
+                </button>
+                <button class="logout-btn" onclick="logoutAdmin()">
+                    <i class="fas fa-sign-out-alt"></i> خروج
+                </button>
+            </div>
+        </div>
+
+        <!-- ============================================================
+             SECTION: DASHBOARD
+             ============================================================ -->
+        <div class="admin-section active" id="section-dashboard">
+            <div class="dashboard-cards" id="dashboardCards">
+                <!-- سيتم تعبئتها بواسطة JavaScript -->
+            </div>
+
+            <div class="charts-grid">
+                <div class="chart-box">
+                    <h4>📈 التسجيلات اليومية</h4>
+                    <canvas id="dailyChart"></canvas>
+                </div>
+                <div class="chart-box">
+                    <h4>📊 توزيع الطلاب حسب الصف</h4>
+                    <canvas id="gradeChart"></canvas>
                 </div>
             </div>
 
-            <!-- CENTER: Wheel -->
-            <div class="center-column">
-                <div class="wheel-wrapper">
-                    <div class="led-ring"></div>
-                    <canvas id="wheelCanvas"></canvas>
-                    <div class="pointer">
-                        <svg viewBox="0 0 40 50" fill="none">
-                            <polygon points="20,45 0,0 40,0" fill="#ffd700" stroke="#ffb347" stroke-width="2"/>
-                            <circle cx="20" cy="10" r="6" fill="#ffd700" stroke="#ffb347" stroke-width="2"/>
-                            <circle cx="20" cy="10" r="2" fill="#fff" opacity="0.5"/>
-                        </svg>
-                    </div>
+            <div class="charts-grid">
+                <div class="chart-box">
+                    <h4>📚 توزيع المشتركين حسب الكورس</h4>
+                    <canvas id="courseChart"></canvas>
+                </div>
+                <div class="chart-box">
+                    <h4>📈 نشاط الطلاب (آخر 7 أيام)</h4>
+                    <canvas id="activityChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================
+             SECTION: LIVE USERS
+             ============================================================ -->
+        <div class="admin-section" id="section-live">
+            <div class="section-header">
+                <h2>🟢 المتصلون الآن</h2>
+                <span style="color:var(--admin-text2);font-size:0.9rem;">
+                    <span id="liveCountDisplay">0</span> متصل
+                </span>
+            </div>
+            <div class="live-users-grid" id="liveUsersGrid">
+                <!-- سيتم تعبئتها بواسطة JavaScript -->
+            </div>
+        </div>
+
+        <!-- ============================================================
+             SECTION: STUDENTS
+             ============================================================ -->
+        <div class="admin-section" id="section-students">
+            <div class="section-header">
+                <h2>👨‍🎓 إدارة الطلاب</h2>
+            </div>
+
+            <div class="search-box">
+                <input type="text" id="studentSearch" placeholder="🔍 ابحث بالاسم، الهاتف، UID، البريد..." oninput="filterStudents()">
+                <select id="studentFilter" onchange="filterStudents()">
+                    <option value="all">جميع الطلاب</option>
+                    <option value="active">نشط</option>
+                    <option value="inactive">غير نشط</option>
+                    <option value="banned">محظور</option>
+                </select>
+                <button class="btn" onclick="refreshStudents()"><i class="fas fa-sync"></i> تحديث</button>
+            </div>
+
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>الصورة</th>
+                            <th>الاسم</th>
+                            <th>UID</th>
+                            <th>البريد</th>
+                            <th>الهاتف</th>
+                            <th>الصف</th>
+                            <th>الذرات</th>
+                            <th>الإنجاز</th>
+                            <th>الحالة</th>
+                            <th>الإجراءات</th>
+                        </tr>
+                    </thead>
+                    <tbody id="studentsTableBody">
+                        <!-- سيتم تعبئتها بواسطة JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;flex-wrap:wrap;gap:8px;">
+                <span style="color:var(--admin-text2);font-size:0.85rem;" id="studentsCount">0 طالب</span>
+                <div style="display:flex;gap:8px;" id="studentsPagination">
+                    <!-- سيتم تعبئتها بواسطة JavaScript -->
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================
+             SECTION: COURSES
+             ============================================================ -->
+        <div class="admin-section" id="section-courses">
+            <div class="section-header">
+                <h2>📚 إدارة الكورسات</h2>
+                <button class="btn" onclick="openAddCourseModal()"><i class="fas fa-plus"></i> إضافة كورس</button>
+            </div>
+
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>الصورة</th>
+                            <th>الكورس</th>
+                            <th>الصف</th>
+                            <th>الحصص</th>
+                            <th>المشتركين</th>
+                            <th>النوع</th>
+                            <th>الحالة</th>
+                            <th>الإجراءات</th>
+                        </tr>
+                    </thead>
+                    <tbody id="coursesTableBody">
+                        <!-- سيتم تعبئتها بواسطة JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ============================================================
+             SECTION: EXAMS
+             ============================================================ -->
+        <div class="admin-section" id="section-exams">
+            <div class="section-header">
+                <h2>📝 إدارة الامتحانات</h2>
+                <button class="btn" onclick="openAddExamModal()"><i class="fas fa-plus"></i> إضافة امتحان</button>
+            </div>
+
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>العنوان</th>
+                            <th>النوع</th>
+                            <th>الأسئلة</th>
+                            <th>الدرجة</th>
+                            <th>دخلوا</th>
+                            <th>أكملوا</th>
+                            <th>المتوسط</th>
+                            <th>الإجراءات</th>
+                        </tr>
+                    </thead>
+                    <tbody id="examsTableBody">
+                        <!-- سيتم تعبئتها بواسطة JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ============================================================
+             SECTION: LOGS
+             ============================================================ -->
+        <div class="admin-section" id="section-logs">
+            <div class="section-header">
+                <h2>📋 سجل العمليات</h2>
+                <button class="btn btn-outline" onclick="refreshLogs()"><i class="fas fa-sync"></i> تحديث</button>
+            </div>
+            <div id="logsContainer">
+                <!-- سيتم تعبئتها بواسطة JavaScript -->
+            </div>
+        </div>
+
+        <!-- ============================================================
+             SECTION: NOTIFICATIONS
+             ============================================================ -->
+        <div class="admin-section" id="section-notifications">
+            <div class="section-header">
+                <h2>🔔 الإشعارات</h2>
+                <button class="btn" onclick="sendNotification()"><i class="fas fa-bell"></i> إرسال إشعار</button>
+            </div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+                <div class="stat-card">
+                    <div class="stat-icon">👨‍🎓</div>
+                    <div class="stat-number" id="newStudentsToday">0</div>
+                    <div class="stat-label">طلاب جدد اليوم</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📚</div>
+                    <div class="stat-number" id="newSubscriptions">0</div>
+                    <div class="stat-label">اشتراكات جديدة</div>
                 </div>
             </div>
 
-            <!-- RIGHT: Controls -->
-            <div class="right-column">
-                <div class="controls-panel">
-                    <h3>🎯 لوحة التحكم</h3>
-
-                    <div class="input-group">
-                        <input type="text" id="nameInput" placeholder="اكتب اسم..." maxlength="30" />
-                        <button class="btn btn-primary" id="addNameBtn">➕ إضافة</button>
-                    </div>
-
-                    <div class="btn-group">
-                        <button class="btn btn-success" id="shuffleBtn">🔀 خلط</button>
-                        <button class="btn btn-danger" id="clearAllBtn">🗑️ حذف الكل</button>
-                    </div>
-
-                    <div class="names-list" id="namesList"></div>
-
-                    <div class="names-count" id="namesCount">0 اسم</div>
-
-                    <button class="btn btn-gold" id="spinBtn" style="width:100%;margin-top:8px;">
-                        🎰 بدء السحب
-                    </button>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+                <div class="chart-box">
+                    <h4>📝 أحدث الامتحانات</h4>
+                    <div id="recentExams"></div>
+                </div>
+                <div class="chart-box">
+                    <h4>📚 أحدث الكورسات</h4>
+                    <div id="recentCourses"></div>
                 </div>
             </div>
+        </div>
+
+    </main>
+
+    <!-- ============================================================
+         MODAL
+         ============================================================ -->
+    <div class="admin-modal" id="adminModal">
+        <div class="modal-content" id="modalContent">
+            <!-- سيتم تعبئتها بواسطة JavaScript -->
         </div>
     </div>
 
     <!-- ============================================================
-    WINNER OVERLAY
-    ============================================================ -->
-    <div id="winnerOverlay">
-        <div class="winner-content">
-            <div class="gift-box" id="giftBox">
-                <div class="gift-box-inner">
-                    <div class="gift-box-body">
-                        <div class="ribbon"></div>
-                        <div class="ribbon-h"></div>
-                        <div class="bow">🎀</div>
-                    </div>
-                </div>
-            </div>
+         SCRIPTS
+         ============================================================ -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
 
-            <div class="winner-card hidden" id="winnerCard">
-                <span class="trophy">🏆</span>
-                <div class="congrats">🎉 مبرووووك 🎉</div>
-                <div class="winner-name" id="winnerNameDisplay">---</div>
-                <div class="subtitle">🎊 الفائز معنا اليوم 🎊</div>
-                <div class="prize-message">
-                    🎁 <span class="highlight" id="winnerNamePrize">---</span> 🎁<br />
-                    <span style="font-size:0.9rem;color:#4a6a8a;">
-                        كسبت شهر مجاني لايفات مه مستر زياد<br />
-                        تواصل مع الدعم لتفعيل الاشتراك 📱
-                    </span>
-                </div>
-            </div>
-
-            <div class="winner-actions hidden" id="winnerActions">
-                <button class="btn btn-gold" id="newSpinBtn">🎯 سحب جديد</button>
-                <button class="btn btn-primary" id="resetBtn">🔄 إعادة تعيين</button>
-                <button class="btn btn-success" id="copyBtn">📋 نسخ الاسم</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- ============================================================
-    CELEBRATION STATUS
-    ============================================================ -->
-    <div class="celebration-status" id="celebrationStatus">
-        🎉 احتفال - كونفيتي وألعاب نارية 🎆
-    </div>
-
-    <!-- ============================================================
-    JAVASCRIPT
-    ============================================================ -->
     <script>
         // ============================================================
-        // 1. PARTICLES BACKGROUND
+        // FIREBASE CONFIG
         // ============================================================
-        const particlesCanvas = document.getElementById('particlesCanvas');
-        const pCtx = particlesCanvas.getContext('2d');
-        let particles = [];
+        const firebaseConfig = {
+            apiKey: "AIzaSyBOBu3wp3GcA-VjwtqIt1PAYYpo_HXFhtU",
+            authDomain: "yalla-kimya.firebaseapp.com",
+            databaseURL: "https://yalla-kimya-default-rtdb.firebaseio.com",
+            projectId: "yalla-kimya",
+            storageBucket: "yalla-kimya.firebasestorage.app",
+            messagingSenderId: "1052374689829",
+            appId: "1:1052374689829:web:fbb815ab42d753e63377cc"
+        };
 
-        function resizeParticles() {
-            particlesCanvas.width = window.innerWidth;
-            particlesCanvas.height = window.innerHeight;
-        }
-        resizeParticles();
-        window.addEventListener('resize', resizeParticles);
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const database = firebase.database();
 
-        class Particle {
-            constructor() {
-                this.reset();
-            }
-            reset() {
-                this.x = Math.random() * particlesCanvas.width;
-                this.y = Math.random() * particlesCanvas.height;
-                this.size = Math.random() * 3 + 1;
-                this.speedX = (Math.random() - 0.5) * 0.5;
-                this.speedY = (Math.random() - 0.5) * 0.5;
-                this.opacity = Math.random() * 0.3 + 0.05;
-                this.color = ['rgba(74,158,255,', 'rgba(167,139,250,', 'rgba(255,215,0,', 'rgba(255,107,107,'][Math.floor(Math.random() * 4)];
-            }
-            update() {
-                this.x += this.speedX;
-                this.y += this.speedY;
-                if (this.x < 0 || this.x > particlesCanvas.width) this.speedX *= -1;
-                if (this.y < 0 || this.y > particlesCanvas.height) this.speedY *= -1;
-            }
-            draw() {
-                pCtx.beginPath();
-                pCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                pCtx.fillStyle = this.color + this.opacity + ')';
-                pCtx.fill();
-            }
-        }
-
-        for (let i = 0; i < 100; i++) {
-            particles.push(new Particle());
-        }
-
-        function animateParticles() {
-            pCtx.clearRect(0, 0, particlesCanvas.width, particlesCanvas.height);
-            particles.forEach(p => {
-                p.update();
-                p.draw();
-            });
-            requestAnimationFrame(animateParticles);
-        }
-        animateParticles();
+        // قائمة UIDs المسموح لهم كـ Admin
+        const ADMIN_UIDs = [
+            // أضف UID الأدمن هنا
+            // 'xxxxx-xxxxx-xxxxx-xxxxx'
+        ];
 
         // ============================================================
-        // 2. WHEEL LOGIC
+        // GLOBALS
         // ============================================================
-        const wheelCanvas = document.getElementById('wheelCanvas');
-        const ctx = wheelCanvas.getContext('2d');
-        let names = [];
-        let isSpinning = false;
-        let currentRotation = 0;
-        let selectedIndex = -1;
-        let isWinnerShown = false;
-        let spinAnimationId = null;
+        let allStudents = [];
+        let allCourses = [];
+        let allExams = [];
+        let allLogs = [];
+        let currentPage = 1;
+        let pageSize = 20;
+        let charts = {};
+        let liveListeners = [];
 
-        function loadNames() {
-            const saved = localStorage.getItem('wheelNames');
-            if (saved) {
-                try {
-                    names = JSON.parse(saved);
-                } catch (e) {
-                    names = [];
-                }
+        // ============================================================
+        // CHECK ADMIN SESSION
+        // ============================================================
+        function checkAdminSession() {
+            const session = sessionStorage.getItem('adminSession');
+            if (session !== 'true') {
+                window.location.href = 'admin-login.html';
+                return false;
             }
-            if (names.length === 0) {
-                names = ['أحمد', 'محمد', 'سارة', 'نورة', 'خالد', 'منى', 'علي', 'ريم'];
-                saveNames();
-            }
-            renderNamesList();
-            drawWheel();
+            return true;
         }
 
-        function saveNames() {
-            localStorage.setItem('wheelNames', JSON.stringify(names));
-            document.getElementById('namesCount').textContent = names.length + ' اسم';
-        }
-
-        // ============================================================
-        // 3. DRAW WHEEL
-        // ============================================================
-        function drawWheel() {
-            const rect = wheelCanvas.parentElement.getBoundingClientRect();
-            const size = Math.min(rect.width, rect.height);
-            const dpr = window.devicePixelRatio || 1;
-            wheelCanvas.width = size * dpr;
-            wheelCanvas.height = size * dpr;
-            wheelCanvas.style.width = size + 'px';
-            wheelCanvas.style.height = size + 'px';
-            ctx.scale(dpr, dpr);
-
-            const centerX = size / 2;
-            const centerY = size / 2;
-            const radius = size / 2 - 10;
-            const count = names.length;
-
-            ctx.clearRect(0, 0, size, size);
-
-            if (count === 0) {
-                ctx.beginPath();
-                ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
-                ctx.fillStyle = 'rgba(200,220,240,0.3)';
-                ctx.fill();
-                ctx.fillStyle = 'rgba(26,58,92,0.3)';
-                ctx.font = '20px sans-serif';
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'middle';
-                ctx.fillText('أضف أسماء', centerX, centerY);
-                return;
-            }
-
-            const segmentAngle = (Math.PI * 2) / count;
-
-            const colors = [
-                '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4',
-                '#FFEAA7', '#DDA0DD', '#FF8A5C', '#A29BFE',
-                '#FD79A8', '#00CEC9', '#FDCB6E', '#E17055',
-                '#74B9FF', '#55EFC4', '#FAB1A0', '#81ECEC',
-                '#FF6348', '#7BED9F', '#70A1FF', '#FF4757'
-            ];
-
-            for (let i = 0; i < count; i++) {
-                const startAngle = i * segmentAngle + currentRotation;
-                const endAngle = startAngle + segmentAngle;
-
-                ctx.beginPath();
-                ctx.moveTo(centerX, centerY);
-                ctx.arc(centerX, centerY, radius, startAngle, endAngle);
-                ctx.closePath();
-
-                const color = colors[i % colors.length];
-                ctx.fillStyle = color;
-                ctx.fill();
-
-                ctx.strokeStyle = 'rgba(255,255,255,0.4)';
-                ctx.lineWidth = 2;
-                ctx.stroke();
-
-                ctx.save();
-                ctx.translate(centerX, centerY);
-                ctx.rotate(startAngle + segmentAngle / 2);
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'middle';
-                ctx.fillStyle = '#fff';
-                const fontSize = Math.min(radius * 0.12, 18);
-                ctx.font = fontSize + 'px sans-serif';
-                ctx.shadowColor = 'rgba(0,0,0,0.3)';
-                ctx.shadowBlur = 6;
-
-                const name = names[i] || '?';
-                const displayName = name.length > 12 ? name.substring(0, 12) + '…' : name;
-                ctx.fillText(displayName, radius * 0.6, 0);
-                ctx.restore();
-            }
-
-            const gradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, radius * 0.15);
-            gradient.addColorStop(0, 'rgba(255,255,255,0.95)');
-            gradient.addColorStop(1, 'rgba(255,255,255,0.2)');
-            ctx.beginPath();
-            ctx.arc(centerX, centerY, radius * 0.12, 0, Math.PI * 2);
-            ctx.fillStyle = gradient;
-            ctx.fill();
-
-            ctx.shadowColor = 'rgba(74,158,255,0.1)';
-            ctx.shadowBlur = 40;
-            ctx.beginPath();
-            ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
-            ctx.strokeStyle = 'rgba(255,215,0,0.1)';
-            ctx.lineWidth = 2;
-            ctx.stroke();
-            ctx.shadowBlur = 0;
-        }
-
-        // ============================================================
-        // 4. SPIN WHEEL
-        // ============================================================
-        function spinWheel() {
-            if (isSpinning) return;
-            if (names.length < 2) {
-                alert('⚠️ يجب أن يكون هناك اسمان على الأقل');
-                return;
-            }
-
-            isSpinning = true;
-            isWinnerShown = false;
-            document.getElementById('spinBtn').disabled = true;
-            document.getElementById('winnerOverlay').classList.remove('active');
-
-            document.getElementById('winnerCard').classList.add('hidden');
-            document.getElementById('winnerActions').classList.add('hidden');
-            document.getElementById('giftBox').style.opacity = '1';
-            document.getElementById('giftBox').style.transform = 'scale(1)';
-            document.getElementById('giftBox').classList.remove('shake', 'flash');
-
-            document.querySelectorAll('.floating-logo').forEach(el => el.remove());
-            document.getElementById('celebrationStatus').classList.remove('active');
-
-            const extraSpins = 6 + Math.random() * 5;
-            const targetAngle = Math.random() * Math.PI * 2;
-            const targetRotation = currentRotation + extraSpins * Math.PI * 2 + targetAngle;
-
-            const startRotation = currentRotation;
-            const duration = 5000 + Math.random() * 2000;
-            const startTime = Date.now();
-
-            function animateSpin() {
-                const elapsed = Date.now() - startTime;
-                const progress = Math.min(elapsed / duration, 1);
-                const ease = 1 - Math.pow(1 - progress, 3);
-                currentRotation = startRotation + (targetRotation - startRotation) * ease;
-
-                drawWheel();
-
-                if (progress < 1) {
-                    spinAnimationId = requestAnimationFrame(animateSpin);
-                    if (progress < 0.7) {
-                        wheelCanvas.style.filter = `blur(${4 * (1 - progress / 0.7)}px)`;
-                    } else {
-                        wheelCanvas.style.filter = 'blur(0px)';
-                    }
-                } else {
-                    currentRotation = targetRotation;
-                    drawWheel();
-                    wheelCanvas.style.filter = 'blur(0px)';
-                    onSpinComplete();
-                }
-            }
-
-            animateSpin();
-        }
-
-        // ============================================================
-        // 5. ON SPIN COMPLETE
-        // ============================================================
-        function onSpinComplete() {
-            isSpinning = false;
-            document.getElementById('spinBtn').disabled = false;
-
-            const segmentAngle = (Math.PI * 2) / names.length;
-            let normalized = currentRotation % (Math.PI * 2);
-            if (normalized < 0) normalized += Math.PI * 2;
-
-            const pointerAngle = (3 * Math.PI) / 2;
-            let angleFromPointer = (pointerAngle - normalized) % (Math.PI * 2);
-            if (angleFromPointer < 0) angleFromPointer += Math.PI * 2;
-
-            let index = Math.floor(angleFromPointer / segmentAngle) % names.length;
-            if (index < 0 || index >= names.length) index = 0;
-
-            selectedIndex = index;
-            const winner = names[index];
-
-            showWinner(winner);
-        }
-
-        // ============================================================
-        // 6. SHOW WINNER
-        // ============================================================
-        function showWinner(winner) {
-            const overlay = document.getElementById('winnerOverlay');
-            const giftBox = document.getElementById('giftBox');
-            const winnerCard = document.getElementById('winnerCard');
-            const winnerActions = document.getElementById('winnerActions');
-            const winnerNameDisplay = document.getElementById('winnerNameDisplay');
-            const winnerNamePrize = document.getElementById('winnerNamePrize');
-
-            overlay.classList.add('active');
-            winnerCard.classList.add('hidden');
-            winnerActions.classList.add('hidden');
-            giftBox.style.opacity = '1';
-            giftBox.style.transform = 'scale(1)';
-            giftBox.classList.remove('shake', 'flash');
-
-            const flash = document.createElement('div');
-            flash.className = 'white-flash';
-            document.body.appendChild(flash);
-
-            document.getElementById('mainContainer').classList.add('screen-shake');
-
-            setTimeout(() => {
-                document.getElementById('mainContainer').classList.remove('screen-shake');
-                if (flash.parentNode) flash.remove();
-            }, 600);
-
-            setTimeout(() => {
-                giftBox.classList.add('shake');
-            }, 400);
-
-            setTimeout(() => {
-                giftBox.classList.add('flash');
-            }, 1300);
-
-            setTimeout(() => {
-                winnerNameDisplay.textContent = winner;
-                winnerNamePrize.textContent = winner;
-                winnerCard.classList.remove('hidden');
-                winnerActions.classList.remove('hidden');
-
-                startCelebration();
-                generateFloatingLogos();
-
-                setTimeout(() => {
-                    giftBox.style.opacity = '0';
-                    giftBox.style.transform = 'scale(1.5)';
-                    giftBox.style.transition = 'all 0.8s ease';
-                }, 500);
-
-            }, 2200);
-
-            isWinnerShown = true;
-        }
-
-        // ============================================================
-        // 7. CELEBRATION
-        // ============================================================
-        const confettiCanvas = document.getElementById('confettiCanvas');
-        const cCtx = confettiCanvas.getContext('2d');
-        let confettiPieces = [];
-        let celebrationActive = false;
-        let celebrationId = null;
-
-        function resizeConfetti() {
-            confettiCanvas.width = window.innerWidth;
-            confettiCanvas.height = window.innerHeight;
-        }
-        resizeConfetti();
-        window.addEventListener('resize', resizeConfetti);
-
-        class ConfettiPiece {
-            constructor() {
-                this.x = Math.random() * confettiCanvas.width;
-                this.y = Math.random() * confettiCanvas.height - confettiCanvas.height;
-                this.size = 5 + Math.random() * 12;
-                this.speedY = 2 + Math.random() * 5;
-                this.speedX = (Math.random() - 0.5) * 4;
-                this.rotation = Math.random() * 360;
-                this.rotationSpeed = (Math.random() - 0.5) * 0.15;
-                this.color = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FFEAA7', '#DDA0DD', '#FF8A5C', '#A29BFE', '#FD79A8', '#FDCB6E',
-                    '#74B9FF', '#55EFC4', '#FAB1A0', '#FFD700', '#FF6BFF', '#FFB347', '#FF4757'
-                ][Math.floor(Math.random() * 16)];
-                this.opacity = 0.7 + Math.random() * 0.3;
-                this.wobble = Math.random() * 0.15;
-                this.wobbleSpeed = 0.02 + Math.random() * 0.04;
-                this.shape = Math.random() > 0.5 ? 'rect' : 'circle';
-            }
-
-            update() {
-                this.y += this.speedY;
-                this.x += this.speedX + Math.sin(this.y * this.wobbleSpeed) * this.wobble;
-                this.rotation += this.rotationSpeed;
-                this.opacity *= 0.9998;
-
-                if (this.y > confettiCanvas.height + 50) {
-                    this.y = -50;
-                    this.x = Math.random() * confettiCanvas.width;
-                }
-                if (this.x < -50) this.x = confettiCanvas.width + 50;
-                if (this.x > confettiCanvas.width + 50) this.x = -50;
-            }
-
-            draw() {
-                cCtx.save();
-                cCtx.translate(this.x, this.y);
-                cCtx.rotate(this.rotation);
-                cCtx.globalAlpha = this.opacity;
-                cCtx.fillStyle = this.color;
-                cCtx.shadowColor = this.color;
-                cCtx.shadowBlur = 5;
-
-                if (this.shape === 'rect') {
-                    cCtx.fillRect(-this.size / 2, -this.size / 4, this.size, this.size / 2);
-                } else {
-                    cCtx.beginPath();
-                    cCtx.arc(0, 0, this.size / 2, 0, Math.PI * 2);
-                    cCtx.fill();
-                }
-                cCtx.shadowBlur = 0;
-                cCtx.restore();
-            }
-        }
-
-        class Firework {
-            constructor() {
-                this.x = 50 + Math.random() * (confettiCanvas.width - 100);
-                this.y = 50 + Math.random() * (confettiCanvas.height * 0.3);
-                this.particles = [];
-                const count = 40 + Math.random() * 60;
-                const color = ['#FF6B6B', '#FFD93D', '#6BCB77', '#4D96FF', '#FF6BFF', '#FFB347', '#A78BFA', '#F472B6', '#22D3EE',
-                    '#FFD700'
-                ][Math.floor(Math.random() * 10)];
-
-                for (let i = 0; i < count; i++) {
-                    const angle = Math.random() * Math.PI * 2;
-                    const speed = 3 + Math.random() * 8;
-                    this.particles.push({
-                        x: this.x,
-                        y: this.y,
-                        vx: Math.cos(angle) * speed,
-                        vy: Math.sin(angle) * speed,
-                        life: 1,
-                        size: 2 + Math.random() * 5,
-                        color: color,
-                        trail: []
-                    });
-                }
-                this.life = 1;
-            }
-
-            update() {
-                this.life -= 0.015;
-                this.particles.forEach(p => {
-                    p.trail.push({ x: p.x, y: p.y });
-                    if (p.trail.length > 5) p.trail.shift();
-                    p.x += p.vx;
-                    p.y += p.vy;
-                    p.vy += 0.06;
-                    p.life -= 0.015;
-                    p.size *= 0.995;
-                });
-                this.particles = this.particles.filter(p => p.life > 0);
-            }
-
-            draw() {
-                this.particles.forEach(p => {
-                    cCtx.globalAlpha = p.life;
-                    cCtx.fillStyle = p.color;
-                    cCtx.shadowColor = p.color;
-                    cCtx.shadowBlur = 20;
-
-                    p.trail.forEach((t, i) => {
-                        cCtx.globalAlpha = (i / p.trail.length) * p.life * 0.5;
-                        cCtx.beginPath();
-                        cCtx.arc(t.x, t.y, p.size * (i / p.trail.length), 0, Math.PI * 2);
-                        cCtx.fill();
-                    });
-
-                    cCtx.globalAlpha = p.life;
-                    cCtx.beginPath();
-                    cCtx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-                    cCtx.fill();
-                    cCtx.shadowBlur = 0;
-                });
-                cCtx.globalAlpha = 1;
-            }
-        }
-
-        let fireworks = [];
-        let sparkles = [];
-        let starField = [];
-
-        function startCelebration() {
-            celebrationActive = true;
-            confettiPieces = [];
-            fireworks = [];
-            sparkles = [];
-            starField = [];
-
-            document.getElementById('celebrationStatus').classList.add('active');
-
-            for (let i = 0; i < 350; i++) {
-                confettiPieces.push(new ConfettiPiece());
-            }
-
-            for (let i = 0; i < 60; i++) {
-                sparkles.push({
-                    x: Math.random() * confettiCanvas.width,
-                    y: Math.random() * confettiCanvas.height,
-                    size: 3 + Math.random() * 5,
-                    speed: 0.5 + Math.random() * 1.5,
-                    angle: Math.random() * Math.PI * 2,
-                    life: 1,
-                    color: ['#ffd700', '#ffffff', '#ff6b6b', '#4d96ff', '#ff6bff', '#6bcb77'][Math.floor(Math.random() * 6)]
-                });
-            }
-
-            for (let i = 0; i < 40; i++) {
-                starField.push({
-                    x: Math.random() * confettiCanvas.width,
-                    y: Math.random() * confettiCanvas.height,
-                    size: 1 + Math.random() * 4,
-                    twinkle: Math.random() * Math.PI * 2,
-                    speed: 0.02 + Math.random() * 0.04
-                });
-            }
-
-            if (celebrationId) cancelAnimationFrame(celebrationId);
-            animateCelebration();
-
-            let fireworkCount = 0;
-            const maxFireworks = 35;
-            const fwInterval = setInterval(() => {
-                if (fireworkCount >= maxFireworks || !celebrationActive) {
-                    clearInterval(fwInterval);
+        function verifyAdmin(user) {
+            return new Promise((resolve) => {
+                if (ADMIN_UIDs.includes(user.uid)) {
+                    resolve(true);
                     return;
                 }
-                if (fireworks.length < 8) {
-                    fireworks.push(new Firework());
-                    fireworkCount++;
-                    if (Math.random() > 0.6 && fireworkCount < maxFireworks) {
-                        setTimeout(() => {
-                            fireworks.push(new Firework());
-                            fireworkCount++;
-                        }, 200);
-                    }
-                }
-            }, 300);
+                database.ref('admins/' + user.uid).once('value')
+                    .then(snapshot => {
+                        if (snapshot.exists() && snapshot.val().isAdmin === true) {
+                            resolve(true);
+                        } else {
+                            resolve(false);
+                        }
+                    })
+                    .catch(() => resolve(false));
+            });
+        }
+
+        // ============================================================
+        // TOAST
+        // ============================================================
+        function showToast(msg, type = 'success') {
+            const existing = document.querySelector('.admin-toast');
+            if (existing) existing.remove();
+
+            const toast = document.createElement('div');
+            toast.className = 'admin-toast';
+            toast.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 14px 24px;
+                border-radius: 12px;
+                font-weight: 600;
+                z-index: 9999;
+                color: #fff;
+                font-family: 'Cairo', sans-serif;
+                animation: slideDown 0.4s ease;
+                box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+                background: ${type === 'success' ? '#22C55E' : type === 'error' ? '#EF4444' : '#0B4F8C'};
+            `;
+            toast.textContent = msg;
+            document.body.appendChild(toast);
 
             setTimeout(() => {
-                celebrationActive = false;
-                clearInterval(fwInterval);
-                document.getElementById('celebrationStatus').classList.remove('active');
-            }, 14000);
+                toast.style.opacity = '0';
+                toast.style.transition = 'opacity 0.3s';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
         }
 
-        function animateCelebration() {
-            cCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+        // ============================================================
+        // LOADING
+        // ============================================================
+        function showLoading() {
+            document.getElementById('loadingOverlay').classList.add('open');
+        }
 
-            confettiPieces.forEach(p => {
-                p.update();
-                p.draw();
+        function hideLoading() {
+            document.getElementById('loadingOverlay').classList.remove('open');
+        }
+
+        // ============================================================
+        // SIDEBAR
+        // ============================================================
+        function toggleSidebar() {
+            const sidebar = document.getElementById('adminSidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('open');
+        }
+
+        function closeSidebar() {
+            const sidebar = document.getElementById('adminSidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            sidebar.classList.remove('open');
+            overlay.classList.remove('open');
+        }
+
+        // ============================================================
+        // THEME
+        // ============================================================
+        function toggleAdminTheme() {
+            const isDark = document.documentElement.getAttribute('data-theme') === 'admin-dark';
+            document.documentElement.setAttribute('data-theme', isDark ? '' : 'admin-dark');
+            localStorage.setItem('adminTheme', isDark ? '' : 'admin-dark');
+            const icon = document.getElementById('themeIcon');
+            icon.className = isDark ? 'fas fa-moon' : 'fas fa-sun';
+        }
+
+        if (localStorage.getItem('adminTheme') === 'admin-dark') {
+            document.documentElement.setAttribute('data-theme', 'admin-dark');
+            document.getElementById('themeIcon').className = 'fas fa-sun';
+        }
+
+        // ============================================================
+        // SECTION NAVIGATION
+        // ============================================================
+        function showSection(section) {
+            document.querySelectorAll('.admin-section').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+
+            const targetSection = document.getElementById('section-' + section);
+            if (targetSection) targetSection.classList.add('active');
+
+            const navItem = document.querySelector(`.nav-item[data-section="${section}"]`);
+            if (navItem) navItem.classList.add('active');
+
+            const titles = {
+                dashboard: '📊 الرئيسية',
+                live: '🟢 المتصلون الآن',
+                students: '👨‍🎓 إدارة الطلاب',
+                courses: '📚 إدارة الكورسات',
+                exams: '📝 إدارة الامتحانات',
+                logs: '📋 سجل العمليات',
+                notifications: '🔔 الإشعارات'
+            };
+            document.getElementById('pageTitle').textContent = titles[section] || section;
+
+            // Load data based on section
+            if (section === 'dashboard') loadDashboard();
+            if (section === 'live') loadLiveUsers();
+            if (section === 'students') loadStudents();
+            if (section === 'courses') loadCourses();
+            if (section === 'exams') loadExams();
+            if (section === 'logs') loadLogs();
+            if (section === 'notifications') loadNotifications();
+
+            closeSidebar();
+        }
+
+        // ============================================================
+        // DASHBOARD
+        // ============================================================
+        function loadDashboard() {
+            showLoading();
+
+            // Count students
+            database.ref('users').once('value', snapshot => {
+                let total = 0;
+                let today = 0;
+                let thisWeek = 0;
+                let thisMonth = 0;
+                const todayStr = new Date().toDateString();
+                const weekAgo = new Date(Date.now() - 7 * 86400000);
+                const monthAgo = new Date(Date.now() - 30 * 86400000);
+                const gradeCount = {};
+                const dailyData = {};
+
+                snapshot.forEach(child => {
+                    const data = child.val();
+                    total++;
+                    
+                    // Today
+                    if (data.createdAt) {
+                        const created = new Date(data.createdAt);
+                        if (created.toDateString() === todayStr) today++;
+                        if (created > weekAgo) thisWeek++;
+                        if (created > monthAgo) thisMonth++;
+                        
+                        const day = created.toISOString().split('T')[0];
+                        dailyData[day] = (dailyData[day] || 0) + 1;
+                    }
+                    
+                    // Grade
+                    const grade = data.grade || 'غير محدد';
+                    gradeCount[grade] = (gradeCount[grade] || 0) + 1;
+                });
+
+                // Count courses
+                database.ref('courses').once('value', snapshot => {
+                    let coursesCount = 0;
+                    let lessonsCount = 0;
+                    snapshot.forEach(child => {
+                        coursesCount++;
+                        const data = child.val();
+                        lessonsCount += data.lessonsCount || data.lessons || 0;
+                    });
+
+                    // Count exams
+                    database.ref('exams').once('value', snapshot => {
+                        let examsCount = 0;
+                        snapshot.forEach(() => examsCount++);
+
+                        // Count quizzes
+                        database.ref('quizzes').once('value', snapshot => {
+                            let quizzesCount = 0;
+                            snapshot.forEach(() => quizzesCount++);
+
+                            // Count subscriptions
+                            database.ref('courseSubscriptions').once('value', snapshot => {
+                                let totalSubs = 0;
+                                let paidSubs = 0;
+                                let freeSubs = 0;
+                                snapshot.forEach(child => {
+                                    const data = child.val();
+                                    totalSubs++;
+                                    if (data.isPaid) paidSubs++;
+                                    else freeSubs++;
+                                });
+
+                                updateDashboardCards({
+                                    students: total,
+                                    today: today,
+                                    thisWeek: thisWeek,
+                                    thisMonth: thisMonth,
+                                    courses: coursesCount,
+                                    lessons: lessonsCount,
+                                    exams: examsCount,
+                                    quizzes: quizzesCount,
+                                    paidSubs: paidSubs,
+                                    freeSubs: freeSubs,
+                                    gradeCount: gradeCount,
+                                    dailyData: dailyData
+                                });
+
+                                hideLoading();
+                            });
+                        });
+                    });
+                });
             });
+        }
 
-            fireworks.forEach(fw => {
-                fw.update();
-                fw.draw();
-            });
-            fireworks = fireworks.filter(fw => fw.particles.length > 0 || fw.life > 0);
+        function updateDashboardCards(data) {
+            const cards = document.getElementById('dashboardCards');
+            cards.innerHTML = `
+                <div class="stat-card">
+                    <div class="stat-icon">👨‍🎓</div>
+                    <div class="stat-number">${data.students}</div>
+                    <div class="stat-label">إجمالي الطلاب</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🟢</div>
+                    <div class="stat-number" id="onlineCount">0</div>
+                    <div class="stat-label">متصلون الآن</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📅</div>
+                    <div class="stat-number">${data.today}</div>
+                    <div class="stat-label">تسجيل اليوم</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📊</div>
+                    <div class="stat-number">${data.thisWeek}</div>
+                    <div class="stat-label">آخر 7 أيام</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📈</div>
+                    <div class="stat-number">${data.thisMonth}</div>
+                    <div class="stat-label">آخر شهر</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📚</div>
+                    <div class="stat-number">${data.courses}</div>
+                    <div class="stat-label">الكورسات</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📖</div>
+                    <div class="stat-number">${data.lessons}</div>
+                    <div class="stat-label">الحصص</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📝</div>
+                    <div class="stat-number">${data.exams}</div>
+                    <div class="stat-label">الامتحانات</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🧪</div>
+                    <div class="stat-number">${data.quizzes}</div>
+                    <div class="stat-label">الكويزات</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">💰</div>
+                    <div class="stat-number">${data.paidSubs}</div>
+                    <div class="stat-label">اشتراكات مدفوعة</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🆓</div>
+                    <div class="stat-number">${data.freeSubs}</div>
+                    <div class="stat-label">اشتراكات مجانية</div>
+                </div>
+            `;
 
-            sparkles.forEach(s => {
-                s.x += Math.cos(s.angle) * s.speed;
-                s.y += Math.sin(s.angle) * s.speed;
-                s.life -= 0.008;
-                cCtx.globalAlpha = s.life;
-                cCtx.shadowColor = s.color;
-                cCtx.shadowBlur = 25;
-                cCtx.fillStyle = s.color;
-                cCtx.beginPath();
-                cCtx.arc(s.x, s.y, s.size * s.life, 0, Math.PI * 2);
-                cCtx.fill();
-                cCtx.shadowBlur = 0;
-                if (s.life < 0.2) {
-                    s.x = Math.random() * confettiCanvas.width;
-                    s.y = Math.random() * confettiCanvas.height;
-                    s.life = 1;
+            // Charts
+            updateCharts(data);
+        }
+
+        // ============================================================
+        // CHARTS
+        // ============================================================
+        function updateCharts(data) {
+            // Daily Chart
+            const dailyCtx = document.getElementById('dailyChart').getContext('2d');
+            const days = Object.keys(data.dailyData).slice(-7);
+            const values = days.map(d => data.dailyData[d] || 0);
+            
+            if (charts.daily) charts.daily.destroy();
+            charts.daily = new Chart(dailyCtx, {
+                type: 'bar',
+                data: {
+                    labels: days.map(d => d.split('-')[2] + '/' + d.split('-')[1]),
+                    datasets: [{
+                        label: 'تسجيلات يومية',
+                        data: values,
+                        backgroundColor: '#0B4F8C80',
+                        borderColor: '#0B4F8C',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { legend: { display: false } }
                 }
             });
-            cCtx.globalAlpha = 1;
 
-            starField.forEach(s => {
-                s.twinkle += s.speed;
-                const alpha = 0.3 + Math.sin(s.twinkle) * 0.3;
-                cCtx.globalAlpha = alpha;
-                cCtx.fillStyle = '#ffffff';
-                cCtx.shadowColor = '#ffffff';
-                cCtx.shadowBlur = 15;
-                cCtx.beginPath();
-                cCtx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
-                cCtx.fill();
-                cCtx.shadowBlur = 0;
+            // Grade Chart
+            const gradeCtx = document.getElementById('gradeChart').getContext('2d');
+            const gradeLabels = Object.keys(data.gradeCount);
+            const gradeValues = Object.values(data.gradeCount);
+            
+            if (charts.grade) charts.grade.destroy();
+            charts.grade = new Chart(gradeCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: gradeLabels,
+                    datasets: [{
+                        data: gradeValues,
+                        backgroundColor: ['#0B4F8C', '#1E81CE', '#4CC9F0', '#FFD60A', '#22C55E', '#EF4444']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { legend: { position: 'bottom' } }
+                }
             });
-            cCtx.globalAlpha = 1;
 
-            if (celebrationActive) {
-                celebrationId = requestAnimationFrame(animateCelebration);
-            }
-        }
-
-        // ============================================================
-        // 8. FLOATING LOGOS
-        // ============================================================
-        function generateFloatingLogos() {
-            const container = document.body;
-            const logoUrl = 'https://i.ibb.co/67wcPSGc/logo.png';
-
-            for (let i = 0; i < 60; i++) {
-                const div = document.createElement('div');
-                div.className = 'floating-logo';
-                const size = 30 + Math.random() * 70;
-                const duration = 3 + Math.random() * 5;
-                const delay = Math.random() * 4;
-
-                const tx = (Math.random() - 0.5) * window.innerWidth * 1.2;
-                const ty = (Math.random() - 0.5) * window.innerHeight * 1.2;
-                const rot = (Math.random() - 0.5) * 720;
-                const scale = 0.5 + Math.random() * 1.8;
-
-                div.innerHTML = `<img src="${logoUrl}" alt="Logo" />`;
-                div.style.cssText = `
-                            --tx: ${tx}px;
-                            --ty: ${ty}px;
-                            --rot: ${rot}deg;
-                            --scale: ${scale};
-                            --duration: ${duration}s;
-                            --size: ${size}px;
-                            animation-delay: ${delay}s;
-                            left: ${Math.random() * 100}%;
-                            top: ${Math.random() * 100}%;
-                        `;
-                container.appendChild(div);
-
-                setTimeout(() => {
-                    if (div.parentNode) div.remove();
-                }, (duration + delay) * 1000 + 500);
-            }
-        }
-
-        // ============================================================
-        // 9. NAMES MANAGEMENT
-        // ============================================================
-        function renderNamesList() {
-            const list = document.getElementById('namesList');
-            list.innerHTML = '';
-            names.forEach((name, index) => {
-                const item = document.createElement('div');
-                item.className = 'name-item';
-                item.innerHTML = `
-                            <span class="name-text">${name}</span>
-                            <button class="delete-btn" data-index="${index}">✕</button>
-                        `;
-                item.querySelector('.delete-btn').addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    deleteName(index);
+            // Course Chart
+            const courseCtx = document.getElementById('courseChart').getContext('2d');
+            database.ref('courses').once('value', snapshot => {
+                const labels = [];
+                const values = [];
+                snapshot.forEach(child => {
+                    const data = child.val();
+                    labels.push(data.title || child.key);
+                    values.push(data.studentsCount || data.students || 0);
                 });
-                list.appendChild(item);
+                
+                if (charts.course) charts.course.destroy();
+                charts.course = new Chart(courseCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: labels.slice(0, 6),
+                        datasets: [{
+                            label: 'المشتركين',
+                            data: values.slice(0, 6),
+                            backgroundColor: '#F59E0B80',
+                            borderColor: '#F59E0B',
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: { legend: { display: false } }
+                    }
+                });
             });
-            document.getElementById('namesCount').textContent = names.length + ' اسم';
-            saveNames();
-            drawWheel();
+
+            // Activity Chart
+            const activityCtx = document.getElementById('activityChart').getContext('2d');
+            if (charts.activity) charts.activity.destroy();
+            charts.activity = new Chart(activityCtx, {
+                type: 'line',
+                data: {
+                    labels: ['اليوم', 'أمس', 'قبل 3 أيام', 'قبل 4 أيام', 'قبل 5 أيام', 'قبل 6 أيام', 'قبل أسبوع'],
+                    datasets: [{
+                        label: 'النشاط',
+                        data: [12, 19, 15, 8, 10, 6, 4],
+                        borderColor: '#22C55E',
+                        backgroundColor: '#22C55E20',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { legend: { display: false } }
+                }
+            });
         }
 
-        function deleteName(index) {
-            names.splice(index, 1);
-            renderNamesList();
-            saveNames();
-            drawWheel();
+        // ============================================================
+        // LIVE USERS
+        // ============================================================
+        function loadLiveUsers() {
+            // Clean previous listeners
+            liveListeners.forEach(listener => listener());
+            liveListeners = [];
+
+            const grid = document.getElementById('liveUsersGrid');
+            const countDisplay = document.getElementById('liveCount');
+            const countDisplay2 = document.getElementById('liveCountDisplay');
+
+            // Track online users via presence
+            const onlineRef = database.ref('.info/connected');
+            const usersRef = database.ref('users');
+
+            // Listen for user presence
+            const presenceListener = database.ref('presence').on('value', snapshot => {
+                const onlineUsers = [];
+                if (snapshot.exists()) {
+                    const data = snapshot.val();
+                    const now = Date.now();
+                    Object.keys(data).forEach(uid => {
+                        const userData = data[uid];
+                        if (userData.online && (now - userData.lastSeen) < 120000) {
+                            onlineUsers.push({ uid, ...userData });
+                        }
+                    });
+                }
+                
+                // Get user details
+                if (onlineUsers.length > 0) {
+                    const uids = onlineUsers.map(u => u.uid);
+                    usersRef.once('value', snapshot => {
+                        const users = [];
+                        snapshot.forEach(child => {
+                            if (uids.includes(child.key)) {
+                                const data = child.val();
+                                const online = onlineUsers.find(u => u.uid === child.key);
+                                users.push({
+                                    uid: child.key,
+                                    ...data,
+                                    lastSeen: online?.lastSeen || Date.now(),
+                                    currentPage: online?.currentPage || 'الرئيسية',
+                                    course: online?.course || '--'
+                                });
+                            }
+                        });
+                        users.sort((a, b) => b.lastSeen - a.lastSeen);
+                        renderLiveUsers(users);
+                        countDisplay.textContent = users.length;
+                        countDisplay2.textContent = users.length;
+                        document.getElementById('onlineCount').textContent = users.length;
+                    });
+                } else {
+                    renderLiveUsers([]);
+                    countDisplay.textContent = 0;
+                    countDisplay2.textContent = 0;
+                    document.getElementById('onlineCount').textContent = 0;
+                }
+            });
+
+            liveListeners.push(() => database.ref('presence').off('value', presenceListener));
         }
 
-        function addName() {
-            const input = document.getElementById('nameInput');
-            const name = input.value.trim();
-            if (!name) return;
-            if (names.includes(name)) {
-                alert('⚠️ هذا الاسم موجود بالفعل');
+        function renderLiveUsers(users) {
+            const grid = document.getElementById('liveUsersGrid');
+            if (users.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state" style="grid-column:1/-1;padding:40px;">
+                        <div style="font-size:3rem;">🟢</div>
+                        <h3>لا يوجد طلاب متصلون حالياً</h3>
+                    </div>
+                `;
                 return;
             }
-            names.push(name);
-            input.value = '';
-            renderNamesList();
-            saveNames();
-            drawWheel();
-            input.focus();
+
+            grid.innerHTML = users.map(user => {
+                const avatarHtml = user.photoURL ? 
+                    `<img src="${user.photoURL}" alt="${escapeHtml(user.name)}">` : 
+                    (user.name || 'U')[0].toUpperCase();
+                
+                const timeAgo = getTimeAgo(user.lastSeen);
+                const studyType = user.studyType || 'عام';
+                
+                return `
+                    <div class="live-user-card" onclick="showStudentPage('${user.uid}')">
+                        <div class="online-dot"></div>
+                        <div class="avatar">${avatarHtml}</div>
+                        <div class="name">${escapeHtml(user.name || 'مستخدم')}</div>
+                        <div class="info">${escapeHtml(user.grade || '--')} • ${studyType}</div>
+                        <div class="info">📚 ${escapeHtml(user.course || '--')}</div>
+                        <div class="info">📍 ${escapeHtml(user.currentPage || 'الرئيسية')}</div>
+                        <div class="time">⏱ ${timeAgo}</div>
+                    </div>
+                `;
+            }).join('');
         }
 
-        function shuffleNames() {
-            for (let i = names.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [names[i], names[j]] = [names[j], names[i]];
-            }
-            renderNamesList();
-            drawWheel();
-        }
-
-        function clearAll() {
-            if (names.length === 0) return;
-            if (!confirm('⚠️ هل أنت متأكد من حذف جميع الأسماء؟')) return;
-            names = [];
-            renderNamesList();
-            drawWheel();
-            document.getElementById('winnerOverlay').classList.remove('active');
+        function getTimeAgo(timestamp) {
+            const diff = Date.now() - timestamp;
+            const mins = Math.floor(diff / 60000);
+            if (mins < 1) return 'الآن';
+            if (mins < 60) return mins + ' د';
+            const hours = Math.floor(mins / 60);
+            if (hours < 24) return hours + ' س';
+            return Math.floor(hours / 24) + ' ي';
         }
 
         // ============================================================
-        // 10. EVENT LISTENERS
+        // STUDENTS
         // ============================================================
-        document.getElementById('addNameBtn').addEventListener('click', addName);
-        document.getElementById('nameInput').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') addName();
-        });
-        document.getElementById('shuffleBtn').addEventListener('click', shuffleNames);
-        document.getElementById('clearAllBtn').addEventListener('click', clearAll);
-        document.getElementById('spinBtn').addEventListener('click', spinWheel);
+        let studentsData = [];
+        let filteredStudents = [];
 
-        document.getElementById('newSpinBtn').addEventListener('click', () => {
-            document.getElementById('winnerOverlay').classList.remove('active');
-            document.getElementById('giftBox').style.opacity = '1';
-            document.getElementById('giftBox').style.transform = 'scale(1)';
-            document.getElementById('winnerCard').classList.add('hidden');
-            document.getElementById('winnerActions').classList.add('hidden');
-            document.querySelectorAll('.floating-logo').forEach(el => el.remove());
-            confettiPieces = [];
-            fireworks = [];
-            celebrationActive = false;
-            if (celebrationId) cancelAnimationFrame(celebrationId);
-            cCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
-            document.getElementById('celebrationStatus').classList.remove('active');
-            isWinnerShown = false;
-            currentRotation += Math.random() * 0.1;
-            drawWheel();
-        });
-
-        document.getElementById('resetBtn').addEventListener('click', () => {
-            document.getElementById('winnerOverlay').classList.remove('active');
-            document.getElementById('giftBox').style.opacity = '1';
-            document.getElementById('giftBox').style.transform = 'scale(1)';
-            document.querySelectorAll('.floating-logo').forEach(el => el.remove());
-            confettiPieces = [];
-            fireworks = [];
-            celebrationActive = false;
-            if (celebrationId) cancelAnimationFrame(celebrationId);
-            cCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
-            document.getElementById('celebrationStatus').classList.remove('active');
-            isWinnerShown = false;
-            currentRotation = Math.random() * Math.PI * 2;
-            drawWheel();
-        });
-
-        document.getElementById('copyBtn').addEventListener('click', () => {
-            const name = document.getElementById('winnerNameDisplay').textContent;
-            navigator.clipboard.writeText(name).then(() => {
-                alert('✅ تم نسخ الاسم: ' + name);
-            }).catch(() => {
-                const textarea = document.createElement('textarea');
-                textarea.value = name;
-                document.body.appendChild(textarea);
-                textarea.select();
-                document.execCommand('copy');
-                document.body.removeChild(textarea);
-                alert('✅ تم نسخ الاسم: ' + name);
+        function loadStudents() {
+            showLoading();
+            database.ref('users').once('value', snapshot => {
+                studentsData = [];
+                snapshot.forEach(child => {
+                    const data = child.val();
+                    studentsData.push({
+                        uid: child.key,
+                        ...data
+                    });
+                });
+                studentsData.sort((a, b) => (b.atoms || 0) - (a.atoms || 0));
+                filteredStudents = studentsData;
+                renderStudents();
+                hideLoading();
             });
-        });
+        }
 
-        document.addEventListener('keydown', (e) => {
-            if (e.key === ' ' && !e.repeat) {
-                const active = document.activeElement;
-                if (active && active.tagName === 'INPUT') return;
-                e.preventDefault();
-                if (isWinnerShown) {
-                    document.getElementById('newSpinBtn').click();
-                } else {
-                    spinWheel();
-                }
-            }
-            if (e.key === 'Escape' && isWinnerShown) {
-                document.getElementById('resetBtn').click();
-            }
-        });
+        function renderStudents() {
+            const tbody = document.getElementById('studentsTableBody');
+            const start = (currentPage - 1) * pageSize;
+            const end = start + pageSize;
+            const pageStudents = filteredStudents.slice(start, end);
 
-        // ============================================================
-        // 11. RESIZE
-        // ============================================================
-        let resizeTimeout;
-        window.addEventListener('resize', () => {
-            clearTimeout(resizeTimeout);
-            resizeTimeout = setTimeout(() => {
-                if (!isSpinning) drawWheel();
-                resizeConfetti();
-            }, 200);
-        });
-
-        // ============================================================
-        // 12. INIT
-        // ============================================================
-        loadNames();
-
-        console.log('🎰 عجلة حظ يلا كيمياء - نسخة محسنة');
-        console.log('📌 عدد الأسماء:', names.length);
-        console.log('💾 يتم حفظ الأسماء تلقائياً في LocalStorage');
-
-        // Double click logo to add demo names
-        document.querySelector('.logo-container .logo').addEventListener('dblclick', () => {
-            const demo = ['أحمد', 'محمد', 'سارة', 'نورة', 'خالد', 'منى', 'علي', 'ريم', 'فاطمة', 'عبدالله',
-                'لينا', 'يوسف', 'مريم', 'حسن', 'نور', 'عمر', 'هيا', 'سلمان', 'جميلة', 'راشد',
-                'منار', 'زياد', 'ليلى', 'كريم', 'سعاد', 'ناصر', 'هدى', 'أمل', 'سامي'
-            ];
-            let added = 0;
-            demo.forEach(name => {
-                if (!names.includes(name)) {
-                    names.push(name);
-                    added++;
-                }
-            });
-            if (added > 0) {
-                renderNamesList();
-                saveNames();
-                drawWheel();
-                alert(`✅ تم إضافة ${added} اسم تجريبي`);
+            if (pageStudents.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="10" style="text-align:center;padding:30px;color:var(--admin-text2);">
+                            <i class="fas fa-search" style="font-size:2rem;display:block;margin-bottom:8px;"></i>
+                            لا توجد نتائج مطابقة
+                        </td>
+                    </tr>
+                `;
             } else {
-                alert('⚠️ جميع الأسماء موجودة بالفعل');
+                tbody.innerHTML = pageStudents.map(student => {
+                    const avatarHtml = student.photoURL ? 
+                        `<img src="${student.photoURL}" style="width:32px;height:32px;border-radius:50%;object-fit:cover;">` : 
+                        (student.name || 'U')[0].toUpperCase();
+                    
+                    const status = student.banned ? 'banned' : (student.active !== false ? 'active' : 'inactive');
+                    const statusLabels = {
+                        active: 'نشط',
+                        inactive: 'غير نشط',
+                        banned: 'محظور'
+                    };
+                    
+                    const progress = student.progress || 0;
+                    
+                    return `
+                        <tr onclick="showStudentPage('${student.uid}')" style="cursor:pointer;">
+                            <td><div class="avatar-sm">${avatarHtml}</div></td>
+                            <td><strong>${escapeHtml(student.name || 'مستخدم')}</strong></td>
+                            <td style="font-size:0.7rem;color:var(--admin-text2);">${student.uid ? student.uid.substring(0, 12) + '...' : '--'}</td>
+                            <td style="font-size:0.8rem;">${escapeHtml(student.email || '--')}</td>
+                            <td>${formatPhoneNumber(student.phone)}</td>
+                            <td>${escapeHtml(student.grade || '--')}</td>
+                            <td><span style="font-weight:700;color:var(--admin-gold);">${student.atoms || 0}</span></td>
+                            <td>${progress}%</td>
+                            <td><span class="status-badge ${status}">${statusLabels[status]}</span></td>
+                            <td>
+                                <button class="btn-sm" onclick="event.stopPropagation();showStudentPage('${student.uid}')" style="padding:4px 12px;border:none;border-radius:6px;background:var(--admin-primary);color:#fff;cursor:pointer;">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
             }
-        });
-    </script>
 
+            document.getElementById('studentsCount').textContent = filteredStudents.length + ' طالب';
+            renderPagination();
+        }
+
+        function renderPagination() {
+            const container = document.getElementById('studentsPagination');
+            const totalPages = Math.ceil(filteredStudents.length / pageSize);
+            
+            if (totalPages <= 1) {
+                container.innerHTML = '';
+                return;
+            }
+
+            let html = '';
+            for (let i = 1; i <= Math.min(totalPages, 5); i++) {
+                html += `<button class="btn-sm ${i === currentPage ? 'btn-primary' : 'btn-outline'}" 
+                               onclick="goToPage(${i})" 
+                               style="padding:4px 12px;border:none;border-radius:6px;cursor:pointer;font-family:'Cairo',sans-serif;">
+                            ${i}
+                        </button>`;
+            }
+            if (totalPages > 5) {
+                html += `<span style="color:var(--admin-text2);">...</span>`;
+                html += `<button class="btn-sm btn-outline" onclick="goToPage(${totalPages})" 
+                               style="padding:4px 12px;border:none;border-radius:6px;cursor:pointer;font-family:'Cairo',sans-serif;">
+                            ${totalPages}
+                        </button>`;
+            }
+            container.innerHTML = html;
+        }
+
+        function goToPage(page) {
+            currentPage = page;
+            renderStudents();
+        }
+
+        function filterStudents() {
+            const search = document.getElementById('studentSearch').value.toLowerCase();
+            const filter = document.getElementById('studentFilter').value;
+            
+            filteredStudents = studentsData.filter(student => {
+                const matchesSearch = 
+                    (student.name || '').toLowerCase().includes(search) ||
+                    (student.phone || '').includes(search) ||
+                    (student.uid || '').toLowerCase().includes(search) ||
+                    (student.email || '').toLowerCase().includes(search);
+                
+                let matchesFilter = true;
+                if (filter === 'active') matchesFilter = student.active !== false && !student.banned;
+                else if (filter === 'inactive') matchesFilter = student.active === false;
+                else if (filter === 'banned') matchesFilter = student.banned === true;
+                
+                return matchesSearch && matchesFilter;
+            });
+            
+            currentPage = 1;
+            renderStudents();
+        }
+
+        function refreshStudents() {
+            loadStudents();
+            showToast('✅ تم تحديث قائمة الطلاب', 'success');
+        }
+
+        // ============================================================
+        // STUDENT PAGE
+        // ============================================================
+        function showStudentPage(uid) {
+            showLoading();
+            database.ref('users/' + uid).once('value', snapshot => {
+                if (!snapshot.exists()) {
+                    showToast('⚠️ الطالب غير موجود', 'error');
+                    hideLoading();
+                    return;
+                }
+                const student = { uid, ...snapshot.val() };
+                showStudentDetails(student);
+                hideLoading();
+            });
+        }
+
+        function showStudentDetails(student) {
+            const modal = document.getElementById('adminModal');
+            const content = document.getElementById('modalContent');
+
+            // Get subscriptions
+            database.ref('courseSubscriptions').orderByChild('userId').equalTo(student.uid).once('value', subSnapshot => {
+                const subscriptions = [];
+                subSnapshot.forEach(child => {
+                    subscriptions.push({ id: child.key, ...child.val() });
+                });
+
+                // Get error count
+                database.ref('users/' + student.uid + '/errorBank').once('value', errorSnapshot => {
+                    let errorCount = 0;
+                    if (errorSnapshot.exists()) {
+                        const data = errorSnapshot.val();
+                        if (Array.isArray(data)) {
+                            errorCount = data.filter(e => !e.solved).length;
+                        }
+                    }
+
+                    // Get results
+                    database.ref('users/' + student.uid + '/results').once('value', resultSnapshot => {
+                        let examsCompleted = 0;
+                        let quizzesCompleted = 0;
+                        let totalScore = 0;
+                        let totalResults = 0;
+                        if (resultSnapshot.exists()) {
+                            resultSnapshot.forEach(child => {
+                                const data = child.val();
+                                if (data.type === 'exam') examsCompleted++;
+                                if (data.type === 'quiz') quizzesCompleted++;
+                                totalScore += data.score || 0;
+                                totalResults++;
+                            });
+                        }
+
+                        const avgScore = totalResults > 0 ? Math.round(totalScore / totalResults) : 0;
+
+                        const avatarHtml = student.photoURL ? 
+                            `<img src="${student.photoURL}" style="width:80px;height:80px;border-radius:50%;object-fit:cover;">` : 
+                            (student.name || 'U')[0].toUpperCase();
+
+                        content.innerHTML = `
+                            <div style="display:flex;justify-content:space-between;align-items:start;flex-wrap:wrap;gap:12px;margin-bottom:16px;">
+                                <div style="display:flex;align-items:center;gap:16px;">
+                                    <div style="width:80px;height:80px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2.5rem;font-weight:700;background:var(--admin-primary);color:#fff;">${avatarHtml}</div>
+                                    <div>
+                                        <h3 style="margin:0;">${escapeHtml(student.name || 'مستخدم')}</h3>
+                                        <p style="color:var(--admin-text2);font-size:0.85rem;">🔑 ${escapeHtml(student.uid || '--')}</p>
+                                        <p style="color:var(--admin-text2);font-size:0.85rem;">📧 ${escapeHtml(student.email || '--')}</p>
+                                    </div>
+                                </div>
+                                <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                                    <button class="btn-sm" onclick="editStudent('${student.uid}')" style="padding:6px 16px;border:none;border-radius:6px;background:var(--admin-warning);color:#fff;cursor:pointer;">
+                                        <i class="fas fa-edit"></i> تعديل
+                                    </button>
+                                    ${student.banned ? `
+                                        <button class="btn-sm" onclick="unbanStudent('${student.uid}')" style="padding:6px 16px;border:none;border-radius:6px;background:var(--admin-success);color:#fff;cursor:pointer;">
+                                            <i class="fas fa-unlock"></i> فك الحظر
+                                        </button>
+                                    ` : `
+                                        <button class="btn-sm" onclick="banStudent('${student.uid}')" style="padding:6px 16px;border:none;border-radius:6px;background:var(--admin-danger);color:#fff;cursor:pointer;">
+                                            <i class="fas fa-ban"></i> حظر
+                                        </button>
+                                    `}
+                                    <button class="btn-sm" onclick="deleteStudent('${student.uid}')" style="padding:6px 16px;border:none;border-radius:6px;background:#dc2626;color:#fff;cursor:pointer;">
+                                        <i class="fas fa-trash"></i> حذف
+                                    </button>
+                                    <button class="btn-sm" onclick="closeModal()" style="padding:6px 16px;border:none;border-radius:6px;background:var(--admin-border);color:var(--admin-text);cursor:pointer;">
+                                        <i class="fas fa-times"></i> إغلاق
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;">
+                                <div style="background:var(--admin-bg);padding:12px;border-radius:var(--admin-radius);">
+                                    <div style="font-size:0.7rem;color:var(--admin-text2);">📱 الهاتف</div>
+                                    <div style="font-weight:700;">${formatPhoneNumber(student.phone)}</div>
+                                </div>
+                                <div style="background:var(--admin-bg);padding:12px;border-radius:var(--admin-radius);">
+                                    <div style="font-size:0.7rem;color:var(--admin-text2);">👨‍👩‍👦 ولي الأمر</div>
+                                    <div style="font-weight:700;">${formatPhoneNumber(student.parentPhone)}</div>
+                                </div>
+                                <div style="background:var(--admin-bg);padding:12px;border-radius:var(--admin-radius);">
+                                    <div style="font-size:0.7rem;color:var(--admin-text2);">🎓 الصف</div>
+                                    <div style="font-weight:700;">${escapeHtml(student.grade || '--')}</div>
+                                </div>
+                                <div style="background:var(--admin-bg);padding:12px;border-radius:var(--admin-radius);">
+                                    <div style="font-size:0.7rem;color:var(--admin-text2);">📚 نوع الدراسة</div>
+                                    <div style="font-weight:700;">${escapeHtml(student.studyType || 'عام')}</div>
+                                </div>
+                                <div style="background:var(--admin-bg);padding:12px;border-radius:var(--admin-radius);">
+                                    <div style="font-size:0.7rem;color:var(--admin-text2);">📅 تاريخ التسجيل</div>
+                                    <div style="font-weight:700;">${student.createdAt ? formatDate(student.createdAt) : '--'}</div>
+                                </div>
+                                <div style="background:var(--admin-bg);padding:12px;border-radius:var(--admin-radius);">
+                                    <div style="font-size:0.7rem;color:var(--admin-text2);">🔄 آخر دخول</div>
+                                    <div style="font-weight:700;">${student.lastLogin ? formatDate(student.lastLogin) : '--'}</div>
+                                </div>
+                            </div>
+
+                            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px;margin-bottom:16px;">
+                                <div style="text-align:center;background:var(--admin-bg);padding:8px;border-radius:var(--admin-radius);">
+                                    <div style="font-size:1.2rem;font-weight:700;color:var(--admin-primary);">${student.studyTime || 0}</div>
+                                    <div style="font-size:0.65rem;color:var(--admin-text2);">ساعات المذاكرة</div>
+                                </div>
+                                <div style="text-align:center;background:var(--admin-bg);padding:8px;border-radius:var(--admin-radius);">
+                                    <div style="font-size:1.2rem;font-weight:700;color:var(--admin-primary);">${student.coursesCount || 0}</div>
+                                    <div style="font-size:0.65rem;color:var(--admin-text2);">الكورسات</div>
+                                </div>
+                                <div style="text-align:center;background:var(--admin-bg);padding:8px;border-radius:var(--admin-radius);">
+                                    <div style="font-size:1.2rem;font-weight:700;color:var(--admin-primary);">${student.lessonsCompleted || 0}</div>
+                                    <div style="font-size:0.65rem;color:var(--admin-text2);">الحصص</div>
+                                </div>
+                                <div style="text-align:center;background:var(--admin-bg);padding:8px;border-radius:var(--admin-radius);">
+                                    <div style="font-size:1.2rem;font-weight:700;color:var(--admin-primary);">${student.videosWatched || 0}</div>
+                                    <div style="font-size:0.65rem;color:var(--admin-text2);">الفيديوهات</div>
+                                </div>
+                                <div style="text-align:center;background:var(--admin-bg);padding:8px;border-radius:var(--admin-radius);">
+                                    <div style="font-size:1.2rem;font-weight:700;color:var(--admin-primary);">${quizzesCompleted}</div>
+                                    <div style="font-size:0.65rem;color:var(--admin-text2);">الكويزات</div>
+                                </div>
+                                <div style="text-align:center;background:var(--admin-bg);padding:8px;border-radius:var(--admin-radius);">
+                                    <div style="font-size:1.2rem;font-weight:700;color:var(--admin-primary);">${examsCompleted}</div>
+                                    <div style="font-size:0.65rem;color:var(--admin-text2);">الامتحانات</div>
+                                </div>
+                                <div style="text-align:center;background:var(--admin-bg);padding:8px;border-radius:var(--admin-radius);">
+                                    <div style="font-size:1.2rem;font-weight:700;color:var(--admin-danger);">${errorCount}</div>
+                                    <div style="font-size:0.65rem;color:var(--admin-text2);">الأخطاء</div>
+                                </div>
+                                <div style="text-align:center;background:var(--admin-bg);padding:8px;border-radius:var(--admin-radius);">
+                                    <div style="font-size:1.2rem;font-weight:700;color:var(--admin-primary);">${avgScore}%</div>
+                                    <div style="font-size:0.65rem;color:var(--admin-text2);">متوسط الدرجات</div>
+                                </div>
+                            </div>
+
+                            <h4 style="margin:12px 0 8px;">📚 الاشتراكات (${subscriptions.length})</h4>
+                            <div class="table-responsive" style="max-height:200px;overflow-y:auto;">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>الكورس</th>
+                                            <th>الحالة</th>
+                                            <th>النوع</th>
+                                            <th>تاريخ الاشتراك</th>
+                                            <th>الإجراءات</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        ${subscriptions.length === 0 ? `
+                                            <tr><td colspan="5" style="text-align:center;color:var(--admin-text2);">لا توجد اشتراكات</td></tr>
+                                        ` : subscriptions.map(sub => `
+                                            <tr>
+                                                <td>${escapeHtml(sub.courseId || '--')}</td>
+                                                <td><span class="status-badge ${sub.status === 'active' ? 'active' : 'inactive'}">${sub.status === 'active' ? 'مفعل' : 'منتهي'}</span></td>
+                                                <td><span class="status-badge ${sub.isPaid ? 'premium' : 'free'}">${sub.isPaid ? 'مدفوع' : 'مجاني'}</span></td>
+                                                <td style="font-size:0.75rem;">${sub.subscribedAt ? formatDate(sub.subscribedAt) : '--'}</td>
+                                                <td>
+                                                    <button class="btn-sm" onclick="toggleSubscription('${sub.id}', '${student.uid}')" style="padding:2px 10px;border:none;border-radius:4px;background:${sub.status === 'active' ? 'var(--admin-danger)' : 'var(--admin-success)'};color:#fff;cursor:pointer;font-size:0.7rem;">
+                                                        ${sub.status === 'active' ? 'إلغاء' : 'تفعيل'}
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        `).join('')}
+                                    </tbody>
+                                </table>
+                            </div>
+                        `;
+                        modal.classList.add('open');
+                    });
+                });
+            });
+        }
+
+        // ============================================================
+        // STUDENT ACTIONS
+        // ============================================================
+        function editStudent(uid) {
+            const student = studentsData.find(s => s.uid === uid);
+            if (!student) return;
+
+            const modal = document.getElementById('adminModal');
+            const content = document.getElementById('modalContent');
+
+            content.innerHTML = `
+                <h3>✏️ تعديل بيانات الطالب</h3>
+                <form id="editStudentForm" onsubmit="saveStudentEdit(event, '${uid}')">
+                    <div class="form-group">
+                        <label>الاسم</label>
+                        <input type="text" id="editName" value="${escapeHtml(student.name || '')}" required>
+                    </div>
+                    <div class="form-group">
+                        <label>البريد الإلكتروني</label>
+                        <input type="email" id="editEmail" value="${escapeHtml(student.email || '')}">
+                    </div>
+                    <div class="form-group">
+                        <label>رقم الهاتف</label>
+                        <input type="text" id="editPhone" value="${student.phone || ''}">
+                    </div>
+                    <div class="form-group">
+                        <label>هاتف ولي الأمر</label>
+                        <input type="text" id="editParentPhone" value="${student.parentPhone || ''}">
+                    </div>
+                    <div class="form-group">
+                        <label>الصف الدراسي</label>
+                        <input type="text" id="editGrade" value="${escapeHtml(student.grade || '')}">
+                    </div>
+                    <div class="form-group">
+                        <label>نوع الدراسة</label>
+                        <select id="editStudyType">
+                            <option value="عام" ${student.studyType === 'عام' ? 'selected' : ''}>عام</option>
+                            <option value="أزهر" ${student.studyType === 'أزهر' ? 'selected' : ''}>أزهر</option>
+                        </select>
+                    </div>
+                    <div class="modal-actions">
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> حفظ</button>
+                        <button type="button" class="btn btn-secondary" onclick="closeModal()">إلغاء</button>
+                    </div>
+                </form>
+            `;
+            modal.classList.add('open');
+        }
+
+        async function saveStudentEdit(e, uid) {
+            e.preventDefault();
+            showLoading();
+
+            try {
+                const updates = {
+                    name: document.getElementById('editName').value.trim(),
+                    email: document.getElementById('editEmail').value.trim(),
+                    phone: document.getElementById('editPhone').value.trim(),
+                    parentPhone: document.getElementById('editParentPhone').value.trim(),
+                    grade: document.getElementById('editGrade').value.trim(),
+                    studyType: document.getElementById('editStudyType').value
+                };
+
+                await database.ref('users/' + uid).update(updates);
+                
+                // Update local data
+                const student = studentsData.find(s => s.uid === uid);
+                if (student) Object.assign(student, updates);
+
+                logAdminActivity('تعديل بيانات طالب', { uid, updates });
+                showToast('✅ تم تحديث بيانات الطالب', 'success');
+                closeModal();
+                renderStudents();
+                hideLoading();
+            } catch (err) {
+                console.error('Error saving student:', err);
+                showToast('❌ حدث خطأ في حفظ البيانات', 'error');
+                hideLoading();
+            }
+        }
+
+        async function banStudent(uid) {
+            if (!confirm('⚠️ هل أنت متأكد من حظر هذا الطالب؟')) return;
+            showLoading();
+
+            try {
+                await database.ref('users/' + uid + '/banned').set(true);
+                await database.ref('users/' + uid + '/active').set(false);
+                
+                const student = studentsData.find(s => s.uid === uid);
+                if (student) { student.banned = true; student.active = false; }
+
+                logAdminActivity('حظر طالب', { uid });
+                showToast('✅ تم حظر الطالب', 'success');
+                closeModal();
+                renderStudents();
+                hideLoading();
+            } catch (err) {
+                console.error('Error banning student:', err);
+                showToast('❌ حدث خطأ', 'error');
+                hideLoading();
+            }
+        }
+
+        async function unbanStudent(uid) {
+            if (!confirm('⚠️ هل أنت متأكد من فك الحظر عن هذا الطالب؟')) return;
+            showLoading();
+
+            try {
+                await database.ref('users/' + uid + '/banned').remove();
+                await database.ref('users/' + uid + '/active').set(true);
+                
+                const student = studentsData.find(s => s.uid === uid);
+                if (student) { student.banned = false; student.active = true; }
+
+                logAdminActivity('فك الحظر عن طالب', { uid });
+                showToast('✅ تم فك الحظر عن الطالب', 'success');
+                closeModal();
+                renderStudents();
+                hideLoading();
+            } catch (err) {
+                console.error('Error unbanning student:', err);
+                showToast('❌ حدث خطأ', 'error');
+                hideLoading();
+            }
+        }
+
+        async function deleteStudent(uid) {
+            if (!confirm('⚠️ هل أنت متأكد من حذف هذا الطالب؟ هذا الإجراء لا يمكن التراجع عنه!')) return;
+            if (!confirm('⚠️ تأكيد الحذف النهائي؟')) return;
+            showLoading();
+
+            try {
+                // Delete user data
+                await database.ref('users/' + uid).remove();
+                await database.ref('courseSubscriptions').orderByChild('userId').equalTo(uid).once('value', snapshot => {
+                    snapshot.forEach(child => {
+                        database.ref('courseSubscriptions/' + child.key).remove();
+                    });
+                });
+
+                logAdminActivity('حذف حساب طالب', { uid });
+                showToast('✅ تم حذف حساب الطالب', 'success');
+                studentsData = studentsData.filter(s => s.uid !== uid);
+                filteredStudents = filteredStudents.filter(s => s.uid !== uid);
+                closeModal();
+                renderStudents();
+                hideLoading();
+            } catch (err) {
+                console.error('Error deleting student:', err);
+                showToast('❌ حدث خطأ في حذف الحساب', 'error');
+                hideLoading();
+            }
+        }
+
+        async function toggleSubscription(subId, uid) {
+            showLoading();
+            try {
+                const snapshot = await database.ref('courseSubscriptions/' + subId).once('value');
+                if (snapshot.exists()) {
+                    const data = snapshot.val();
+                    const newStatus = data.status === 'active' ? 'inactive' : 'active';
+                    await database.ref('courseSubscriptions/' + subId + '/status').set(newStatus);
+                    
+                    logAdminActivity('تغيير حالة اشتراك', { subId, uid, newStatus });
+                    showToast(`✅ تم ${newStatus === 'active' ? 'تفعيل' : 'إلغاء'} الاشتراك`, 'success');
+                    showStudentPage(uid);
+                }
+                hideLoading();
+            } catch (err) {
+                console.error('Error toggling subscription:', err);
+                showToast('❌ حدث خطأ', 'error');
+                hideLoading();
+            }
+        }
+
+        // ============================================================
+        // COURSES
+        // ============================================================
+        function loadCourses() {
+            showLoading();
+            database.ref('courses').once('value', snapshot => {
+                allCourses = [];
+                snapshot.forEach(child => {
+                    const data = child.val();
+                    allCourses.push({
+                        id: child.key,
+                        ...data,
+                        studentsCount: data.studentsCount || data.students || 0,
+                        lessonsCount: data.lessonsCount || data.lessons || 0
+                    });
+                });
+                renderCourses();
+                hideLoading();
+            });
+        }
+
+        function renderCourses() {
+            const tbody = document.getElementById('coursesTableBody');
+            if (allCourses.length === 0) {
+                tbody.innerHTML = `
+                    <tr><td colspan="9" style="text-align:center;padding:30px;color:var(--admin-text2);">
+                        <i class="fas fa-book" style="font-size:2rem;display:block;margin-bottom:8px;"></i>
+                        لا توجد كورسات
+                    </td></tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = allCourses.map((course, idx) => {
+                const status = course.isActive !== false ? 'نشط' : 'متوقف';
+                const statusClass = course.isActive !== false ? 'active' : 'inactive';
+                const type = course.isFree !== false ? 'مجاني' : 'مدفوع';
+                const typeClass = course.isFree !== false ? 'free' : 'premium';
+
+                return `
+                    <tr>
+                        <td>${idx + 1}</td>
+                        <td>
+                            <img src="${course.image || 'https://placehold.co/40x40/0B4F8C/fff?text=ك'}" 
+                                 style="width:40px;height:40px;border-radius:8px;object-fit:cover;">
+                        </td>
+                        <td><strong>${escapeHtml(course.title || 'كورس')}</strong></td>
+                        <td>${escapeHtml(course.grade || '--')}</td>
+                        <td>${course.lessonsCount || 0}</td>
+                        <td>${course.studentsCount || 0}</td>
+                        <td><span class="status-badge ${typeClass}">${type}</span></td>
+                        <td><span class="status-badge ${statusClass}">${status}</span></td>
+                        <td>
+                            <button class="btn-sm" onclick="editCourse('${course.id}')" style="padding:2px 10px;border:none;border-radius:4px;background:var(--admin-warning);color:#fff;cursor:pointer;font-size:0.7rem;">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn-sm" onclick="toggleCourseStatus('${course.id}')" style="padding:2px 10px;border:none;border-radius:4px;background:${course.isActive !== false ? 'var(--admin-danger)' : 'var(--admin-success)'};color:#fff;cursor:pointer;font-size:0.7rem;">
+                                <i class="fas fa-${course.isActive !== false ? 'pause' : 'play'}"></i>
+                            </button>
+                            <button class="btn-sm" onclick="deleteCourse('${course.id}')" style="padding:2px 10px;border:none;border-radius:4px;background:#dc2626;color:#fff;cursor:pointer;font-size:0.7rem;">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function openAddCourseModal() {
+            const modal = document.getElementById('adminModal');
+            const content = document.getElementById('modalContent');
+
+            content.innerHTML = `
+                <h3>📚 إضافة كورس جديد</h3>
+                <form id="addCourseForm" onsubmit="saveCourse(event)">
+                    <div class="form-group">
+                        <label>عنوان الكورس *</label>
+                        <input type="text" id="courseTitle" required>
+                    </div>
+                    <div class="form-group">
+                        <label>الوصف</label>
+                        <textarea id="courseDescription" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>الصف الدراسي</label>
+                        <input type="text" id="courseGrade" placeholder="مثال: أولى ثانوي">
+                    </div>
+                    <div class="form-group">
+                        <label>رابط الصورة</label>
+                        <input type="url" id="courseImage" placeholder="https://...">
+                    </div>
+                    <div class="form-group">
+                        <label>السعر (اترك فارغاً للمجاني)</label>
+                        <input type="text" id="coursePrice" placeholder="مثال: 100">
+                    </div>
+                    <div class="form-group">
+                        <label>النوع</label>
+                        <select id="courseType">
+                            <option value="free">مجاني</option>
+                            <option value="paid">مدفوع</option>
+                        </select>
+                    </div>
+                    <div class="modal-actions">
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-plus"></i> إضافة</button>
+                        <button type="button" class="btn btn-secondary" onclick="closeModal()">إلغاء</button>
+                    </div>
+                </form>
+            `;
+            modal.classList.add('open');
+        }
+
+        async function saveCourse(e) {
+            e.preventDefault();
+            showLoading();
+
+            try {
+                const title = document.getElementById('courseTitle').value.trim();
+                const description = document.getElementById('courseDescription').value.trim();
+                const grade = document.getElementById('courseGrade').value.trim();
+                const image = document.getElementById('courseImage').value.trim();
+                const price = document.getElementById('coursePrice').value.trim();
+                const type = document.getElementById('courseType').value;
+
+                const courseData = {
+                    title: title,
+                    description: description,
+                    grade: grade,
+                    image: image || 'https://placehold.co/600x400/0B4F8C/fff?text=' + encodeURIComponent(title),
+                    isFree: type === 'free',
+                    price: type === 'paid' ? price : null,
+                    isActive: true,
+                    studentsCount: 0,
+                    lessonsCount: 0,
+                    createdAt: new Date().toISOString()
+                };
+
+                const ref = database.ref('courses').push();
+                await ref.set(courseData);
+
+                logAdminActivity('إضافة كورس', { courseId: ref.key, title });
+                showToast('✅ تم إضافة الكورس بنجاح', 'success');
+                closeModal();
+                loadCourses();
+                hideLoading();
+            } catch (err) {
+                console.error('Error saving course:', err);
+                showToast('❌ حدث خطأ', 'error');
+                hideLoading();
+            }
+        }
+
+        function editCourse(courseId) {
+            const course = allCourses.find(c => c.id === courseId);
+            if (!course) return;
+
+            const modal = document.getElementById('adminModal');
+            const content = document.getElementById('modalContent');
+
+            content.innerHTML = `
+                <h3>✏️ تعديل الكورس</h3>
+                <form id="editCourseForm" onsubmit="updateCourse(event, '${courseId}')">
+                    <div class="form-group">
+                        <label>عنوان الكورس *</label>
+                        <input type="text" id="editCourseTitle" value="${escapeHtml(course.title || '')}" required>
+                    </div>
+                    <div class="form-group">
+                        <label>الوصف</label>
+                        <textarea id="editCourseDescription" rows="3">${escapeHtml(course.description || '')}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>الصف الدراسي</label>
+                        <input type="text" id="editCourseGrade" value="${escapeHtml(course.grade || '')}">
+                    </div>
+                    <div class="form-group">
+                        <label>رابط الصورة</label>
+                        <input type="url" id="editCourseImage" value="${course.image || ''}">
+                    </div>
+                    <div class="form-group">
+                        <label>السعر</label>
+                        <input type="text" id="editCoursePrice" value="${course.price || ''}">
+                    </div>
+                    <div class="form-group">
+                        <label>النوع</label>
+                        <select id="editCourseType">
+                            <option value="free" ${course.isFree !== false ? 'selected' : ''}>مجاني</option>
+                            <option value="paid" ${course.isFree === false ? 'selected' : ''}>مدفوع</option>
+                        </select>
+                    </div>
+                    <div class="modal-actions">
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> حفظ</button>
+                        <button type="button" class="btn btn-secondary" onclick="closeModal()">إلغاء</button>
+                    </div>
+                </form>
+            `;
+            modal.classList.add('open');
+        }
+
+        async function updateCourse(e, courseId) {
+            e.preventDefault();
+            showLoading();
+
+            try {
+                const updates = {
+                    title: document.getElementById('editCourseTitle').value.trim(),
+                    description: document.getElementById('editCourseDescription').value.trim(),
+                    grade: document.getElementById('editCourseGrade').value.trim(),
+                    image: document.getElementById('editCourseImage').value.trim(),
+                    price: document.getElementById('editCoursePrice').value.trim() || null,
+                    isFree: document.getElementById('editCourseType').value === 'free'
+                };
+
+                await database.ref('courses/' + courseId).update(updates);
+                logAdminActivity('تعديل كورس', { courseId, updates });
+                showToast('✅ تم تحديث الكورس', 'success');
+                closeModal();
+                loadCourses();
+                hideLoading();
+            } catch (err) {
+                console.error('Error updating course:', err);
+                showToast('❌ حدث خطأ', 'error');
+                hideLoading();
+            }
+        }
+
+        async function toggleCourseStatus(courseId) {
+            const course = allCourses.find(c => c.id === courseId);
+            if (!course) return;
+
+            const newStatus = course.isActive !== false ? false : true;
+            showLoading();
+
+            try {
+                await database.ref('courses/' + courseId + '/isActive').set(newStatus);
+                course.isActive = newStatus;
+                logAdminActivity('تغيير حالة كورس', { courseId, newStatus });
+                showToast(`✅ تم ${newStatus ? 'تفعيل' : 'إيقاف'} الكورس`, 'success');
+                renderCourses();
+                hideLoading();
+            } catch (err) {
+                console.error('Error toggling course:', err);
+                showToast('❌ حدث خطأ', 'error');
+                hideLoading();
+            }
+        }
+
+        async function deleteCourse(courseId) {
+            if (!confirm('⚠️ هل أنت متأكد من حذف هذا الكورس؟')) return;
+            showLoading();
+
+            try {
+                await database.ref('courses/' + courseId).remove();
+                logAdminActivity('حذف كورس', { courseId });
+                showToast('✅ تم حذف الكورس', 'success');
+                allCourses = allCourses.filter(c => c.id !== courseId);
+                renderCourses();
+                hideLoading();
+            } catch (err) {
+                console.error('Error deleting course:', err);
+                showToast('❌ حدث خطأ', 'error');
+                hideLoading();
+            }
+        }
+
+        // ============================================================
+        // EXAMS
+        // ============================================================
+        function loadExams() {
+            showLoading();
+            database.ref('exams').once('value', snapshot => {
+                allExams = [];
+                snapshot.forEach(child => {
+                    const data = child.val();
+                    allExams.push({
+                        id: child.key,
+                        ...data,
+                        questionsCount: data.questions ? data.questions.length : 0
+                    });
+                });
+                renderExams();
+                hideLoading();
+            });
+        }
+
+        function renderExams() {
+            const tbody = document.getElementById('examsTableBody');
+            if (allExams.length === 0) {
+                tbody.innerHTML = `
+                    <tr><td colspan="9" style="text-align:center;padding:30px;color:var(--admin-text2);">
+                        <i class="fas fa-file-alt" style="font-size:2rem;display:block;margin-bottom:8px;"></i>
+                        لا توجد امتحانات
+                    </td></tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = allExams.map((exam, idx) => `
+                <tr>
+                    <td>${idx + 1}</td>
+                    <td><strong>${escapeHtml(exam.title || 'امتحان')}</strong></td>
+                    <td><span class="status-badge exam">${escapeHtml(exam.type || 'exam')}</span></td>
+                    <td>${exam.questionsCount || 0}</td>
+                    <td>${exam.atomsReward || 0}</td>
+                    <td>${exam.attempts || 0}</td>
+                    <td>${exam.completed || 0}</td>
+                    <td>${exam.averageScore || '--'}%</td>
+                    <td>
+                        <button class="btn-sm" onclick="editExam('${exam.id}')" style="padding:2px 10px;border:none;border-radius:4px;background:var(--admin-warning);color:#fff;cursor:pointer;font-size:0.7rem;">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn-sm" onclick="deleteExam('${exam.id}')" style="padding:2px 10px;border:none;border-radius:4px;background:#dc2626;color:#fff;cursor:pointer;font-size:0.7rem;">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function openAddExamModal() {
+            const modal = document.getElementById('adminModal');
+            const content = document.getElementById('modalContent');
+
+            content.innerHTML = `
+                <h3>📝 إضافة امتحان جديد</h3>
+                <form id="addExamForm" onsubmit="saveExam(event)">
+                    <div class="form-group">
+                        <label>عنوان الامتحان *</label>
+                        <input type="text" id="examTitle" required>
+                    </div>
+                    <div class="form-group">
+                        <label>الوصف</label>
+                        <textarea id="examDescription" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>النوع</label>
+                        <select id="examType">
+                            <option value="exam">امتحان</option>
+                            <option value="quiz">كويز</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>مكافأة الذرات</label>
+                        <input type="number" id="examAtoms" value="10">
+                    </div>
+                    <div class="form-group">
+                        <label>المدة (دقائق)</label>
+                        <input type="number" id="examDuration" value="30">
+                    </div>
+                    <div class="modal-actions">
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-plus"></i> إضافة</button>
+                        <button type="button" class="btn btn-secondary" onclick="closeModal()">إلغاء</button>
+                    </div>
+                </form>
+            `;
+            modal.classList.add('open');
+        }
+
+        async function saveExam(e) {
+            e.preventDefault();
+            showLoading();
+
+            try {
+                const examData = {
+                    title: document.getElementById('examTitle').value.trim(),
+                    description: document.getElementById('examDescription').value.trim(),
+                    type: document.getElementById('examType').value,
+                    atomsReward: parseInt(document.getElementById('examAtoms').value) || 10,
+                    duration: parseInt(document.getElementById('examDuration').value) || 30,
+                    questions: [],
+                    createdAt: new Date().toISOString()
+                };
+
+                const ref = database.ref('exams').push();
+                await ref.set(examData);
+
+                logAdminActivity('إضافة امتحان', { examId: ref.key, title: examData.title });
+                showToast('✅ تم إضافة الامتحان', 'success');
+                closeModal();
+                loadExams();
+                hideLoading();
+            } catch (err) {
+                console.error('Error saving exam:', err);
+                showToast('❌ حدث خطأ', 'error');
+                hideLoading();
+            }
+        }
+
+        function editExam(examId) {
+            const exam = allExams.find(e => e.id === examId);
+            if (!exam) return;
+
+            const modal = document.getElementById('adminModal');
+            const content = document.getElementById('modalContent');
+
+            // Build questions editor
+            let questionsHtml = '';
+            if (exam.questions && exam.questions.length > 0) {
+                questionsHtml = exam.questions.map((q, idx) => `
+                    <div style="background:var(--admin-bg);padding:8px;border-radius:6px;margin-bottom:6px;font-size:0.85rem;">
+                        <strong>${idx + 1}.</strong> ${escapeHtml(q.question)}
+                        <br><span style="color:var(--admin-text2);font-size:0.75rem;">الإجابة: ${q.options ? escapeHtml(q.options[q.correctAnswer]) : '--'}</span>
+                    </div>
+                `).join('');
+            }
+
+            content.innerHTML = `
+                <h3>✏️ تعديل الامتحان</h3>
+                <form id="editExamForm" onsubmit="updateExam(event, '${examId}')">
+                    <div class="form-group">
+                        <label>عنوان الامتحان *</label>
+                        <input type="text" id="editExamTitle" value="${escapeHtml(exam.title || '')}" required>
+                    </div>
+                    <div class="form-group">
+                        <label>الوصف</label>
+                        <textarea id="editExamDescription" rows="3">${escapeHtml(exam.description || '')}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>النوع</label>
+                        <select id="editExamType">
+                            <option value="exam" ${exam.type === 'exam' ? 'selected' : ''}>امتحان</option>
+                            <option value="quiz" ${exam.type === 'quiz' ? 'selected' : ''}>كويز</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>مكافأة الذرات</label>
+                        <input type="number" id="editExamAtoms" value="${exam.atomsReward || 10}">
+                    </div>
+                    <div class="form-group">
+                        <label>المدة (دقائق)</label>
+                        <input type="number" id="editExamDuration" value="${exam.duration || 30}">
+                    </div>
+                    ${questionsHtml ? `
+                        <div class="form-group">
+                            <label>الأسئلة الحالية (${exam.questions ? exam.questions.length : 0})</label>
+                            ${questionsHtml}
+                        </div>
+                        <p style="font-size:0.8rem;color:var(--admin-text2);">📝 لإضافة أو تعديل الأسئلة، استخدم Firebase Console</p>
+                    ` : `
+                        <p style="font-size:0.8rem;color:var(--admin-text2);">📝 لا توجد أسئلة، يمكنك إضافتها من Firebase Console</p>
+                    `}
+                    <div class="modal-actions">
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> حفظ</button>
+                        <button type="button" class="btn btn-secondary" onclick="closeModal()">إلغاء</button>
+                    </div>
+                </form>
+            `;
+            modal.classList.add('open');
+        }
+
+        async function updateExam(e, examId) {
+            e.preventDefault();
+            showLoading();
+
+            try {
+                const updates = {
+                    title: document.getElementById('editExamTitle').value.trim(),
+                    description: document.getElementById('editExamDescription').value.trim(),
+                    type: document.getElementById('editExamType').value,
+                    atomsReward: parseInt(document.getElementById('editExamAtoms').value) || 10,
+                    duration: parseInt(document.getElementById('editExamDuration').value) || 30
+                };
+
+                await database.ref('exams/' + examId).update(updates);
+                logAdminActivity('تعديل امتحان', { examId, updates });
+                showToast('✅ تم تحديث الامتحان', 'success');
+                closeModal();
+                loadExams();
+                hideLoading();
+            } catch (err) {
+                console.error('Error updating exam:', err);
+                showToast('❌ حدث خطأ', 'error');
+                hideLoading();
+            }
+        }
+
+        async function deleteExam(examId) {
+            if (!confirm('⚠️ هل أنت متأكد من حذف هذا الامتحان؟')) return;
+            showLoading();
+
+            try {
+                await database.ref('exams/' + examId).remove();
+                logAdminActivity('حذف امتحان', { examId });
+                showToast('✅ تم حذف الامتحان', 'success');
+                allExams = allExams.filter(e => e.id !== examId);
+                renderExams();
+                hideLoading();
+            } catch (err) {
+                console.error('Error deleting exam:', err);
+                showToast('❌ حدث خطأ', 'error');
+                hideLoading();
+            }
+        }
+
+        // ============================================================
+        // LOGS
+        // ============================================================
+        function loadLogs() {
+            showLoading();
+            database.ref('adminLogs').orderByChild('timestamp').limitToLast(100).once('value', snapshot => {
+                allLogs = [];
+                snapshot.forEach(child => {
+                    const data = child.val();
+                    allLogs.push({ id: child.key, ...data });
+                });
+                allLogs.reverse();
+                renderLogs();
+                hideLoading();
+            });
+        }
+
+        function renderLogs() {
+            const container = document.getElementById('logsContainer');
+            if (allLogs.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state" style="padding:40px;text-align:center;">
+                        <div style="font-size:3rem;">📋</div>
+                        <h3>لا توجد سجلات</h3>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = allLogs.map(log => {
+                const iconMap = {
+                    'تسجيل الدخول': 'login',
+                    'إضافة كورس': 'add',
+                    'تعديل كورس': 'edit',
+                    'حذف كورس': 'delete',
+                    'تفعيل اشتراك': 'add',
+                    'إلغاء اشتراك': 'delete',
+                    'حظر طالب': 'ban',
+                    'فك الحظر عن طالب': 'add',
+                    'تعديل بيانات طالب': 'edit',
+                    'إضافة امتحان': 'add',
+                    'حذف امتحان': 'delete',
+                    'تغيير حالة اشتراك': 'edit',
+                    'تغيير حالة كورس': 'edit'
+                };
+                const iconClass = iconMap[log.action] || 'edit';
+
+                return `
+                    <div class="log-item">
+                        <div class="log-icon ${iconClass}">
+                            <i class="fas fa-${iconClass === 'login' ? 'sign-in-alt' : iconClass === 'add' ? 'plus' : iconClass === 'delete' ? 'trash' : iconClass === 'ban' ? 'ban' : 'edit'}"></i>
+                        </div>
+                        <div class="log-content">
+                            <div class="log-action">${escapeHtml(log.action)}</div>
+                            <div class="log-details">
+                                <i class="fas fa-user"></i> ${escapeHtml(log.adminName || 'Admin')}
+                                ${log.details ? ` • ${escapeHtml(JSON.stringify(log.details))}` : ''}
+                            </div>
+                        </div>
+                        <div class="log-time">${log.timestamp ? formatDate(log.timestamp) : '--'}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function refreshLogs() {
+            loadLogs();
+            showToast('✅ تم تحديث السجل', 'success');
+        }
+
+        // ============================================================
+        // NOTIFICATIONS
+        // ============================================================
+        function loadNotifications() {
+            // New students today
+            database.ref('users').once('value', snapshot => {
+                let count = 0;
+                const today = new Date().toDateString();
+                snapshot.forEach(child => {
+                    const data = child.val();
+                    if (data.createdAt && new Date(data.createdAt).toDateString() === today) {
+                        count++;
+                    }
+                });
+                document.getElementById('newStudentsToday').textContent = count;
+            });
+
+            // New subscriptions
+            database.ref('courseSubscriptions').once('value', snapshot => {
+                let count = 0;
+                const today = new Date().toDateString();
+                snapshot.forEach(child => {
+                    const data = child.val();
+                    if (data.subscribedAt && new Date(data.subscribedAt).toDateString() === today) {
+                        count++;
+                    }
+                });
+                document.getElementById('newSubscriptions').textContent = count;
+            });
+
+            // Recent exams
+            database.ref('exams').orderByChild('createdAt').limitToLast(5).once('value', snapshot => {
+                const container = document.getElementById('recentExams');
+                const exams = [];
+                snapshot.forEach(child => {
+                    exams.push({ id: child.key, ...child.val() });
+                });
+                exams.reverse();
+                container.innerHTML = exams.map(e => `
+                    <div style="padding:6px 0;border-bottom:1px solid var(--admin-border);font-size:0.85rem;">
+                        <strong>${escapeHtml(e.title || 'امتحان')}</strong>
+                        <span style="color:var(--admin-text2);font-size:0.75rem;">${e.createdAt ? formatDate(e.createdAt) : ''}</span>
+                    </div>
+                `).join('') || '<div style="color:var(--admin-text2);font-size:0.85rem;padding:8px;">لا توجد امتحانات</div>';
+            });
+
+            // Recent courses
+            database.ref('courses').orderByChild('createdAt').limitToLast(5).once('value', snapshot => {
+                const container = document.getElementById('recentCourses');
+                const courses = [];
+                snapshot.forEach(child => {
+                    courses.push({ id: child.key, ...child.val() });
+                });
+                courses.reverse();
+                container.innerHTML = courses.map(c => `
+                    <div style="padding:6px 0;border-bottom:1px solid var(--admin-border);font-size:0.85rem;">
+                        <strong>${escapeHtml(c.title || 'كورس')}</strong>
+                        <span style="color:var(--admin-text2);font-size:0.75rem;">${c.createdAt ? formatDate(c.createdAt) : ''}</span>
+                    </div>
+                `).join('') || '<div style="color:var(--admin-text2);font-size:0.85rem;padding:8px;">لا توجد كورسات</div>';
+            });
+        }
+
+        function sendNotification() {
+            const modal = document.getElementById('adminModal');
+            const content = document.getElementById('modalContent');
+
+            content.innerHTML = `
+                <h3>🔔 إرسال إشعار</h3>
+                <form id="notificationForm" onsubmit="sendNotificationToAll(event)">
+                    <div class="form-group">
+                        <label>العنوان *</label>
+                        <input type="text" id="notifTitle" placeholder="عنوان الإشعار" required>
+                    </div>
+                    <div class="form-group">
+                        <label>الوصف</label>
+                        <textarea id="notifDescription" rows="3" placeholder="تفاصيل الإشعار"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>الأيقونة</label>
+                        <select id="notifIcon">
+                            <option value="📢">📢 إعلان</option>
+                            <option value="🎉">🎉 جديد</option>
+                            <option value="📚">📚 تعليمي</option>
+                            <option value="🏆">🏆 إنجاز</option>
+                            <option value="🔔">🔔 تنبيه</option>
+                        </select>
+                    </div>
+                    <div class="modal-actions">
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-bell"></i> إرسال للجميع</button>
+                        <button type="button" class="btn btn-secondary" onclick="closeModal()">إلغاء</button>
+                    </div>
+                </form>
+            `;
+            modal.classList.add('open');
+        }
+
+        async function sendNotificationToAll(e) {
+            e.preventDefault();
+            showLoading();
+
+            try {
+                const title = document.getElementById('notifTitle').value.trim();
+                const description = document.getElementById('notifDescription').value.trim();
+                const icon = document.getElementById('notifIcon').value;
+
+                // Get all users
+                const snapshot = await database.ref('users').once('value');
+                const users = [];
+                snapshot.forEach(child => {
+                    users.push(child.key);
+                });
+
+                // Send notification to all users
+                const promises = users.map(uid => {
+                    const ref = database.ref('users/' + uid + '/notifications').push();
+                    return ref.set({
+                        id: ref.key,
+                        title: title,
+                        description: description,
+                        icon: icon,
+                        read: false,
+                        createdAt: new Date().toISOString()
+                    });
+                });
+
+                await Promise.all(promises);
+
+                logAdminActivity('إرسال إشعار جماعي', { title, recipients: users.length });
+                showToast(`✅ تم إرسال الإشعار إلى ${users.length} طالب`, 'success');
+                closeModal();
+                hideLoading();
+            } catch (err) {
+                console.error('Error sending notification:', err);
+                showToast('❌ حدث خطأ في إرسال الإشعار', 'error');
+                hideLoading();
+            }
+        }
+
+        // ============================================================
+        // UTILITY FUNCTIONS
+        // ============================================================
+        function escapeHtml(str) {
+            if (!str) return '';
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+
+        function formatPhoneNumber(phone) {
+            if (!phone) return '--';
+            const cleaned = phone.replace(/\D/g, '');
+            if (cleaned.length === 0) return '--';
+            let formatted = '';
+            for (let i = cleaned.length; i > 0; i -= 3) {
+                const start = Math.max(0, i - 3);
+                const chunk = cleaned.substring(start, i);
+                formatted = (formatted ? ' ' : '') + chunk + (formatted ? ' ' : '');
+            }
+            return formatted.trim();
+        }
+
+        function formatDate(timestamp) {
+            if (!timestamp) return '--';
+            const d = new Date(timestamp);
+            return d.toLocaleDateString('ar') + ' ' + d.toLocaleTimeString('ar', { hour: '2-digit', minute: '2-digit' });
+        }
+
+        function closeModal() {
+            document.getElementById('adminModal').classList.remove('open');
+        }
+
+        // ============================================================
+        // LOG ADMIN ACTIVITY
+        // ============================================================
+        function logAdminActivity(action, details = {}) {
+            if (!window.currentUser) return;
+            const logRef = database.ref('adminLogs').push();
+            logRef.set({
+                adminId: window.currentUser.uid,
+                adminName: window.userData?.name || 'Admin',
+                action: action,
+                details: details,
+                timestamp: new Date().toISOString(),
+                userAgent: navigator.userAgent
+            }).catch(err => console.error('Error logging:', err));
+        }
+
+        // ============================================================
+        // LOGOUT
+        // ============================================================
+        async function logoutAdmin() {
+            if (!confirm('⚠️ هل أنت متأكد من تسجيل الخروج؟')) return;
+            
+            try {
+                await auth.signOut();
+                sessionStorage.removeItem('adminSession');
+                sessionStorage.removeItem('adminUid');
+                window.location.href = 'admin-login.html';
+            } catch (err) {
+                console.error('Logout error:', err);
+                showToast('❌ حدث خطأ', 'error');
+            }
+        }
+
+        // ============================================================
+        // AUTH STATE OBSERVER
+        // ============================================================
+        auth.onAuthStateChanged(async (user) => {
+            if (!user) {
+                window.location.href = 'admin-login.html';
+                return;
+            }
+
+            window.currentUser = user;
+
+            // Verify admin
+            const isAdmin = await verifyAdmin(user);
+            if (!isAdmin) {
+                showToast('⛔ غير مصرح لك بالدخول', 'error');
+                await auth.signOut();
+                setTimeout(() => {
+                    window.location.href = 'admin-login.html';
+                }, 1500);
+                return;
+            }
+
+            // Load user data
+            const snapshot = await database.ref('users/' + user.uid).once('value');
+            if (snapshot.exists()) {
+                window.userData = snapshot.val();
+                document.getElementById('adminName').textContent = window.userData.name || 'Admin';
+                const avatar = document.getElementById('adminAvatar');
+                if (window.userData.photoURL) {
+                    avatar.innerHTML = `<img src="${window.userData.photoURL}" style="width:100%;height:100%;object-fit:cover;">`;
+                } else {
+                    avatar.textContent = (window.userData.name || 'A')[0].toUpperCase();
+                }
+            }
+
+            // Load initial data
+            loadDashboard();
+            loadLiveUsers();
+
+            // Track admin presence
+            database.ref('presence/' + user.uid).set({
+                online: true,
+                lastSeen: Date.now(),
+                isAdmin: true
+            });
+            
+            // Update presence on disconnect
+            const onDisconnect = database.ref('presence/' + user.uid).onDisconnect();
+            onDisconnect.set({
+                online: false,
+                lastSeen: Date.now(),
+                isAdmin: true
+            });
+
+            // Update presence periodically
+            setInterval(() => {
+                database.ref('presence/' + user.uid + '/lastSeen').set(Date.now());
+            }, 30000);
+        });
+
+        // ============================================================
+        // INIT
+        // ============================================================
+        // Check if admin session exists
+        if (!checkAdminSession()) {
+            // The function will redirect if needed
+        }
+
+        // Close modal on overlay click
+        document.getElementById('adminModal').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+
+        console.log('🚀 Admin Dashboard v1.0 loaded');
+        console.log('✅ All features ready');
+    </script>
 </body>
 </html>
