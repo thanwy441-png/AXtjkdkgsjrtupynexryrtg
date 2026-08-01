@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة الإدارة - يلا كيمياء</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Lalezar&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(135deg, #0B4F8C, #1E81CE, #4CC9F0);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .login-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 48px 40px;
+            max-width: 420px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .login-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+        }
+        
+        .login-container .logo {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+        
+        .login-container .logo img {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            border-radius: 50%;
+            border: 3px solid #0B4F8C;
+            padding: 4px;
+        }
+        
+        .login-container .logo h1 {
+            font-family: 'Lalezar', cursive;
+            font-size: 1.8rem;
+            color: #0B4F8C;
+            margin-top: 8px;
+        }
+        
+        .login-container .logo .subtitle {
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-top: 2px;
+        }
+        
+        .login-container .logo .subtitle i {
+            color: #22C55E;
+        }
+        
+        .form-group {
+            margin-bottom: 16px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 6px;
+            font-size: 0.9rem;
+        }
+        
+        .form-group .input-wrapper {
+            position: relative;
+        }
+        
+        .form-group .input-wrapper i {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            font-size: 1rem;
+            transition: color 0.3s;
+        }
+        
+        .form-group .input-wrapper input {
+            width: 100%;
+            padding: 12px 44px 12px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: 'Cairo', sans-serif;
+            transition: all 0.3s ease;
+            background: #f8fafc;
+            color: #1e293b;
+        }
+        
+        .form-group .input-wrapper input:focus {
+            outline: none;
+            border-color: #0B4F8C;
+            background: #ffffff;
+            box-shadow: 0 0 0 4px rgba(11, 79, 140, 0.1);
+        }
+        
+        .form-group .input-wrapper input:focus + i {
+            color: #0B4F8C;
+        }
+        
+        .btn-login {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #0B4F8C, #1E81CE);
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Cairo', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .btn-login:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(11, 79, 140, 0.35);
+        }
+        
+        .btn-login:active {
+            transform: translateY(0);
+        }
+        
+        .btn-login:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+        
+        .btn-login .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        
+        .error-message {
+            background: #fef2f2;
+            color: #dc2626;
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            margin-bottom: 16px;
+            display: none;
+            border-right: 4px solid #dc2626;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .error-message.show {
+            display: flex;
+        }
+        
+        .error-message i {
+            font-size: 1.2rem;
+        }
+        
+        .success-message {
+            background: #f0fdf4;
+            color: #22C55E;
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            margin-bottom: 16px;
+            display: none;
+            border-right: 4px solid #22C55E;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .success-message.show {
+            display: flex;
+        }
+        
+        .success-message i {
+            font-size: 1.2rem;
+        }
+        
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 16px;
+            color: #0B4F8C;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+        
+        .back-link:hover {
+            color: #1E81CE;
+            text-decoration: underline;
+        }
+        
+        .security-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            justify-content: center;
+            margin-top: 20px;
+            font-size: 0.75rem;
+            color: #94a3b8;
+        }
+        
+        .security-badge i {
+            color: #22C55E;
+        }
+        
+        .login-footer {
+            margin-top: 20px;
+            padding-top: 16px;
+            border-top: 1px solid #e2e8f0;
+            text-align: center;
+            font-size: 0.75rem;
+            color: #94a3b8;
+        }
+        
+        .login-footer a {
+            color: #0B4F8C;
+            text-decoration: none;
+        }
+        
+        .login-footer a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Admin indicator */
+        .admin-badge {
+            display: inline-block;
+            background: #0B4F8C;
+            color: #fff;
+            padding: 2px 12px;
+            border-radius: 20px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            margin-right: 6px;
+        }
+        
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 32px 20px;
+            }
+            
+            .login-container .logo img {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .login-container .logo h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-container">
+        <div class="logo">
+            <img src="https://res.cloudinary.com/dbahe7lxz/image/upload/v1785593692/idraaak/ogvolfsxxnvk24gho8eb.jpg" 
+                 alt="يلا كيمياء" 
+                 onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2280%22 height=%2280%22 viewBox=%220 0 80 80%22%3E%3Crect width=%2280%22 height=%2280%22 fill=%22%230B4F8C%22 rx=%2240%22/%3E%3Ctext x=%2240%22 y=%2248%22 text-anchor=%22middle%22 fill=%22%23fff%22 font-size=%2232%22 font-weight=%22bold%22 font-family=%22Arial%22%3EYK%3C/text%3E%3C/svg%3E'">
+            <h1>يلا كيمياء</h1>
+            <p class="subtitle">
+                <i class="fas fa-shield-alt"></i> لوحة الإدارة <span class="admin-badge">Admin</span>
+            </p>
+        </div>
+
+        <div id="errorMessage" class="error-message">
+            <i class="fas fa-exclamation-circle"></i>
+            <span id="errorText">خطأ في بيانات الدخول</span>
+        </div>
+
+        <div id="successMessage" class="success-message">
+            <i class="fas fa-check-circle"></i>
+            <span id="successText">جاري التوجيه...</span>
+        </div>
+
+        <form id="loginForm" onsubmit="handleAdminLogin(event)">
+            <div class="form-group">
+                <label><i class="fas fa-envelope" style="margin-left:6px;"></i> البريد الإلكتروني</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" id="adminEmail" placeholder="admin@yalla-kimya.com" required autocomplete="email">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label><i class="fas fa-lock" style="margin-left:6px;"></i> كلمة المرور</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="adminPassword" placeholder="••••••••" required autocomplete="current-password">
+                </div>
+            </div>
+
+            <button type="submit" class="btn-login" id="loginBtn">
+                <i class="fas fa-sign-in-alt"></i> 
+                <span id="loginBtnText">تسجيل الدخول</span>
+            </button>
+        </form>
+
+        <a href="index.html" class="back-link">
+            <i class="fas fa-arrow-right"></i> العودة للرئيسية
+        </a>
+
+        <div class="security-badge">
+            <i class="fas fa-shield-alt"></i>
+            <span>اتصال آمن • يلا كيمياء Admin</span>
+        </div>
+
+        <div class="login-footer">
+            © 2026 <a href="index.html">يلا كيمياء</a> • جميع الحقوق محفوظة
+        </div>
+    </div>
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js">
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js">
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js">
+    </script>
+
+    <script>
+        // ============================================================
+        // FIREBASE CONFIG
+        // ============================================================
+        const firebaseConfig = {
+            apiKey: "AIzaSyBOBu3wp3GcA-VjwtqIt1PAYYpo_HXFhtU",
+            authDomain: "yalla-kimya.firebaseapp.com",
+            databaseURL: "https://yalla-kimya-default-rtdb.firebaseio.com",
+            projectId: "yalla-kimya",
+            storageBucket: "yalla-kimya.firebasestorage.app",
+            messagingSenderId: "1052374689829",
+            appId: "1:1052374689829:web:fbb815ab42d753e63377cc",
+            measurementId: "G-B3SJFF8R1R"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const database = firebase.database();
+
+        // ============================================================
+        // ADMIN UIDs - أضف UID الأدمن هنا
+        // ============================================================
+        // للعثور على UID الخاص بك:
+        // 1. سجل الدخول إلى حسابك في المنصة
+        // 2. افتح Console (F12) واكتب: firebase.auth().currentUser.uid
+        // 3. انسخ القيمة والصقها في المصفوفة أدناه
+        // ============================================================
+        const ADMIN_UIDs = [
+            // أضف UID الأدمن هنا
+            // مثال: 'abc123def456ghi789jkl'
+        ];
+
+        // ============================================================
+        // CHECK ADMIN STATUS
+        // ============================================================
+        async function checkAdminStatus(user) {
+            // التحقق من القائمة المباشرة
+            if (ADMIN_UIDs.includes(user.uid)) {
+                return true;
+            }
+
+            // التحقق من Firebase
+            try {
+                const snapshot = await database.ref('admins/' + user.uid).once('value');
+                if (snapshot.exists() && snapshot.val().isAdmin === true) {
+                    return true;
+                }
+            } catch (err) {
+                console.error('Error checking admin status:', err);
+            }
+            return false;
+        }
+
+        // ============================================================
+        // ADD ADMIN (لإضافة أدمن جديد من الكود)
+        // ============================================================
+        async function addAdmin(uid) {
+            try {
+                await database.ref('admins/' + uid).set({
+                    isAdmin: true,
+                    addedAt: new Date().toISOString()
+                });
+                console.log('✅ Admin added successfully!');
+                return true;
+            } catch (err) {
+                console.error('Error adding admin:', err);
+                return false;
+            }
+        }
+
+        // ============================================================
+        // HANDLE LOGIN
+        // ============================================================
+        async function handleAdminLogin(e) {
+            e.preventDefault();
+
+            const email = document.getElementById('adminEmail').value.trim();
+            const password = document.getElementById('adminPassword').value;
+            const errorDiv = document.getElementById('errorMessage');
+            const errorText = document.getElementById('errorText');
+            const successDiv = document.getElementById('successMessage');
+            const successText = document.getElementById('successText');
+            const loginBtn = document.getElementById('loginBtn');
+            const loginBtnText = document.getElementById('loginBtnText');
+
+            // إخفاء الرسائل السابقة
+            errorDiv.classList.remove('show');
+            successDiv.classList.remove('show');
+
+            // تعطيل الزر
+            loginBtn.disabled = true;
+            loginBtnText.textContent = 'جاري التحقق...';
+            loginBtn.innerHTML = '<span class="spinner"></span> جاري التحقق...';
+
+            try {
+                // تسجيل الدخول
+                const result = await auth.signInWithEmailAndPassword(email, password);
+                const user = result.user;
+
+                // التحقق من صلاحية Admin
+                const isAdmin = await checkAdminStatus(user);
+
+                if (isAdmin) {
+                    // تسجيل عملية الدخول في السجل
+                    await database.ref('adminLogs').push({
+                        adminId: user.uid,
+                        adminName: user.displayName || 'Admin',
+                        email: user.email,
+                        action: 'تسجيل الدخول',
+                        timestamp: new Date().toISOString(),
+                        userAgent: navigator.userAgent
+                    });
+
+                    // حفظ جلسة الأدمن
+                    sessionStorage.setItem('adminSession', 'true');
+                    sessionStorage.setItem('adminUid', user.uid);
+
+                    // عرض رسالة نجاح
+                    successText.textContent = '✅ مرحباً بك في لوحة الإدارة! جاري التوجيه...';
+                    successDiv.classList.add('show');
+
+                    // التوجيه للوحة الإدارة
+                    setTimeout(() => {
+                        window.location.href = 'admin.html';
+                    }, 800);
+
+                } else {
+                    // تسجيل الخروج إذا لم يكن Admin
+                    await auth.signOut();
+                    errorText.textContent = '⛔ غير مصرح لك بالدخول إلى لوحة الإدارة. هذا الحساب ليس لديه صلاحيات Admin.';
+                    errorDiv.classList.add('show');
+
+                    loginBtn.disabled = false;
+                    loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> <span id="loginBtnText">تسجيل الدخول</span>';
+                }
+
+            } catch (error) {
+                console.error('Login error:', error);
+
+                let msg = 'حدث خطأ في تسجيل الدخول';
+                if (error.code === 'auth/user-not-found') {
+                    msg = '⚠️ المستخدم غير موجود. تأكد من البريد الإلكتروني.';
+                } else if (error.code === 'auth/wrong-password') {
+                    msg = '⚠️ كلمة المرور غير صحيحة. حاول مرة أخرى.';
+                } else if (error.code === 'auth/too-many-requests') {
+                    msg = '⚠️ تم تجاوز عدد المحاولات. حاول لاحقاً.';
+                } else if (error.code === 'auth/invalid-email') {
+                    msg = '⚠️ البريد الإلكتروني غير صالح.';
+                } else if (error.code === 'auth/network-request-failed') {
+                    msg = '⚠️ مشكلة في الاتصال بالشبكة. تأكد من اتصالك بالإنترنت.';
+                }
+
+                errorText.textContent = msg;
+                errorDiv.classList.add('show');
+
+                loginBtn.disabled = false;
+                loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> <span id="loginBtnText">تسجيل الدخول</span>';
+            }
+        }
+
+        // ============================================================
+        // CHECK EXISTING SESSION
+        // ============================================================
+        auth.onAuthStateChanged(async (user) => {
+            if (user) {
+                const isAdmin = await checkAdminStatus(user);
+                if (isAdmin) {
+                    // إذا كان المستخدم Admin وفتح صفحة الدخول، نوجهه مباشرة للوحة
+                    window.location.href = 'admin.html';
+                }
+            }
+        });
+
+        // ============================================================
+        // KEYBOARD SHORTCUTS
+        // ============================================================
+        document.addEventListener('keydown', function(e) {
+            // Enter key submits form
+            if (e.key === 'Enter' && document.activeElement.tagName === 'INPUT') {
+                document.getElementById('loginForm').dispatchEvent(new Event('submit'));
+            }
+        });
+
+        // ============================================================
+        // AUTO-FOCUS ON PAGE LOAD
+        // ============================================================
+        window.addEventListener('load', function() {
+            document.getElementById('adminEmail').focus();
+        });
+
+        console.log('🔐 Admin Login Page v1.0');
+        console.log('💡 لإضافة UID الخاص بك كـ Admin:');
+        console.log('1. سجل الدخول إلى حسابك في المنصة');
+        console.log('2. افتح Console (F12)');
+        console.log('3. اكتب: firebase.auth().currentUser.uid');
+        console.log('4. انسخ القيمة وأضفها إلى ADMIN_UIDs في الكود');
+        console.log('5. أو استخدم دالة addAdmin("YOUR_UID") في Console');
+    </script>
+
+</body>
+</html>
