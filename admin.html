@@ -233,14 +233,14 @@
         /* ===== STATS CARDS ===== */
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-            gap: 14px;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 12px;
             margin-bottom: 28px;
         }
         .stat-card {
             background: #fff;
             border-radius: 16px;
-            padding: 14px 16px;
+            padding: 12px 14px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
             border-right: 4px solid #0B4F8C;
             transition: 0.3s;
@@ -250,23 +250,23 @@
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.07);
         }
         .stat-card .icon {
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             color: #0B4F8C;
             opacity: 0.6;
         }
         .stat-card .number {
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             font-weight: 900;
             color: #0B4F8C;
             margin-top: 2px;
         }
         .stat-card .label {
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             color: #64748b;
             font-weight: 600;
         }
         .stat-card .change {
-            font-size: 0.65rem;
+            font-size: 0.6rem;
             color: #22C55E;
             margin-top: 4px;
         }
@@ -388,10 +388,6 @@
             background: #fee2e2;
             color: #ef4444;
         }
-        .badge-status.pending {
-            background: #fef3c7;
-            color: #f59e0b;
-        }
         .badge-status.premium {
             background: #dbeafe;
             color: #0B4F8C;
@@ -438,7 +434,7 @@
             background: #fff;
             border-radius: 24px;
             padding: 32px 28px;
-            max-width: 650px;
+            max-width: 700px;
             width: 100%;
             max-height: 90vh;
             overflow-y: auto;
@@ -748,7 +744,6 @@
             }
         }
 
-        /* tab content */
         .tab-content {
             display: none;
         }
@@ -815,22 +810,12 @@
             background: #1E81CE;
         }
 
-        /* extra */
         .flex-between {
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
             gap: 10px;
-        }
-        .gap-8 {
-            gap: 8px;
-        }
-        .mt-12 {
-            margin-top: 12px;
-        }
-        .mb-12 {
-            margin-bottom: 12px;
         }
         .text-muted {
             color: #64748b;
@@ -852,6 +837,15 @@
             font-weight: 700;
             animation: pulse 1s infinite;
         }
+        .mt-12 {
+            margin-top: 12px;
+        }
+        .mb-12 {
+            margin-bottom: 12px;
+        }
+        .gap-8 {
+            gap: 8px;
+        }
     </style>
 </head>
 <body>
@@ -872,6 +866,8 @@
             <div class="nav-item" data-tab="lessons"><i class="fas fa-video"></i> الحصص</div>
             <div class="nav-item" data-tab="exams"><i class="fas fa-pencil-alt"></i> الامتحانات</div>
             <div class="nav-item" data-tab="quizzes"><i class="fas fa-question-circle"></i> الكويزات</div>
+            <div class="nav-item" data-tab="questions"><i class="fas fa-question"></i> الأسئلة</div>
+            <div class="nav-item" data-tab="pdfs"><i class="fas fa-file-pdf"></i> ملفات PDF</div>
             <div class="nav-item" data-tab="live"><i class="fas fa-broadcast"></i> البث المباشر</div>
             <div class="nav-item" data-tab="notifications"><i class="fas fa-bell"></i> الإشعارات <span class="badge" id="notifBadge">0</span></div>
             <div class="nav-item" data-tab="logs"><i class="fas fa-history"></i> سجل العمليات</div>
@@ -906,23 +902,14 @@
 
         <!-- ===== DASHBOARD TAB ===== -->
         <div class="tab-content active" id="tab-dashboard">
-            <!-- STATS -->
-            <div class="stats-grid" id="statsGrid">
-                <!-- ستتم تعبئتها بواسطة JS -->
-            </div>
-
-            <!-- LIVE USERS -->
+            <div class="stats-grid" id="statsGrid"></div>
             <div class="section">
                 <div class="section-header">
                     <h3><i class="fas fa-circle" style="color:#22C55E;font-size:0.7rem;"></i> المتصلون الآن</h3>
                     <span class="text-muted" id="liveCount">0 متصل</span>
                 </div>
-                <div class="live-grid" id="liveUsersGrid">
-                    <div class="loading-placeholder"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</div>
-                </div>
+                <div class="live-grid" id="liveUsersGrid"></div>
             </div>
-
-            <!-- CHARTS -->
             <div class="section">
                 <div class="section-header"><h3><i class="fas fa-chart-bar"></i> الرسوم البيانية</h3></div>
                 <div class="chart-grid">
@@ -932,16 +919,12 @@
                     <div class="chart-box"><h4>المشتركين حسب الكورس</h4><canvas id="chartCourse"></canvas></div>
                 </div>
             </div>
-
-            <!-- RECENT ACTIVITY -->
             <div class="section">
                 <div class="section-header">
                     <h3><i class="fas fa-clock"></i> آخر النشاطات</h3>
                     <button class="btn-outline-sm" onclick="loadRecentActivity()"><i class="fas fa-redo"></i> تحديث</button>
                 </div>
-                <div id="recentActivity">
-                    <div class="loading-placeholder"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</div>
-                </div>
+                <div id="recentActivity"></div>
             </div>
         </div>
 
@@ -951,7 +934,7 @@
                 <div class="flex-between mb-12">
                     <h3><i class="fas fa-users"></i> إدارة الطلاب</h3>
                     <div class="search-box">
-                        <input type="text" id="studentSearch" placeholder="بحث بالاسم، الهاتف، UID..." onkeyup="searchStudents()">
+                        <input type="text" id="studentSearch" placeholder="بحث بالاسم أو الهاتف أو البريد" onkeyup="searchStudents()">
                         <button onclick="searchStudents()"><i class="fas fa-search"></i> بحث</button>
                         <button class="btn-primary-sm" onclick="loadStudents()"><i class="fas fa-redo"></i></button>
                     </div>
@@ -979,9 +962,7 @@
                                 <th>الإجراءات</th>
                             </tr>
                         </thead>
-                        <tbody id="studentsTableBody">
-                            <tr><td colspan="17" class="loading-placeholder"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</td></tr>
-                        </tbody>
+                        <tbody id="studentsTableBody"></tbody>
                     </table>
                 </div>
                 <div class="pagination" id="studentsPagination"></div>
@@ -996,6 +977,7 @@
                     <div class="search-box">
                         <input type="text" id="subSearch" placeholder="بحث باسم الطالب..." onkeyup="searchSubscriptions()">
                         <button onclick="searchSubscriptions()"><i class="fas fa-search"></i> بحث</button>
+                        <button class="btn-primary-sm" onclick="loadSubscriptions()"><i class="fas fa-redo"></i></button>
                     </div>
                 </div>
                 <div class="table-wrap">
@@ -1011,9 +993,7 @@
                                 <th>الإجراءات</th>
                             </tr>
                         </thead>
-                        <tbody id="subscriptionsTableBody">
-                            <tr><td colspan="7" class="loading-placeholder"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</td></tr>
-                        </tbody>
+                        <tbody id="subscriptionsTableBody"></tbody>
                     </table>
                 </div>
             </div>
@@ -1045,9 +1025,7 @@
                                 <th>الإجراءات</th>
                             </tr>
                         </thead>
-                        <tbody id="coursesTableBody">
-                            <tr><td colspan="13" class="loading-placeholder"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</td></tr>
-                        </tbody>
+                        <tbody id="coursesTableBody"></tbody>
                     </table>
                 </div>
             </div>
@@ -1068,7 +1046,7 @@
                                 <th>الحصة</th>
                                 <th>الكورس</th>
                                 <th>الوصف</th>
-                                <th>الفيديو</th>
+                                <th>فيديو</th>
                                 <th>PDF</th>
                                 <th>كويز</th>
                                 <th>امتحان</th>
@@ -1076,9 +1054,7 @@
                                 <th>الإجراءات</th>
                             </tr>
                         </thead>
-                        <tbody id="lessonsTableBody">
-                            <tr><td colspan="10" class="loading-placeholder"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</td></tr>
-                        </tbody>
+                        <tbody id="lessonsTableBody"></tbody>
                     </table>
                 </div>
             </div>
@@ -1100,17 +1076,16 @@
                                 <th>الكورس</th>
                                 <th>الحصة</th>
                                 <th>النوع</th>
-                                <th>عدد الداخلين</th>
-                                <th>المكملين</th>
+                                <th>البداية</th>
+                                <th>النهاية</th>
+                                <th>المحاولات</th>
+                                <th>درجة النجاح</th>
+                                <th>المشاركين</th>
                                 <th>المتوسط</th>
-                                <th>الأعلى</th>
-                                <th>الأدنى</th>
                                 <th>الإجراءات</th>
                             </tr>
                         </thead>
-                        <tbody id="examsTableBody">
-                            <tr><td colspan="11" class="loading-placeholder"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</td></tr>
-                        </tbody>
+                        <tbody id="examsTableBody"></tbody>
                     </table>
                 </div>
             </div>
@@ -1137,9 +1112,58 @@
                                 <th>الإجراءات</th>
                             </tr>
                         </thead>
-                        <tbody id="quizzesTableBody">
-                            <tr><td colspan="8" class="loading-placeholder"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</td></tr>
-                        </tbody>
+                        <tbody id="quizzesTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== QUESTIONS TAB ===== -->
+        <div class="tab-content" id="tab-questions">
+            <div class="section">
+                <div class="flex-between mb-12">
+                    <h3><i class="fas fa-question"></i> إدارة الأسئلة</h3>
+                    <button class="btn-primary-sm" onclick="openAddQuestionModal()"><i class="fas fa-plus"></i> إضافة سؤال</button>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>السؤال</th>
+                                <th>النوع</th>
+                                <th>الدرجة</th>
+                                <th>الإجابة الصحيحة</th>
+                                <th>الصورة</th>
+                                <th>الإجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody id="questionsTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== PDFs TAB ===== -->
+        <div class="tab-content" id="tab-pdfs">
+            <div class="section">
+                <div class="flex-between mb-12">
+                    <h3><i class="fas fa-file-pdf"></i> إدارة ملفات PDF</h3>
+                    <button class="btn-primary-sm" onclick="openAddPdfModal()"><i class="fas fa-plus"></i> إضافة PDF</button>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>الاسم</th>
+                                <th>الكورس</th>
+                                <th>الحصة</th>
+                                <th>الرابط</th>
+                                <th>الإجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody id="pdfsTableBody"></tbody>
                     </table>
                 </div>
             </div>
@@ -1159,14 +1183,11 @@
                     <span class="text-muted">لا يوجد بث مباشر حالياً</span>
                 </div>
                 <div class="mt-12">
-                    <div class="form-group">
-                        <label>رابط البث (Zoom / YouTube / غيره)</label>
-                        <input id="liveLink" placeholder="https://..." style="width:100%;padding:10px;border:2px solid #e2e8f0;border-radius:10px;">
-                    </div>
-                    <div class="form-group">
-                        <label>عنوان البث</label>
-                        <input id="liveTitle" placeholder="عنوان البث" style="width:100%;padding:10px;border:2px solid #e2e8f0;border-radius:10px;">
-                    </div>
+                    <div class="form-group"><label>رابط Zoom</label><input id="liveZoom" placeholder="https://zoom.us/..."></div>
+                    <div class="form-group"><label>رابط Google Meet</label><input id="liveMeet" placeholder="https://meet.google.com/..."></div>
+                    <div class="form-group"><label>رابط Telegram</label><input id="liveTelegram" placeholder="https://t.me/..."></div>
+                    <div class="form-group"><label>رابط البث (YouTube/غيرها)</label><input id="liveLink" placeholder="https://..."></div>
+                    <div class="form-group"><label>عنوان البث</label><input id="liveTitle" placeholder="عنوان البث"></div>
                 </div>
             </div>
         </div>
@@ -1181,9 +1202,7 @@
                         <button class="btn-danger-sm" onclick="clearAllNotifications()"><i class="fas fa-trash"></i> مسح الكل</button>
                     </div>
                 </div>
-                <div id="notificationsContainer">
-                    <div class="loading-placeholder"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</div>
-                </div>
+                <div id="notificationsContainer"></div>
             </div>
         </div>
 
@@ -1194,9 +1213,7 @@
                     <h3><i class="fas fa-history"></i> سجل العمليات</h3>
                     <button class="btn-outline-sm" onclick="loadLogs()"><i class="fas fa-redo"></i> تحديث</button>
                 </div>
-                <div id="logsContainer">
-                    <div class="loading-placeholder"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</div>
-                </div>
+                <div id="logsContainer"></div>
             </div>
         </div>
 
@@ -1265,12 +1282,13 @@
         let allLessons = [];
         let allExams = [];
         let allQuizzes = [];
+        let allQuestions = [];
+        let allPdfs = [];
         let allSubscriptions = [];
         let allLogs = [];
         let allNotifications = [];
         let liveUsers = {};
         let charts = {};
-        let statsCache = {};
         let isLive = false;
         let liveData = null;
 
@@ -1294,6 +1312,7 @@
                 `https://ui-avatars.com/api/?name=${encodeURIComponent(user.displayName||'Admin')}&background=0B4F8C&color=fff&size=40`;
             initDashboard();
             listenLiveStatus();
+            listenPresence();
         });
 
         async function checkAdmin(uid) {
@@ -1347,6 +1366,8 @@
                     lessons: ['الحصص', 'إدارة الحصص'],
                     exams: ['الامتحانات', 'إدارة الامتحانات'],
                     quizzes: ['الكويزات', 'إدارة الكويزات'],
+                    questions: ['الأسئلة', 'إدارة الأسئلة'],
+                    pdfs: ['ملفات PDF', 'إدارة ملفات PDF'],
                     live: ['البث المباشر', 'إدارة البث'],
                     notifications: ['الإشعارات', 'إدارة الإشعارات'],
                     logs: ['سجل العمليات', 'آخر العمليات'],
@@ -1361,6 +1382,8 @@
                 if (tab === 'lessons') loadLessons();
                 if (tab === 'exams') loadExams();
                 if (tab === 'quizzes') loadQuizzes();
+                if (tab === 'questions') loadQuestions();
+                if (tab === 'pdfs') loadPdfs();
                 if (tab === 'logs') loadLogs();
                 if (tab === 'notifications') loadNotifications();
                 if (window.innerWidth <= 768) document.getElementById('sidebar').classList.remove('open');
@@ -1382,7 +1405,7 @@
                 await initDashboard();
                 showToast('تم التحديث بنجاح', 'success');
             } catch (e) {
-                showToast('خطأ في التحديث: ' + e.message, 'error');
+                showToast('خطأ: ' + e.message, 'error');
             }
             btn.disabled = false;
             btn.innerHTML = '<i class="fas fa-sync-alt"></i> تحديث';
@@ -1395,18 +1418,88 @@
         async function initDashboard() {
             await Promise.all([
                 loadStats(),
-                loadLiveUsers(),
                 loadCharts(),
                 loadRecentActivity()
             ]);
         }
 
         // ============================================================
-        // LOAD STATS
+        // PRESENCE - REAL ONLINE USERS
+        // ============================================================
+        function listenPresence() {
+            // Mark admin online
+            if (currentUser) {
+                const adminRef = db.ref('online/' + currentUser.uid);
+                adminRef.set({
+                    name: 'Admin',
+                    role: 'admin',
+                    lastSeen: Date.now(),
+                    device: navigator.userAgent
+                });
+                adminRef.onDisconnect().remove();
+            }
+
+            // Listen to all online users
+            db.ref('online').on('value', (snap) => {
+                const data = snap.val() || {};
+                liveUsers = {};
+                let count = 0;
+                let html = '';
+                const now = Date.now();
+
+                for (const [uid, info] of Object.entries(data)) {
+                    if (uid === currentUser?.uid) continue;
+                    if (info.role === 'admin') continue;
+                    // Check if user is still online (last seen within 30 seconds)
+                    if (now - (info.lastSeen || 0) > 30000) continue;
+
+                    liveUsers[uid] = info;
+                    count++;
+
+                    const name = info.name || 'طالب';
+                    const avatar = info.photoURL ||
+                        `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=0B4F8C&color=fff&size=40`;
+                    const grade = info.grade || 'غير محدد';
+                    const duration = info.sessionStart ? Math.floor((now - info.sessionStart) / 60000) + 'د' : '--';
+                    const device = info.device || 'غير معروف';
+                    const currentPage = info.currentPage || 'الرئيسية';
+                    const lastActive = info.lastActive ? Math.floor((now - info.lastActive) / 60000) + 'د' : '--';
+
+                    html += `
+                            <div class="live-user">
+                                <img src="${avatar}" alt="${name}">
+                                <div class="info">
+                                    <div class="name">${name}</div>
+                                    <div class="detail">${grade} • متصل منذ ${duration}</div>
+                                    <div class="detail" style="font-size:0.65rem;color:#64748b;">
+                                        <i class="fas fa-mobile-alt"></i> ${device} • ${currentPage}
+                                    </div>
+                                    <div class="detail" style="font-size:0.6rem;color:#94a3b8;">
+                                        آخر نشاط: ${lastActive}
+                                    </div>
+                                </div>
+                                <div class="online-dot"></div>
+                            </div>
+                        `;
+                }
+
+                document.getElementById('liveCount').textContent = count + ' متصل';
+                const grid = document.getElementById('liveUsersGrid');
+                if (!html) {
+                    grid.innerHTML =
+                        '<div class="text-muted" style="grid-column:1/-1;text-align:center;padding:20px;">لا يوجد طلاب متصلون حالياً</div>';
+                } else {
+                    grid.innerHTML = html;
+                }
+            });
+        }
+
+        // ============================================================
+        // LOAD STATS - 15+ statistics
         // ============================================================
         async function loadStats() {
             const grid = document.getElementById('statsGrid');
-            grid.innerHTML = '<div class="loading-placeholder" style="grid-column:1/-1;"><i class="fas fa-spinner fa-spin"></i> جاري تحميل الإحصائيات...</div>';
+            grid.innerHTML = '<div class="loading-placeholder" style="grid-column:1/-1;"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</div>';
 
             try {
                 const usersSnap = await db.ref('users').once('value');
@@ -1415,7 +1508,9 @@
                     premiumCount = 0,
                     freeCount = 0;
                 let now = Date.now();
-                let today = new Date().setHours(0, 0, 0, 0);
+                let fiveMinAgo = now - 300000,
+                    fifteenMinAgo = now - 900000,
+                    thirtyMinAgo = now - 1800000;
                 let hourAgo = now - 3600000,
                     twoHoursAgo = now - 7200000,
                     fiveHoursAgo = now - 18000000;
@@ -1425,8 +1520,11 @@
                     monthAgo = now - 2592000000;
                 let twoMonthsAgo = now - 5184000000,
                     yearAgo = now - 31536000000;
-                let todayCount = 0,
-                    hourCount = 0,
+
+                let fiveMinCount = 0,
+                    fifteenMinCount = 0,
+                    thirtyMinCount = 0;
+                let hourCount = 0,
                     twoHourCount = 0,
                     fiveHourCount = 0;
                 let twelveHourCount = 0,
@@ -1435,14 +1533,23 @@
                     monthCount = 0;
                 let twoMonthCount = 0,
                     yearCount = 0;
+                let todayCount = 0;
+                let today = new Date().setHours(0, 0, 0, 0);
+
+                // Track per course subscribers
+                let courseSubscribers = {};
 
                 for (const [uid, data] of Object.entries(users)) {
                     if (data.role === true || data.isAdmin === true) continue;
                     studentCount++;
                     if (data.subscription === 'premium') premiumCount++;
                     else freeCount++;
+
                     const reg = data.createdAt ? new Date(data.createdAt).getTime() : 0;
                     if (reg >= today) todayCount++;
+                    if (reg >= fiveMinAgo) fiveMinCount++;
+                    if (reg >= fifteenMinAgo) fifteenMinCount++;
+                    if (reg >= thirtyMinAgo) thirtyMinCount++;
                     if (reg >= hourAgo) hourCount++;
                     if (reg >= twoHoursAgo) twoHourCount++;
                     if (reg >= fiveHoursAgo) fiveHourCount++;
@@ -1452,9 +1559,18 @@
                     if (reg >= monthAgo) monthCount++;
                     if (reg >= twoMonthsAgo) twoMonthCount++;
                     if (reg >= yearAgo) yearCount++;
+
+                    // Track course subscribers
+                    if (data.subscriptions) {
+                        for (const [cid, sub] of Object.entries(data.subscriptions)) {
+                            if (sub.active !== false) {
+                                courseSubscribers[cid] = (courseSubscribers[cid] || 0) + 1;
+                            }
+                        }
+                    }
                 }
 
-                // courses data
+                // Get courses data
                 const coursesSnap = await db.ref('courses').once('value');
                 const courses = coursesSnap.val() || {};
                 let courseCount = 0,
@@ -1463,37 +1579,61 @@
                     quizCount = 0;
                 let pdfCount = 0,
                     videoCount = 0,
-                    freeCourses = 0,
-                    paidCourses = 0;
+                    paidCourses = 0,
+                    freeCourses = 0;
+                let mostWatchedCourse = { name: '--', views: 0 };
+                let topStudent = { name: '--', hours: 0 };
+                let totalStudyHours = 0;
+                let totalExamsSolved = 0;
+                let totalAvgScore = 0;
+
                 for (const [cid, cdata] of Object.entries(courses)) {
                     courseCount++;
                     if (cdata.isPremium) paidCourses++;
                     else freeCourses++;
+
                     if (cdata.lessons) {
                         for (const [lid, ldata] of Object.entries(cdata.lessons)) {
                             lessonCount++;
                             if (ldata.video) videoCount++;
                             if (ldata.pdf) pdfCount++;
-                            if (ldata.exams) examCount += Object.keys(ldata.exams).length;
+                            if (ldata.exams) {
+                                const examKeys = Object.keys(ldata.exams);
+                                examCount += examKeys.length;
+                                // Count solved exams
+                                for (const [eid, edata] of Object.entries(ldata.exams)) {
+                                    if (edata.participants) totalExamsSolved += edata.participants;
+                                    if (edata.averageScore) totalAvgScore += edata.averageScore;
+                                }
+                            }
                             if (ldata.quizzes) quizCount += Object.keys(ldata.quizzes).length;
                         }
+                    }
+
+                    // Most watched course
+                    if (cdata.views && cdata.views > (mostWatchedCourse.views || 0)) {
+                        mostWatchedCourse = { name: cdata.name || cid, views: cdata.views };
+                    }
+                }
+
+                // Find top student
+                for (const [uid, data] of Object.entries(users)) {
+                    if (data.role === true || data.isAdmin === true) continue;
+                    const hours = data.studyHours || 0;
+                    totalStudyHours += hours;
+                    if (hours > topStudent.hours) {
+                        topStudent = { name: data.name || 'طالب', hours: hours };
                     }
                 }
 
                 const liveCount = Object.keys(liveUsers).length;
+                const avgHours = studentCount > 0 ? (totalStudyHours / studentCount).toFixed(1) : 0;
 
                 const stats = [
                     { icon: 'fa-circle', number: liveCount, label: 'المتصلون الآن', change: 'لحظي' },
-                    { icon: 'fa-user-graduate', number: studentCount, label: 'إجمالي الطلاب', change: `+${todayCount} اليوم` },
-                    { icon: 'fa-book', number: courseCount, label: 'إجمالي الكورسات', change: `${paidCourses} مدفوع • ${freeCourses} مجاني` },
-                    { icon: 'fa-video', number: lessonCount, label: 'إجمالي الحصص', change: '' },
-                    { icon: 'fa-pencil-alt', number: examCount, label: 'الامتحانات', change: '' },
-                    { icon: 'fa-question-circle', number: quizCount, label: 'الكويزات', change: '' },
-                    { icon: 'fa-file-pdf', number: pdfCount, label: 'ملفات PDF', change: '' },
-                    { icon: 'fa-play-circle', number: videoCount, label: 'الفيديوهات', change: '' },
-                    { icon: 'fa-crown', number: premiumCount, label: 'مشتركين مدفوع', change: '' },
-                    { icon: 'fa-user', number: freeCount, label: 'مشتركين مجاني', change: '' },
-                    { icon: 'fa-calendar-day', number: todayCount, label: 'تسجيلات اليوم', change: '' },
+                    { icon: 'fa-user-plus', number: fiveMinCount, label: 'آخر 5 دقائق', change: '' },
+                    { icon: 'fa-user-plus', number: fifteenMinCount, label: 'آخر 15 دقيقة', change: '' },
+                    { icon: 'fa-user-plus', number: thirtyMinCount, label: 'آخر 30 دقيقة', change: '' },
                     { icon: 'fa-clock', number: hourCount, label: 'آخر ساعة', change: '' },
                     { icon: 'fa-clock', number: twoHourCount, label: 'آخر ساعتين', change: '' },
                     { icon: 'fa-clock', number: fiveHourCount, label: 'آخر 5 ساعات', change: '' },
@@ -1503,6 +1643,22 @@
                     { icon: 'fa-calendar-alt', number: monthCount, label: 'هذا الشهر', change: '' },
                     { icon: 'fa-calendar', number: twoMonthCount, label: 'آخر شهرين', change: '' },
                     { icon: 'fa-calendar', number: yearCount, label: 'آخر سنة', change: '' },
+                    { icon: 'fa-user-graduate', number: studentCount, label: 'إجمالي الطلاب', change: `+${todayCount} اليوم` },
+                    { icon: 'fa-book', number: courseCount, label: 'إجمالي الكورسات', change: `${paidCourses} مدفوع • ${freeCourses} مجاني` },
+                    { icon: 'fa-video', number: lessonCount, label: 'إجمالي الحصص', change: '' },
+                    { icon: 'fa-pencil-alt', number: examCount, label: 'الامتحانات', change: '' },
+                    { icon: 'fa-question-circle', number: quizCount, label: 'الكويزات', change: '' },
+                    { icon: 'fa-file-pdf', number: pdfCount, label: 'ملفات PDF', change: '' },
+                    { icon: 'fa-play-circle', number: videoCount, label: 'الفيديوهات', change: '' },
+                    { icon: 'fa-crown', number: premiumCount, label: 'مشتركين مدفوع', change: '' },
+                    { icon: 'fa-user', number: freeCount, label: 'مشتركين مجاني', change: '' },
+                    { icon: 'fa-eye', number: mostWatchedCourse.views || 0, label: 'أكثر كورس مشاهدة', change: mostWatchedCourse
+                            .name },
+                    { icon: 'fa-trophy', number: topStudent.hours, label: 'أكثر طالب مذاكرة', change: topStudent.name },
+                    { icon: 'fa-clock', number: avgHours, label: 'متوسط ساعات المذاكرة', change: '' },
+                    { icon: 'fa-check-circle', number: totalExamsSolved, label: 'امتحانات محلولة', change: '' },
+                    { icon: 'fa-star', number: studentCount > 0 ? (totalAvgScore / studentCount).toFixed(1) : 0,
+                        label: 'متوسط الدرجات', change: '' },
                 ];
 
                 grid.innerHTML = stats.map(s => `
@@ -1514,81 +1670,22 @@
                         </div>
                     `).join('');
 
-                statsCache = { studentCount, liveCount, todayCount, hourCount, twoHourCount, fiveHourCount, twelveHourCount,
-                    dayCount, weekCount, monthCount, twoMonthCount, yearCount, courseCount, lessonCount, examCount,
-                    quizCount, pdfCount, videoCount, premiumCount, freeCount, paidCourses, freeCourses };
-
             } catch (e) {
                 console.error('Stats error:', e);
                 grid.innerHTML =
-                `<div class="stat-card" style="grid-column:1/-1;text-align:center;color:#ef4444;">خطأ في تحميل الإحصائيات</div>`;
+                    `<div class="stat-card" style="grid-column:1/-1;text-align:center;color:#ef4444;">خطأ في تحميل الإحصائيات</div>`;
             }
-        }
-
-        // ============================================================
-        // LIVE USERS
-        // ============================================================
-        function loadLiveUsers() {
-            const grid = document.getElementById('liveUsersGrid');
-            const countEl = document.getElementById('liveCount');
-
-            // mark admin online
-            if (currentUser) {
-                db.ref('online/' + currentUser.uid).set({
-                    name: 'Admin',
-                    role: 'admin',
-                    lastSeen: Date.now(),
-                    device: navigator.userAgent
-                });
-                db.ref('online/' + currentUser.uid).onDisconnect().remove();
-            }
-
-            db.ref('online').on('value', (snap) => {
-                const data = snap.val() || {};
-                liveUsers = {};
-                let count = 0;
-                let html = '';
-                for (const [uid, info] of Object.entries(data)) {
-                    if (uid === currentUser?.uid) continue;
-                    if (info.role === 'admin') continue;
-                    if (Date.now() - info.lastSeen > 30000) continue;
-                    liveUsers[uid] = info;
-                    count++;
-                    const name = info.name || 'طالب';
-                    const avatar = info.photoURL ||
-                        `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=0B4F8C&color=fff&size=40`;
-                    const grade = info.grade || 'غير محدد';
-                    const duration = info.sessionStart ? Math.floor((Date.now() - info.sessionStart) / 60000) + 'د' : '--';
-                    const device = info.device || 'غير معروف';
-                    html += `
-                            <div class="live-user">
-                                <img src="${avatar}" alt="${name}">
-                                <div class="info">
-                                    <div class="name">${name}</div>
-                                    <div class="detail">${grade} • ${duration} د</div>
-                                    <div class="detail" style="font-size:0.65rem;color:#64748b;"><i class="fas fa-mobile-alt"></i> ${device}</div>
-                                </div>
-                                <div class="online-dot"></div>
-                            </div>
-                        `;
-                }
-                countEl.textContent = count + ' متصل';
-                if (!html) {
-                    html = `<div class="text-muted" style="grid-column:1/-1;text-align:center;padding:20px;">لا يوجد طلاب متصلون حالياً</div>`;
-                }
-                grid.innerHTML = html;
-            });
         }
 
         // ============================================================
         // CHARTS
         // ============================================================
         async function loadCharts() {
+            const now = Date.now();
             // Daily
             const ctx1 = document.getElementById('chartDaily').getContext('2d');
             const days = [];
             const counts = [];
-            const now = Date.now();
             for (let i = 6; i >= 0; i--) {
                 const d = new Date(now - i * 86400000);
                 days.push(d.toLocaleDateString('ar'));
@@ -1700,7 +1797,7 @@
                         </div>
                     `).join('');
             } catch (e) {
-                container.innerHTML = '<div class="text-muted" style="padding:20px;text-align:center;color:#ef4444;">خطأ في تحميل السجلات</div>';
+                container.innerHTML = '<div style="color:#ef4444;padding:20px;text-align:center;">خطأ في تحميل السجلات</div>';
             }
         }
 
@@ -1755,7 +1852,7 @@
                 filtered = allStudents.filter(s =>
                     (s.name || '').toLowerCase().includes(search) ||
                     (s.phone || '').includes(search) ||
-                    (s.uid || '').toLowerCase().includes(search)
+                    (s.email || '').toLowerCase().includes(search)
                 );
             }
             const total = filtered.length;
@@ -1837,7 +1934,7 @@
                     </div>
                     <hr style="border-color:#e2e8f0;margin:12px 0;">
                     <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:0.9rem;">
-                        <div><strong>UID:</strong> ${uid}</div>
+                        <div><strong>UID:</strong> ${uid.slice(0,8)}...</div>
                         <div><strong>ولي الأمر:</strong> ${data.parentPhone||'--'}</div>
                         <div><strong>المدرسة:</strong> ${data.school||'--'}</div>
                         <div><strong>المحافظة:</strong> ${data.governorate||'--'}</div>
@@ -1871,7 +1968,7 @@
                         <div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #f1f5f9;">
                             <span>${sub.courseName||cid}</span>
                             <span><span class="badge-status ${sub.type==='premium'?'premium':'free'}">${sub.type==='premium'?'مدفوع':'مجاني'}</span>
-                            ${sub.active ? '<span class="badge-status active">مفعل</span>' : '<span class="badge-status banned">منتهي</span>'}</span>
+                            ${sub.active !== false ? '<span class="badge-status active">مفعل</span>' : '<span class="badge-status banned">منتهي</span>'}</span>
                             <span class="text-muted fs-small">${sub.expiryDate ? 'ينتهي: '+formatTime(sub.expiryDate) : '--'}</span>
                         </div>
                     `).join('');
@@ -2222,7 +2319,7 @@
                                 <td class="table-actions">
                                     <button onclick="viewCourse('${c.id}')" title="عرض"><i class="fas fa-eye"></i></button>
                                     <button onclick="editCourse('${c.id}')" title="تعديل"><i class="fas fa-edit"></i></button>
-                                    <button onclick="toggleCourseStatus('${c.id}')" title="${c.active!==false?'إيقاف':'تفعيل'}"><i class="fas ${c.active!==false?'fa-pause':'fa-play'}"></i></button>
+                                    <button onclick="toggleCourseStatus('${c.id}')" title="${c.active!==false?'إخفاء':'إظهار'}"><i class="fas ${c.active!==false?'fa-eye-slash':'fa-eye'}"></i></button>
                                     <button onclick="deleteCourse('${c.id}')" title="حذف" class="danger"><i class="fas fa-trash"></i></button>
                                 </td>
                             </tr>
@@ -2301,6 +2398,7 @@
                     <div class="form-group"><label>الوصف</label><textarea id="courseDesc" placeholder="وصف الكورس"></textarea></div>
                     <div class="form-group"><label>صورة الكورس (URL)</label><input id="courseImage" placeholder="رابط الصورة"></div>
                     <div class="form-group"><label>الغلاف (URL)</label><input id="courseCover" placeholder="رابط الغلاف"></div>
+                    <div class="form-group"><label>الترتيب</label><input id="courseOrder" type="number" placeholder="الترتيب" value="0"></div>
                     <div class="form-group"><label>السعر</label><input id="coursePrice" placeholder="السعر" type="number"></div>
                     <div class="form-group">
                         <label>النوع</label>
@@ -2334,6 +2432,7 @@
                 description: document.getElementById('courseDesc').value.trim() || '',
                 image: document.getElementById('courseImage').value.trim() || '',
                 cover: document.getElementById('courseCover').value.trim() || '',
+                order: parseInt(document.getElementById('courseOrder').value) || 0,
                 price: parseFloat(document.getElementById('coursePrice').value) || 0,
                 isPremium: isPremium,
                 active: true,
@@ -2371,6 +2470,7 @@
                     <div class="form-group"><label>الوصف</label><textarea id="editCourseDesc">${data.description||''}</textarea></div>
                     <div class="form-group"><label>صورة الكورس (URL)</label><input id="editCourseImage" value="${data.image||''}"></div>
                     <div class="form-group"><label>الغلاف (URL)</label><input id="editCourseCover" value="${data.cover||''}"></div>
+                    <div class="form-group"><label>الترتيب</label><input id="editCourseOrder" type="number" value="${data.order||0}"></div>
                     <div class="form-group"><label>السعر</label><input id="editCoursePrice" value="${data.price||0}" type="number"></div>
                     <div class="form-group">
                         <label>النوع</label>
@@ -2399,6 +2499,7 @@
                 description: document.getElementById('editCourseDesc').value.trim(),
                 image: document.getElementById('editCourseImage').value.trim(),
                 cover: document.getElementById('editCourseCover').value.trim(),
+                order: parseInt(document.getElementById('editCourseOrder').value) || 0,
                 price: parseFloat(document.getElementById('editCoursePrice').value) || 0,
                 isPremium: document.getElementById('editCourseType').value === 'true'
             };
@@ -2431,7 +2532,7 @@
                 await db.ref('adminLogs').push({
                     adminId: currentUser.uid,
                     adminName: currentUser.displayName || 'Admin',
-                    action: !current ? 'تفعيل كورس' : 'إيقاف كورس',
+                    action: !current ? 'إظهار كورس' : 'إخفاء كورس',
                     targetId: cid,
                     timestamp: new Date().toISOString(),
                     userAgent: navigator.userAgent
@@ -2515,19 +2616,24 @@
                     </div>
                     <div class="form-group"><label>اسم الحصة</label><input id="lessonTitle" placeholder="اسم الحصة"></div>
                     <div class="form-group"><label>الوصف</label><textarea id="lessonDesc" placeholder="وصف الحصة"></textarea></div>
+                    <div class="form-group"><label>صورة الحصة</label><input id="lessonImage" placeholder="رابط الصورة"></div>
                     <div class="form-group"><label>رابط الفيديو</label><input id="lessonVideo" placeholder="https://..."></div>
                     <div class="form-group"><label>رابط PDF</label><input id="lessonPdf" placeholder="https://..."></div>
                     <div class="form-group"><label>رابط مجموعة (تليجرام/واتساب)</label><input id="lessonGroup" placeholder="https://..."></div>
                     <div class="form-group"><label>رابط لايف</label><input id="lessonLive" placeholder="https://zoom/..."></div>
                     <div class="form-group"><label>الترتيب</label><input id="lessonOrder" type="number" placeholder="0" value="0"></div>
                     <div class="form-group">
-                        <label>إضافة</label>
+                        <label>إضافة محتوى</label>
                         <select id="lessonAddType">
                             <option value="">لا شيء</option>
                             <option value="quiz">كويز</option>
                             <option value="exam">امتحان</option>
                             <option value="final">امتحان نهائي</option>
                             <option value="summary">ملزمة</option>
+                            <option value="zoom">رابط Zoom</option>
+                            <option value="telegram">رابط تليجرام</option>
+                            <option value="whatsapp">رابط واتساب</option>
+                            <option value="assignment">واجب</option>
                         </select>
                     </div>
                     <div class="form-actions">
@@ -2544,6 +2650,7 @@
             const data = {
                 title: title,
                 description: document.getElementById('lessonDesc').value.trim() || '',
+                image: document.getElementById('lessonImage').value.trim() || '',
                 video: document.getElementById('lessonVideo').value.trim() || '',
                 pdf: document.getElementById('lessonPdf').value.trim() || '',
                 groupLink: document.getElementById('lessonGroup').value.trim() || '',
@@ -2553,9 +2660,13 @@
             };
             const addType = document.getElementById('lessonAddType').value;
             if (addType === 'quiz') data.quizzes = { placeholder: { title: 'كويز جديد', questions: 0 } };
-            if (addType === 'exam' || addType === 'final') data.exams = { placeholder: { title: addType === 'final' ?
-                        'امتحان نهائي' : 'امتحان', questions: 0 } };
+            if (addType === 'exam') data.exams = { placeholder: { title: 'امتحان', questions: 0 } };
+            if (addType === 'final') data.exams = { placeholder: { title: 'امتحان نهائي', questions: 0 } };
             if (addType === 'summary') data.summary = { content: 'ملزمة جديدة' };
+            if (addType === 'zoom') data.zoomLink = document.getElementById('lessonLive').value.trim() || '';
+            if (addType === 'telegram') data.telegramLink = document.getElementById('lessonGroup').value.trim() || '';
+            if (addType === 'whatsapp') data.whatsappLink = document.getElementById('lessonGroup').value.trim() || '';
+            if (addType === 'assignment') data.assignment = { title: 'واجب', deadline: '' };
 
             try {
                 const ref = db.ref('courses/' + cid + '/lessons').push();
@@ -2580,6 +2691,7 @@
             openModal('تعديل الحصة', `
                     <div class="form-group"><label>اسم الحصة</label><input id="editLessonTitle" value="${data.title||''}"></div>
                     <div class="form-group"><label>الوصف</label><textarea id="editLessonDesc">${data.description||''}</textarea></div>
+                    <div class="form-group"><label>صورة الحصة</label><input id="editLessonImage" value="${data.image||''}"></div>
                     <div class="form-group"><label>رابط الفيديو</label><input id="editLessonVideo" value="${data.video||''}"></div>
                     <div class="form-group"><label>رابط PDF</label><input id="editLessonPdf" value="${data.pdf||''}"></div>
                     <div class="form-group"><label>رابط المجموعة</label><input id="editLessonGroup" value="${data.groupLink||''}"></div>
@@ -2596,6 +2708,7 @@
             const updates = {
                 title: document.getElementById('editLessonTitle').value.trim(),
                 description: document.getElementById('editLessonDesc').value.trim(),
+                image: document.getElementById('editLessonImage').value.trim(),
                 video: document.getElementById('editLessonVideo').value.trim(),
                 pdf: document.getElementById('editLessonPdf').value.trim(),
                 groupLink: document.getElementById('editLessonGroup').value.trim(),
@@ -2639,7 +2752,7 @@
         // ============================================================
         async function loadExams() {
             const tbody = document.getElementById('examsTableBody');
-            tbody.innerHTML = '<tr><td colspan="11" class="loading-placeholder"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="12" class="loading-placeholder"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</td></tr>';
             try {
                 const snap = await db.ref('courses').once('value');
                 const courses = snap.val() || {};
@@ -2665,7 +2778,7 @@
                 }
                 allExams = exams;
                 if (exams.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="11" class="text-muted" style="text-align:center;">لا توجد امتحانات</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="12" class="text-muted" style="text-align:center;">لا توجد امتحانات</td></tr>';
                     return;
                 }
                 tbody.innerHTML = exams.map((e, i) => `
@@ -2675,18 +2788,20 @@
                             <td>${e.courseName}</td>
                             <td>${e.lessonTitle}</td>
                             <td><span class="badge-status ${e.type==='نهائي'?'premium':'free'}">${e.type||'عادي'}</span></td>
+                            <td class="fs-small">${e.startTime ? formatTime(e.startTime) : '--'}</td>
+                            <td class="fs-small">${e.endTime ? formatTime(e.endTime) : '--'}</td>
+                            <td>${e.attempts||1}</td>
+                            <td>${e.passScore||'--'}</td>
                             <td>${e.participants||0}</td>
-                            <td>${e.completed||0}</td>
                             <td>${e.averageScore||'--'}</td>
-                            <td>${e.highestScore||'--'}</td>
-                            <td>${e.lowestScore||'--'}</td>
                             <td class="table-actions">
+                                <button onclick="editExam('${e.courseId}','${e.lessonId}','${e.id}')" title="تعديل"><i class="fas fa-edit"></i></button>
                                 <button onclick="deleteExam('${e.courseId}','${e.lessonId}','${e.id}')" title="حذف" class="danger"><i class="fas fa-trash"></i></button>
                             </td>
                         </tr>
                     `).join('');
             } catch (e) {
-                tbody.innerHTML = '<tr><td colspan="11" style="color:#ef4444;">خطأ في تحميل الامتحانات</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="12" style="color:#ef4444;">خطأ في تحميل الامتحانات</td></tr>';
             }
         }
 
@@ -2710,6 +2825,10 @@
                             <option value="final">امتحان نهائي</option>
                         </select>
                     </div>
+                    <div class="form-group"><label>وقت البداية</label><input id="examStart" type="datetime-local"></div>
+                    <div class="form-group"><label>وقت النهاية</label><input id="examEnd" type="datetime-local"></div>
+                    <div class="form-group"><label>عدد المحاولات</label><input id="examAttempts" type="number" value="1"></div>
+                    <div class="form-group"><label>درجة النجاح</label><input id="examPass" type="number" placeholder="درجة النجاح"></div>
                     <div class="form-group"><label>عدد الأسئلة</label><input id="examQuestions" type="number" placeholder="عدد الأسئلة"></div>
                     <div class="form-actions">
                         <button class="btn-submit" onclick="addExam()">إضافة</button>
@@ -2735,6 +2854,10 @@
             const lid = document.getElementById('examLesson').value;
             const type = document.getElementById('examType').value;
             const questions = parseInt(document.getElementById('examQuestions').value) || 0;
+            const attempts = parseInt(document.getElementById('examAttempts').value) || 1;
+            const passScore = parseInt(document.getElementById('examPass').value) || 0;
+            const startTime = document.getElementById('examStart').value;
+            const endTime = document.getElementById('examEnd').value;
             if (!title || !cid || !lid) { showToast('يرجى ملء جميع الحقول', 'error'); return; }
             try {
                 const ref = db.ref('courses/' + cid + '/lessons/' + lid + '/exams').push();
@@ -2742,6 +2865,10 @@
                     title: type === 'final' ? 'امتحان نهائي: ' + title : title,
                     questions: questions,
                     type: type === 'final' ? 'نهائي' : 'عادي',
+                    attempts: attempts,
+                    passScore: passScore,
+                    startTime: startTime ? new Date(startTime).toISOString() : undefined,
+                    endTime: endTime ? new Date(endTime).toISOString() : undefined,
                     participants: 0,
                     completed: 0,
                     averageScore: 0,
@@ -2757,6 +2884,48 @@
                     userAgent: navigator.userAgent
                 });
                 showToast('تم إضافة الامتحان', 'success');
+                closeModal();
+                loadExams();
+            } catch (e) { showToast('خطأ: ' + e.message, 'error'); }
+        }
+
+        async function editExam(cid, lid, eid) {
+            const snap = await db.ref('courses/' + cid + '/lessons/' + lid + '/exams/' + eid).once('value');
+            const data = snap.val();
+            if (!data) { showToast('الامتحان غير موجود', 'error'); return; }
+            openModal('تعديل الامتحان', `
+                    <div class="form-group"><label>اسم الامتحان</label><input id="editExamTitle" value="${data.title||''}"></div>
+                    <div class="form-group"><label>عدد المحاولات</label><input id="editExamAttempts" type="number" value="${data.attempts||1}"></div>
+                    <div class="form-group"><label>درجة النجاح</label><input id="editExamPass" type="number" value="${data.passScore||0}"></div>
+                    <div class="form-group"><label>وقت البداية</label><input id="editExamStart" type="datetime-local" value="${data.startTime ? new Date(data.startTime).toISOString().slice(0,16) : ''}"></div>
+                    <div class="form-group"><label>وقت النهاية</label><input id="editExamEnd" type="datetime-local" value="${data.endTime ? new Date(data.endTime).toISOString().slice(0,16) : ''}"></div>
+                    <div class="form-actions">
+                        <button class="btn-submit" onclick="saveExamEdit('${cid}','${lid}','${eid}')">حفظ</button>
+                        <button class="btn-cancel" onclick="closeModal()">إلغاء</button>
+                    </div>
+                `);
+        }
+
+        async function saveExamEdit(cid, lid, eid) {
+            const updates = {
+                title: document.getElementById('editExamTitle').value.trim(),
+                attempts: parseInt(document.getElementById('editExamAttempts').value) || 1,
+                passScore: parseInt(document.getElementById('editExamPass').value) || 0,
+                startTime: document.getElementById('editExamStart').value ? new Date(document.getElementById(
+                    'editExamStart').value).toISOString() : undefined,
+                endTime: document.getElementById('editExamEnd').value ? new Date(document.getElementById('editExamEnd')
+                    .value).toISOString() : undefined,
+            };
+            try {
+                await db.ref('courses/' + cid + '/lessons/' + lid + '/exams/' + eid).update(updates);
+                await db.ref('adminLogs').push({
+                    adminId: currentUser.uid,
+                    adminName: currentUser.displayName || 'Admin',
+                    action: 'تعديل امتحان: ' + updates.title,
+                    timestamp: new Date().toISOString(),
+                    userAgent: navigator.userAgent
+                });
+                showToast('تم التعديل', 'success');
                 closeModal();
                 loadExams();
             } catch (e) { showToast('خطأ: ' + e.message, 'error'); }
@@ -2821,6 +2990,7 @@
                             <td>${q.participants||0}</td>
                             <td>${q.averageScore||'--'}</td>
                             <td class="table-actions">
+                                <button onclick="editQuiz('${q.courseId}','${q.lessonId}','${q.id}')" title="تعديل"><i class="fas fa-edit"></i></button>
                                 <button onclick="deleteQuiz('${q.courseId}','${q.lessonId}','${q.id}')" title="حذف" class="danger"><i class="fas fa-trash"></i></button>
                             </td>
                         </tr>
@@ -2890,6 +3060,40 @@
             } catch (e) { showToast('خطأ: ' + e.message, 'error'); }
         }
 
+        async function editQuiz(cid, lid, qid) {
+            const snap = await db.ref('courses/' + cid + '/lessons/' + lid + '/quizzes/' + qid).once('value');
+            const data = snap.val();
+            if (!data) { showToast('الكويز غير موجود', 'error'); return; }
+            openModal('تعديل الكويز', `
+                    <div class="form-group"><label>اسم الكويز</label><input id="editQuizTitle" value="${data.title||''}"></div>
+                    <div class="form-group"><label>عدد الأسئلة</label><input id="editQuizQuestions" type="number" value="${data.questions||0}"></div>
+                    <div class="form-actions">
+                        <button class="btn-submit" onclick="saveQuizEdit('${cid}','${lid}','${qid}')">حفظ</button>
+                        <button class="btn-cancel" onclick="closeModal()">إلغاء</button>
+                    </div>
+                `);
+        }
+
+        async function saveQuizEdit(cid, lid, qid) {
+            const updates = {
+                title: document.getElementById('editQuizTitle').value.trim(),
+                questions: parseInt(document.getElementById('editQuizQuestions').value) || 0
+            };
+            try {
+                await db.ref('courses/' + cid + '/lessons/' + lid + '/quizzes/' + qid).update(updates);
+                await db.ref('adminLogs').push({
+                    adminId: currentUser.uid,
+                    adminName: currentUser.displayName || 'Admin',
+                    action: 'تعديل كويز: ' + updates.title,
+                    timestamp: new Date().toISOString(),
+                    userAgent: navigator.userAgent
+                });
+                showToast('تم التعديل', 'success');
+                closeModal();
+                loadQuizzes();
+            } catch (e) { showToast('خطأ: ' + e.message, 'error'); }
+        }
+
         async function deleteQuiz(cid, lid, qid) {
             if (!confirm('حذف هذا الكويز؟')) return;
             try {
@@ -2907,6 +3111,297 @@
         }
 
         // ============================================================
+        // QUESTIONS
+        // ============================================================
+        async function loadQuestions() {
+            const tbody = document.getElementById('questionsTableBody');
+            tbody.innerHTML = '<tr><td colspan="7" class="loading-placeholder"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</td></tr>';
+            try {
+                const snap = await db.ref('questions').once('value');
+                const questions = snap.val() || {};
+                allQuestions = Object.entries(questions).map(([id, data]) => ({ id, ...data }));
+                if (allQuestions.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="7" class="text-muted" style="text-align:center;">لا توجد أسئلة</td></tr>';
+                    return;
+                }
+                tbody.innerHTML = allQuestions.map((q, i) => `
+                        <tr>
+                            <td>${i+1}</td>
+                            <td>${q.question||'غير معروف'}</td>
+                            <td><span class="badge-status ${q.type==='exam'?'premium':'free'}">${q.type||'quiz'}</span></td>
+                            <td>${q.points||0}</td>
+                            <td>${q.correctAnswer||'--'}</td>
+                            <td>${q.image ? '✅' : '❌'}</td>
+                            <td class="table-actions">
+                                <button onclick="editQuestion('${q.id}')" title="تعديل"><i class="fas fa-edit"></i></button>
+                                <button onclick="deleteQuestion('${q.id}')" title="حذف" class="danger"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    `).join('');
+            } catch (e) {
+                tbody.innerHTML = '<tr><td colspan="7" style="color:#ef4444;">خطأ في تحميل الأسئلة</td></tr>';
+            }
+        }
+
+        function openAddQuestionModal() {
+            const lessonOpts = allLessons.map(l => `<option value="${l.id}">${l.title||l.id}</option>`).join('');
+            openModal('إضافة سؤال جديد', `
+                    <div class="form-group"><label>نوع السؤال</label>
+                        <select id="questionType">
+                            <option value="quiz">كويز</option>
+                            <option value="exam">امتحان</option>
+                        </select>
+                    </div>
+                    <div class="form-group"><label>الحصة</label>
+                        <select id="questionLesson">${lessonOpts}</select>
+                    </div>
+                    <div class="form-group"><label>السؤال</label><textarea id="questionText" placeholder="نص السؤال"></textarea></div>
+                    <div class="form-group"><label>الاختيار 1</label><input id="qChoice1" placeholder="الاختيار الأول"></div>
+                    <div class="form-group"><label>الاختيار 2</label><input id="qChoice2" placeholder="الاختيار الثاني"></div>
+                    <div class="form-group"><label>الاختيار 3</label><input id="qChoice3" placeholder="الاختيار الثالث"></div>
+                    <div class="form-group"><label>الاختيار 4</label><input id="qChoice4" placeholder="الاختيار الرابع"></div>
+                    <div class="form-group"><label>الإجابة الصحيحة (رقم 1-4)</label><input id="qCorrect" type="number" min="1" max="4"></div>
+                    <div class="form-group"><label>درجة السؤال</label><input id="qPoints" type="number" value="1"></div>
+                    <div class="form-group"><label>شرح الإجابة</label><textarea id="qExplanation" placeholder="شرح الإجابة"></textarea></div>
+                    <div class="form-group"><label>صورة (URL)</label><input id="qImage" placeholder="رابط الصورة"></div>
+                    <div class="form-actions">
+                        <button class="btn-submit" onclick="addQuestion()">إضافة</button>
+                        <button class="btn-cancel" onclick="closeModal()">إلغاء</button>
+                    </div>
+                `);
+        }
+
+        async function addQuestion() {
+            const question = document.getElementById('questionText').value.trim();
+            if (!question) { showToast('يرجى إدخال نص السؤال', 'error'); return; }
+            const data = {
+                question: question,
+                type: document.getElementById('questionType').value,
+                lessonId: document.getElementById('questionLesson').value,
+                choices: [
+                    document.getElementById('qChoice1').value.trim(),
+                    document.getElementById('qChoice2').value.trim(),
+                    document.getElementById('qChoice3').value.trim(),
+                    document.getElementById('qChoice4').value.trim()
+                ],
+                correctAnswer: parseInt(document.getElementById('qCorrect').value) || 1,
+                points: parseInt(document.getElementById('qPoints').value) || 1,
+                explanation: document.getElementById('qExplanation').value.trim() || '',
+                image: document.getElementById('qImage').value.trim() || '',
+                createdAt: new Date().toISOString()
+            };
+            try {
+                const ref = db.ref('questions').push();
+                await ref.set(data);
+                await db.ref('adminLogs').push({
+                    adminId: currentUser.uid,
+                    adminName: currentUser.displayName || 'Admin',
+                    action: 'إضافة سؤال: ' + question.slice(0, 30),
+                    timestamp: new Date().toISOString(),
+                    userAgent: navigator.userAgent
+                });
+                showToast('تم إضافة السؤال', 'success');
+                closeModal();
+                loadQuestions();
+            } catch (e) { showToast('خطأ: ' + e.message, 'error'); }
+        }
+
+        async function editQuestion(qid) {
+            const snap = await db.ref('questions/' + qid).once('value');
+            const data = snap.val();
+            if (!data) { showToast('السؤال غير موجود', 'error'); return; }
+            const choices = data.choices || ['', '', '', ''];
+            openModal('تعديل السؤال', `
+                    <div class="form-group"><label>السؤال</label><textarea id="editQText">${data.question||''}</textarea></div>
+                    <div class="form-group"><label>الاختيار 1</label><input id="editQChoice1" value="${choices[0]||''}"></div>
+                    <div class="form-group"><label>الاختيار 2</label><input id="editQChoice2" value="${choices[1]||''}"></div>
+                    <div class="form-group"><label>الاختيار 3</label><input id="editQChoice3" value="${choices[2]||''}"></div>
+                    <div class="form-group"><label>الاختيار 4</label><input id="editQChoice4" value="${choices[3]||''}"></div>
+                    <div class="form-group"><label>الإجابة الصحيحة (1-4)</label><input id="editQCorrect" type="number" value="${data.correctAnswer||1}"></div>
+                    <div class="form-group"><label>الدرجة</label><input id="editQPoints" type="number" value="${data.points||1}"></div>
+                    <div class="form-group"><label>شرح الإجابة</label><textarea id="editQExplanation">${data.explanation||''}</textarea></div>
+                    <div class="form-group"><label>صورة (URL)</label><input id="editQImage" value="${data.image||''}"></div>
+                    <div class="form-actions">
+                        <button class="btn-submit" onclick="saveQuestionEdit('${qid}')">حفظ</button>
+                        <button class="btn-cancel" onclick="closeModal()">إلغاء</button>
+                    </div>
+                `);
+        }
+
+        async function saveQuestionEdit(qid) {
+            const updates = {
+                question: document.getElementById('editQText').value.trim(),
+                choices: [
+                    document.getElementById('editQChoice1').value.trim(),
+                    document.getElementById('editQChoice2').value.trim(),
+                    document.getElementById('editQChoice3').value.trim(),
+                    document.getElementById('editQChoice4').value.trim()
+                ],
+                correctAnswer: parseInt(document.getElementById('editQCorrect').value) || 1,
+                points: parseInt(document.getElementById('editQPoints').value) || 1,
+                explanation: document.getElementById('editQExplanation').value.trim() || '',
+                image: document.getElementById('editQImage').value.trim() || ''
+            };
+            try {
+                await db.ref('questions/' + qid).update(updates);
+                await db.ref('adminLogs').push({
+                    adminId: currentUser.uid,
+                    adminName: currentUser.displayName || 'Admin',
+                    action: 'تعديل سؤال',
+                    timestamp: new Date().toISOString(),
+                    userAgent: navigator.userAgent
+                });
+                showToast('تم التعديل', 'success');
+                closeModal();
+                loadQuestions();
+            } catch (e) { showToast('خطأ: ' + e.message, 'error'); }
+        }
+
+        async function deleteQuestion(qid) {
+            if (!confirm('حذف هذا السؤال؟')) return;
+            try {
+                await db.ref('questions/' + qid).remove();
+                await db.ref('adminLogs').push({
+                    adminId: currentUser.uid,
+                    adminName: currentUser.displayName || 'Admin',
+                    action: 'حذف سؤال',
+                    timestamp: new Date().toISOString(),
+                    userAgent: navigator.userAgent
+                });
+                showToast('تم حذف السؤال', 'success');
+                loadQuestions();
+            } catch (e) { showToast('خطأ: ' + e.message, 'error'); }
+        }
+
+        // ============================================================
+        // PDFs
+        // ============================================================
+        async function loadPdfs() {
+            const tbody = document.getElementById('pdfsTableBody');
+            tbody.innerHTML = '<tr><td colspan="6" class="loading-placeholder"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</td></tr>';
+            try {
+                const snap = await db.ref('pdfs').once('value');
+                const pdfs = snap.val() || {};
+                allPdfs = Object.entries(pdfs).map(([id, data]) => ({ id, ...data }));
+                if (allPdfs.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="6" class="text-muted" style="text-align:center;">لا توجد ملفات PDF</td></tr>';
+                    return;
+                }
+                tbody.innerHTML = allPdfs.map((p, i) => `
+                        <tr>
+                            <td>${i+1}</td>
+                            <td><strong>${p.name||'غير معروف'}</strong></td>
+                            <td>${p.courseName||'--'}</td>
+                            <td>${p.lessonName||'--'}</td>
+                            <td><a href="${p.url||'#'}" target="_blank" style="color:#0B4F8C;">${p.url ? '📄 رابط' : '--'}</a></td>
+                            <td class="table-actions">
+                                <button onclick="editPdf('${p.id}')" title="تعديل"><i class="fas fa-edit"></i></button>
+                                <button onclick="deletePdf('${p.id}')" title="حذف" class="danger"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    `).join('');
+            } catch (e) {
+                tbody.innerHTML = '<tr><td colspan="6" style="color:#ef4444;">خطأ في تحميل الملفات</td></tr>';
+            }
+        }
+
+        function openAddPdfModal() {
+            const lessonOpts = allLessons.map(l => `<option value="${l.id}">${l.title||l.id}</option>`).join('');
+            openModal('إضافة ملف PDF', `
+                    <div class="form-group"><label>اسم الملف</label><input id="pdfName" placeholder="اسم الملف"></div>
+                    <div class="form-group"><label>رابط PDF</label><input id="pdfUrl" placeholder="https://..."></div>
+                    <div class="form-group"><label>الحصة</label>
+                        <select id="pdfLesson">${lessonOpts}</select>
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn-submit" onclick="addPdf()">إضافة</button>
+                        <button class="btn-cancel" onclick="closeModal()">إلغاء</button>
+                    </div>
+                `);
+        }
+
+        async function addPdf() {
+            const name = document.getElementById('pdfName').value.trim();
+            const url = document.getElementById('pdfUrl').value.trim();
+            const lessonId = document.getElementById('pdfLesson').value;
+            if (!name || !url) { showToast('يرجى ملء جميع الحقول', 'error'); return; }
+            const lesson = allLessons.find(l => l.id === lessonId);
+            const data = {
+                name: name,
+                url: url,
+                lessonId: lessonId,
+                lessonName: lesson?.title || 'غير معروف',
+                courseId: lesson?.courseId || '',
+                courseName: lesson?.courseName || 'غير معروف',
+                createdAt: new Date().toISOString()
+            };
+            try {
+                const ref = db.ref('pdfs').push();
+                await ref.set(data);
+                await db.ref('adminLogs').push({
+                    adminId: currentUser.uid,
+                    adminName: currentUser.displayName || 'Admin',
+                    action: 'إضافة PDF: ' + name,
+                    timestamp: new Date().toISOString(),
+                    userAgent: navigator.userAgent
+                });
+                showToast('تم إضافة PDF', 'success');
+                closeModal();
+                loadPdfs();
+            } catch (e) { showToast('خطأ: ' + e.message, 'error'); }
+        }
+
+        async function editPdf(id) {
+            const snap = await db.ref('pdfs/' + id).once('value');
+            const data = snap.val();
+            if (!data) { showToast('الملف غير موجود', 'error'); return; }
+            openModal('تعديل PDF', `
+                    <div class="form-group"><label>اسم الملف</label><input id="editPdfName" value="${data.name||''}"></div>
+                    <div class="form-group"><label>رابط PDF</label><input id="editPdfUrl" value="${data.url||''}"></div>
+                    <div class="form-actions">
+                        <button class="btn-submit" onclick="savePdfEdit('${id}')">حفظ</button>
+                        <button class="btn-cancel" onclick="closeModal()">إلغاء</button>
+                    </div>
+                `);
+        }
+
+        async function savePdfEdit(id) {
+            const updates = {
+                name: document.getElementById('editPdfName').value.trim(),
+                url: document.getElementById('editPdfUrl').value.trim()
+            };
+            try {
+                await db.ref('pdfs/' + id).update(updates);
+                await db.ref('adminLogs').push({
+                    adminId: currentUser.uid,
+                    adminName: currentUser.displayName || 'Admin',
+                    action: 'تعديل PDF: ' + updates.name,
+                    timestamp: new Date().toISOString(),
+                    userAgent: navigator.userAgent
+                });
+                showToast('تم التعديل', 'success');
+                closeModal();
+                loadPdfs();
+            } catch (e) { showToast('خطأ: ' + e.message, 'error'); }
+        }
+
+        async function deletePdf(id) {
+            if (!confirm('حذف هذا الملف؟')) return;
+            try {
+                await db.ref('pdfs/' + id).remove();
+                await db.ref('adminLogs').push({
+                    adminId: currentUser.uid,
+                    adminName: currentUser.displayName || 'Admin',
+                    action: 'حذف PDF',
+                    timestamp: new Date().toISOString(),
+                    userAgent: navigator.userAgent
+                });
+                showToast('تم حذف الملف', 'success');
+                loadPdfs();
+            } catch (e) { showToast('خطأ: ' + e.message, 'error'); }
+        }
+
+        // ============================================================
         // LIVE
         // ============================================================
         function listenLiveStatus() {
@@ -2917,9 +3412,12 @@
                     liveData = data;
                     document.getElementById('liveStatus').innerHTML = `
                             <div style="display:flex;align-items:center;gap:16px;justify-content:center;flex-wrap:wrap;">
-                                <span class="live-badge">🔴 لايف الآن</span>
+                                <span class="live-badge">🔴 بث مباشر الآن</span>
                                 <span style="font-weight:700;">${data.title||'بث مباشر'}</span>
-                                <a href="${data.link||'#'}" target="_blank" style="color:#0B4F8C;font-weight:700;"><i class="fas fa-external-link-alt"></i> فتح البث</a>
+                                ${data.zoom ? `<a href="${data.zoom}" target="_blank" style="color:#0B4F8C;font-weight:700;"><i class="fas fa-video"></i> Zoom</a>` : ''}
+                                ${data.meet ? `<a href="${data.meet}" target="_blank" style="color:#0B4F8C;font-weight:700;"><i class="fas fa-google"></i> Meet</a>` : ''}
+                                ${data.telegram ? `<a href="${data.telegram}" target="_blank" style="color:#0B4F8C;font-weight:700;"><i class="fab fa-telegram"></i> Telegram</a>` : ''}
+                                ${data.link ? `<a href="${data.link}" target="_blank" style="color:#0B4F8C;font-weight:700;"><i class="fas fa-external-link-alt"></i> فتح البث</a>` : ''}
                             </div>
                         `;
                     document.getElementById('startLiveBtn').style.display = 'none';
@@ -2936,13 +3434,22 @@
         }
 
         async function startLive() {
+            const zoom = document.getElementById('liveZoom').value.trim();
+            const meet = document.getElementById('liveMeet').value.trim();
+            const telegram = document.getElementById('liveTelegram').value.trim();
             const link = document.getElementById('liveLink').value.trim();
             const title = document.getElementById('liveTitle').value.trim() || 'بث مباشر';
-            if (!link) { showToast('يرجى إدخال رابط البث', 'error'); return; }
+            if (!zoom && !meet && !telegram && !link) {
+                showToast('يرجى إدخال رابط بث واحد على الأقل', 'error');
+                return;
+            }
             try {
                 await db.ref('live').set({
                     active: true,
-                    link: link,
+                    zoom: zoom || '',
+                    meet: meet || '',
+                    telegram: telegram || '',
+                    link: link || '',
                     title: title,
                     startedAt: new Date().toISOString(),
                     startedBy: currentUser.displayName || 'Admin'
@@ -2998,12 +3505,13 @@
                             </div>
                             <div style="display:flex;gap:6px;">
                                 ${!n.read ? `<button onclick="markNotifRead('${n.id}')" style="background:none;border:none;color:#0B4F8C;cursor:pointer;"><i class="fas fa-check"></i></button>` : ''}
+                                <button onclick="editNotification('${n.id}')" style="background:none;border:none;color:#f59e0b;cursor:pointer;"><i class="fas fa-edit"></i></button>
                                 <button onclick="deleteNotif('${n.id}')" style="background:none;border:none;color:#ef4444;cursor:pointer;"><i class="fas fa-trash"></i></button>
                             </div>
                         </div>
                     `).join('');
             } catch (e) {
-                container.innerHTML = '<div style="color:#ef4444;">خطأ في تحميل الإشعارات</div>';
+                container.innerHTML = '<div style="color:#ef4444;padding:20px;">خطأ في تحميل الإشعارات</div>';
             }
         }
 
@@ -3068,6 +3576,40 @@
             } catch (e) { showToast('خطأ: ' + e.message, 'error'); }
         }
 
+        async function editNotification(id) {
+            const snap = await db.ref('notifications/' + id).once('value');
+            const data = snap.val();
+            if (!data) { showToast('الإشعار غير موجود', 'error'); return; }
+            openModal('تعديل الإشعار', `
+                    <div class="form-group"><label>العنوان</label><input id="editNotifTitle" value="${data.title||''}"></div>
+                    <div class="form-group"><label>المحتوى</label><textarea id="editNotifBody">${data.body||''}</textarea></div>
+                    <div class="form-actions">
+                        <button class="btn-submit" onclick="saveNotifEdit('${id}')">حفظ</button>
+                        <button class="btn-cancel" onclick="closeModal()">إلغاء</button>
+                    </div>
+                `);
+        }
+
+        async function saveNotifEdit(id) {
+            const updates = {
+                title: document.getElementById('editNotifTitle').value.trim(),
+                body: document.getElementById('editNotifBody').value.trim()
+            };
+            try {
+                await db.ref('notifications/' + id).update(updates);
+                await db.ref('adminLogs').push({
+                    adminId: currentUser.uid,
+                    adminName: currentUser.displayName || 'Admin',
+                    action: 'تعديل إشعار: ' + updates.title,
+                    timestamp: new Date().toISOString(),
+                    userAgent: navigator.userAgent
+                });
+                showToast('تم التعديل', 'success');
+                closeModal();
+                loadNotifications();
+            } catch (e) { showToast('خطأ: ' + e.message, 'error'); }
+        }
+
         async function markNotifRead(id) {
             try {
                 await db.ref('notifications/' + id + '/read').set(true);
@@ -3114,7 +3656,7 @@
                         </div>
                     `).join('');
             } catch (e) {
-                container.innerHTML = '<div class="text-muted" style="padding:20px;text-align:center;color:#ef4444;">خطأ في تحميل السجلات</div>';
+                container.innerHTML = '<div style="color:#ef4444;padding:20px;text-align:center;">خطأ في تحميل السجلات</div>';
             }
         }
 
@@ -3178,8 +3720,9 @@
         // ============================================================
         // INIT
         // ============================================================
-        console.log('🚀 Admin Dashboard v4.0 - Yalla Kimya');
+        console.log('🚀 Admin Dashboard v5.0 - Yalla Kimya');
         console.log('👤 Admin:', currentUser?.uid);
     </script>
+
 </body>
 </html>
