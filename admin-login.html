@@ -165,6 +165,35 @@
             animation: spin 0.8s linear infinite;
         }
 
+        .btn-secondary {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #0B4F8C;
+            border-radius: 12px;
+            background: transparent;
+            color: #0B4F8C;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Cairo', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .btn-secondary:hover {
+            background: #0B4F8C;
+            color: #fff;
+        }
+
+        .btn-secondary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
         @keyframes spin {
             to {
                 transform: rotate(360deg);
@@ -211,6 +240,29 @@
 
         .success-message i {
             font-size: 1.2rem;
+        }
+
+        .info-message {
+            background: #eff6ff;
+            color: #0B4F8C;
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            margin-bottom: 16px;
+            display: none;
+            border-right: 4px solid #0B4F8C;
+            align-items: center;
+            gap: 10px;
+            line-height: 1.6;
+        }
+
+        .info-message.show {
+            display: flex;
+        }
+
+        .info-message i {
+            font-size: 1.2rem;
+            flex-shrink: 0;
         }
 
         .back-link {
@@ -272,34 +324,30 @@
             margin-right: 6px;
         }
 
-        .debug-info {
-            background: #f1f5f9;
-            padding: 8px 12px;
-            border-radius: 8px;
-            font-size: 0.7rem;
-            color: #64748b;
-            margin-top: 12px;
-            display: none;
-            direction: ltr;
-            text-align: left;
-            overflow: auto;
-            max-height: 100px;
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 16px 0;
+            gap: 12px;
+            color: #94a3b8;
+            font-size: 0.8rem;
         }
-
-        .debug-info.show {
-            display: block;
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #e2e8f0;
         }
 
         @media (max-width: 480px) {
             .login-container {
                 padding: 32px 20px;
             }
-
             .login-container .logo img {
                 width: 60px;
                 height: 60px;
             }
-
             .login-container .logo h1 {
                 font-size: 1.5rem;
             }
@@ -329,12 +377,17 @@
             <span id="successText">جاري التوجيه...</span>
         </div>
 
+        <div id="infoMessage" class="info-message">
+            <i class="fas fa-info-circle"></i>
+            <span id="infoText">📌 إذا كان هذا أول استخدام، اضغط على "إنشاء حساب Admin" أولاً</span>
+        </div>
+
         <form id="loginForm" onsubmit="handleAdminLogin(event)">
             <div class="form-group">
                 <label><i class="fas fa-envelope" style="margin-left:6px;"></i> البريد الإلكتروني</label>
                 <div class="input-wrapper">
                     <i class="fas fa-envelope"></i>
-                    <input type="email" id="adminEmail" placeholder="admin@yalla-kimya.com" required autocomplete="email">
+                    <input type="email" id="adminEmail" placeholder="admin@yalla-kimya.com" required autocomplete="email" value="admin1@yalla-kimya.com">
                 </div>
             </div>
 
@@ -352,6 +405,12 @@
             </button>
         </form>
 
+        <div class="divider">أو</div>
+
+        <button class="btn-secondary" id="createAdminBtn" onclick="createAdminAccount()">
+            <i class="fas fa-user-plus"></i> إنشاء حساب Admin
+        </button>
+
         <a href="index.html" class="back-link">
             <i class="fas fa-arrow-right"></i> العودة للرئيسية
         </a>
@@ -364,8 +423,6 @@
         <div class="login-footer">
             © 2026 <a href="index.html">يلا كيمياء</a> • جميع الحقوق محفوظة
         </div>
-
-        <div id="debugInfo" class="debug-info"></div>
     </div>
 
     <!-- Firebase -->
@@ -396,24 +453,18 @@
         const database = firebase.database();
 
         // ============================================================
-        // ADMIN UIDs - أضف UID الأدمن هنا
+        // ADMIN UIDs - سيتم ملؤها تلقائياً عند إنشاء الحساب
         // ============================================================
-        const ADMIN_UIDs = [
-            // أضف UID الأدمن هنا
-        ];
+        let ADMIN_UIDs = [];
 
         // ============================================================
         // CHECK ADMIN STATUS - دعم role و isAdmin
         // ============================================================
         async function checkAdminStatus(user) {
-            // 1. التحقق من القائمة المباشرة
-            if (ADMIN_UIDs.includes(user.uid)) {
-                console.log('✅ Admin found in ADMIN_UIDs list');
-                return true;
-            }
+            console.log('🔍 Checking admin status for:', user.uid);
 
-            // 2. التحقق من بيانات المستخدم في users
             try {
+                // 1. التحقق من بيانات المستخدم في users
                 const userSnap = await database.ref('users/' + user.uid).once('value');
                 if (userSnap.exists()) {
                     const userData = userSnap.val();
@@ -427,7 +478,7 @@
                 console.error('Error checking user data:', err);
             }
 
-            // 3. التحقق من مسار admins
+            // 2. التحقق من مسار admins
             try {
                 const adminSnap = await database.ref('admins/' + user.uid).once('value');
                 if (adminSnap.exists()) {
@@ -447,6 +498,145 @@
         }
 
         // ============================================================
+        // CREATE ADMIN ACCOUNT
+        // ============================================================
+        async function createAdminAccount() {
+            const btn = document.getElementById('createAdminBtn');
+            const errorDiv = document.getElementById('errorMessage');
+            const errorText = document.getElementById('errorText');
+            const successDiv = document.getElementById('successMessage');
+            const successText = document.getElementById('successText');
+            const infoDiv = document.getElementById('infoMessage');
+            const infoText = document.getElementById('infoText');
+
+            // إخفاء الرسائل السابقة
+            errorDiv.classList.remove('show');
+            successDiv.classList.remove('show');
+            infoDiv.classList.remove('show');
+
+            // تعطيل الزر
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner"></span> جاري الإنشاء...';
+
+            try {
+                // بيانات الحساب
+                const email = document.getElementById('adminEmail').value.trim();
+                const password = document.getElementById('adminPassword').value;
+
+                if (!email || !password) {
+                    errorText.textContent = '⚠️ الرجاء إدخال البريد الإلكتروني وكلمة المرور';
+                    errorDiv.classList.add('show');
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="fas fa-user-plus"></i> إنشاء حساب Admin';
+                    return;
+                }
+
+                if (password.length < 6) {
+                    errorText.textContent = '⚠️ كلمة المرور يجب أن تكون 6 أحرف على الأقل';
+                    errorDiv.classList.add('show');
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="fas fa-user-plus"></i> إنشاء حساب Admin';
+                    return;
+                }
+
+                console.log('📝 Creating admin account...');
+
+                // 1. إنشاء المستخدم
+                let userCredential;
+                try {
+                    userCredential = await auth.createUserWithEmailAndPassword(email, password);
+                } catch (err) {
+                    if (err.code === 'auth/email-already-in-use') {
+                        // المستخدم موجود، نحاول تسجيل الدخول
+                        infoText.textContent = '📌 البريد مستخدم بالفعل، جاري تسجيل الدخول...';
+                        infoDiv.classList.add('show');
+                        btn.disabled = false;
+                        btn.innerHTML = '<i class="fas fa-user-plus"></i> إنشاء حساب Admin';
+
+                        // محاولة تسجيل الدخول
+                        await handleAdminLogin(new Event('submit'));
+                        return;
+                    }
+                    throw err;
+                }
+
+                const user = userCredential.user;
+                console.log('✅ User created:', user.uid);
+
+                // 2. إضافة صلاحية Admin في users
+                await database.ref('users/' + user.uid).set({
+                    name: 'Admin',
+                    email: email,
+                    code: 'ADMIN-001',
+                    atoms: 0,
+                    grade: 'إدارة',
+                    studyType: 'Admin',
+                    phone: '01000000000',
+                    parentPhone: '01000000000',
+                    photoURL: '',
+                    createdAt: new Date().toISOString(),
+                    active: true,
+                    role: true,
+                    isAdmin: true,
+                    premiumCourses: {}
+                });
+                console.log('✅ Admin role added to users');
+
+                // 3. إضافة صلاحية Admin في admins
+                await database.ref('admins/' + user.uid).set({
+                    isAdmin: true,
+                    role: true,
+                    addedAt: new Date().toISOString(),
+                    name: 'Admin',
+                    email: email
+                });
+                console.log('✅ Admin role added to admins');
+
+                // 4. تسجيل عملية الإنشاء
+                await database.ref('adminLogs').push({
+                    adminId: user.uid,
+                    adminName: 'Admin',
+                    email: email,
+                    action: 'إنشاء حساب Admin',
+                    timestamp: new Date().toISOString(),
+                    userAgent: navigator.userAgent
+                });
+
+                // 5. حفظ الجلسة
+                sessionStorage.setItem('adminSession', 'true');
+                sessionStorage.setItem('adminUid', user.uid);
+
+                successText.textContent = '✅ تم إنشاء حساب Admin بنجاح! جاري التوجيه...';
+                successDiv.classList.add('show');
+
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-user-plus"></i> إنشاء حساب Admin';
+
+                setTimeout(() => {
+                    window.location.href = 'admin.html';
+                }, 1000);
+
+            } catch (err) {
+                console.error('❌ Error creating admin:', err);
+                let msg = 'حدث خطأ في إنشاء الحساب';
+                if (err.code === 'auth/email-already-in-use') {
+                    msg = '⚠️ البريد الإلكتروني مستخدم بالفعل. جرب تسجيل الدخول.';
+                } else if (err.code === 'auth/weak-password') {
+                    msg = '⚠️ كلمة المرور ضعيفة. استخدم 6 أحرف على الأقل.';
+                } else if (err.code === 'auth/invalid-email') {
+                    msg = '⚠️ البريد الإلكتروني غير صالح.';
+                } else if (err.code === 'auth/network-request-failed') {
+                    msg = '⚠️ مشكلة في الاتصال بالشبكة. تأكد من اتصالك بالإنترنت.';
+                }
+                errorText.textContent = msg;
+                errorDiv.classList.add('show');
+
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-user-plus"></i> إنشاء حساب Admin';
+            }
+        }
+
+        // ============================================================
         // HANDLE LOGIN
         // ============================================================
         async function handleAdminLogin(e) {
@@ -458,24 +648,44 @@
             const errorText = document.getElementById('errorText');
             const successDiv = document.getElementById('successMessage');
             const successText = document.getElementById('successText');
+            const infoDiv = document.getElementById('infoMessage');
+            const infoText = document.getElementById('infoText');
             const loginBtn = document.getElementById('loginBtn');
             const loginBtnText = document.getElementById('loginBtnText');
 
             errorDiv.classList.remove('show');
             successDiv.classList.remove('show');
+            infoDiv.classList.remove('show');
 
             loginBtn.disabled = true;
             loginBtnText.textContent = 'جاري التحقق...';
             loginBtn.innerHTML = '<span class="spinner"></span> جاري التحقق...';
 
             try {
-                const result = await auth.signInWithEmailAndPassword(email, password);
-                const user = result.user;
+                // محاولة تسجيل الدخول
+                let userCredential;
+                try {
+                    userCredential = await auth.signInWithEmailAndPassword(email, password);
+                } catch (err) {
+                    if (err.code === 'auth/user-not-found') {
+                        // المستخدم غير موجود، نقترح إنشاء حساب
+                        infoText.textContent = '📌 المستخدم غير موجود. اضغط على "إنشاء حساب Admin" لإنشاء حساب جديد.';
+                        infoDiv.classList.add('show');
+                        loginBtn.disabled = false;
+                        loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> <span id="loginBtnText">تسجيل الدخول</span>';
+                        return;
+                    }
+                    throw err;
+                }
+
+                const user = userCredential.user;
                 console.log('✅ User logged in:', user.uid);
 
+                // التحقق من صلاحية Admin
                 const isAdmin = await checkAdminStatus(user);
 
                 if (isAdmin) {
+                    // تسجيل عملية الدخول
                     await database.ref('adminLogs').push({
                         adminId: user.uid,
                         adminName: user.displayName || 'Admin',
@@ -491,13 +701,16 @@
                     successText.textContent = '✅ مرحباً بك في لوحة الإدارة! جاري التوجيه...';
                     successDiv.classList.add('show');
 
+                    loginBtn.disabled = false;
+                    loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> <span id="loginBtnText">تسجيل الدخول</span>';
+
                     setTimeout(() => {
                         window.location.href = 'admin.html';
                     }, 800);
 
                 } else {
                     await auth.signOut();
-                    errorText.textContent = '⛔ غير مصرح لك بالدخول إلى لوحة الإدارة. هذا الحساب ليس لديه صلاحيات Admin.';
+                    errorText.textContent = '⛔ غير مصرح لك بالدخول. هذا الحساب ليس لديه صلاحيات Admin.';
                     errorDiv.classList.add('show');
 
                     loginBtn.disabled = false;
@@ -508,11 +721,15 @@
                 console.error('Login error:', error);
 
                 let msg = 'حدث خطأ في تسجيل الدخول';
-                if (error.code === 'auth/user-not-found') msg = '⚠️ المستخدم غير موجود.';
-                else if (error.code === 'auth/wrong-password') msg = '⚠️ كلمة المرور غير صحيحة.';
-                else if (error.code === 'auth/too-many-requests') msg = '⚠️ تم تجاوز عدد المحاولات.';
-                else if (error.code === 'auth/invalid-email') msg = '⚠️ البريد الإلكتروني غير صالح.';
-                else if (error.code === 'auth/network-request-failed') msg = '⚠️ مشكلة في الاتصال.';
+                if (error.code === 'auth/wrong-password') {
+                    msg = '⚠️ كلمة المرور غير صحيحة. حاول مرة أخرى.';
+                } else if (error.code === 'auth/too-many-requests') {
+                    msg = '⚠️ تم تجاوز عدد المحاولات. حاول لاحقاً.';
+                } else if (error.code === 'auth/invalid-email') {
+                    msg = '⚠️ البريد الإلكتروني غير صالح.';
+                } else if (error.code === 'auth/network-request-failed') {
+                    msg = '⚠️ مشكلة في الاتصال بالشبكة. تأكد من اتصالك بالإنترنت.';
+                }
 
                 errorText.textContent = msg;
                 errorDiv.classList.add('show');
@@ -534,12 +751,34 @@
             }
         });
 
-        window.addEventListener('load', function() {
-            document.getElementById('adminEmail').focus();
+        // ============================================================
+        // KEYBOARD SHORTCUTS
+        // ============================================================
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && document.activeElement.tagName === 'INPUT') {
+                document.getElementById('loginForm').dispatchEvent(new Event('submit'));
+            }
         });
 
-        console.log('🔐 Admin Login Page v1.0');
+        // ============================================================
+        // AUTO-FOCUS
+        // ============================================================
+        window.addEventListener('load', function() {
+            document.getElementById('adminEmail').focus();
+
+            // عرض رسالة إرشادية
+            const infoDiv = document.getElementById('infoMessage');
+            const infoText = document.getElementById('infoText');
+            infoText.textContent = '📌 استخدم البريد "admin1@yalla-kimya.com" أو اضغط على "إنشاء حساب Admin"';
+            infoDiv.classList.add('show');
+            setTimeout(() => {
+                infoDiv.classList.remove('show');
+            }, 8000);
+        });
+
+        console.log('🔐 Admin Login Page v2.0');
         console.log('📧 Email: admin1@yalla-kimya.com');
+        console.log('💡 اضغط على "إنشاء حساب Admin" إذا كان هذا أول استخدام');
     </script>
 
 </body>
