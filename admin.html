@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>لوحة الإدارة - يلا كيمياء</title>
+    <title>لوحة الإدارة المتطورة - يلا كيمياء</title>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -48,7 +48,7 @@
             position: fixed;
             top: 0;
             right: 0;
-            width: 260px;
+            width: 270px;
             height: 100%;
             background: linear-gradient(180deg, #0a2f5a, #0B4F8C);
             color: #fff;
@@ -146,7 +146,7 @@
 
         /* ===== MAIN ===== */
         .main {
-            margin-right: 260px;
+            margin-right: 270px;
             padding: 20px 30px 40px;
             min-height: 100vh;
         }
@@ -233,14 +233,14 @@
         /* ===== STATS CARDS ===== */
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
-            gap: 16px;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 14px;
             margin-bottom: 28px;
         }
         .stat-card {
             background: #fff;
             border-radius: 16px;
-            padding: 16px 18px;
+            padding: 14px 16px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
             border-right: 4px solid #0B4F8C;
             transition: 0.3s;
@@ -250,23 +250,23 @@
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.07);
         }
         .stat-card .icon {
-            font-size: 1.6rem;
+            font-size: 1.4rem;
             color: #0B4F8C;
             opacity: 0.6;
         }
         .stat-card .number {
-            font-size: 1.7rem;
+            font-size: 1.6rem;
             font-weight: 900;
             color: #0B4F8C;
             margin-top: 2px;
         }
         .stat-card .label {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             color: #64748b;
             font-weight: 600;
         }
         .stat-card .change {
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             color: #22C55E;
             margin-top: 4px;
         }
@@ -438,7 +438,7 @@
             background: #fff;
             border-radius: 24px;
             padding: 32px 28px;
-            max-width: 600px;
+            max-width: 650px;
             width: 100%;
             max-height: 90vh;
             overflow-y: auto;
@@ -546,7 +546,7 @@
         /* ===== LIVE USERS ===== */
         .live-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
             gap: 12px;
         }
         .live-user {
@@ -564,15 +564,15 @@
             background: #fff;
         }
         .live-user img {
-            width: 38px;
-            height: 38px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             object-fit: cover;
             border: 2px solid #22C55E;
         }
         .live-user .info .name {
             font-weight: 700;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
         }
         .live-user .info .detail {
             font-size: 0.7rem;
@@ -842,6 +842,16 @@
         .fs-small {
             font-size: 0.75rem;
         }
+        .live-badge {
+            display: inline-block;
+            background: #ef4444;
+            color: #fff;
+            padding: 2px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            animation: pulse 1s infinite;
+        }
     </style>
 </head>
 <body>
@@ -852,16 +862,19 @@
             <img src="https://res.cloudinary.com/dbahe7lxz/image/upload/v1785593692/idraaak/ogvolfsxxnvk24gho8eb.jpg"
             alt="يلا كيمياء" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2280%22 height=%2280%22 viewBox=%220 0 80 80%22%3E%3Crect width=%2280%22 height=%2280%22 fill=%22%230B4F8C%22 rx=%2240%22/%3E%3Ctext x=%2240%22 y=%2248%22 text-anchor=%22middle%22 fill=%22%23fff%22 font-size=%2232%22 font-weight=%22bold%22 font-family=%22Arial%22%3EYK%3C/text%3E%3C/svg%3E'">
             <h2>يلا كيمياء</h2>
-            <small>لوحة الإدارة</small>
+            <small>لوحة الإدارة المتطورة</small>
         </div>
         <nav class="nav">
             <div class="nav-item active" data-tab="dashboard"><i class="fas fa-tachometer-alt"></i> الرئيسية</div>
             <div class="nav-item" data-tab="students"><i class="fas fa-users"></i> الطلاب</div>
+            <div class="nav-item" data-tab="subscriptions"><i class="fas fa-crown"></i> الاشتراكات</div>
             <div class="nav-item" data-tab="courses"><i class="fas fa-book"></i> الكورسات</div>
+            <div class="nav-item" data-tab="lessons"><i class="fas fa-video"></i> الحصص</div>
             <div class="nav-item" data-tab="exams"><i class="fas fa-pencil-alt"></i> الامتحانات</div>
             <div class="nav-item" data-tab="quizzes"><i class="fas fa-question-circle"></i> الكويزات</div>
-            <div class="nav-item" data-tab="logs"><i class="fas fa-history"></i> سجل العمليات</div>
+            <div class="nav-item" data-tab="live"><i class="fas fa-broadcast"></i> البث المباشر</div>
             <div class="nav-item" data-tab="notifications"><i class="fas fa-bell"></i> الإشعارات <span class="badge" id="notifBadge">0</span></div>
+            <div class="nav-item" data-tab="logs"><i class="fas fa-history"></i> سجل العمليات</div>
             <div class="nav-item" data-tab="settings"><i class="fas fa-cog"></i> الإعدادات</div>
         </nav>
         <button class="logout-btn" onclick="logoutAdmin()"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</button>
@@ -901,7 +914,7 @@
             <!-- LIVE USERS -->
             <div class="section">
                 <div class="section-header">
-                    <h3><i class="fas fa-circle text-success" style="color:#22C55E;font-size:0.7rem;"></i> الطلاب المتصلون الآن</h3>
+                    <h3><i class="fas fa-circle" style="color:#22C55E;font-size:0.7rem;"></i> المتصلون الآن</h3>
                     <span class="text-muted" id="liveCount">0 متصل</span>
                 </div>
                 <div class="live-grid" id="liveUsersGrid">
@@ -938,7 +951,7 @@
                 <div class="flex-between mb-12">
                     <h3><i class="fas fa-users"></i> إدارة الطلاب</h3>
                     <div class="search-box">
-                        <input type="text" id="studentSearch" placeholder="بحث بالاسم، الهاتف، UID، البريد..." onkeyup="searchStudents()">
+                        <input type="text" id="studentSearch" placeholder="بحث بالاسم، الهاتف، UID..." onkeyup="searchStudents()">
                         <button onclick="searchStudents()"><i class="fas fa-search"></i> بحث</button>
                         <button class="btn-primary-sm" onclick="loadStudents()"><i class="fas fa-redo"></i></button>
                     </div>
@@ -950,24 +963,59 @@
                                 <th>#</th>
                                 <th>الصورة</th>
                                 <th>الاسم</th>
-                                <th>UID</th>
-                                <th>البريد</th>
-                                <th>الهاتف</th>
                                 <th>الصف</th>
-                                <th>النوع</th>
-                                <th>الحالة</th>
-                                <th>الإشتراك</th>
-                                <th>الذرات</th>
+                                <th>الهاتف</th>
+                                <th>ولي الأمر</th>
+                                <th>البريد</th>
+                                <th>ساعات</th>
+                                <th>كورسات</th>
+                                <th>حصص</th>
+                                <th>امتحانات</th>
+                                <th>أخطاء</th>
                                 <th>الإنجاز</th>
+                                <th>الترتيب</th>
+                                <th>آخر دخول</th>
+                                <th>التسجيل</th>
                                 <th>الإجراءات</th>
                             </tr>
                         </thead>
                         <tbody id="studentsTableBody">
-                            <tr><td colspan="13" class="loading-placeholder"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</td></tr>
+                            <tr><td colspan="17" class="loading-placeholder"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</td></tr>
                         </tbody>
                     </table>
                 </div>
                 <div class="pagination" id="studentsPagination"></div>
+            </div>
+        </div>
+
+        <!-- ===== SUBSCRIPTIONS TAB ===== -->
+        <div class="tab-content" id="tab-subscriptions">
+            <div class="section">
+                <div class="flex-between mb-12">
+                    <h3><i class="fas fa-crown"></i> إدارة الاشتراكات</h3>
+                    <div class="search-box">
+                        <input type="text" id="subSearch" placeholder="بحث باسم الطالب..." onkeyup="searchSubscriptions()">
+                        <button onclick="searchSubscriptions()"><i class="fas fa-search"></i> بحث</button>
+                    </div>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>الطالب</th>
+                                <th>الكورس</th>
+                                <th>النوع</th>
+                                <th>تاريخ البداية</th>
+                                <th>تاريخ الانتهاء</th>
+                                <th>الحالة</th>
+                                <th>الإجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody id="subscriptionsTableBody">
+                            <tr><td colspan="7" class="loading-placeholder"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
@@ -985,18 +1033,51 @@
                                 <th>#</th>
                                 <th>الصورة</th>
                                 <th>اسم الكورس</th>
+                                <th>النوع</th>
+                                <th>السعر</th>
                                 <th>المشتركين</th>
                                 <th>الحصص</th>
                                 <th>الفيديوهات</th>
-                                <th>الامتحانات</th>
-                                <th>الكويزات</th>
-                                <th>النوع</th>
+                                <th>PDF</th>
+                                <th>امتحانات</th>
+                                <th>كويزات</th>
                                 <th>الحالة</th>
                                 <th>الإجراءات</th>
                             </tr>
                         </thead>
                         <tbody id="coursesTableBody">
-                            <tr><td colspan="11" class="loading-placeholder"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</td></tr>
+                            <tr><td colspan="13" class="loading-placeholder"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== LESSONS TAB ===== -->
+        <div class="tab-content" id="tab-lessons">
+            <div class="section">
+                <div class="flex-between mb-12">
+                    <h3><i class="fas fa-video"></i> إدارة الحصص</h3>
+                    <button class="btn-primary-sm" onclick="openAddLessonModal()"><i class="fas fa-plus"></i> إضافة حصة</button>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>الحصة</th>
+                                <th>الكورس</th>
+                                <th>الوصف</th>
+                                <th>الفيديو</th>
+                                <th>PDF</th>
+                                <th>كويز</th>
+                                <th>امتحان</th>
+                                <th>ترتيب</th>
+                                <th>الإجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody id="lessonsTableBody">
+                            <tr><td colspan="10" class="loading-placeholder"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -1018,6 +1099,7 @@
                                 <th>الاسم</th>
                                 <th>الكورس</th>
                                 <th>الحصة</th>
+                                <th>النوع</th>
                                 <th>عدد الداخلين</th>
                                 <th>المكملين</th>
                                 <th>المتوسط</th>
@@ -1027,7 +1109,7 @@
                             </tr>
                         </thead>
                         <tbody id="examsTableBody">
-                            <tr><td colspan="10" class="loading-placeholder"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</td></tr>
+                            <tr><td colspan="11" class="loading-placeholder"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -1050,7 +1132,7 @@
                                 <th>الكورس</th>
                                 <th>الحصة</th>
                                 <th>عدد الأسئلة</th>
-                                <th>عدد المشاركين</th>
+                                <th>المشاركين</th>
                                 <th>المتوسط</th>
                                 <th>الإجراءات</th>
                             </tr>
@@ -1063,15 +1145,28 @@
             </div>
         </div>
 
-        <!-- ===== LOGS TAB ===== -->
-        <div class="tab-content" id="tab-logs">
+        <!-- ===== LIVE TAB ===== -->
+        <div class="tab-content" id="tab-live">
             <div class="section">
                 <div class="flex-between mb-12">
-                    <h3><i class="fas fa-history"></i> سجل العمليات</h3>
-                    <button class="btn-outline-sm" onclick="loadLogs()"><i class="fas fa-redo"></i> تحديث</button>
+                    <h3><i class="fas fa-broadcast"></i> البث المباشر</h3>
+                    <div>
+                        <button class="btn-success-sm" onclick="startLive()" id="startLiveBtn"><i class="fas fa-play"></i> تشغيل الآن</button>
+                        <button class="btn-danger-sm" onclick="stopLive()" id="stopLiveBtn" style="display:none;"><i class="fas fa-stop"></i> إيقاف البث</button>
+                    </div>
                 </div>
-                <div id="logsContainer">
-                    <div class="loading-placeholder"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</div>
+                <div id="liveStatus" style="padding:20px;text-align:center;background:#f8fafc;border-radius:12px;">
+                    <span class="text-muted">لا يوجد بث مباشر حالياً</span>
+                </div>
+                <div class="mt-12">
+                    <div class="form-group">
+                        <label>رابط البث (Zoom / YouTube / غيره)</label>
+                        <input id="liveLink" placeholder="https://..." style="width:100%;padding:10px;border:2px solid #e2e8f0;border-radius:10px;">
+                    </div>
+                    <div class="form-group">
+                        <label>عنوان البث</label>
+                        <input id="liveTitle" placeholder="عنوان البث" style="width:100%;padding:10px;border:2px solid #e2e8f0;border-radius:10px;">
+                    </div>
                 </div>
             </div>
         </div>
@@ -1092,6 +1187,19 @@
             </div>
         </div>
 
+        <!-- ===== LOGS TAB ===== -->
+        <div class="tab-content" id="tab-logs">
+            <div class="section">
+                <div class="flex-between mb-12">
+                    <h3><i class="fas fa-history"></i> سجل العمليات</h3>
+                    <button class="btn-outline-sm" onclick="loadLogs()"><i class="fas fa-redo"></i> تحديث</button>
+                </div>
+                <div id="logsContainer">
+                    <div class="loading-placeholder"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</div>
+                </div>
+            </div>
+        </div>
+
         <!-- ===== SETTINGS TAB ===== -->
         <div class="tab-content" id="tab-settings">
             <div class="section">
@@ -1099,8 +1207,9 @@
                 <p class="text-muted">إعدادات النظام وعمليات الصيانة.</p>
                 <hr style="margin:16px 0;border-color:#e2e8f0;">
                 <div style="display:flex;gap:12px;flex-wrap:wrap;">
-                    <button class="btn-danger-sm" onclick="if(confirm('هل أنت متأكد من حذف جميع بيانات الاختبار؟')){clearTestData()}"><i class="fas fa-database"></i> مسح بيانات الاختبار</button>
+                    <button class="btn-danger-sm" onclick="if(confirm('هل أنت متأكد؟')){clearTestData()}"><i class="fas fa-database"></i> مسح بيانات الاختبار</button>
                     <button class="btn-outline-sm" onclick="exportData()"><i class="fas fa-download"></i> تصدير البيانات</button>
+                    <button class="btn-outline-sm" onclick="forceLogoutAll()"><i class="fas fa-sign-out-alt"></i> تسجيل خروج الكل</button>
                 </div>
             </div>
         </div>
@@ -1153,13 +1262,17 @@
         let currentUser = null;
         let allStudents = [];
         let allCourses = [];
+        let allLessons = [];
         let allExams = [];
         let allQuizzes = [];
+        let allSubscriptions = [];
         let allLogs = [];
         let allNotifications = [];
         let liveUsers = {};
         let charts = {};
         let statsCache = {};
+        let isLive = false;
+        let liveData = null;
 
         // ============================================================
         // CHECK ADMIN & REDIRECT
@@ -1180,6 +1293,7 @@
             document.getElementById('adminAvatar').src = user.photoURL ||
                 `https://ui-avatars.com/api/?name=${encodeURIComponent(user.displayName||'Admin')}&background=0B4F8C&color=fff&size=40`;
             initDashboard();
+            listenLiveStatus();
         });
 
         async function checkAdmin(uid) {
@@ -1225,23 +1339,26 @@
                 const tab = this.dataset.tab;
                 document.querySelectorAll('.tab-content').forEach(x => x.classList.remove('active'));
                 document.getElementById('tab-' + tab).classList.add('active');
-                // update title
                 const titles = {
                     dashboard: ['الرئيسية', 'نظرة عامة'],
                     students: ['الطلاب', 'إدارة الطلاب'],
+                    subscriptions: ['الاشتراكات', 'إدارة الاشتراكات'],
                     courses: ['الكورسات', 'إدارة الكورسات'],
+                    lessons: ['الحصص', 'إدارة الحصص'],
                     exams: ['الامتحانات', 'إدارة الامتحانات'],
                     quizzes: ['الكويزات', 'إدارة الكويزات'],
-                    logs: ['سجل العمليات', 'آخر العمليات'],
+                    live: ['البث المباشر', 'إدارة البث'],
                     notifications: ['الإشعارات', 'إدارة الإشعارات'],
+                    logs: ['سجل العمليات', 'آخر العمليات'],
                     settings: ['الإعدادات', 'إعدادات اللوحة']
                 };
                 const t = titles[tab] || ['', ''];
                 document.getElementById('pageTitle').textContent = t[0];
                 document.getElementById('pageSubtitle').textContent = t[1];
-                // load data if needed
                 if (tab === 'students') loadStudents();
+                if (tab === 'subscriptions') loadSubscriptions();
                 if (tab === 'courses') loadCourses();
+                if (tab === 'lessons') loadLessons();
                 if (tab === 'exams') loadExams();
                 if (tab === 'quizzes') loadQuizzes();
                 if (tab === 'logs') loadLogs();
@@ -1292,84 +1409,100 @@
             grid.innerHTML = '<div class="loading-placeholder" style="grid-column:1/-1;"><i class="fas fa-spinner fa-spin"></i> جاري تحميل الإحصائيات...</div>';
 
             try {
-                // get all users
                 const usersSnap = await db.ref('users').once('value');
                 const users = usersSnap.val() || {};
-                const students = {};
-                let studentCount = 0;
-                let premiumCount = 0;
-                let freeCount = 0;
+                let studentCount = 0,
+                    premiumCount = 0,
+                    freeCount = 0;
                 let now = Date.now();
                 let today = new Date().setHours(0, 0, 0, 0);
-                let hourAgo = now - 3600000;
-                let twoHoursAgo = now - 7200000;
-                let fiveHoursAgo = now - 18000000;
-                let dayAgo = now - 86400000;
-                let weekAgo = now - 604800000;
-                let monthAgo = now - 2592000000;
+                let hourAgo = now - 3600000,
+                    twoHoursAgo = now - 7200000,
+                    fiveHoursAgo = now - 18000000;
+                let twelveHoursAgo = now - 43200000,
+                    dayAgo = now - 86400000;
+                let weekAgo = now - 604800000,
+                    monthAgo = now - 2592000000;
+                let twoMonthsAgo = now - 5184000000,
+                    yearAgo = now - 31536000000;
                 let todayCount = 0,
                     hourCount = 0,
                     twoHourCount = 0,
-                    fiveHourCount = 0,
+                    fiveHourCount = 0;
+                let twelveHourCount = 0,
                     dayCount = 0,
                     weekCount = 0,
                     monthCount = 0;
+                let twoMonthCount = 0,
+                    yearCount = 0;
 
                 for (const [uid, data] of Object.entries(users)) {
                     if (data.role === true || data.isAdmin === true) continue;
                     studentCount++;
-                    students[uid] = data;
-                    // check subscription
-                    if (data.subscription && data.subscription === 'premium') premiumCount++;
+                    if (data.subscription === 'premium') premiumCount++;
                     else freeCount++;
-                    // check registration time
                     const reg = data.createdAt ? new Date(data.createdAt).getTime() : 0;
                     if (reg >= today) todayCount++;
                     if (reg >= hourAgo) hourCount++;
                     if (reg >= twoHoursAgo) twoHourCount++;
                     if (reg >= fiveHoursAgo) fiveHourCount++;
+                    if (reg >= twelveHoursAgo) twelveHourCount++;
                     if (reg >= dayAgo) dayCount++;
                     if (reg >= weekAgo) weekCount++;
                     if (reg >= monthAgo) monthCount++;
+                    if (reg >= twoMonthsAgo) twoMonthCount++;
+                    if (reg >= yearAgo) yearCount++;
                 }
 
-                // courses, lessons, exams, quizzes
+                // courses data
                 const coursesSnap = await db.ref('courses').once('value');
                 const courses = coursesSnap.val() || {};
                 let courseCount = 0,
                     lessonCount = 0,
                     examCount = 0,
                     quizCount = 0;
+                let pdfCount = 0,
+                    videoCount = 0,
+                    freeCourses = 0,
+                    paidCourses = 0;
                 for (const [cid, cdata] of Object.entries(courses)) {
                     courseCount++;
+                    if (cdata.isPremium) paidCourses++;
+                    else freeCourses++;
                     if (cdata.lessons) {
                         for (const [lid, ldata] of Object.entries(cdata.lessons)) {
                             lessonCount++;
+                            if (ldata.video) videoCount++;
+                            if (ldata.pdf) pdfCount++;
                             if (ldata.exams) examCount += Object.keys(ldata.exams).length;
                             if (ldata.quizzes) quizCount += Object.keys(ldata.quizzes).length;
                         }
                     }
                 }
 
-                // live count
                 const liveCount = Object.keys(liveUsers).length;
 
                 const stats = [
+                    { icon: 'fa-circle', number: liveCount, label: 'المتصلون الآن', change: 'لحظي' },
                     { icon: 'fa-user-graduate', number: studentCount, label: 'إجمالي الطلاب', change: `+${todayCount} اليوم` },
-                    { icon: 'fa-circle', number: liveCount, label: 'متصلون الآن', change: 'لحظي' },
-                    { icon: 'fa-user-plus', number: todayCount, label: 'سجلوا اليوم', change: '' },
+                    { icon: 'fa-book', number: courseCount, label: 'إجمالي الكورسات', change: `${paidCourses} مدفوع • ${freeCourses} مجاني` },
+                    { icon: 'fa-video', number: lessonCount, label: 'إجمالي الحصص', change: '' },
+                    { icon: 'fa-pencil-alt', number: examCount, label: 'الامتحانات', change: '' },
+                    { icon: 'fa-question-circle', number: quizCount, label: 'الكويزات', change: '' },
+                    { icon: 'fa-file-pdf', number: pdfCount, label: 'ملفات PDF', change: '' },
+                    { icon: 'fa-play-circle', number: videoCount, label: 'الفيديوهات', change: '' },
+                    { icon: 'fa-crown', number: premiumCount, label: 'مشتركين مدفوع', change: '' },
+                    { icon: 'fa-user', number: freeCount, label: 'مشتركين مجاني', change: '' },
+                    { icon: 'fa-calendar-day', number: todayCount, label: 'تسجيلات اليوم', change: '' },
                     { icon: 'fa-clock', number: hourCount, label: 'آخر ساعة', change: '' },
                     { icon: 'fa-clock', number: twoHourCount, label: 'آخر ساعتين', change: '' },
                     { icon: 'fa-clock', number: fiveHourCount, label: 'آخر 5 ساعات', change: '' },
+                    { icon: 'fa-clock', number: twelveHourCount, label: 'آخر 12 ساعة', change: '' },
                     { icon: 'fa-calendar-day', number: dayCount, label: 'آخر 24 ساعة', change: '' },
-                    { icon: 'fa-calendar-week', number: weekCount, label: 'آخر أسبوع', change: '' },
-                    { icon: 'fa-calendar-alt', number: monthCount, label: 'آخر شهر', change: '' },
-                    { icon: 'fa-book', number: courseCount, label: 'إجمالي الكورسات', change: '' },
-                    { icon: 'fa-video', number: lessonCount, label: 'إجمالي الحصص', change: '' },
-                    { icon: 'fa-pencil-alt', number: examCount, label: 'إجمالي الامتحانات', change: '' },
-                    { icon: 'fa-question-circle', number: quizCount, label: 'إجمالي الكويزات', change: '' },
-                    { icon: 'fa-crown', number: premiumCount, label: 'اشتراكات مدفوعة', change: '' },
-                    { icon: 'fa-user', number: freeCount, label: 'اشتراكات مجانية', change: '' },
+                    { icon: 'fa-calendar-week', number: weekCount, label: 'هذا الأسبوع', change: '' },
+                    { icon: 'fa-calendar-alt', number: monthCount, label: 'هذا الشهر', change: '' },
+                    { icon: 'fa-calendar', number: twoMonthCount, label: 'آخر شهرين', change: '' },
+                    { icon: 'fa-calendar', number: yearCount, label: 'آخر سنة', change: '' },
                 ];
 
                 grid.innerHTML = stats.map(s => `
@@ -1381,8 +1514,9 @@
                         </div>
                     `).join('');
 
-                statsCache = { studentCount, liveCount, todayCount, hourCount, twoHourCount, fiveHourCount, dayCount,
-                    weekCount, monthCount, courseCount, lessonCount, examCount, quizCount, premiumCount, freeCount };
+                statsCache = { studentCount, liveCount, todayCount, hourCount, twoHourCount, fiveHourCount, twelveHourCount,
+                    dayCount, weekCount, monthCount, twoMonthCount, yearCount, courseCount, lessonCount, examCount,
+                    quizCount, pdfCount, videoCount, premiumCount, freeCount, paidCourses, freeCourses };
 
             } catch (e) {
                 console.error('Stats error:', e);
@@ -1398,23 +1532,17 @@
             const grid = document.getElementById('liveUsersGrid');
             const countEl = document.getElementById('liveCount');
 
-            // listen to online users
-            const onlineRef = db.ref('.info/connected');
-            onlineRef.on('value', (snap) => {
-                if (snap.val() === true) {
-                    // mark this admin as online
-                    if (currentUser) {
-                        db.ref('online/' + currentUser.uid).set({
-                            name: 'Admin',
-                            role: 'admin',
-                            lastSeen: Date.now()
-                        });
-                        db.ref('online/' + currentUser.uid).onDisconnect().remove();
-                    }
-                }
-            });
+            // mark admin online
+            if (currentUser) {
+                db.ref('online/' + currentUser.uid).set({
+                    name: 'Admin',
+                    role: 'admin',
+                    lastSeen: Date.now(),
+                    device: navigator.userAgent
+                });
+                db.ref('online/' + currentUser.uid).onDisconnect().remove();
+            }
 
-            // listen to all online users
             db.ref('online').on('value', (snap) => {
                 const data = snap.val() || {};
                 liveUsers = {};
@@ -1423,22 +1551,22 @@
                 for (const [uid, info] of Object.entries(data)) {
                     if (uid === currentUser?.uid) continue;
                     if (info.role === 'admin') continue;
-                    if (Date.now() - info.lastSeen > 30000) continue; // stale
+                    if (Date.now() - info.lastSeen > 30000) continue;
                     liveUsers[uid] = info;
                     count++;
                     const name = info.name || 'طالب';
                     const avatar = info.photoURL ||
-                        `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=0B4F8C&color=fff&size=38`;
+                        `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=0B4F8C&color=fff&size=40`;
                     const grade = info.grade || 'غير محدد';
-                    const currentPage = info.currentPage || 'الرئيسية';
                     const duration = info.sessionStart ? Math.floor((Date.now() - info.sessionStart) / 60000) + 'د' : '--';
+                    const device = info.device || 'غير معروف';
                     html += `
                             <div class="live-user">
                                 <img src="${avatar}" alt="${name}">
                                 <div class="info">
                                     <div class="name">${name}</div>
-                                    <div class="detail">${grade} • ${currentPage}</div>
-                                    <div class="detail" style="font-size:0.65rem;color:#22C55E;"><i class="fas fa-clock"></i> ${duration}</div>
+                                    <div class="detail">${grade} • ${duration} د</div>
+                                    <div class="detail" style="font-size:0.65rem;color:#64748b;"><i class="fas fa-mobile-alt"></i> ${device}</div>
                                 </div>
                                 <div class="online-dot"></div>
                             </div>
@@ -1456,7 +1584,7 @@
         // CHARTS
         // ============================================================
         async function loadCharts() {
-            // Daily registrations (last 7 days)
+            // Daily
             const ctx1 = document.getElementById('chartDaily').getContext('2d');
             const days = [];
             const counts = [];
@@ -1483,7 +1611,7 @@
                 options: { responsive: true, plugins: { legend: { display: false } } }
             });
 
-            // Weekly (last 4 weeks)
+            // Weekly
             const ctx2 = document.getElementById('chartWeekly').getContext('2d');
             const weeks = [];
             const wCounts = [];
@@ -1509,7 +1637,7 @@
                 options: { responsive: true, plugins: { legend: { display: false } } }
             });
 
-            // Grade distribution
+            // Grade
             const ctx3 = document.getElementById('chartGrade').getContext('2d');
             const gradeMap = {};
             const usersSnap = await db.ref('users').once('value');
@@ -1597,12 +1725,12 @@
         // STUDENTS
         // ============================================================
         let studentsPage = 1;
-        const pageSize = 20;
+        const pageSize = 15;
 
         async function loadStudents(page = 1) {
             studentsPage = page;
             const tbody = document.getElementById('studentsTableBody');
-            tbody.innerHTML = '<tr><td colspan="13" class="loading-placeholder"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="17" class="loading-placeholder"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</td></tr>';
 
             try {
                 const snap = await db.ref('users').once('value');
@@ -1612,11 +1740,10 @@
                     if (data.role === true || data.isAdmin === true) continue;
                     allStudents.push({ uid, ...data });
                 }
-                // sort by createdAt desc
                 allStudents.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
                 renderStudents(page);
             } catch (e) {
-                tbody.innerHTML = '<tr><td colspan="13" style="color:#ef4444;">خطأ في تحميل الطلاب</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="17" style="color:#ef4444;">خطأ في تحميل الطلاب</td></tr>';
             }
         }
 
@@ -1628,8 +1755,7 @@
                 filtered = allStudents.filter(s =>
                     (s.name || '').toLowerCase().includes(search) ||
                     (s.phone || '').includes(search) ||
-                    (s.uid || '').toLowerCase().includes(search) ||
-                    (s.email || '').toLowerCase().includes(search)
+                    (s.uid || '').toLowerCase().includes(search)
                 );
             }
             const total = filtered.length;
@@ -1639,43 +1765,45 @@
             const pageItems = filtered.slice(start, end);
 
             if (pageItems.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="13" class="text-muted" style="text-align:center;">لا يوجد طلاب</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="17" class="text-muted" style="text-align:center;">لا يوجد طلاب</td></tr>';
             } else {
                 tbody.innerHTML = pageItems.map((s, i) => {
                     const avatar = s.photoURL ||
                         `https://ui-avatars.com/api/?name=${encodeURIComponent(s.name||'طالب')}&background=0B4F8C&color=fff&size=34`;
                     const status = s.banned ? 'banned' : 'active';
                     const statusLabel = s.banned ? 'محظور' : 'نشط';
-                    const subType = s.subscription === 'premium' ? 'مدفوع' : 'مجاني';
-                    const subBadge = s.subscription === 'premium' ? 'premium' : 'free';
-                    const completion = s.completionRate || '0%';
                     return `
                             <tr>
                                 <td>${start + i + 1}</td>
                                 <td><img src="${avatar}" class="avatar-sm" alt="avatar"></td>
                                 <td><strong>${s.name||'غير معروف'}</strong></td>
-                                <td style="font-size:0.7rem;color:#64748b;">${s.uid?.slice(0,8)}</td>
-                                <td style="font-size:0.8rem;">${s.email||'--'}</td>
-                                <td>${s.phone||'--'}</td>
                                 <td>${s.grade||'--'}</td>
-                                <td>${s.studyType||'عام'}</td>
-                                <td><span class="badge-status ${status}">${statusLabel}</span></td>
-                                <td><span class="badge-status ${subBadge}">${subType}</span></td>
-                                <td>${s.atoms||0}</td>
-                                <td>${completion}</td>
+                                <td>${s.phone||'--'}</td>
+                                <td>${s.parentPhone||'--'}</td>
+                                <td style="font-size:0.8rem;">${s.email||'--'}</td>
+                                <td>${s.studyHours||0}</td>
+                                <td>${s.coursesCount||0}</td>
+                                <td>${s.lessonsCompleted||0}</td>
+                                <td>${s.examsTaken||0}</td>
+                                <td>${s.errors||0}</td>
+                                <td>${s.completionRate||'0%'}</td>
+                                <td>${s.rank||'--'}</td>
+                                <td class="fs-small">${formatTime(s.lastLogin)}</td>
+                                <td class="fs-small">${formatTime(s.createdAt)}</td>
                                 <td class="table-actions">
                                     <button onclick="viewStudent('${s.uid}')" title="عرض"><i class="fas fa-eye"></i></button>
                                     <button onclick="editStudent('${s.uid}')" title="تعديل"><i class="fas fa-edit"></i></button>
                                     ${s.banned ? `<button onclick="unbanStudent('${s.uid}')" title="إلغاء الحظر" style="color:#22C55E;"><i class="fas fa-unlock"></i></button>` :
                                     `<button onclick="banStudent('${s.uid}')" title="حظر" class="danger"><i class="fas fa-ban"></i></button>`}
                                     <button onclick="deleteStudent('${s.uid}')" title="حذف" class="danger"><i class="fas fa-trash"></i></button>
+                                    <button onclick="forceLogout('${s.uid}')" title="تسجيل خروج"><i class="fas fa-sign-out-alt"></i></button>
+                                    <button onclick="sendStudentNotification('${s.uid}')" title="إشعار"><i class="fas fa-bell"></i></button>
                                 </td>
                             </tr>
                         `;
                 }).join('');
             }
 
-            // pagination
             const pag = document.getElementById('studentsPagination');
             if (totalPages > 1) {
                 let html = '';
@@ -1704,6 +1832,7 @@
                             <h3 style="color:#0B4F8C;">${data.name||'غير معروف'}</h3>
                             <div class="text-muted">${data.email||'--'} • ${data.phone||'--'}</div>
                             <div class="text-muted">${data.grade||'--'} • ${data.studyType||'عام'}</div>
+                            <div><span class="badge-status ${data.banned?'banned':'active'}">${data.banned?'محظور':'نشط'}</span></div>
                         </div>
                     </div>
                     <hr style="border-color:#e2e8f0;margin:12px 0;">
@@ -1720,10 +1849,10 @@
                         <div><strong>عدد الفيديوهات:</strong> ${data.videosWatched||0}</div>
                         <div><strong>عدد الكويزات:</strong> ${data.quizzesTaken||0}</div>
                         <div><strong>عدد الامتحانات:</strong> ${data.examsTaken||0}</div>
+                        <div><strong>عدد الأخطاء:</strong> ${data.errors||0}</div>
                         <div><strong>نسبة الإنجاز:</strong> ${data.completionRate||'0%'}</div>
                         <div><strong>الذرات:</strong> ${data.atoms||0}</div>
                         <div><strong>الترتيب:</strong> ${data.rank||'--'}</div>
-                        <div><strong>الحالة:</strong> ${data.banned?'محظور':'نشط'}</div>
                     </div>
                     <hr style="border-color:#e2e8f0;margin:12px 0;">
                     <h4 style="color:#0B4F8C;">الاشتراكات</h4>
@@ -1759,8 +1888,7 @@
                 await db.ref('adminLogs').push({
                     adminId: currentUser.uid,
                     adminName: currentUser.displayName || 'Admin',
-                    action: 'حظر طالب',
-                    targetId: uid,
+                    action: 'حظر طالب: ' + uid.slice(0, 8),
                     timestamp: new Date().toISOString(),
                     userAgent: navigator.userAgent
                 });
@@ -1776,8 +1904,7 @@
                 await db.ref('adminLogs').push({
                     adminId: currentUser.uid,
                     adminName: currentUser.displayName || 'Admin',
-                    action: 'إلغاء حظر طالب',
-                    targetId: uid,
+                    action: 'إلغاء حظر طالب: ' + uid.slice(0, 8),
                     timestamp: new Date().toISOString(),
                     userAgent: navigator.userAgent
                 });
@@ -1787,20 +1914,50 @@
         }
 
         async function deleteStudent(uid) {
-            if (!confirm('⚠️ هل أنت متأكد من حذف هذا الطالب نهائياً؟ هذا الإجراء لا يمكن التراجع عنه!')) return;
+            if (!confirm('⚠️ هل أنت متأكد من حذف هذا الطالب نهائياً؟')) return;
             try {
                 await db.ref('users/' + uid).remove();
                 await db.ref('online/' + uid).remove();
                 await db.ref('adminLogs').push({
                     adminId: currentUser.uid,
                     adminName: currentUser.displayName || 'Admin',
-                    action: 'حذف طالب',
-                    targetId: uid,
+                    action: 'حذف طالب: ' + uid.slice(0, 8),
                     timestamp: new Date().toISOString(),
                     userAgent: navigator.userAgent
                 });
                 showToast('تم حذف الطالب', 'success');
                 loadStudents(studentsPage);
+            } catch (e) { showToast('خطأ: ' + e.message, 'error'); }
+        }
+
+        async function forceLogout(uid) {
+            if (!confirm('تسجيل خروج هذا الطالب من جميع الأجهزة؟')) return;
+            try {
+                await db.ref('online/' + uid).remove();
+                await db.ref('users/' + uid + '/sessionId').remove();
+                await db.ref('adminLogs').push({
+                    adminId: currentUser.uid,
+                    adminName: currentUser.displayName || 'Admin',
+                    action: 'تسجيل خروج إجباري لطالب: ' + uid.slice(0, 8),
+                    timestamp: new Date().toISOString(),
+                    userAgent: navigator.userAgent
+                });
+                showToast('تم تسجيل الخروج', 'success');
+            } catch (e) { showToast('خطأ: ' + e.message, 'error'); }
+        }
+
+        async function forceLogoutAll() {
+            if (!confirm('تسجيل خروج جميع الطلاب من جميع الأجهزة؟')) return;
+            try {
+                await db.ref('online').remove();
+                await db.ref('adminLogs').push({
+                    adminId: currentUser.uid,
+                    adminName: currentUser.displayName || 'Admin',
+                    action: 'تسجيل خروج جميع الطلاب',
+                    timestamp: new Date().toISOString(),
+                    userAgent: navigator.userAgent
+                });
+                showToast('تم تسجيل خروج الجميع', 'success');
             } catch (e) { showToast('خطأ: ' + e.message, 'error'); }
         }
 
@@ -1839,8 +1996,7 @@
                 await db.ref('adminLogs').push({
                     adminId: currentUser.uid,
                     adminName: currentUser.displayName || 'Admin',
-                    action: 'تعديل بيانات طالب',
-                    targetId: uid,
+                    action: 'تعديل بيانات طالب: ' + uid.slice(0, 8),
                     timestamp: new Date().toISOString(),
                     userAgent: navigator.userAgent
                 });
@@ -1850,18 +2006,180 @@
             } catch (e) { showToast('خطأ: ' + e.message, 'error'); }
         }
 
+        function sendStudentNotification(uid) {
+            openModal('إرسال إشعار للطالب', `
+                    <div class="form-group"><label>العنوان</label><input id="notifTitleStudent"></div>
+                    <div class="form-group"><label>المحتوى</label><textarea id="notifBodyStudent"></textarea></div>
+                    <div class="form-actions">
+                        <button class="btn-submit" onclick="sendNotifToStudent('${uid}')">إرسال</button>
+                        <button class="btn-cancel" onclick="closeModal()">إلغاء</button>
+                    </div>
+                `);
+        }
+
+        async function sendNotifToStudent(uid) {
+            const title = document.getElementById('notifTitleStudent').value.trim();
+            const body = document.getElementById('notifBodyStudent').value.trim();
+            if (!title || !body) { showToast('يرجى ملء الحقول', 'error'); return; }
+            try {
+                const ref = db.ref('notifications').push();
+                await ref.set({
+                    title,
+                    body,
+                    target: 'student',
+                    targetId: uid,
+                    read: false,
+                    createdAt: new Date().toISOString(),
+                    sender: currentUser.displayName || 'Admin',
+                    senderId: currentUser.uid
+                });
+                await db.ref('adminLogs').push({
+                    adminId: currentUser.uid,
+                    adminName: currentUser.displayName || 'Admin',
+                    action: 'إرسال إشعار لطالب: ' + uid.slice(0, 8),
+                    timestamp: new Date().toISOString(),
+                    userAgent: navigator.userAgent
+                });
+                showToast('تم إرسال الإشعار', 'success');
+                closeModal();
+                loadNotifications();
+            } catch (e) { showToast('خطأ: ' + e.message, 'error'); }
+        }
+
+        // ============================================================
+        // SUBSCRIPTIONS
+        // ============================================================
+        async function loadSubscriptions() {
+            const tbody = document.getElementById('subscriptionsTableBody');
+            tbody.innerHTML = '<tr><td colspan="7" class="loading-placeholder"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</td></tr>';
+            try {
+                const usersSnap = await db.ref('users').once('value');
+                const users = usersSnap.val() || {};
+                allSubscriptions = [];
+                for (const [uid, data] of Object.entries(users)) {
+                    if (data.role === true || data.isAdmin === true) continue;
+                    if (data.subscriptions) {
+                        for (const [cid, sub] of Object.entries(data.subscriptions)) {
+                            allSubscriptions.push({
+                                uid,
+                                studentName: data.name || 'غير معروف',
+                                courseId: cid,
+                                courseName: sub.courseName || cid,
+                                type: sub.type || 'free',
+                                startDate: sub.startDate || sub.createdAt,
+                                expiryDate: sub.expiryDate,
+                                active: sub.active !== false
+                            });
+                        }
+                    }
+                }
+                renderSubscriptions();
+            } catch (e) {
+                tbody.innerHTML = '<tr><td colspan="7" style="color:#ef4444;">خطأ في تحميل الاشتراكات</td></tr>';
+            }
+        }
+
+        function renderSubscriptions() {
+            const tbody = document.getElementById('subscriptionsTableBody');
+            const search = document.getElementById('subSearch').value.trim().toLowerCase();
+            let filtered = allSubscriptions;
+            if (search) {
+                filtered = allSubscriptions.filter(s => s.studentName.toLowerCase().includes(search));
+            }
+            if (filtered.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" class="text-muted" style="text-align:center;">لا توجد اشتراكات</td></tr>';
+                return;
+            }
+            tbody.innerHTML = filtered.map((s, i) => `
+                    <tr>
+                        <td><strong>${s.studentName}</strong></td>
+                        <td>${s.courseName}</td>
+                        <td><span class="badge-status ${s.type==='premium'?'premium':'free'}">${s.type==='premium'?'مدفوع':'مجاني'}</span></td>
+                        <td class="fs-small">${formatTime(s.startDate)}</td>
+                        <td class="fs-small">${formatTime(s.expiryDate)||'--'}</td>
+                        <td><span class="badge-status ${s.active?'active':'banned'}">${s.active?'مفعل':'منتهي'}</span></td>
+                        <td class="table-actions">
+                            <button onclick="toggleSubscription('${s.uid}','${s.courseId}')" title="${s.active?'إلغاء':'تفعيل'}"><i class="fas ${s.active?'fa-times':'fa-check'}"></i></button>
+                            <button onclick="editSubscription('${s.uid}','${s.courseId}')" title="تعديل"><i class="fas fa-edit"></i></button>
+                        </td>
+                    </tr>
+                `).join('');
+        }
+
+        function searchSubscriptions() { renderSubscriptions(); }
+
+        async function toggleSubscription(uid, cid) {
+            const snap = await db.ref('users/' + uid + '/subscriptions/' + cid + '/active').once('value');
+            const current = snap.val() !== false;
+            try {
+                await db.ref('users/' + uid + '/subscriptions/' + cid + '/active').set(!current);
+                await db.ref('adminLogs').push({
+                    adminId: currentUser.uid,
+                    adminName: currentUser.displayName || 'Admin',
+                    action: !current ? 'تفعيل اشتراك' : 'إلغاء اشتراك',
+                    targetId: uid.slice(0, 8),
+                    timestamp: new Date().toISOString(),
+                    userAgent: navigator.userAgent
+                });
+                showToast('تم تحديث الاشتراك', 'success');
+                loadSubscriptions();
+            } catch (e) { showToast('خطأ: ' + e.message, 'error'); }
+        }
+
+        function editSubscription(uid, cid) {
+            openModal('تعديل الاشتراك', `
+                    <div class="form-group"><label>تاريخ البداية</label><input id="subStart" type="datetime-local"></div>
+                    <div class="form-group"><label>تاريخ الانتهاء</label><input id="subEnd" type="datetime-local"></div>
+                    <div class="form-group">
+                        <label>النوع</label>
+                        <select id="subType">
+                            <option value="free">مجاني</option>
+                            <option value="premium">مدفوع</option>
+                        </select>
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn-submit" onclick="saveSubscriptionEdit('${uid}','${cid}')">حفظ</button>
+                        <button class="btn-cancel" onclick="closeModal()">إلغاء</button>
+                    </div>
+                `);
+        }
+
+        async function saveSubscriptionEdit(uid, cid) {
+            const start = document.getElementById('subStart').value;
+            const end = document.getElementById('subEnd').value;
+            const type = document.getElementById('subType').value;
+            try {
+                await db.ref('users/' + uid + '/subscriptions/' + cid).update({
+                    startDate: start ? new Date(start).toISOString() : undefined,
+                    expiryDate: end ? new Date(end).toISOString() : undefined,
+                    type: type,
+                    active: true
+                });
+                await db.ref('adminLogs').push({
+                    adminId: currentUser.uid,
+                    adminName: currentUser.displayName || 'Admin',
+                    action: 'تعديل اشتراك لطالب: ' + uid.slice(0, 8),
+                    timestamp: new Date().toISOString(),
+                    userAgent: navigator.userAgent
+                });
+                showToast('تم تحديث الاشتراك', 'success');
+                closeModal();
+                loadSubscriptions();
+            } catch (e) { showToast('خطأ: ' + e.message, 'error'); }
+        }
+
         // ============================================================
         // COURSES
         // ============================================================
         async function loadCourses() {
             const tbody = document.getElementById('coursesTableBody');
-            tbody.innerHTML = '<tr><td colspan="11" class="loading-placeholder"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="13" class="loading-placeholder"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</td></tr>';
             try {
                 const snap = await db.ref('courses').once('value');
                 const courses = snap.val() || {};
                 allCourses = Object.entries(courses).map(([id, data]) => ({ id, ...data }));
                 if (allCourses.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="11" class="text-muted" style="text-align:center;">لا توجد كورسات</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="13" class="text-muted" style="text-align:center;">لا توجد كورسات</td></tr>';
                     return;
                 }
                 tbody.innerHTML = allCourses.map((c, i) => {
@@ -1869,13 +2187,16 @@
                         'https://ui-avatars.com/api/?name=' + encodeURIComponent(c.name || 'كورس') +
                         '&background=0B4F8C&color=fff&size=40';
                     const subs = c.subscribers ? Object.keys(c.subscribers).length : 0;
-                    const lessons = c.lessons ? Object.keys(c.lessons).length : 0;
-                    let videos = 0,
+                    let lessons = 0,
+                        videos = 0,
+                        pdfs = 0,
                         exams = 0,
                         quizzes = 0;
                     if (c.lessons) {
+                        lessons = Object.keys(c.lessons).length;
                         for (const [lid, ldata] of Object.entries(c.lessons)) {
-                            if (ldata.videos) videos += Object.keys(ldata.videos).length;
+                            if (ldata.video) videos++;
+                            if (ldata.pdf) pdfs++;
                             if (ldata.exams) exams += Object.keys(ldata.exams).length;
                             if (ldata.quizzes) quizzes += Object.keys(ldata.quizzes).length;
                         }
@@ -1889,12 +2210,14 @@
                                 <td>${i+1}</td>
                                 <td><img src="${img}" style="width:40px;height:40px;border-radius:10px;object-fit:cover;"></td>
                                 <td><strong>${c.name||'غير معروف'}</strong></td>
+                                <td><span class="badge-status ${typeBadge}">${type}</span></td>
+                                <td>${c.price||'--'}</td>
                                 <td>${subs}</td>
                                 <td>${lessons}</td>
                                 <td>${videos}</td>
+                                <td>${pdfs}</td>
                                 <td>${exams}</td>
                                 <td>${quizzes}</td>
-                                <td><span class="badge-status ${typeBadge}">${type}</span></td>
                                 <td><span class="badge-status ${statusBadge}">${status}</span></td>
                                 <td class="table-actions">
                                     <button onclick="viewCourse('${c.id}')" title="عرض"><i class="fas fa-eye"></i></button>
@@ -1906,7 +2229,7 @@
                         `;
                 }).join('');
             } catch (e) {
-                tbody.innerHTML = '<tr><td colspan="11" style="color:#ef4444;">خطأ في تحميل الكورسات</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="13" style="color:#ef4444;">خطأ في تحميل الكورسات</td></tr>';
             }
         }
 
@@ -1917,12 +2240,14 @@
             const subs = data.subscribers ? Object.keys(data.subscribers).length : 0;
             let lessons = 0,
                 videos = 0,
+                pdfs = 0,
                 exams = 0,
                 quizzes = 0;
             if (data.lessons) {
                 lessons = Object.keys(data.lessons).length;
                 for (const [lid, ldata] of Object.entries(data.lessons)) {
-                    if (ldata.videos) videos += Object.keys(ldata.videos).length;
+                    if (ldata.video) videos++;
+                    if (ldata.pdf) pdfs++;
                     if (ldata.exams) exams += Object.keys(ldata.exams).length;
                     if (ldata.quizzes) quizzes += Object.keys(ldata.quizzes).length;
                 }
@@ -1939,11 +2264,14 @@
                         <div><strong>المشتركين:</strong> ${subs}</div>
                         <div><strong>الحصص:</strong> ${lessons}</div>
                         <div><strong>الفيديوهات:</strong> ${videos}</div>
+                        <div><strong>PDF:</strong> ${pdfs}</div>
                         <div><strong>الامتحانات:</strong> ${exams}</div>
                         <div><strong>الكويزات:</strong> ${quizzes}</div>
                         <div><strong>النوع:</strong> ${data.isPremium ? 'مدفوع' : 'مجاني'}</div>
                         <div><strong>السعر:</strong> ${data.price||'--'}</div>
                         <div><strong>الحالة:</strong> ${data.active!==false ? 'نشط' : 'موقف'}</div>
+                        ${data.telegram ? `<div><strong>تليجرام:</strong> ${data.telegram}</div>` : ''}
+                        ${data.whatsapp ? `<div><strong>واتساب:</strong> ${data.whatsapp}</div>` : ''}
                     </div>
                     <hr style="border-color:#e2e8f0;margin:12px 0;">
                     <h4 style="color:#0B4F8C;">الحصص</h4>
@@ -1951,7 +2279,6 @@
                         <div class="loading-placeholder" style="padding:10px;"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</div>
                     </div>
                 `);
-            // load lessons
             const lessonsSnap = await db.ref('courses/' + cid + '/lessons').once('value');
             const lessonsData = lessonsSnap.val() || {};
             const container = document.getElementById('courseLessons_' + cid);
@@ -1961,7 +2288,7 @@
                 container.innerHTML = Object.entries(lessonsData).map(([lid, ldata]) => `
                         <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #f1f5f9;">
                             <span>${ldata.title||lid}</span>
-                            <span class="text-muted fs-small">${ldata.videos?Object.keys(ldata.videos).length+' فيديو' : ''} ${ldata.exams?Object.keys(ldata.exams).length+' امتحان' : ''} ${ldata.quizzes?Object.keys(ldata.quizzes).length+' كويز' : ''}</span>
+                            <span class="text-muted fs-small">${ldata.video?'🎬 فيديو' : ''} ${ldata.pdf?'📄 PDF' : ''} ${ldata.exams?Object.keys(ldata.exams).length+' 📝' : ''} ${ldata.quizzes?Object.keys(ldata.quizzes).length+' ❓' : ''}</span>
                             <span class="text-muted fs-small">${ldata.isLive ? '🔴 بث مباشر' : ''}</span>
                         </div>
                     `).join('');
@@ -1973,35 +2300,52 @@
                     <div class="form-group"><label>اسم الكورس</label><input id="courseName" placeholder="اسم الكورس"></div>
                     <div class="form-group"><label>الوصف</label><textarea id="courseDesc" placeholder="وصف الكورس"></textarea></div>
                     <div class="form-group"><label>صورة الكورس (URL)</label><input id="courseImage" placeholder="رابط الصورة"></div>
-                    <div class="form-group"><label>السعر (للدفع)</label><input id="coursePrice" placeholder="السعر" type="number"></div>
+                    <div class="form-group"><label>الغلاف (URL)</label><input id="courseCover" placeholder="رابط الغلاف"></div>
+                    <div class="form-group"><label>السعر</label><input id="coursePrice" placeholder="السعر" type="number"></div>
                     <div class="form-group">
-                        <label>نوع الكورس</label>
-                        <select id="courseType">
+                        <label>النوع</label>
+                        <select id="courseType" onchange="toggleCoursePrice()">
                             <option value="false">مجاني</option>
                             <option value="true">مدفوع</option>
                         </select>
+                    </div>
+                    <div id="paidDetails" style="display:none;border:2px solid #e2e8f0;padding:12px;border-radius:10px;margin-bottom:14px;">
+                        <div class="form-group"><label>تفاصيل الاشتراك</label><textarea id="courseSubDetails" placeholder="تفاصيل الاشتراك المدفوع"></textarea></div>
+                        <div class="form-group"><label>رابط تليجرام</label><input id="courseTelegram" placeholder="https://t.me/..."></div>
+                        <div class="form-group"><label>رابط واتساب</label><input id="courseWhatsapp" placeholder="https://wa.me/..."></div>
                     </div>
                     <div class="form-actions">
                         <button class="btn-submit" onclick="addCourse()">إضافة</button>
                         <button class="btn-cancel" onclick="closeModal()">إلغاء</button>
                     </div>
                 `);
+            window.toggleCoursePrice = function() {
+                const val = document.getElementById('courseType').value;
+                document.getElementById('paidDetails').style.display = val === 'true' ? 'block' : 'none';
+            };
         }
 
         async function addCourse() {
             const name = document.getElementById('courseName').value.trim();
             if (!name) { showToast('يرجى إدخال اسم الكورس', 'error'); return; }
+            const isPremium = document.getElementById('courseType').value === 'true';
             const data = {
                 name: name,
                 description: document.getElementById('courseDesc').value.trim() || '',
                 image: document.getElementById('courseImage').value.trim() || '',
+                cover: document.getElementById('courseCover').value.trim() || '',
                 price: parseFloat(document.getElementById('coursePrice').value) || 0,
-                isPremium: document.getElementById('courseType').value === 'true',
+                isPremium: isPremium,
                 active: true,
                 createdAt: new Date().toISOString(),
                 subscribers: {},
                 lessons: {}
             };
+            if (isPremium) {
+                data.subscriptionDetails = document.getElementById('courseSubDetails').value.trim() || '';
+                data.telegram = document.getElementById('courseTelegram').value.trim() || '';
+                data.whatsapp = document.getElementById('courseWhatsapp').value.trim() || '';
+            }
             try {
                 const ref = db.ref('courses').push();
                 await ref.set(data);
@@ -2026,6 +2370,7 @@
                     <div class="form-group"><label>اسم الكورس</label><input id="editCourseName" value="${data.name||''}"></div>
                     <div class="form-group"><label>الوصف</label><textarea id="editCourseDesc">${data.description||''}</textarea></div>
                     <div class="form-group"><label>صورة الكورس (URL)</label><input id="editCourseImage" value="${data.image||''}"></div>
+                    <div class="form-group"><label>الغلاف (URL)</label><input id="editCourseCover" value="${data.cover||''}"></div>
                     <div class="form-group"><label>السعر</label><input id="editCoursePrice" value="${data.price||0}" type="number"></div>
                     <div class="form-group">
                         <label>النوع</label>
@@ -2034,6 +2379,13 @@
                             <option value="true" ${data.isPremium?'selected':''}>مدفوع</option>
                         </select>
                     </div>
+                    ${data.isPremium ? `
+                    <div style="border:2px solid #e2e8f0;padding:12px;border-radius:10px;margin-bottom:14px;">
+                        <div class="form-group"><label>تفاصيل الاشتراك</label><textarea id="editSubDetails">${data.subscriptionDetails||''}</textarea></div>
+                        <div class="form-group"><label>تليجرام</label><input id="editTelegram" value="${data.telegram||''}"></div>
+                        <div class="form-group"><label>واتساب</label><input id="editWhatsapp" value="${data.whatsapp||''}"></div>
+                    </div>
+                    ` : ''}
                     <div class="form-actions">
                         <button class="btn-submit" onclick="saveCourseEdit('${cid}')">حفظ</button>
                         <button class="btn-cancel" onclick="closeModal()">إلغاء</button>
@@ -2046,9 +2398,16 @@
                 name: document.getElementById('editCourseName').value.trim(),
                 description: document.getElementById('editCourseDesc').value.trim(),
                 image: document.getElementById('editCourseImage').value.trim(),
+                cover: document.getElementById('editCourseCover').value.trim(),
                 price: parseFloat(document.getElementById('editCoursePrice').value) || 0,
                 isPremium: document.getElementById('editCourseType').value === 'true'
             };
+            const subDetails = document.getElementById('editSubDetails');
+            if (subDetails) updates.subscriptionDetails = subDetails.value.trim();
+            const telegram = document.getElementById('editTelegram');
+            if (telegram) updates.telegram = telegram.value.trim();
+            const whatsapp = document.getElementById('editWhatsapp');
+            if (whatsapp) updates.whatsapp = whatsapp.value.trim();
             try {
                 await db.ref('courses/' + cid).update(updates);
                 await db.ref('adminLogs').push({
@@ -2083,7 +2442,7 @@
         }
 
         async function deleteCourse(cid) {
-            if (!confirm('هل أنت متأكد من حذف هذا الكورس نهائياً؟')) return;
+            if (!confirm('حذف هذا الكورس نهائياً؟')) return;
             try {
                 await db.ref('courses/' + cid).remove();
                 await db.ref('adminLogs').push({
@@ -2100,11 +2459,187 @@
         }
 
         // ============================================================
+        // LESSONS
+        // ============================================================
+        async function loadLessons() {
+            const tbody = document.getElementById('lessonsTableBody');
+            tbody.innerHTML = '<tr><td colspan="10" class="loading-placeholder"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</td></tr>';
+            try {
+                const snap = await db.ref('courses').once('value');
+                const courses = snap.val() || {};
+                allLessons = [];
+                for (const [cid, cdata] of Object.entries(courses)) {
+                    if (cdata.lessons) {
+                        for (const [lid, ldata] of Object.entries(cdata.lessons)) {
+                            allLessons.push({
+                                id: lid,
+                                courseId: cid,
+                                courseName: cdata.name || cid,
+                                ...ldata
+                            });
+                        }
+                    }
+                }
+                allLessons.sort((a, b) => (a.order || 0) - (b.order || 0));
+                if (allLessons.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="10" class="text-muted" style="text-align:center;">لا توجد حصص</td></tr>';
+                    return;
+                }
+                tbody.innerHTML = allLessons.map((l, i) => `
+                        <tr>
+                            <td>${i+1}</td>
+                            <td><strong>${l.title||'غير معروف'}</strong></td>
+                            <td>${l.courseName}</td>
+                            <td>${l.description||'--'}</td>
+                            <td>${l.video ? '✅' : '❌'}</td>
+                            <td>${l.pdf ? '✅' : '❌'}</td>
+                            <td>${l.quizzes ? Object.keys(l.quizzes).length : 0}</td>
+                            <td>${l.exams ? Object.keys(l.exams).length : 0}</td>
+                            <td>${l.order||0}</td>
+                            <td class="table-actions">
+                                <button onclick="editLesson('${l.courseId}','${l.id}')" title="تعديل"><i class="fas fa-edit"></i></button>
+                                <button onclick="deleteLesson('${l.courseId}','${l.id}')" title="حذف" class="danger"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    `).join('');
+            } catch (e) {
+                tbody.innerHTML = '<tr><td colspan="10" style="color:#ef4444;">خطأ في تحميل الحصص</td></tr>';
+            }
+        }
+
+        function openAddLessonModal() {
+            const courseOpts = allCourses.map(c => `<option value="${c.id}">${c.name||c.id}</option>`).join('');
+            openModal('إضافة حصة جديدة', `
+                    <div class="form-group"><label>اختر الكورس</label>
+                        <select id="lessonCourse">${courseOpts}</select>
+                    </div>
+                    <div class="form-group"><label>اسم الحصة</label><input id="lessonTitle" placeholder="اسم الحصة"></div>
+                    <div class="form-group"><label>الوصف</label><textarea id="lessonDesc" placeholder="وصف الحصة"></textarea></div>
+                    <div class="form-group"><label>رابط الفيديو</label><input id="lessonVideo" placeholder="https://..."></div>
+                    <div class="form-group"><label>رابط PDF</label><input id="lessonPdf" placeholder="https://..."></div>
+                    <div class="form-group"><label>رابط مجموعة (تليجرام/واتساب)</label><input id="lessonGroup" placeholder="https://..."></div>
+                    <div class="form-group"><label>رابط لايف</label><input id="lessonLive" placeholder="https://zoom/..."></div>
+                    <div class="form-group"><label>الترتيب</label><input id="lessonOrder" type="number" placeholder="0" value="0"></div>
+                    <div class="form-group">
+                        <label>إضافة</label>
+                        <select id="lessonAddType">
+                            <option value="">لا شيء</option>
+                            <option value="quiz">كويز</option>
+                            <option value="exam">امتحان</option>
+                            <option value="final">امتحان نهائي</option>
+                            <option value="summary">ملزمة</option>
+                        </select>
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn-submit" onclick="addLesson()">إضافة</button>
+                        <button class="btn-cancel" onclick="closeModal()">إلغاء</button>
+                    </div>
+                `);
+        }
+
+        async function addLesson() {
+            const cid = document.getElementById('lessonCourse').value;
+            const title = document.getElementById('lessonTitle').value.trim();
+            if (!cid || !title) { showToast('يرجى اختيار الكورس وإدخال اسم الحصة', 'error'); return; }
+            const data = {
+                title: title,
+                description: document.getElementById('lessonDesc').value.trim() || '',
+                video: document.getElementById('lessonVideo').value.trim() || '',
+                pdf: document.getElementById('lessonPdf').value.trim() || '',
+                groupLink: document.getElementById('lessonGroup').value.trim() || '',
+                liveLink: document.getElementById('lessonLive').value.trim() || '',
+                order: parseInt(document.getElementById('lessonOrder').value) || 0,
+                createdAt: new Date().toISOString()
+            };
+            const addType = document.getElementById('lessonAddType').value;
+            if (addType === 'quiz') data.quizzes = { placeholder: { title: 'كويز جديد', questions: 0 } };
+            if (addType === 'exam' || addType === 'final') data.exams = { placeholder: { title: addType === 'final' ?
+                        'امتحان نهائي' : 'امتحان', questions: 0 } };
+            if (addType === 'summary') data.summary = { content: 'ملزمة جديدة' };
+
+            try {
+                const ref = db.ref('courses/' + cid + '/lessons').push();
+                await ref.set(data);
+                await db.ref('adminLogs').push({
+                    adminId: currentUser.uid,
+                    adminName: currentUser.displayName || 'Admin',
+                    action: 'إضافة حصة: ' + title,
+                    timestamp: new Date().toISOString(),
+                    userAgent: navigator.userAgent
+                });
+                showToast('تم إضافة الحصة', 'success');
+                closeModal();
+                loadLessons();
+            } catch (e) { showToast('خطأ: ' + e.message, 'error'); }
+        }
+
+        async function editLesson(cid, lid) {
+            const snap = await db.ref('courses/' + cid + '/lessons/' + lid).once('value');
+            const data = snap.val();
+            if (!data) { showToast('الحصة غير موجودة', 'error'); return; }
+            openModal('تعديل الحصة', `
+                    <div class="form-group"><label>اسم الحصة</label><input id="editLessonTitle" value="${data.title||''}"></div>
+                    <div class="form-group"><label>الوصف</label><textarea id="editLessonDesc">${data.description||''}</textarea></div>
+                    <div class="form-group"><label>رابط الفيديو</label><input id="editLessonVideo" value="${data.video||''}"></div>
+                    <div class="form-group"><label>رابط PDF</label><input id="editLessonPdf" value="${data.pdf||''}"></div>
+                    <div class="form-group"><label>رابط المجموعة</label><input id="editLessonGroup" value="${data.groupLink||''}"></div>
+                    <div class="form-group"><label>رابط لايف</label><input id="editLessonLive" value="${data.liveLink||''}"></div>
+                    <div class="form-group"><label>الترتيب</label><input id="editLessonOrder" type="number" value="${data.order||0}"></div>
+                    <div class="form-actions">
+                        <button class="btn-submit" onclick="saveLessonEdit('${cid}','${lid}')">حفظ</button>
+                        <button class="btn-cancel" onclick="closeModal()">إلغاء</button>
+                    </div>
+                `);
+        }
+
+        async function saveLessonEdit(cid, lid) {
+            const updates = {
+                title: document.getElementById('editLessonTitle').value.trim(),
+                description: document.getElementById('editLessonDesc').value.trim(),
+                video: document.getElementById('editLessonVideo').value.trim(),
+                pdf: document.getElementById('editLessonPdf').value.trim(),
+                groupLink: document.getElementById('editLessonGroup').value.trim(),
+                liveLink: document.getElementById('editLessonLive').value.trim(),
+                order: parseInt(document.getElementById('editLessonOrder').value) || 0
+            };
+            try {
+                await db.ref('courses/' + cid + '/lessons/' + lid).update(updates);
+                await db.ref('adminLogs').push({
+                    adminId: currentUser.uid,
+                    adminName: currentUser.displayName || 'Admin',
+                    action: 'تعديل حصة: ' + updates.title,
+                    timestamp: new Date().toISOString(),
+                    userAgent: navigator.userAgent
+                });
+                showToast('تم التعديل', 'success');
+                closeModal();
+                loadLessons();
+            } catch (e) { showToast('خطأ: ' + e.message, 'error'); }
+        }
+
+        async function deleteLesson(cid, lid) {
+            if (!confirm('حذف هذه الحصة؟')) return;
+            try {
+                await db.ref('courses/' + cid + '/lessons/' + lid).remove();
+                await db.ref('adminLogs').push({
+                    adminId: currentUser.uid,
+                    adminName: currentUser.displayName || 'Admin',
+                    action: 'حذف حصة',
+                    targetId: lid.slice(0, 8),
+                    timestamp: new Date().toISOString(),
+                    userAgent: navigator.userAgent
+                });
+                showToast('تم حذف الحصة', 'success');
+                loadLessons();
+            } catch (e) { showToast('خطأ: ' + e.message, 'error'); }
+        }
+
+        // ============================================================
         // EXAMS
         // ============================================================
         async function loadExams() {
             const tbody = document.getElementById('examsTableBody');
-            tbody.innerHTML = '<tr><td colspan="10" class="loading-placeholder"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="11" class="loading-placeholder"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</td></tr>';
             try {
                 const snap = await db.ref('courses').once('value');
                 const courses = snap.val() || {};
@@ -2120,6 +2655,7 @@
                                         courseName: cdata.name || cid,
                                         lessonId: lid,
                                         lessonTitle: ldata.title || lid,
+                                        type: edata.title?.includes('نهائي') ? 'نهائي' : 'عادي',
                                         ...edata
                                     });
                                 }
@@ -2129,7 +2665,7 @@
                 }
                 allExams = exams;
                 if (exams.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="10" class="text-muted" style="text-align:center;">لا توجد امتحانات</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="11" class="text-muted" style="text-align:center;">لا توجد امتحانات</td></tr>';
                     return;
                 }
                 tbody.innerHTML = exams.map((e, i) => `
@@ -2138,6 +2674,7 @@
                             <td><strong>${e.title||'غير معروف'}</strong></td>
                             <td>${e.courseName}</td>
                             <td>${e.lessonTitle}</td>
+                            <td><span class="badge-status ${e.type==='نهائي'?'premium':'free'}">${e.type||'عادي'}</span></td>
                             <td>${e.participants||0}</td>
                             <td>${e.completed||0}</td>
                             <td>${e.averageScore||'--'}</td>
@@ -2149,14 +2686,13 @@
                         </tr>
                     `).join('');
             } catch (e) {
-                tbody.innerHTML = '<tr><td colspan="10" style="color:#ef4444;">خطأ في تحميل الامتحانات</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="11" style="color:#ef4444;">خطأ في تحميل الامتحانات</td></tr>';
             }
         }
 
         function openAddExamModal() {
-            // get courses for dropdown
             const courseOpts = allCourses.map(c => `<option value="${c.id}">${c.name||c.id}</option>`).join('');
-            openModal('إضافة امتحان جديد', `
+            openModal('إضافة امتحان', `
                     <div class="form-group"><label>اسم الامتحان</label><input id="examTitle" placeholder="اسم الامتحان"></div>
                     <div class="form-group"><label>الكورس</label>
                         <select id="examCourse" onchange="loadExamLessons()">
@@ -2167,13 +2703,19 @@
                     <div class="form-group"><label>الحصة</label>
                         <select id="examLesson"><option value="">اختر حصة</option></select>
                     </div>
+                    <div class="form-group">
+                        <label>النوع</label>
+                        <select id="examType">
+                            <option value="normal">امتحان عادي</option>
+                            <option value="final">امتحان نهائي</option>
+                        </select>
+                    </div>
                     <div class="form-group"><label>عدد الأسئلة</label><input id="examQuestions" type="number" placeholder="عدد الأسئلة"></div>
                     <div class="form-actions">
                         <button class="btn-submit" onclick="addExam()">إضافة</button>
                         <button class="btn-cancel" onclick="closeModal()">إلغاء</button>
                     </div>
                 `);
-            // load lessons if course selected
             window.loadExamLessons = async function() {
                 const cid = document.getElementById('examCourse').value;
                 const sel = document.getElementById('examLesson');
@@ -2191,13 +2733,15 @@
             const title = document.getElementById('examTitle').value.trim();
             const cid = document.getElementById('examCourse').value;
             const lid = document.getElementById('examLesson').value;
+            const type = document.getElementById('examType').value;
             const questions = parseInt(document.getElementById('examQuestions').value) || 0;
             if (!title || !cid || !lid) { showToast('يرجى ملء جميع الحقول', 'error'); return; }
             try {
                 const ref = db.ref('courses/' + cid + '/lessons/' + lid + '/exams').push();
                 await ref.set({
-                    title: title,
+                    title: type === 'final' ? 'امتحان نهائي: ' + title : title,
                     questions: questions,
+                    type: type === 'final' ? 'نهائي' : 'عادي',
                     participants: 0,
                     completed: 0,
                     averageScore: 0,
@@ -2219,7 +2763,7 @@
         }
 
         async function deleteExam(cid, lid, eid) {
-            if (!confirm('هل أنت متأكد من حذف هذا الامتحان؟')) return;
+            if (!confirm('حذف هذا الامتحان؟')) return;
             try {
                 await db.ref('courses/' + cid + '/lessons/' + lid + '/exams/' + eid).remove();
                 await db.ref('adminLogs').push({
@@ -2288,7 +2832,7 @@
 
         function openAddQuizModal() {
             const courseOpts = allCourses.map(c => `<option value="${c.id}">${c.name||c.id}</option>`).join('');
-            openModal('إضافة كويز جديد', `
+            openModal('إضافة كويز', `
                     <div class="form-group"><label>اسم الكويز</label><input id="quizTitle" placeholder="اسم الكويز"></div>
                     <div class="form-group"><label>الكورس</label>
                         <select id="quizCourse" onchange="loadQuizLessons()">
@@ -2347,7 +2891,7 @@
         }
 
         async function deleteQuiz(cid, lid, qid) {
-            if (!confirm('هل أنت متأكد من حذف هذا الكويز؟')) return;
+            if (!confirm('حذف هذا الكويز؟')) return;
             try {
                 await db.ref('courses/' + cid + '/lessons/' + lid + '/quizzes/' + qid).remove();
                 await db.ref('adminLogs').push({
@@ -2363,29 +2907,69 @@
         }
 
         // ============================================================
-        // LOGS
+        // LIVE
         // ============================================================
-        async function loadLogs() {
-            const container = document.getElementById('logsContainer');
-            container.innerHTML = '<div class="loading-placeholder"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</div>';
-            try {
-                const snap = await db.ref('adminLogs').orderByChild('timestamp').limitToLast(100).once('value');
-                const logs = snap.val() || {};
-                const entries = Object.entries(logs).map(([id, data]) => ({ id, ...data })).reverse();
-                if (entries.length === 0) {
-                    container.innerHTML = '<div class="text-muted" style="padding:20px;text-align:center;">لا توجد سجلات</div>';
-                    return;
+        function listenLiveStatus() {
+            db.ref('live').on('value', (snap) => {
+                const data = snap.val();
+                if (data && data.active) {
+                    isLive = true;
+                    liveData = data;
+                    document.getElementById('liveStatus').innerHTML = `
+                            <div style="display:flex;align-items:center;gap:16px;justify-content:center;flex-wrap:wrap;">
+                                <span class="live-badge">🔴 لايف الآن</span>
+                                <span style="font-weight:700;">${data.title||'بث مباشر'}</span>
+                                <a href="${data.link||'#'}" target="_blank" style="color:#0B4F8C;font-weight:700;"><i class="fas fa-external-link-alt"></i> فتح البث</a>
+                            </div>
+                        `;
+                    document.getElementById('startLiveBtn').style.display = 'none';
+                    document.getElementById('stopLiveBtn').style.display = 'inline-block';
+                } else {
+                    isLive = false;
+                    liveData = null;
+                    document.getElementById('liveStatus').innerHTML =
+                        '<span class="text-muted">لا يوجد بث مباشر حالياً</span>';
+                    document.getElementById('startLiveBtn').style.display = 'inline-block';
+                    document.getElementById('stopLiveBtn').style.display = 'none';
                 }
-                container.innerHTML = entries.map(log => `
-                        <div class="log-entry">
-                            <div class="log-icon"><i class="fas ${getLogIcon(log.action)}"></i></div>
-                            <div class="log-text"><strong>${log.adminName||'Admin'}</strong> ${log.action} ${log.targetId ? '<span class="text-muted fs-small">('+log.targetId.slice(0,8)+')</span>' : ''}</div>
-                            <div class="log-time">${formatTime(log.timestamp)}</div>
-                        </div>
-                    `).join('');
-            } catch (e) {
-                container.innerHTML = '<div class="text-muted" style="padding:20px;text-align:center;color:#ef4444;">خطأ في تحميل السجلات</div>';
-            }
+            });
+        }
+
+        async function startLive() {
+            const link = document.getElementById('liveLink').value.trim();
+            const title = document.getElementById('liveTitle').value.trim() || 'بث مباشر';
+            if (!link) { showToast('يرجى إدخال رابط البث', 'error'); return; }
+            try {
+                await db.ref('live').set({
+                    active: true,
+                    link: link,
+                    title: title,
+                    startedAt: new Date().toISOString(),
+                    startedBy: currentUser.displayName || 'Admin'
+                });
+                await db.ref('adminLogs').push({
+                    adminId: currentUser.uid,
+                    adminName: currentUser.displayName || 'Admin',
+                    action: 'بدأ بث مباشر: ' + title,
+                    timestamp: new Date().toISOString(),
+                    userAgent: navigator.userAgent
+                });
+                showToast('تم بدء البث المباشر', 'success');
+            } catch (e) { showToast('خطأ: ' + e.message, 'error'); }
+        }
+
+        async function stopLive() {
+            try {
+                await db.ref('live').remove();
+                await db.ref('adminLogs').push({
+                    adminId: currentUser.uid,
+                    adminName: currentUser.displayName || 'Admin',
+                    action: 'إيقاف البث المباشر',
+                    timestamp: new Date().toISOString(),
+                    userAgent: navigator.userAgent
+                });
+                showToast('تم إيقاف البث', 'success');
+            } catch (e) { showToast('خطأ: ' + e.message, 'error'); }
         }
 
         // ============================================================
@@ -2424,6 +3008,7 @@
         }
 
         function openAddNotificationModal() {
+            const courseOpts = allCourses.map(c => `<option value="${c.id}">${c.name||c.id}</option>`).join('');
             openModal('إضافة إشعار جديد', `
                     <div class="form-group"><label>العنوان</label><input id="notifTitle" placeholder="عنوان الإشعار"></div>
                     <div class="form-group"><label>المحتوى</label><textarea id="notifBody" placeholder="محتوى الإشعار"></textarea></div>
@@ -2433,13 +3018,21 @@
                             <option value="all">جميع الطلاب</option>
                             <option value="premium">المشتركين المدفوع</option>
                             <option value="free">المشتركين المجاني</option>
+                            <option value="course">كورس معين</option>
                         </select>
+                    </div>
+                    <div class="form-group" id="courseSelectDiv" style="display:none;">
+                        <label>اختر الكورس</label>
+                        <select id="notifCourse">${courseOpts}</select>
                     </div>
                     <div class="form-actions">
                         <button class="btn-submit" onclick="addNotification()">إرسال</button>
                         <button class="btn-cancel" onclick="closeModal()">إلغاء</button>
                     </div>
                 `);
+            document.getElementById('notifTarget').addEventListener('change', function() {
+                document.getElementById('courseSelectDiv').style.display = this.value === 'course' ? 'block' : 'none';
+            });
         }
 
         async function addNotification() {
@@ -2447,17 +3040,21 @@
             const body = document.getElementById('notifBody').value.trim();
             const target = document.getElementById('notifTarget').value;
             if (!title || !body) { showToast('يرجى ملء جميع الحقول', 'error'); return; }
+            const data = {
+                title,
+                body,
+                target,
+                read: false,
+                createdAt: new Date().toISOString(),
+                sender: currentUser.displayName || 'Admin',
+                senderId: currentUser.uid
+            };
+            if (target === 'course') {
+                data.courseId = document.getElementById('notifCourse').value;
+            }
             try {
                 const ref = db.ref('notifications').push();
-                await ref.set({
-                    title,
-                    body,
-                    target,
-                    read: false,
-                    createdAt: new Date().toISOString(),
-                    sender: currentUser.displayName || 'Admin',
-                    senderId: currentUser.uid
-                });
+                await ref.set(data);
                 await db.ref('adminLogs').push({
                     adminId: currentUser.uid,
                     adminName: currentUser.displayName || 'Admin',
@@ -2496,6 +3093,32 @@
         }
 
         // ============================================================
+        // LOGS
+        // ============================================================
+        async function loadLogs() {
+            const container = document.getElementById('logsContainer');
+            container.innerHTML = '<div class="loading-placeholder"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</div>';
+            try {
+                const snap = await db.ref('adminLogs').orderByChild('timestamp').limitToLast(100).once('value');
+                const logs = snap.val() || {};
+                const entries = Object.entries(logs).map(([id, data]) => ({ id, ...data })).reverse();
+                if (entries.length === 0) {
+                    container.innerHTML = '<div class="text-muted" style="padding:20px;text-align:center;">لا توجد سجلات</div>';
+                    return;
+                }
+                container.innerHTML = entries.map(log => `
+                        <div class="log-entry">
+                            <div class="log-icon"><i class="fas ${getLogIcon(log.action)}"></i></div>
+                            <div class="log-text"><strong>${log.adminName||'Admin'}</strong> ${log.action}</div>
+                            <div class="log-time">${formatTime(log.timestamp)}</div>
+                        </div>
+                    `).join('');
+            } catch (e) {
+                container.innerHTML = '<div class="text-muted" style="padding:20px;text-align:center;color:#ef4444;">خطأ في تحميل السجلات</div>';
+            }
+        }
+
+        // ============================================================
         // MODAL HELPERS
         // ============================================================
         function openModal(title, body) {
@@ -2515,7 +3138,7 @@
         // LOGOUT
         // ============================================================
         async function logoutAdmin() {
-            if (confirm('هل أنت متأكد من تسجيل الخروج؟')) {
+            if (confirm('تسجيل الخروج؟')) {
                 await auth.signOut();
                 window.location.href = 'admin-login.html';
             }
@@ -2526,7 +3149,6 @@
         // ============================================================
         async function clearTestData() {
             try {
-                // remove test users (non-admin)
                 const snap = await db.ref('users').once('value');
                 const users = snap.val() || {};
                 for (const [uid, data] of Object.entries(users)) {
@@ -2540,7 +3162,6 @@
 
         function exportData() {
             showToast('جاري تصدير البيانات...', 'info');
-            // simple export: download as JSON
             db.ref().once('value').then(snap => {
                 const data = snap.val();
                 const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
@@ -2557,7 +3178,7 @@
         // ============================================================
         // INIT
         // ============================================================
-        console.log('🚀 Admin Dashboard v3.0 loaded');
+        console.log('🚀 Admin Dashboard v4.0 - Yalla Kimya');
         console.log('👤 Admin:', currentUser?.uid);
     </script>
 </body>
