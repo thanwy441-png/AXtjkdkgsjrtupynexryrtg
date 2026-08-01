@@ -10,9 +10,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        /* ============================================================
-           ROOT VARIABLES
-           ============================================================ */
         :root {
             --admin-bg: #f0f4f8;
             --admin-card: #ffffff;
@@ -26,8 +23,9 @@
             --admin-warning: #F59E0B;
             --admin-sidebar: #0B4F8C;
             --admin-sidebar-text: #ffffff;
-            --admin-shadow: 0 4px 16px rgba(0,0,0,0.08);
+            --admin-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
             --admin-radius: 12px;
+            --admin-radius-lg: 20px;
             --admin-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
@@ -37,14 +35,15 @@
             --admin-text: #f1f5f9;
             --admin-text2: #94a3b8;
             --admin-border: #334155;
-            --admin-shadow: 0 4px 16px rgba(0,0,0,0.3);
+            --admin-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
             --admin-sidebar: #0f172a;
         }
 
-        /* ============================================================
-           GLOBAL
-           ============================================================ */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
             font-family: 'Cairo', sans-serif;
             background: var(--admin-bg);
@@ -53,12 +52,16 @@
             overflow-x: hidden;
         }
 
-        /* ============================================================
-           SCROLLBAR
-           ============================================================ */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: var(--admin-bg); }
-        ::-webkit-scrollbar-thumb { background: var(--admin-primary); border-radius: 10px; }
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--admin-bg);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--admin-primary);
+            border-radius: 10px;
+        }
 
         /* ============================================================
            SIDEBAR
@@ -75,14 +78,14 @@
             overflow-y: auto;
             z-index: 1000;
             transition: var(--admin-transition);
-            box-shadow: 4px 0 20px rgba(0,0,0,0.1);
+            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.1);
         }
         .admin-sidebar .logo {
             display: flex;
             align-items: center;
             gap: 12px;
             padding: 0 20px 20px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             margin-bottom: 16px;
         }
         .admin-sidebar .logo img {
@@ -106,7 +109,7 @@
             align-items: center;
             gap: 12px;
             padding: 12px 20px;
-            color: rgba(255,255,255,0.7);
+            color: rgba(255, 255, 255, 0.7);
             text-decoration: none;
             transition: var(--admin-transition);
             cursor: pointer;
@@ -114,11 +117,11 @@
             font-size: 0.9rem;
         }
         .admin-sidebar .nav-item:hover {
-            background: rgba(255,255,255,0.08);
+            background: rgba(255, 255, 255, 0.08);
             color: #fff;
         }
         .admin-sidebar .nav-item.active {
-            background: rgba(255,255,255,0.12);
+            background: rgba(255, 255, 255, 0.12);
             color: #fff;
             border-right-color: #FFD60A;
         }
@@ -141,15 +144,12 @@
             left: 0;
             right: 0;
             padding: 16px 20px;
-            border-top: 1px solid rgba(255,255,255,0.1);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
             font-size: 0.75rem;
             opacity: 0.6;
             text-align: center;
         }
 
-        /* ============================================================
-           MAIN CONTENT
-           ============================================================ */
         .admin-main {
             margin-right: 260px;
             padding: 20px;
@@ -180,6 +180,7 @@
             display: flex;
             align-items: center;
             gap: 12px;
+            flex-wrap: wrap;
         }
         .admin-topbar .topbar-actions .admin-user {
             display: flex;
@@ -201,6 +202,12 @@
             justify-content: center;
             font-weight: 700;
             font-size: 0.8rem;
+            overflow: hidden;
+        }
+        .admin-topbar .topbar-actions .admin-user .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
         .admin-topbar .topbar-actions .admin-user .name {
             font-weight: 600;
@@ -233,7 +240,7 @@
         }
         .admin-topbar .topbar-actions .logout-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(239,68,68,0.3);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
         }
 
         /* ============================================================
@@ -241,7 +248,7 @@
            ============================================================ */
         .dashboard-cards {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
             gap: 16px;
             margin-bottom: 20px;
         }
@@ -255,11 +262,11 @@
         }
         .stat-card:hover {
             transform: translateY(-3px);
-            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
         }
         .stat-card .stat-icon {
             font-size: 1.8rem;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
         }
         .stat-card .stat-number {
             font-family: 'Lalezar', cursive;
@@ -267,17 +274,10 @@
             color: var(--admin-text);
         }
         .stat-card .stat-label {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             color: var(--admin-text2);
             font-weight: 600;
         }
-        .stat-card .stat-change {
-            font-size: 0.7rem;
-            font-weight: 600;
-            margin-top: 4px;
-        }
-        .stat-card .stat-change.up { color: var(--admin-success); }
-        .stat-card .stat-change.down { color: var(--admin-danger); }
 
         /* ============================================================
            SECTIONS
@@ -302,6 +302,31 @@
             font-size: 1.5rem;
             color: var(--admin-text);
         }
+        .section-header .btn {
+            padding: 8px 20px;
+            border: none;
+            border-radius: var(--admin-radius);
+            font-weight: 700;
+            cursor: pointer;
+            font-family: 'Cairo', sans-serif;
+            transition: var(--admin-transition);
+            background: var(--admin-primary);
+            color: #fff;
+            font-size: 0.85rem;
+        }
+        .section-header .btn:hover {
+            background: var(--admin-primary2);
+            transform: translateY(-2px);
+        }
+        .section-header .btn-outline {
+            background: transparent;
+            border: 2px solid var(--admin-border);
+            color: var(--admin-text2);
+        }
+        .section-header .btn-outline:hover {
+            background: var(--admin-bg);
+            transform: none;
+        }
 
         /* ============================================================
            TABLES
@@ -323,7 +348,7 @@
             padding: 12px 16px;
             text-align: right;
             font-weight: 700;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: var(--admin-text2);
             border-bottom: 2px solid var(--admin-border);
             white-space: nowrap;
@@ -331,7 +356,7 @@
         .table-responsive td {
             padding: 10px 16px;
             border-bottom: 1px solid var(--admin-border);
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             vertical-align: middle;
         }
         .table-responsive tr:hover td {
@@ -349,18 +374,78 @@
             justify-content: center;
             font-weight: 700;
             font-size: 0.7rem;
+            overflow: hidden;
+        }
+        .table-responsive .avatar-sm img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
         .table-responsive .status-badge {
             padding: 2px 12px;
             border-radius: 20px;
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             font-weight: 600;
+            display: inline-block;
         }
-        .status-badge.active { background: #22C55E20; color: #22C55E; }
-        .status-badge.inactive { background: #EF444420; color: #EF4444; }
-        .status-badge.banned { background: #EF444440; color: #EF4444; }
-        .status-badge.premium { background: #F59E0B20; color: #F59E0B; }
-        .status-badge.free { background: #0B4F8C20; color: #0B4F8C; }
+        .status-badge.active {
+            background: #22C55E20;
+            color: #22C55E;
+        }
+        .status-badge.inactive {
+            background: #EF444420;
+            color: #EF4444;
+        }
+        .status-badge.banned {
+            background: #EF444440;
+            color: #EF4444;
+        }
+        .status-badge.premium {
+            background: #F59E0B20;
+            color: #F59E0B;
+        }
+        .status-badge.free {
+            background: #0B4F8C20;
+            color: #0B4F8C;
+        }
+        .status-badge.exam {
+            background: #8B5CF620;
+            color: #8B5CF6;
+        }
+        .status-badge.quiz {
+            background: #22C55E20;
+            color: #22C55E;
+        }
+
+        .table-responsive .btn-sm {
+            padding: 4px 10px;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            cursor: pointer;
+            font-family: 'Cairo', sans-serif;
+            transition: var(--admin-transition);
+            margin: 2px;
+        }
+        .table-responsive .btn-sm:hover {
+            transform: scale(1.05);
+        }
+        .btn-sm-primary {
+            background: var(--admin-primary);
+            color: #fff;
+        }
+        .btn-sm-warning {
+            background: var(--admin-warning);
+            color: #fff;
+        }
+        .btn-sm-danger {
+            background: var(--admin-danger);
+            color: #fff;
+        }
+        .btn-sm-success {
+            background: var(--admin-success);
+            color: #fff;
+        }
 
         /* ============================================================
            LIVE USERS
@@ -379,6 +464,11 @@
             transition: var(--admin-transition);
             box-shadow: var(--admin-shadow);
             position: relative;
+            cursor: pointer;
+        }
+        .live-user-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
         }
         .live-user-card .online-dot {
             position: absolute;
@@ -391,8 +481,15 @@
             animation: pulse-dot 1.5s infinite;
         }
         @keyframes pulse-dot {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(0.8); }
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.5;
+                transform: scale(0.8);
+            }
         }
         .live-user-card .avatar {
             width: 48px;
@@ -476,15 +573,6 @@
             background: var(--admin-primary2);
             transform: translateY(-2px);
         }
-        .search-box .btn-outline {
-            background: transparent;
-            border: 2px solid var(--admin-border);
-            color: var(--admin-text2);
-        }
-        .search-box .btn-outline:hover {
-            background: var(--admin-bg);
-            transform: none;
-        }
 
         /* ============================================================
            MODAL
@@ -493,24 +581,26 @@
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.6);
+            background: rgba(0, 0, 0, 0.6);
             backdrop-filter: blur(6px);
             z-index: 9999;
             align-items: center;
             justify-content: center;
             padding: 20px;
         }
-        .admin-modal.open { display: flex; }
+        .admin-modal.open {
+            display: flex;
+        }
         .admin-modal .modal-content {
             background: var(--admin-card);
             border-radius: var(--admin-radius-lg);
             padding: 32px;
-            max-width: 600px;
+            max-width: 700px;
             width: 100%;
             max-height: 90vh;
             overflow-y: auto;
             border: 1px solid var(--admin-border);
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             animation: modalIn 0.3s ease;
         }
         .admin-modal .modal-content h3 {
@@ -586,8 +676,14 @@
         }
 
         @keyframes modalIn {
-            from { opacity: 0; transform: scale(0.95) translateY(10px); }
-            to { opacity: 1; transform: scale(1) translateY(0); }
+            from {
+                opacity: 0;
+                transform: scale(0.95) translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
         }
 
         /* ============================================================
@@ -618,7 +714,7 @@
         }
 
         /* ============================================================
-           ACTIVITY LOG
+           LOGS
            ============================================================ */
         .log-item {
             display: flex;
@@ -638,18 +734,127 @@
             flex-shrink: 0;
             font-size: 0.9rem;
         }
-        .log-item .log-icon.login { background: #22C55E20; color: #22C55E; }
-        .log-item .log-icon.edit { background: #F59E0B20; color: #F59E0B; }
-        .log-item .log-icon.delete { background: #EF444420; color: #EF4444; }
-        .log-item .log-icon.add { background: #0B4F8C20; color: #0B4F8C; }
-        .log-item .log-icon.ban { background: #EF444440; color: #EF4444; }
-        .log-item .log-content { flex: 1; }
-        .log-item .log-content .log-action { font-weight: 600; }
-        .log-item .log-content .log-details { font-size: 0.75rem; color: var(--admin-text2); }
-        .log-item .log-time { font-size: 0.7rem; color: var(--admin-text2); white-space: nowrap; }
+        .log-item .log-icon.login {
+            background: #22C55E20;
+            color: #22C55E;
+        }
+        .log-item .log-icon.edit {
+            background: #F59E0B20;
+            color: #F59E0B;
+        }
+        .log-item .log-icon.delete {
+            background: #EF444420;
+            color: #EF4444;
+        }
+        .log-item .log-icon.add {
+            background: #0B4F8C20;
+            color: #0B4F8C;
+        }
+        .log-item .log-icon.ban {
+            background: #EF444440;
+            color: #EF4444;
+        }
+        .log-item .log-content {
+            flex: 1;
+        }
+        .log-item .log-content .log-action {
+            font-weight: 600;
+        }
+        .log-item .log-content .log-details {
+            font-size: 0.75rem;
+            color: var(--admin-text2);
+        }
+        .log-item .log-time {
+            font-size: 0.7rem;
+            color: var(--admin-text2);
+            white-space: nowrap;
+        }
 
         /* ============================================================
-           RESPONSIVE
+           EMPTY STATE
+           ============================================================ */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            background: var(--admin-bg);
+            border-radius: var(--admin-radius);
+            border: 2px dashed var(--admin-border);
+        }
+        .empty-state .icon {
+            font-size: 3rem;
+            margin-bottom: 8px;
+        }
+        .empty-state h3 {
+            font-size: 1.1rem;
+            color: var(--admin-text2);
+        }
+
+        /* ============================================================
+           PAGINATION
+           ============================================================ */
+        .pagination-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+        .pagination-container .count {
+            color: var(--admin-text2);
+            font-size: 0.85rem;
+        }
+        .pagination-container .pagination-btns {
+            display: flex;
+            gap: 4px;
+            flex-wrap: wrap;
+        }
+        .pagination-container .pagination-btns button {
+            padding: 4px 12px;
+            border: 1px solid var(--admin-border);
+            border-radius: 6px;
+            background: var(--admin-card);
+            color: var(--admin-text);
+            cursor: pointer;
+            font-family: 'Cairo', sans-serif;
+            transition: var(--admin-transition);
+        }
+        .pagination-container .pagination-btns button:hover {
+            background: var(--admin-bg);
+        }
+        .pagination-container .pagination-btns button.active {
+            background: var(--admin-primary);
+            color: #fff;
+            border-color: var(--admin-primary);
+        }
+
+        /* ============================================================
+           LOADING
+           ============================================================ */
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(4px);
+            z-index: 9998;
+            align-items: center;
+            justify-content: center;
+        }
+        .loading-overlay.open {
+            display: flex;
+        }
+        .loading-overlay .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid var(--admin-border);
+            border-top-color: var(--admin-primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        /* ============================================================
+           SIDEBAR TOGGLE
            ============================================================ */
         .sidebar-toggle {
             display: none;
@@ -660,7 +865,60 @@
             cursor: pointer;
             padding: 4px 8px;
         }
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 999;
+        }
+        .sidebar-overlay.open {
+            display: block;
+        }
 
+        /* ============================================================
+           TOAST
+           ============================================================ */
+        .admin-toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 14px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            z-index: 9999;
+            color: #fff;
+            font-family: 'Cairo', sans-serif;
+            animation: slideDown 0.4s ease;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+        .admin-toast.success {
+            background: #22C55E;
+        }
+        .admin-toast.error {
+            background: #EF4444;
+        }
+        .admin-toast.info {
+            background: #0B4F8C;
+        }
+        .admin-toast.warning {
+            background: #F59E0B;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ============================================================
+           RESPONSIVE
+           ============================================================ */
         @media (max-width: 992px) {
             .admin-sidebar {
                 transform: translateX(100%);
@@ -675,28 +933,12 @@
             .sidebar-toggle {
                 display: block;
             }
-            .sidebar-overlay {
-                display: none;
-                position: fixed;
-                inset: 0;
-                background: rgba(0,0,0,0.4);
-                z-index: 999;
-            }
-            .sidebar-overlay.open {
-                display: block;
-            }
-            .dashboard-cards {
-                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            }
         }
 
         @media (max-width: 576px) {
             .admin-topbar {
                 flex-wrap: wrap;
                 gap: 8px;
-            }
-            .admin-topbar .topbar-actions {
-                flex-wrap: wrap;
             }
             .dashboard-cards {
                 grid-template-columns: repeat(2, 1fr);
@@ -711,50 +953,32 @@
             .admin-modal .modal-content {
                 padding: 20px;
             }
+            .live-users-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
 
-        /* ============================================================
-           LOADING
-           ============================================================ */
-        .loading-overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.3);
-            backdrop-filter: blur(4px);
-            z-index: 9998;
-            align-items: center;
-            justify-content: center;
+        @media (max-width: 400px) {
+            .dashboard-cards {
+                grid-template-columns: 1fr 1fr;
+            }
+            .live-users-grid {
+                grid-template-columns: 1fr;
+            }
         }
-        .loading-overlay.open { display: flex; }
-        .loading-overlay .spinner {
-            width: 50px;
-            height: 50px;
-            border: 4px solid var(--admin-border);
-            border-top-color: var(--admin-primary);
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-        }
-        @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
 
-    <!-- ============================================================
-         SIDEBAR OVERLAY (Mobile)
-         ============================================================ -->
+    <!-- SIDEBAR OVERLAY -->
     <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
 
-    <!-- ============================================================
-         LOADING OVERLAY
-         ============================================================ -->
+    <!-- LOADING OVERLAY -->
     <div class="loading-overlay" id="loadingOverlay">
         <div class="spinner"></div>
     </div>
 
-    <!-- ============================================================
-         SIDEBAR
-         ============================================================ -->
+    <!-- SIDEBAR -->
     <aside class="admin-sidebar" id="adminSidebar">
         <div class="logo">
             <img src="https://res.cloudinary.com/dbahe7lxz/image/upload/v1785593692/idraaak/ogvolfsxxnvk24gho8eb.jpg" alt="يلا كيمياء">
@@ -789,18 +1013,14 @@
         </nav>
 
         <div class="sidebar-footer">
-            <i class="fas fa-shield-alt"></i> يلا كيمياء Admin v1.0
+            <i class="fas fa-shield-alt"></i> يلا كيمياء Admin v2.0
         </div>
     </aside>
 
-    <!-- ============================================================
-         MAIN CONTENT
-         ============================================================ -->
+    <!-- MAIN CONTENT -->
     <main class="admin-main">
 
-        <!-- ============================================================
-             TOP BAR
-             ============================================================ -->
+        <!-- TOP BAR -->
         <div class="admin-topbar">
             <div style="display:flex;align-items:center;gap:12px;">
                 <button class="sidebar-toggle" onclick="toggleSidebar()">
@@ -822,14 +1042,9 @@
             </div>
         </div>
 
-        <!-- ============================================================
-             SECTION: DASHBOARD
-             ============================================================ -->
+        <!-- SECTION: DASHBOARD -->
         <div class="admin-section active" id="section-dashboard">
-            <div class="dashboard-cards" id="dashboardCards">
-                <!-- سيتم تعبئتها بواسطة JavaScript -->
-            </div>
-
+            <div class="dashboard-cards" id="dashboardCards"></div>
             <div class="charts-grid">
                 <div class="chart-box">
                     <h4>📈 التسجيلات اليومية</h4>
@@ -840,22 +1055,19 @@
                     <canvas id="gradeChart"></canvas>
                 </div>
             </div>
-
             <div class="charts-grid">
                 <div class="chart-box">
                     <h4>📚 توزيع المشتركين حسب الكورس</h4>
                     <canvas id="courseChart"></canvas>
                 </div>
                 <div class="chart-box">
-                    <h4>📈 نشاط الطلاب (آخر 7 أيام)</h4>
+                    <h4>📈 نشاط الطلاب</h4>
                     <canvas id="activityChart"></canvas>
                 </div>
             </div>
         </div>
 
-        <!-- ============================================================
-             SECTION: LIVE USERS
-             ============================================================ -->
+        <!-- SECTION: LIVE USERS -->
         <div class="admin-section" id="section-live">
             <div class="section-header">
                 <h2>🟢 المتصلون الآن</h2>
@@ -863,19 +1075,14 @@
                     <span id="liveCountDisplay">0</span> متصل
                 </span>
             </div>
-            <div class="live-users-grid" id="liveUsersGrid">
-                <!-- سيتم تعبئتها بواسطة JavaScript -->
-            </div>
+            <div class="live-users-grid" id="liveUsersGrid"></div>
         </div>
 
-        <!-- ============================================================
-             SECTION: STUDENTS
-             ============================================================ -->
+        <!-- SECTION: STUDENTS -->
         <div class="admin-section" id="section-students">
             <div class="section-header">
                 <h2>👨‍🎓 إدارة الطلاب</h2>
             </div>
-
             <div class="search-box">
                 <input type="text" id="studentSearch" placeholder="🔍 ابحث بالاسم، الهاتف، UID، البريد..." oninput="filterStudents()">
                 <select id="studentFilter" onchange="filterStudents()">
@@ -886,7 +1093,6 @@
                 </select>
                 <button class="btn" onclick="refreshStudents()"><i class="fas fa-sync"></i> تحديث</button>
             </div>
-
             <div class="table-responsive">
                 <table>
                     <thead>
@@ -903,29 +1109,21 @@
                             <th>الإجراءات</th>
                         </tr>
                     </thead>
-                    <tbody id="studentsTableBody">
-                        <!-- سيتم تعبئتها بواسطة JavaScript -->
-                    </tbody>
+                    <tbody id="studentsTableBody"></tbody>
                 </table>
             </div>
-
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;flex-wrap:wrap;gap:8px;">
-                <span style="color:var(--admin-text2);font-size:0.85rem;" id="studentsCount">0 طالب</span>
-                <div style="display:flex;gap:8px;" id="studentsPagination">
-                    <!-- سيتم تعبئتها بواسطة JavaScript -->
-                </div>
+            <div class="pagination-container" id="studentsPagination">
+                <span class="count" id="studentsCount">0 طالب</span>
+                <div class="pagination-btns" id="studentsPageBtns"></div>
             </div>
         </div>
 
-        <!-- ============================================================
-             SECTION: COURSES
-             ============================================================ -->
+        <!-- SECTION: COURSES -->
         <div class="admin-section" id="section-courses">
             <div class="section-header">
                 <h2>📚 إدارة الكورسات</h2>
                 <button class="btn" onclick="openAddCourseModal()"><i class="fas fa-plus"></i> إضافة كورس</button>
             </div>
-
             <div class="table-responsive">
                 <table>
                     <thead>
@@ -941,22 +1139,17 @@
                             <th>الإجراءات</th>
                         </tr>
                     </thead>
-                    <tbody id="coursesTableBody">
-                        <!-- سيتم تعبئتها بواسطة JavaScript -->
-                    </tbody>
+                    <tbody id="coursesTableBody"></tbody>
                 </table>
             </div>
         </div>
 
-        <!-- ============================================================
-             SECTION: EXAMS
-             ============================================================ -->
+        <!-- SECTION: EXAMS -->
         <div class="admin-section" id="section-exams">
             <div class="section-header">
                 <h2>📝 إدارة الامتحانات</h2>
                 <button class="btn" onclick="openAddExamModal()"><i class="fas fa-plus"></i> إضافة امتحان</button>
             </div>
-
             <div class="table-responsive">
                 <table>
                     <thead>
@@ -965,42 +1158,33 @@
                             <th>العنوان</th>
                             <th>النوع</th>
                             <th>الأسئلة</th>
-                            <th>الدرجة</th>
+                            <th>المكافأة</th>
                             <th>دخلوا</th>
                             <th>أكملوا</th>
                             <th>المتوسط</th>
                             <th>الإجراءات</th>
                         </tr>
                     </thead>
-                    <tbody id="examsTableBody">
-                        <!-- سيتم تعبئتها بواسطة JavaScript -->
-                    </tbody>
+                    <tbody id="examsTableBody"></tbody>
                 </table>
             </div>
         </div>
 
-        <!-- ============================================================
-             SECTION: LOGS
-             ============================================================ -->
+        <!-- SECTION: LOGS -->
         <div class="admin-section" id="section-logs">
             <div class="section-header">
                 <h2>📋 سجل العمليات</h2>
                 <button class="btn btn-outline" onclick="refreshLogs()"><i class="fas fa-sync"></i> تحديث</button>
             </div>
-            <div id="logsContainer">
-                <!-- سيتم تعبئتها بواسطة JavaScript -->
-            </div>
+            <div id="logsContainer"></div>
         </div>
 
-        <!-- ============================================================
-             SECTION: NOTIFICATIONS
-             ============================================================ -->
+        <!-- SECTION: NOTIFICATIONS -->
         <div class="admin-section" id="section-notifications">
             <div class="section-header">
                 <h2>🔔 الإشعارات</h2>
                 <button class="btn" onclick="sendNotification()"><i class="fas fa-bell"></i> إرسال إشعار</button>
             </div>
-
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
                 <div class="stat-card">
                     <div class="stat-icon">👨‍🎓</div>
@@ -1013,7 +1197,6 @@
                     <div class="stat-label">اشتراكات جديدة</div>
                 </div>
             </div>
-
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
                 <div class="chart-box">
                     <h4>📝 أحدث الامتحانات</h4>
@@ -1028,21 +1211,18 @@
 
     </main>
 
-    <!-- ============================================================
-         MODAL
-         ============================================================ -->
+    <!-- MODAL -->
     <div class="admin-modal" id="adminModal">
-        <div class="modal-content" id="modalContent">
-            <!-- سيتم تعبئتها بواسطة JavaScript -->
-        </div>
+        <div class="modal-content" id="modalContent"></div>
     </div>
 
-    <!-- ============================================================
-         SCRIPTS
-         ============================================================ -->
-    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+    <!-- FIREBASE -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js">
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js">
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js">
+    </script>
 
     <script>
         // ============================================================
@@ -1055,17 +1235,19 @@
             projectId: "yalla-kimya",
             storageBucket: "yalla-kimya.firebasestorage.app",
             messagingSenderId: "1052374689829",
-            appId: "1:1052374689829:web:fbb815ab42d753e63377cc"
+            appId: "1:1052374689829:web:fbb815ab42d753e63377cc",
+            measurementId: "G-B3SJFF8R1R"
         };
 
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const database = firebase.database();
 
-        // قائمة UIDs المسموح لهم كـ Admin
+        // ============================================================
+        // ADMIN UIDs
+        // ============================================================
         const ADMIN_UIDs = [
             // أضف UID الأدمن هنا
-            // 'xxxxx-xxxxx-xxxxx-xxxxx'
         ];
 
         // ============================================================
@@ -1076,38 +1258,31 @@
         let allExams = [];
         let allLogs = [];
         let currentPage = 1;
-        let pageSize = 20;
+        const pageSize = 20;
         let charts = {};
         let liveListeners = [];
+        let adminData = null;
 
         // ============================================================
-        // CHECK ADMIN SESSION
+        // CHECK ADMIN STATUS
         // ============================================================
-        function checkAdminSession() {
-            const session = sessionStorage.getItem('adminSession');
-            if (session !== 'true') {
-                window.location.href = 'admin-login.html';
-                return false;
-            }
-            return true;
-        }
-
-        function verifyAdmin(user) {
-            return new Promise((resolve) => {
-                if (ADMIN_UIDs.includes(user.uid)) {
-                    resolve(true);
-                    return;
+        async function verifyAdmin(user) {
+            if (ADMIN_UIDs.includes(user.uid)) return true;
+            try {
+                const userSnap = await database.ref('users/' + user.uid).once('value');
+                if (userSnap.exists()) {
+                    const data = userSnap.val();
+                    if (data.role === true || data.isAdmin === true) return true;
                 }
-                database.ref('admins/' + user.uid).once('value')
-                    .then(snapshot => {
-                        if (snapshot.exists() && snapshot.val().isAdmin === true) {
-                            resolve(true);
-                        } else {
-                            resolve(false);
-                        }
-                    })
-                    .catch(() => resolve(false));
-            });
+            } catch (e) {}
+            try {
+                const adminSnap = await database.ref('admins/' + user.uid).once('value');
+                if (adminSnap.exists()) {
+                    const data = adminSnap.val();
+                    if (data.isAdmin === true || data.role === true) return true;
+                }
+            } catch (e) {}
+            return false;
         }
 
         // ============================================================
@@ -1116,26 +1291,10 @@
         function showToast(msg, type = 'success') {
             const existing = document.querySelector('.admin-toast');
             if (existing) existing.remove();
-
             const toast = document.createElement('div');
-            toast.className = 'admin-toast';
-            toast.style.cssText = `
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                padding: 14px 24px;
-                border-radius: 12px;
-                font-weight: 600;
-                z-index: 9999;
-                color: #fff;
-                font-family: 'Cairo', sans-serif;
-                animation: slideDown 0.4s ease;
-                box-shadow: 0 8px 32px rgba(0,0,0,0.2);
-                background: ${type === 'success' ? '#22C55E' : type === 'error' ? '#EF4444' : '#0B4F8C'};
-            `;
+            toast.className = 'admin-toast ' + type;
             toast.textContent = msg;
             document.body.appendChild(toast);
-
             setTimeout(() => {
                 toast.style.opacity = '0';
                 toast.style.transition = 'opacity 0.3s';
@@ -1158,17 +1317,13 @@
         // SIDEBAR
         // ============================================================
         function toggleSidebar() {
-            const sidebar = document.getElementById('adminSidebar');
-            const overlay = document.getElementById('sidebarOverlay');
-            sidebar.classList.toggle('open');
-            overlay.classList.toggle('open');
+            document.getElementById('adminSidebar').classList.toggle('open');
+            document.getElementById('sidebarOverlay').classList.toggle('open');
         }
 
         function closeSidebar() {
-            const sidebar = document.getElementById('adminSidebar');
-            const overlay = document.getElementById('sidebarOverlay');
-            sidebar.classList.remove('open');
-            overlay.classList.remove('open');
+            document.getElementById('adminSidebar').classList.remove('open');
+            document.getElementById('sidebarOverlay').classList.remove('open');
         }
 
         // ============================================================
@@ -1178,8 +1333,7 @@
             const isDark = document.documentElement.getAttribute('data-theme') === 'admin-dark';
             document.documentElement.setAttribute('data-theme', isDark ? '' : 'admin-dark');
             localStorage.setItem('adminTheme', isDark ? '' : 'admin-dark');
-            const icon = document.getElementById('themeIcon');
-            icon.className = isDark ? 'fas fa-moon' : 'fas fa-sun';
+            document.getElementById('themeIcon').className = isDark ? 'fas fa-moon' : 'fas fa-sun';
         }
 
         if (localStorage.getItem('adminTheme') === 'admin-dark') {
@@ -1194,11 +1348,11 @@
             document.querySelectorAll('.admin-section').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
 
-            const targetSection = document.getElementById('section-' + section);
-            if (targetSection) targetSection.classList.add('active');
+            const target = document.getElementById('section-' + section);
+            if (target) target.classList.add('active');
 
-            const navItem = document.querySelector(`.nav-item[data-section="${section}"]`);
-            if (navItem) navItem.classList.add('active');
+            const nav = document.querySelector(`.nav-item[data-section="${section}"]`);
+            if (nav) nav.classList.add('active');
 
             const titles = {
                 dashboard: '📊 الرئيسية',
@@ -1211,7 +1365,6 @@
             };
             document.getElementById('pageTitle').textContent = titles[section] || section;
 
-            // Load data based on section
             if (section === 'dashboard') loadDashboard();
             if (section === 'live') loadLiveUsers();
             if (section === 'students') loadStudents();
@@ -1228,258 +1381,125 @@
         // ============================================================
         function loadDashboard() {
             showLoading();
-
-            // Count students
-            database.ref('users').once('value', snapshot => {
-                let total = 0;
-                let today = 0;
-                let thisWeek = 0;
-                let thisMonth = 0;
+            Promise.all([
+                database.ref('users').once('value'),
+                database.ref('courses').once('value'),
+                database.ref('exams').once('value'),
+                database.ref('quizzes').once('value'),
+                database.ref('courseSubscriptions').once('value')
+            ]).then(([usersSnap, coursesSnap, examsSnap, quizzesSnap, subsSnap]) => {
+                let totalUsers = 0,
+                    today = 0,
+                    thisWeek = 0,
+                    thisMonth = 0;
+                const gradeCount = {};
+                const dailyData = {};
                 const todayStr = new Date().toDateString();
                 const weekAgo = new Date(Date.now() - 7 * 86400000);
                 const monthAgo = new Date(Date.now() - 30 * 86400000);
-                const gradeCount = {};
-                const dailyData = {};
 
-                snapshot.forEach(child => {
+                usersSnap.forEach(child => {
                     const data = child.val();
-                    total++;
-                    
-                    // Today
+                    totalUsers++;
                     if (data.createdAt) {
                         const created = new Date(data.createdAt);
                         if (created.toDateString() === todayStr) today++;
                         if (created > weekAgo) thisWeek++;
                         if (created > monthAgo) thisMonth++;
-                        
                         const day = created.toISOString().split('T')[0];
                         dailyData[day] = (dailyData[day] || 0) + 1;
                     }
-                    
-                    // Grade
                     const grade = data.grade || 'غير محدد';
                     gradeCount[grade] = (gradeCount[grade] || 0) + 1;
                 });
 
-                // Count courses
-                database.ref('courses').once('value', snapshot => {
-                    let coursesCount = 0;
-                    let lessonsCount = 0;
-                    snapshot.forEach(child => {
-                        coursesCount++;
-                        const data = child.val();
-                        lessonsCount += data.lessonsCount || data.lessons || 0;
-                    });
+                let courses = 0,
+                    lessons = 0;
+                coursesSnap.forEach(child => { courses++;
+                    const d = child.val();
+                    lessons += d.lessonsCount || d.lessons || 0; });
 
-                    // Count exams
-                    database.ref('exams').once('value', snapshot => {
-                        let examsCount = 0;
-                        snapshot.forEach(() => examsCount++);
+                let exams = 0;
+                examsSnap.forEach(() => exams++);
 
-                        // Count quizzes
-                        database.ref('quizzes').once('value', snapshot => {
-                            let quizzesCount = 0;
-                            snapshot.forEach(() => quizzesCount++);
+                let quizzes = 0;
+                quizzesSnap.forEach(() => quizzes++);
 
-                            // Count subscriptions
-                            database.ref('courseSubscriptions').once('value', snapshot => {
-                                let totalSubs = 0;
-                                let paidSubs = 0;
-                                let freeSubs = 0;
-                                snapshot.forEach(child => {
-                                    const data = child.val();
-                                    totalSubs++;
-                                    if (data.isPaid) paidSubs++;
-                                    else freeSubs++;
-                                });
-
-                                updateDashboardCards({
-                                    students: total,
-                                    today: today,
-                                    thisWeek: thisWeek,
-                                    thisMonth: thisMonth,
-                                    courses: coursesCount,
-                                    lessons: lessonsCount,
-                                    exams: examsCount,
-                                    quizzes: quizzesCount,
-                                    paidSubs: paidSubs,
-                                    freeSubs: freeSubs,
-                                    gradeCount: gradeCount,
-                                    dailyData: dailyData
-                                });
-
-                                hideLoading();
-                            });
-                        });
-                    });
+                let paid = 0,
+                    free = 0;
+                subsSnap.forEach(child => {
+                    const d = child.val();
+                    if (d.isPaid) paid++;
+                    else free++;
                 });
+
+                const cards = document.getElementById('dashboardCards');
+                cards.innerHTML = `
+                    <div class="stat-card"><div class="stat-icon">👨‍🎓</div><div class="stat-number">${totalUsers}</div><div class="stat-label">إجمالي الطلاب</div></div>
+                    <div class="stat-card"><div class="stat-icon">🟢</div><div class="stat-number" id="onlineCount">0</div><div class="stat-label">متصلون الآن</div></div>
+                    <div class="stat-card"><div class="stat-icon">📅</div><div class="stat-number">${today}</div><div class="stat-label">تسجيل اليوم</div></div>
+                    <div class="stat-card"><div class="stat-icon">📊</div><div class="stat-number">${thisWeek}</div><div class="stat-label">آخر 7 أيام</div></div>
+                    <div class="stat-card"><div class="stat-icon">📈</div><div class="stat-number">${thisMonth}</div><div class="stat-label">آخر شهر</div></div>
+                    <div class="stat-card"><div class="stat-icon">📚</div><div class="stat-number">${courses}</div><div class="stat-label">الكورسات</div></div>
+                    <div class="stat-card"><div class="stat-icon">📖</div><div class="stat-number">${lessons}</div><div class="stat-label">الحصص</div></div>
+                    <div class="stat-card"><div class="stat-icon">📝</div><div class="stat-number">${exams}</div><div class="stat-label">الامتحانات</div></div>
+                    <div class="stat-card"><div class="stat-icon">🧪</div><div class="stat-number">${quizzes}</div><div class="stat-label">الكويزات</div></div>
+                    <div class="stat-card"><div class="stat-icon">💰</div><div class="stat-number">${paid}</div><div class="stat-label">اشتراكات مدفوعة</div></div>
+                    <div class="stat-card"><div class="stat-icon">🆓</div><div class="stat-number">${free}</div><div class="stat-label">اشتراكات مجانية</div></div>
+                `;
+
+                updateCharts(dailyData, gradeCount);
+                hideLoading();
+            }).catch(err => {
+                console.error('Dashboard error:', err);
+                hideLoading();
             });
         }
 
-        function updateDashboardCards(data) {
-            const cards = document.getElementById('dashboardCards');
-            cards.innerHTML = `
-                <div class="stat-card">
-                    <div class="stat-icon">👨‍🎓</div>
-                    <div class="stat-number">${data.students}</div>
-                    <div class="stat-label">إجمالي الطلاب</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">🟢</div>
-                    <div class="stat-number" id="onlineCount">0</div>
-                    <div class="stat-label">متصلون الآن</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">📅</div>
-                    <div class="stat-number">${data.today}</div>
-                    <div class="stat-label">تسجيل اليوم</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">📊</div>
-                    <div class="stat-number">${data.thisWeek}</div>
-                    <div class="stat-label">آخر 7 أيام</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">📈</div>
-                    <div class="stat-number">${data.thisMonth}</div>
-                    <div class="stat-label">آخر شهر</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">📚</div>
-                    <div class="stat-number">${data.courses}</div>
-                    <div class="stat-label">الكورسات</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">📖</div>
-                    <div class="stat-number">${data.lessons}</div>
-                    <div class="stat-label">الحصص</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">📝</div>
-                    <div class="stat-number">${data.exams}</div>
-                    <div class="stat-label">الامتحانات</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">🧪</div>
-                    <div class="stat-number">${data.quizzes}</div>
-                    <div class="stat-label">الكويزات</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">💰</div>
-                    <div class="stat-number">${data.paidSubs}</div>
-                    <div class="stat-label">اشتراكات مدفوعة</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">🆓</div>
-                    <div class="stat-number">${data.freeSubs}</div>
-                    <div class="stat-label">اشتراكات مجانية</div>
-                </div>
-            `;
+        function updateCharts(dailyData, gradeCount) {
+            const days = Object.keys(dailyData).slice(-7);
+            const values = days.map(d => dailyData[d] || 0);
 
-            // Charts
-            updateCharts(data);
-        }
-
-        // ============================================================
-        // CHARTS
-        // ============================================================
-        function updateCharts(data) {
-            // Daily Chart
-            const dailyCtx = document.getElementById('dailyChart').getContext('2d');
-            const days = Object.keys(data.dailyData).slice(-7);
-            const values = days.map(d => data.dailyData[d] || 0);
-            
             if (charts.daily) charts.daily.destroy();
-            charts.daily = new Chart(dailyCtx, {
+            charts.daily = new Chart(document.getElementById('dailyChart'), {
                 type: 'bar',
-                data: {
-                    labels: days.map(d => d.split('-')[2] + '/' + d.split('-')[1]),
-                    datasets: [{
-                        label: 'تسجيلات يومية',
-                        data: values,
-                        backgroundColor: '#0B4F8C80',
-                        borderColor: '#0B4F8C',
-                        borderWidth: 2
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: { legend: { display: false } }
-                }
+                data: { labels: days.map(d => d.split('-')[2] + '/' + d.split('-')[1]), datasets: [{ label: 'تسجيلات',
+                        data: values, backgroundColor: '#0B4F8C80', borderColor: '#0B4F8C', borderWidth: 2 }] },
+                options: { responsive: true, plugins: { legend: { display: false } } }
             });
 
-            // Grade Chart
-            const gradeCtx = document.getElementById('gradeChart').getContext('2d');
-            const gradeLabels = Object.keys(data.gradeCount);
-            const gradeValues = Object.values(data.gradeCount);
-            
             if (charts.grade) charts.grade.destroy();
-            charts.grade = new Chart(gradeCtx, {
+            charts.grade = new Chart(document.getElementById('gradeChart'), {
                 type: 'doughnut',
-                data: {
-                    labels: gradeLabels,
-                    datasets: [{
-                        data: gradeValues,
-                        backgroundColor: ['#0B4F8C', '#1E81CE', '#4CC9F0', '#FFD60A', '#22C55E', '#EF4444']
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: { legend: { position: 'bottom' } }
-                }
+                data: { labels: Object.keys(gradeCount), datasets: [{ data: Object.values(gradeCount),
+                        backgroundColor: ['#0B4F8C', '#1E81CE', '#4CC9F0', '#FFD60A', '#22C55E', '#EF4444'] }] },
+                options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
             });
 
-            // Course Chart
-            const courseCtx = document.getElementById('courseChart').getContext('2d');
             database.ref('courses').once('value', snapshot => {
-                const labels = [];
-                const values = [];
+                const labels = [],
+                    vals = [];
                 snapshot.forEach(child => {
-                    const data = child.val();
-                    labels.push(data.title || child.key);
-                    values.push(data.studentsCount || data.students || 0);
+                    const d = child.val();
+                    labels.push(d.title || child.key);
+                    vals.push(d.studentsCount || d.students || 0);
                 });
-                
                 if (charts.course) charts.course.destroy();
-                charts.course = new Chart(courseCtx, {
+                charts.course = new Chart(document.getElementById('courseChart'), {
                     type: 'bar',
-                    data: {
-                        labels: labels.slice(0, 6),
-                        datasets: [{
-                            label: 'المشتركين',
-                            data: values.slice(0, 6),
-                            backgroundColor: '#F59E0B80',
-                            borderColor: '#F59E0B',
-                            borderWidth: 2
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        plugins: { legend: { display: false } }
-                    }
+                    data: { labels: labels.slice(0, 6), datasets: [{ label: 'المشتركين', data: vals.slice(0, 6),
+                            backgroundColor: '#F59E0B80', borderColor: '#F59E0B', borderWidth: 2 }] },
+                    options: { responsive: true, plugins: { legend: { display: false } } }
                 });
             });
 
-            // Activity Chart
-            const activityCtx = document.getElementById('activityChart').getContext('2d');
             if (charts.activity) charts.activity.destroy();
-            charts.activity = new Chart(activityCtx, {
+            charts.activity = new Chart(document.getElementById('activityChart'), {
                 type: 'line',
-                data: {
-                    labels: ['اليوم', 'أمس', 'قبل 3 أيام', 'قبل 4 أيام', 'قبل 5 أيام', 'قبل 6 أيام', 'قبل أسبوع'],
-                    datasets: [{
-                        label: 'النشاط',
-                        data: [12, 19, 15, 8, 10, 6, 4],
-                        borderColor: '#22C55E',
-                        backgroundColor: '#22C55E20',
-                        fill: true,
-                        tension: 0.4
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: { legend: { display: false } }
-                }
+                data: { labels: ['اليوم', 'أمس', 'قبل 3 أيام', 'قبل 4 أيام', 'قبل 5 أيام', 'قبل 6 أيام', 'قبل أسبوع'],
+                    datasets: [{ label: 'النشاط', data: [12, 19, 15, 8, 10, 6, 4], borderColor: '#22C55E',
+                        backgroundColor: '#22C55E20', fill: true, tension: 0.4 }] },
+                options: { responsive: true, plugins: { legend: { display: false } } }
             });
         }
 
@@ -1487,103 +1507,81 @@
         // LIVE USERS
         // ============================================================
         function loadLiveUsers() {
-            // Clean previous listeners
-            liveListeners.forEach(listener => listener());
+            liveListeners.forEach(fn => fn());
             liveListeners = [];
 
-            const grid = document.getElementById('liveUsersGrid');
-            const countDisplay = document.getElementById('liveCount');
-            const countDisplay2 = document.getElementById('liveCountDisplay');
-
-            // Track online users via presence
-            const onlineRef = database.ref('.info/connected');
-            const usersRef = database.ref('users');
-
-            // Listen for user presence
-            const presenceListener = database.ref('presence').on('value', snapshot => {
-                const onlineUsers = [];
+            const listener = database.ref('presence').on('value', snapshot => {
+                const online = [];
+                const now = Date.now();
                 if (snapshot.exists()) {
                     const data = snapshot.val();
-                    const now = Date.now();
                     Object.keys(data).forEach(uid => {
-                        const userData = data[uid];
-                        if (userData.online && (now - userData.lastSeen) < 120000) {
-                            onlineUsers.push({ uid, ...userData });
+                        const u = data[uid];
+                        if (u.online && (now - u.lastSeen) < 120000) {
+                            online.push({ uid, ...u });
                         }
                     });
                 }
-                
-                // Get user details
-                if (onlineUsers.length > 0) {
-                    const uids = onlineUsers.map(u => u.uid);
-                    usersRef.once('value', snapshot => {
+
+                if (online.length > 0) {
+                    const uids = online.map(u => u.uid);
+                    database.ref('users').once('value', snap => {
                         const users = [];
-                        snapshot.forEach(child => {
+                        snap.forEach(child => {
                             if (uids.includes(child.key)) {
-                                const data = child.val();
-                                const online = onlineUsers.find(u => u.uid === child.key);
-                                users.push({
-                                    uid: child.key,
-                                    ...data,
-                                    lastSeen: online?.lastSeen || Date.now(),
-                                    currentPage: online?.currentPage || 'الرئيسية',
-                                    course: online?.course || '--'
-                                });
+                                const d = child.val();
+                                const o = online.find(u => u.uid === child.key);
+                                users.push({ uid: child.key, ...d, lastSeen: o?.lastSeen || Date.now(),
+                                    currentPage: o?.currentPage || 'الرئيسية', course: o?.course ||
+                                        '--' });
                             }
                         });
                         users.sort((a, b) => b.lastSeen - a.lastSeen);
                         renderLiveUsers(users);
-                        countDisplay.textContent = users.length;
-                        countDisplay2.textContent = users.length;
+                        document.getElementById('liveCount').textContent = users.length;
+                        document.getElementById('liveCountDisplay').textContent = users.length;
                         document.getElementById('onlineCount').textContent = users.length;
                     });
                 } else {
                     renderLiveUsers([]);
-                    countDisplay.textContent = 0;
-                    countDisplay2.textContent = 0;
+                    document.getElementById('liveCount').textContent = 0;
+                    document.getElementById('liveCountDisplay').textContent = 0;
                     document.getElementById('onlineCount').textContent = 0;
                 }
             });
 
-            liveListeners.push(() => database.ref('presence').off('value', presenceListener));
+            liveListeners.push(() => database.ref('presence').off('value', listener));
         }
 
         function renderLiveUsers(users) {
             const grid = document.getElementById('liveUsersGrid');
             if (users.length === 0) {
-                grid.innerHTML = `
-                    <div class="empty-state" style="grid-column:1/-1;padding:40px;">
-                        <div style="font-size:3rem;">🟢</div>
-                        <h3>لا يوجد طلاب متصلون حالياً</h3>
-                    </div>
-                `;
+                grid.innerHTML =
+                    `<div class="empty-state" style="grid-column:1/-1;"><div class="icon">🟢</div><h3>لا يوجد طلاب متصلون حالياً</h3></div>`;
                 return;
             }
 
             grid.innerHTML = users.map(user => {
-                const avatarHtml = user.photoURL ? 
-                    `<img src="${user.photoURL}" alt="${escapeHtml(user.name)}">` : 
+                const avatar = user.photoURL ?
+                    `<img src="${user.photoURL}" alt="${escapeHtml(user.name)}">` :
                     (user.name || 'U')[0].toUpperCase();
-                
-                const timeAgo = getTimeAgo(user.lastSeen);
-                const studyType = user.studyType || 'عام';
-                
+                const time = getTimeAgo(user.lastSeen);
                 return `
                     <div class="live-user-card" onclick="showStudentPage('${user.uid}')">
                         <div class="online-dot"></div>
-                        <div class="avatar">${avatarHtml}</div>
+                        <div class="avatar">${avatar}</div>
                         <div class="name">${escapeHtml(user.name || 'مستخدم')}</div>
-                        <div class="info">${escapeHtml(user.grade || '--')} • ${studyType}</div>
+                        <div class="info">${escapeHtml(user.grade || '--')} • ${user.studyType || 'عام'}</div>
                         <div class="info">📚 ${escapeHtml(user.course || '--')}</div>
                         <div class="info">📍 ${escapeHtml(user.currentPage || 'الرئيسية')}</div>
-                        <div class="time">⏱ ${timeAgo}</div>
+                        <div class="time">⏱ ${time}</div>
                     </div>
                 `;
             }).join('');
         }
 
-        function getTimeAgo(timestamp) {
-            const diff = Date.now() - timestamp;
+        function getTimeAgo(ts) {
+            const diff = Date.now() - ts;
             const mins = Math.floor(diff / 60000);
             if (mins < 1) return 'الآن';
             if (mins < 60) return mins + ' د';
@@ -1595,22 +1593,18 @@
         // ============================================================
         // STUDENTS
         // ============================================================
-        let studentsData = [];
         let filteredStudents = [];
 
         function loadStudents() {
             showLoading();
             database.ref('users').once('value', snapshot => {
-                studentsData = [];
+                allStudents = [];
                 snapshot.forEach(child => {
-                    const data = child.val();
-                    studentsData.push({
-                        uid: child.key,
-                        ...data
-                    });
+                    const d = child.val();
+                    allStudents.push({ uid: child.key, ...d });
                 });
-                studentsData.sort((a, b) => (b.atoms || 0) - (a.atoms || 0));
-                filteredStudents = studentsData;
+                allStudents.sort((a, b) => (b.atoms || 0) - (a.atoms || 0));
+                filteredStudents = allStudents;
                 renderStudents();
                 hideLoading();
             });
@@ -1620,48 +1614,30 @@
             const tbody = document.getElementById('studentsTableBody');
             const start = (currentPage - 1) * pageSize;
             const end = start + pageSize;
-            const pageStudents = filteredStudents.slice(start, end);
+            const page = filteredStudents.slice(start, end);
 
-            if (pageStudents.length === 0) {
-                tbody.innerHTML = `
-                    <tr>
-                        <td colspan="10" style="text-align:center;padding:30px;color:var(--admin-text2);">
-                            <i class="fas fa-search" style="font-size:2rem;display:block;margin-bottom:8px;"></i>
-                            لا توجد نتائج مطابقة
-                        </td>
-                    </tr>
-                `;
+            if (page.length === 0) {
+                tbody.innerHTML =
+                    `<tr><td colspan="10" style="text-align:center;padding:30px;color:var(--admin-text2);"><i class="fas fa-search" style="font-size:2rem;display:block;margin-bottom:8px;"></i>لا توجد نتائج</td></tr>`;
             } else {
-                tbody.innerHTML = pageStudents.map(student => {
-                    const avatarHtml = student.photoURL ? 
-                        `<img src="${student.photoURL}" style="width:32px;height:32px;border-radius:50%;object-fit:cover;">` : 
-                        (student.name || 'U')[0].toUpperCase();
-                    
-                    const status = student.banned ? 'banned' : (student.active !== false ? 'active' : 'inactive');
-                    const statusLabels = {
-                        active: 'نشط',
-                        inactive: 'غير نشط',
-                        banned: 'محظور'
-                    };
-                    
-                    const progress = student.progress || 0;
-                    
+                tbody.innerHTML = page.map(s => {
+                    const avatar = s.photoURL ?
+                        `<img src="${s.photoURL}" style="width:32px;height:32px;border-radius:50%;object-fit:cover;">` :
+                        (s.name || 'U')[0].toUpperCase();
+                    const status = s.banned ? 'banned' : (s.active !== false ? 'active' : 'inactive');
+                    const statusLabels = { active: 'نشط', inactive: 'غير نشط', banned: 'محظور' };
                     return `
-                        <tr onclick="showStudentPage('${student.uid}')" style="cursor:pointer;">
-                            <td><div class="avatar-sm">${avatarHtml}</div></td>
-                            <td><strong>${escapeHtml(student.name || 'مستخدم')}</strong></td>
-                            <td style="font-size:0.7rem;color:var(--admin-text2);">${student.uid ? student.uid.substring(0, 12) + '...' : '--'}</td>
-                            <td style="font-size:0.8rem;">${escapeHtml(student.email || '--')}</td>
-                            <td>${formatPhoneNumber(student.phone)}</td>
-                            <td>${escapeHtml(student.grade || '--')}</td>
-                            <td><span style="font-weight:700;color:var(--admin-gold);">${student.atoms || 0}</span></td>
-                            <td>${progress}%</td>
+                        <tr onclick="showStudentPage('${s.uid}')" style="cursor:pointer;">
+                            <td><div class="avatar-sm">${avatar}</div></td>
+                            <td><strong>${escapeHtml(s.name || 'مستخدم')}</strong></td>
+                            <td style="font-size:0.65rem;color:var(--admin-text2);">${s.uid ? s.uid.substring(0,12)+'...' : '--'}</td>
+                            <td style="font-size:0.75rem;">${escapeHtml(s.email || '--')}</td>
+                            <td>${formatPhone(s.phone)}</td>
+                            <td>${escapeHtml(s.grade || '--')}</td>
+                            <td><span style="font-weight:700;color:var(--admin-warning);">${s.atoms || 0}</span></td>
+                            <td>${s.progress || 0}%</td>
                             <td><span class="status-badge ${status}">${statusLabels[status]}</span></td>
-                            <td>
-                                <button class="btn-sm" onclick="event.stopPropagation();showStudentPage('${student.uid}')" style="padding:4px 12px;border:none;border-radius:6px;background:var(--admin-primary);color:#fff;cursor:pointer;">
-                                    <i class="fas fa-eye"></i>
-                                </button>
-                            </td>
+                            <td><button class="btn-sm btn-sm-primary" onclick="event.stopPropagation();showStudentPage('${s.uid}')"><i class="fas fa-eye"></i></button></td>
                         </tr>
                     `;
                 }).join('');
@@ -1672,28 +1648,17 @@
         }
 
         function renderPagination() {
-            const container = document.getElementById('studentsPagination');
-            const totalPages = Math.ceil(filteredStudents.length / pageSize);
-            
-            if (totalPages <= 1) {
-                container.innerHTML = '';
-                return;
-            }
-
+            const container = document.getElementById('studentsPageBtns');
+            const total = Math.ceil(filteredStudents.length / pageSize);
+            if (total <= 1) { container.innerHTML = ''; return; }
             let html = '';
-            for (let i = 1; i <= Math.min(totalPages, 5); i++) {
-                html += `<button class="btn-sm ${i === currentPage ? 'btn-primary' : 'btn-outline'}" 
-                               onclick="goToPage(${i})" 
-                               style="padding:4px 12px;border:none;border-radius:6px;cursor:pointer;font-family:'Cairo',sans-serif;">
-                            ${i}
-                        </button>`;
+            for (let i = 1; i <= Math.min(total, 5); i++) {
+                html +=
+                    `<button class="${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
             }
-            if (totalPages > 5) {
-                html += `<span style="color:var(--admin-text2);">...</span>`;
-                html += `<button class="btn-sm btn-outline" onclick="goToPage(${totalPages})" 
-                               style="padding:4px 12px;border:none;border-radius:6px;cursor:pointer;font-family:'Cairo',sans-serif;">
-                            ${totalPages}
-                        </button>`;
+            if (total > 5) {
+                html += `<span>...</span>`;
+                html += `<button onclick="goToPage(${total})">${total}</button>`;
             }
             container.innerHTML = html;
         }
@@ -1706,220 +1671,130 @@
         function filterStudents() {
             const search = document.getElementById('studentSearch').value.toLowerCase();
             const filter = document.getElementById('studentFilter').value;
-            
-            filteredStudents = studentsData.filter(student => {
-                const matchesSearch = 
-                    (student.name || '').toLowerCase().includes(search) ||
-                    (student.phone || '').includes(search) ||
-                    (student.uid || '').toLowerCase().includes(search) ||
-                    (student.email || '').toLowerCase().includes(search);
-                
-                let matchesFilter = true;
-                if (filter === 'active') matchesFilter = student.active !== false && !student.banned;
-                else if (filter === 'inactive') matchesFilter = student.active === false;
-                else if (filter === 'banned') matchesFilter = student.banned === true;
-                
-                return matchesSearch && matchesFilter;
+            filteredStudents = allStudents.filter(s => {
+                const match = (s.name || '').toLowerCase().includes(search) ||
+                    (s.phone || '').includes(search) ||
+                    (s.uid || '').toLowerCase().includes(search) ||
+                    (s.email || '').toLowerCase().includes(search);
+                let f = true;
+                if (filter === 'active') f = s.active !== false && !s.banned;
+                else if (filter === 'inactive') f = s.active === false;
+                else if (filter === 'banned') f = s.banned === true;
+                return match && f;
             });
-            
             currentPage = 1;
             renderStudents();
         }
 
-        function refreshStudents() {
-            loadStudents();
-            showToast('✅ تم تحديث قائمة الطلاب', 'success');
-        }
+        function refreshStudents() { loadStudents();
+            showToast('✅ تم تحديث قائمة الطلاب', 'success'); }
 
         // ============================================================
         // STUDENT PAGE
         // ============================================================
         function showStudentPage(uid) {
             showLoading();
-            database.ref('users/' + uid).once('value', snapshot => {
-                if (!snapshot.exists()) {
-                    showToast('⚠️ الطالب غير موجود', 'error');
-                    hideLoading();
-                    return;
-                }
-                const student = { uid, ...snapshot.val() };
-                showStudentDetails(student);
+            database.ref('users/' + uid).once('value', snap => {
+                if (!snap.exists()) { showToast('⚠️ الطالب غير موجود', 'error');
+                    hideLoading(); return; }
+                const student = { uid, ...snap.val() };
+                renderStudentDetails(student);
                 hideLoading();
             });
         }
 
-        function showStudentDetails(student) {
+        function renderStudentDetails(student) {
             const modal = document.getElementById('adminModal');
             const content = document.getElementById('modalContent');
 
-            // Get subscriptions
-            database.ref('courseSubscriptions').orderByChild('userId').equalTo(student.uid).once('value', subSnapshot => {
-                const subscriptions = [];
-                subSnapshot.forEach(child => {
-                    subscriptions.push({ id: child.key, ...child.val() });
-                });
+            Promise.all([
+                database.ref('courseSubscriptions').orderByChild('userId').equalTo(student.uid).once('value'),
+                database.ref('users/' + student.uid + '/errorBank').once('value'),
+                database.ref('users/' + student.uid + '/results').once('value')
+            ]).then(([subSnap, errSnap, resSnap]) => {
+                const subs = [];
+                subSnap.forEach(c => subs.push({ id: c.key, ...c.val() }));
 
-                // Get error count
-                database.ref('users/' + student.uid + '/errorBank').once('value', errorSnapshot => {
-                    let errorCount = 0;
-                    if (errorSnapshot.exists()) {
-                        const data = errorSnapshot.val();
-                        if (Array.isArray(data)) {
-                            errorCount = data.filter(e => !e.solved).length;
-                        }
-                    }
+                let errors = 0;
+                if (errSnap.exists()) {
+                    const data = errSnap.val();
+                    if (Array.isArray(data)) errors = data.filter(e => !e.solved).length;
+                }
 
-                    // Get results
-                    database.ref('users/' + student.uid + '/results').once('value', resultSnapshot => {
-                        let examsCompleted = 0;
-                        let quizzesCompleted = 0;
-                        let totalScore = 0;
-                        let totalResults = 0;
-                        if (resultSnapshot.exists()) {
-                            resultSnapshot.forEach(child => {
-                                const data = child.val();
-                                if (data.type === 'exam') examsCompleted++;
-                                if (data.type === 'quiz') quizzesCompleted++;
-                                totalScore += data.score || 0;
-                                totalResults++;
-                            });
-                        }
-
-                        const avgScore = totalResults > 0 ? Math.round(totalScore / totalResults) : 0;
-
-                        const avatarHtml = student.photoURL ? 
-                            `<img src="${student.photoURL}" style="width:80px;height:80px;border-radius:50%;object-fit:cover;">` : 
-                            (student.name || 'U')[0].toUpperCase();
-
-                        content.innerHTML = `
-                            <div style="display:flex;justify-content:space-between;align-items:start;flex-wrap:wrap;gap:12px;margin-bottom:16px;">
-                                <div style="display:flex;align-items:center;gap:16px;">
-                                    <div style="width:80px;height:80px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2.5rem;font-weight:700;background:var(--admin-primary);color:#fff;">${avatarHtml}</div>
-                                    <div>
-                                        <h3 style="margin:0;">${escapeHtml(student.name || 'مستخدم')}</h3>
-                                        <p style="color:var(--admin-text2);font-size:0.85rem;">🔑 ${escapeHtml(student.uid || '--')}</p>
-                                        <p style="color:var(--admin-text2);font-size:0.85rem;">📧 ${escapeHtml(student.email || '--')}</p>
-                                    </div>
-                                </div>
-                                <div style="display:flex;gap:8px;flex-wrap:wrap;">
-                                    <button class="btn-sm" onclick="editStudent('${student.uid}')" style="padding:6px 16px;border:none;border-radius:6px;background:var(--admin-warning);color:#fff;cursor:pointer;">
-                                        <i class="fas fa-edit"></i> تعديل
-                                    </button>
-                                    ${student.banned ? `
-                                        <button class="btn-sm" onclick="unbanStudent('${student.uid}')" style="padding:6px 16px;border:none;border-radius:6px;background:var(--admin-success);color:#fff;cursor:pointer;">
-                                            <i class="fas fa-unlock"></i> فك الحظر
-                                        </button>
-                                    ` : `
-                                        <button class="btn-sm" onclick="banStudent('${student.uid}')" style="padding:6px 16px;border:none;border-radius:6px;background:var(--admin-danger);color:#fff;cursor:pointer;">
-                                            <i class="fas fa-ban"></i> حظر
-                                        </button>
-                                    `}
-                                    <button class="btn-sm" onclick="deleteStudent('${student.uid}')" style="padding:6px 16px;border:none;border-radius:6px;background:#dc2626;color:#fff;cursor:pointer;">
-                                        <i class="fas fa-trash"></i> حذف
-                                    </button>
-                                    <button class="btn-sm" onclick="closeModal()" style="padding:6px 16px;border:none;border-radius:6px;background:var(--admin-border);color:var(--admin-text);cursor:pointer;">
-                                        <i class="fas fa-times"></i> إغلاق
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;">
-                                <div style="background:var(--admin-bg);padding:12px;border-radius:var(--admin-radius);">
-                                    <div style="font-size:0.7rem;color:var(--admin-text2);">📱 الهاتف</div>
-                                    <div style="font-weight:700;">${formatPhoneNumber(student.phone)}</div>
-                                </div>
-                                <div style="background:var(--admin-bg);padding:12px;border-radius:var(--admin-radius);">
-                                    <div style="font-size:0.7rem;color:var(--admin-text2);">👨‍👩‍👦 ولي الأمر</div>
-                                    <div style="font-weight:700;">${formatPhoneNumber(student.parentPhone)}</div>
-                                </div>
-                                <div style="background:var(--admin-bg);padding:12px;border-radius:var(--admin-radius);">
-                                    <div style="font-size:0.7rem;color:var(--admin-text2);">🎓 الصف</div>
-                                    <div style="font-weight:700;">${escapeHtml(student.grade || '--')}</div>
-                                </div>
-                                <div style="background:var(--admin-bg);padding:12px;border-radius:var(--admin-radius);">
-                                    <div style="font-size:0.7rem;color:var(--admin-text2);">📚 نوع الدراسة</div>
-                                    <div style="font-weight:700;">${escapeHtml(student.studyType || 'عام')}</div>
-                                </div>
-                                <div style="background:var(--admin-bg);padding:12px;border-radius:var(--admin-radius);">
-                                    <div style="font-size:0.7rem;color:var(--admin-text2);">📅 تاريخ التسجيل</div>
-                                    <div style="font-weight:700;">${student.createdAt ? formatDate(student.createdAt) : '--'}</div>
-                                </div>
-                                <div style="background:var(--admin-bg);padding:12px;border-radius:var(--admin-radius);">
-                                    <div style="font-size:0.7rem;color:var(--admin-text2);">🔄 آخر دخول</div>
-                                    <div style="font-weight:700;">${student.lastLogin ? formatDate(student.lastLogin) : '--'}</div>
-                                </div>
-                            </div>
-
-                            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px;margin-bottom:16px;">
-                                <div style="text-align:center;background:var(--admin-bg);padding:8px;border-radius:var(--admin-radius);">
-                                    <div style="font-size:1.2rem;font-weight:700;color:var(--admin-primary);">${student.studyTime || 0}</div>
-                                    <div style="font-size:0.65rem;color:var(--admin-text2);">ساعات المذاكرة</div>
-                                </div>
-                                <div style="text-align:center;background:var(--admin-bg);padding:8px;border-radius:var(--admin-radius);">
-                                    <div style="font-size:1.2rem;font-weight:700;color:var(--admin-primary);">${student.coursesCount || 0}</div>
-                                    <div style="font-size:0.65rem;color:var(--admin-text2);">الكورسات</div>
-                                </div>
-                                <div style="text-align:center;background:var(--admin-bg);padding:8px;border-radius:var(--admin-radius);">
-                                    <div style="font-size:1.2rem;font-weight:700;color:var(--admin-primary);">${student.lessonsCompleted || 0}</div>
-                                    <div style="font-size:0.65rem;color:var(--admin-text2);">الحصص</div>
-                                </div>
-                                <div style="text-align:center;background:var(--admin-bg);padding:8px;border-radius:var(--admin-radius);">
-                                    <div style="font-size:1.2rem;font-weight:700;color:var(--admin-primary);">${student.videosWatched || 0}</div>
-                                    <div style="font-size:0.65rem;color:var(--admin-text2);">الفيديوهات</div>
-                                </div>
-                                <div style="text-align:center;background:var(--admin-bg);padding:8px;border-radius:var(--admin-radius);">
-                                    <div style="font-size:1.2rem;font-weight:700;color:var(--admin-primary);">${quizzesCompleted}</div>
-                                    <div style="font-size:0.65rem;color:var(--admin-text2);">الكويزات</div>
-                                </div>
-                                <div style="text-align:center;background:var(--admin-bg);padding:8px;border-radius:var(--admin-radius);">
-                                    <div style="font-size:1.2rem;font-weight:700;color:var(--admin-primary);">${examsCompleted}</div>
-                                    <div style="font-size:0.65rem;color:var(--admin-text2);">الامتحانات</div>
-                                </div>
-                                <div style="text-align:center;background:var(--admin-bg);padding:8px;border-radius:var(--admin-radius);">
-                                    <div style="font-size:1.2rem;font-weight:700;color:var(--admin-danger);">${errorCount}</div>
-                                    <div style="font-size:0.65rem;color:var(--admin-text2);">الأخطاء</div>
-                                </div>
-                                <div style="text-align:center;background:var(--admin-bg);padding:8px;border-radius:var(--admin-radius);">
-                                    <div style="font-size:1.2rem;font-weight:700;color:var(--admin-primary);">${avgScore}%</div>
-                                    <div style="font-size:0.65rem;color:var(--admin-text2);">متوسط الدرجات</div>
-                                </div>
-                            </div>
-
-                            <h4 style="margin:12px 0 8px;">📚 الاشتراكات (${subscriptions.length})</h4>
-                            <div class="table-responsive" style="max-height:200px;overflow-y:auto;">
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>الكورس</th>
-                                            <th>الحالة</th>
-                                            <th>النوع</th>
-                                            <th>تاريخ الاشتراك</th>
-                                            <th>الإجراءات</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        ${subscriptions.length === 0 ? `
-                                            <tr><td colspan="5" style="text-align:center;color:var(--admin-text2);">لا توجد اشتراكات</td></tr>
-                                        ` : subscriptions.map(sub => `
-                                            <tr>
-                                                <td>${escapeHtml(sub.courseId || '--')}</td>
-                                                <td><span class="status-badge ${sub.status === 'active' ? 'active' : 'inactive'}">${sub.status === 'active' ? 'مفعل' : 'منتهي'}</span></td>
-                                                <td><span class="status-badge ${sub.isPaid ? 'premium' : 'free'}">${sub.isPaid ? 'مدفوع' : 'مجاني'}</span></td>
-                                                <td style="font-size:0.75rem;">${sub.subscribedAt ? formatDate(sub.subscribedAt) : '--'}</td>
-                                                <td>
-                                                    <button class="btn-sm" onclick="toggleSubscription('${sub.id}', '${student.uid}')" style="padding:2px 10px;border:none;border-radius:4px;background:${sub.status === 'active' ? 'var(--admin-danger)' : 'var(--admin-success)'};color:#fff;cursor:pointer;font-size:0.7rem;">
-                                                        ${sub.status === 'active' ? 'إلغاء' : 'تفعيل'}
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        `).join('')}
-                                    </tbody>
-                                </table>
-                            </div>
-                        `;
-                        modal.classList.add('open');
+                let exams = 0,
+                    quizzes = 0,
+                    totalScore = 0,
+                    totalRes = 0;
+                if (resSnap.exists()) {
+                    resSnap.forEach(c => {
+                        const d = c.val();
+                        if (d.type === 'exam') exams++;
+                        if (d.type === 'quiz') quizzes++;
+                        totalScore += d.score || 0;
+                        totalRes++;
                     });
-                });
+                }
+                const avg = totalRes > 0 ? Math.round(totalScore / totalRes) : 0;
+
+                const avatar = student.photoURL ?
+                    `<img src="${student.photoURL}" style="width:80px;height:80px;border-radius:50%;object-fit:cover;">` :
+                    (student.name || 'U')[0].toUpperCase();
+
+                content.innerHTML = `
+                    <div style="display:flex;justify-content:space-between;align-items:start;flex-wrap:wrap;gap:12px;margin-bottom:16px;">
+                        <div style="display:flex;align-items:center;gap:16px;">
+                            <div style="width:80px;height:80px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2.5rem;font-weight:700;background:var(--admin-primary);color:#fff;overflow:hidden;">${avatar}</div>
+                            <div><h3 style="margin:0;">${escapeHtml(student.name || 'مستخدم')}</h3>
+                            <p style="color:var(--admin-text2);font-size:0.85rem;">🔑 ${escapeHtml(student.uid || '--')}</p>
+                            <p style="color:var(--admin-text2);font-size:0.85rem;">📧 ${escapeHtml(student.email || '--')}</p></div>
+                        </div>
+                        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                            <button class="btn-sm btn-sm-warning" onclick="editStudent('${student.uid}')"><i class="fas fa-edit"></i> تعديل</button>
+                            ${student.banned ? `<button class="btn-sm btn-sm-success" onclick="unbanStudent('${student.uid}')"><i class="fas fa-unlock"></i> فك الحظر</button>` :
+                            `<button class="btn-sm btn-sm-danger" onclick="banStudent('${student.uid}')"><i class="fas fa-ban"></i> حظر</button>`}
+                            <button class="btn-sm" style="background:#dc2626;color:#fff;border:none;padding:4px 12px;border-radius:6px;cursor:pointer;" onclick="deleteStudent('${student.uid}')"><i class="fas fa-trash"></i> حذف</button>
+                            <button class="btn-sm btn-sm-secondary" onclick="closeModal()" style="background:var(--admin-border);color:var(--admin-text);border:none;padding:4px 12px;border-radius:6px;cursor:pointer;"><i class="fas fa-times"></i> إغلاق</button>
+                        </div>
+                    </div>
+
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;">
+                        <div style="background:var(--admin-bg);padding:12px;border-radius:var(--admin-radius);"><div style="font-size:0.7rem;color:var(--admin-text2);">📱 الهاتف</div><div style="font-weight:700;">${formatPhone(student.phone)}</div></div>
+                        <div style="background:var(--admin-bg);padding:12px;border-radius:var(--admin-radius);"><div style="font-size:0.7rem;color:var(--admin-text2);">👨‍👩‍👦 ولي الأمر</div><div style="font-weight:700;">${formatPhone(student.parentPhone)}</div></div>
+                        <div style="background:var(--admin-bg);padding:12px;border-radius:var(--admin-radius);"><div style="font-size:0.7rem;color:var(--admin-text2);">🎓 الصف</div><div style="font-weight:700;">${escapeHtml(student.grade || '--')}</div></div>
+                        <div style="background:var(--admin-bg);padding:12px;border-radius:var(--admin-radius);"><div style="font-size:0.7rem;color:var(--admin-text2);">📚 نوع الدراسة</div><div style="font-weight:700;">${escapeHtml(student.studyType || 'عام')}</div></div>
+                        <div style="background:var(--admin-bg);padding:12px;border-radius:var(--admin-radius);"><div style="font-size:0.7rem;color:var(--admin-text2);">📅 تاريخ التسجيل</div><div style="font-weight:700;">${student.createdAt ? formatDate(student.createdAt) : '--'}</div></div>
+                        <div style="background:var(--admin-bg);padding:12px;border-radius:var(--admin-radius);"><div style="font-size:0.7rem;color:var(--admin-text2);">🔄 آخر دخول</div><div style="font-weight:700;">${student.lastLogin ? formatDate(student.lastLogin) : '--'}</div></div>
+                    </div>
+
+                    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:8px;margin-bottom:16px;">
+                        <div style="text-align:center;background:var(--admin-bg);padding:8px;border-radius:var(--admin-radius);"><div style="font-size:1.2rem;font-weight:700;color:var(--admin-primary);">${student.studyTime || 0}</div><div style="font-size:0.65rem;color:var(--admin-text2);">ساعات</div></div>
+                        <div style="text-align:center;background:var(--admin-bg);padding:8px;border-radius:var(--admin-radius);"><div style="font-size:1.2rem;font-weight:700;color:var(--admin-primary);">${student.coursesCount || 0}</div><div style="font-size:0.65rem;color:var(--admin-text2);">كورسات</div></div>
+                        <div style="text-align:center;background:var(--admin-bg);padding:8px;border-radius:var(--admin-radius);"><div style="font-size:1.2rem;font-weight:700;color:var(--admin-primary);">${student.lessonsCompleted || 0}</div><div style="font-size:0.65rem;color:var(--admin-text2);">حصص</div></div>
+                        <div style="text-align:center;background:var(--admin-bg);padding:8px;border-radius:var(--admin-radius);"><div style="font-size:1.2rem;font-weight:700;color:var(--admin-primary);">${student.videosWatched || 0}</div><div style="font-size:0.65rem;color:var(--admin-text2);">فيديوهات</div></div>
+                        <div style="text-align:center;background:var(--admin-bg);padding:8px;border-radius:var(--admin-radius);"><div style="font-size:1.2rem;font-weight:700;color:var(--admin-primary);">${quizzes}</div><div style="font-size:0.65rem;color:var(--admin-text2);">كويزات</div></div>
+                        <div style="text-align:center;background:var(--admin-bg);padding:8px;border-radius:var(--admin-radius);"><div style="font-size:1.2rem;font-weight:700;color:var(--admin-primary);">${exams}</div><div style="font-size:0.65rem;color:var(--admin-text2);">امتحانات</div></div>
+                        <div style="text-align:center;background:var(--admin-bg);padding:8px;border-radius:var(--admin-radius);"><div style="font-size:1.2rem;font-weight:700;color:var(--admin-danger);">${errors}</div><div style="font-size:0.65rem;color:var(--admin-text2);">أخطاء</div></div>
+                        <div style="text-align:center;background:var(--admin-bg);padding:8px;border-radius:var(--admin-radius);"><div style="font-size:1.2rem;font-weight:700;color:var(--admin-primary);">${avg}%</div><div style="font-size:0.65rem;color:var(--admin-text2);">المتوسط</div></div>
+                    </div>
+
+                    <h4 style="margin:12px 0 8px;">📚 الاشتراكات (${subs.length})</h4>
+                    <div class="table-responsive" style="max-height:200px;overflow-y:auto;">
+                        <table>
+                            <thead><tr><th>الكورس</th><th>الحالة</th><th>النوع</th><th>التاريخ</th><th>الإجراءات</th></tr></thead>
+                            <tbody>${subs.length === 0 ? '<tr><td colspan="5" style="text-align:center;color:var(--admin-text2);">لا توجد اشتراكات</td></tr>' :
+                            subs.map(sub => `
+                                <tr>
+                                    <td>${escapeHtml(sub.courseId || '--')}</td>
+                                    <td><span class="status-badge ${sub.status === 'active' ? 'active' : 'inactive'}">${sub.status === 'active' ? 'مفعل' : 'منتهي'}</span></td>
+                                    <td><span class="status-badge ${sub.isPaid ? 'premium' : 'free'}">${sub.isPaid ? 'مدفوع' : 'مجاني'}</span></td>
+                                    <td style="font-size:0.75rem;">${sub.subscribedAt ? formatDate(sub.subscribedAt) : '--'}</td>
+                                    <td><button class="btn-sm btn-sm-${sub.status === 'active' ? 'danger' : 'success'}" onclick="toggleSubscription('${sub.id}','${student.uid}')" style="font-size:0.65rem;">${sub.status === 'active' ? 'إلغاء' : 'تفعيل'}</button></td>
+                                </tr>
+                            `).join('')}</tbody>
+                        </table>
+                    </div>
+                `;
+                modal.classList.add('open');
             });
         }
 
@@ -1927,46 +1802,20 @@
         // STUDENT ACTIONS
         // ============================================================
         function editStudent(uid) {
-            const student = studentsData.find(s => s.uid === uid);
-            if (!student) return;
-
+            const s = allStudents.find(x => x.uid === uid);
+            if (!s) return;
             const modal = document.getElementById('adminModal');
             const content = document.getElementById('modalContent');
-
             content.innerHTML = `
                 <h3>✏️ تعديل بيانات الطالب</h3>
-                <form id="editStudentForm" onsubmit="saveStudentEdit(event, '${uid}')">
-                    <div class="form-group">
-                        <label>الاسم</label>
-                        <input type="text" id="editName" value="${escapeHtml(student.name || '')}" required>
-                    </div>
-                    <div class="form-group">
-                        <label>البريد الإلكتروني</label>
-                        <input type="email" id="editEmail" value="${escapeHtml(student.email || '')}">
-                    </div>
-                    <div class="form-group">
-                        <label>رقم الهاتف</label>
-                        <input type="text" id="editPhone" value="${student.phone || ''}">
-                    </div>
-                    <div class="form-group">
-                        <label>هاتف ولي الأمر</label>
-                        <input type="text" id="editParentPhone" value="${student.parentPhone || ''}">
-                    </div>
-                    <div class="form-group">
-                        <label>الصف الدراسي</label>
-                        <input type="text" id="editGrade" value="${escapeHtml(student.grade || '')}">
-                    </div>
-                    <div class="form-group">
-                        <label>نوع الدراسة</label>
-                        <select id="editStudyType">
-                            <option value="عام" ${student.studyType === 'عام' ? 'selected' : ''}>عام</option>
-                            <option value="أزهر" ${student.studyType === 'أزهر' ? 'selected' : ''}>أزهر</option>
-                        </select>
-                    </div>
-                    <div class="modal-actions">
-                        <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> حفظ</button>
-                        <button type="button" class="btn btn-secondary" onclick="closeModal()">إلغاء</button>
-                    </div>
+                <form id="editStudentForm" onsubmit="saveStudentEdit(event,'${uid}')">
+                    <div class="form-group"><label>الاسم</label><input type="text" id="editName" value="${escapeHtml(s.name||'')}" required></div>
+                    <div class="form-group"><label>البريد</label><input type="email" id="editEmail" value="${escapeHtml(s.email||'')}"></div>
+                    <div class="form-group"><label>الهاتف</label><input type="text" id="editPhone" value="${s.phone||''}"></div>
+                    <div class="form-group"><label>هاتف ولي الأمر</label><input type="text" id="editParentPhone" value="${s.parentPhone||''}"></div>
+                    <div class="form-group"><label>الصف</label><input type="text" id="editGrade" value="${escapeHtml(s.grade||'')}"></div>
+                    <div class="form-group"><label>نوع الدراسة</label><select id="editStudyType"><option value="عام" ${s.studyType==='عام'?'selected':''}>عام</option><option value="أزهر" ${s.studyType==='أزهر'?'selected':''}>أزهر</option></select></div>
+                    <div class="modal-actions"><button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> حفظ</button><button type="button" class="btn btn-secondary" onclick="closeModal()">إلغاء</button></div>
                 </form>
             `;
             modal.classList.add('open');
@@ -1975,7 +1824,6 @@
         async function saveStudentEdit(e, uid) {
             e.preventDefault();
             showLoading();
-
             try {
                 const updates = {
                     name: document.getElementById('editName').value.trim(),
@@ -1985,118 +1833,88 @@
                     grade: document.getElementById('editGrade').value.trim(),
                     studyType: document.getElementById('editStudyType').value
                 };
-
                 await database.ref('users/' + uid).update(updates);
-                
-                // Update local data
-                const student = studentsData.find(s => s.uid === uid);
-                if (student) Object.assign(student, updates);
-
-                logAdminActivity('تعديل بيانات طالب', { uid, updates });
-                showToast('✅ تم تحديث بيانات الطالب', 'success');
+                const s = allStudents.find(x => x.uid === uid);
+                if (s) Object.assign(s, updates);
+                logActivity('تعديل بيانات طالب', { uid });
+                showToast('✅ تم التحديث', 'success');
                 closeModal();
                 renderStudents();
                 hideLoading();
-            } catch (err) {
-                console.error('Error saving student:', err);
-                showToast('❌ حدث خطأ في حفظ البيانات', 'error');
-                hideLoading();
-            }
+            } catch (err) { showToast('❌ حدث خطأ', 'error');
+                hideLoading(); }
         }
 
         async function banStudent(uid) {
             if (!confirm('⚠️ هل أنت متأكد من حظر هذا الطالب؟')) return;
             showLoading();
-
             try {
                 await database.ref('users/' + uid + '/banned').set(true);
                 await database.ref('users/' + uid + '/active').set(false);
-                
-                const student = studentsData.find(s => s.uid === uid);
-                if (student) { student.banned = true; student.active = false; }
-
-                logAdminActivity('حظر طالب', { uid });
-                showToast('✅ تم حظر الطالب', 'success');
+                const s = allStudents.find(x => x.uid === uid);
+                if (s) { s.banned = true;
+                    s.active = false; }
+                logActivity('حظر طالب', { uid });
+                showToast('✅ تم الحظر', 'success');
                 closeModal();
                 renderStudents();
                 hideLoading();
-            } catch (err) {
-                console.error('Error banning student:', err);
-                showToast('❌ حدث خطأ', 'error');
-                hideLoading();
-            }
+            } catch (err) { showToast('❌ حدث خطأ', 'error');
+                hideLoading(); }
         }
 
         async function unbanStudent(uid) {
-            if (!confirm('⚠️ هل أنت متأكد من فك الحظر عن هذا الطالب؟')) return;
+            if (!confirm('⚠️ هل أنت متأكد من فك الحظر؟')) return;
             showLoading();
-
             try {
                 await database.ref('users/' + uid + '/banned').remove();
                 await database.ref('users/' + uid + '/active').set(true);
-                
-                const student = studentsData.find(s => s.uid === uid);
-                if (student) { student.banned = false; student.active = true; }
-
-                logAdminActivity('فك الحظر عن طالب', { uid });
-                showToast('✅ تم فك الحظر عن الطالب', 'success');
+                const s = allStudents.find(x => x.uid === uid);
+                if (s) { s.banned = false;
+                    s.active = true; }
+                logActivity('فك الحظر عن طالب', { uid });
+                showToast('✅ تم فك الحظر', 'success');
                 closeModal();
                 renderStudents();
                 hideLoading();
-            } catch (err) {
-                console.error('Error unbanning student:', err);
-                showToast('❌ حدث خطأ', 'error');
-                hideLoading();
-            }
+            } catch (err) { showToast('❌ حدث خطأ', 'error');
+                hideLoading(); }
         }
 
         async function deleteStudent(uid) {
-            if (!confirm('⚠️ هل أنت متأكد من حذف هذا الطالب؟ هذا الإجراء لا يمكن التراجع عنه!')) return;
+            if (!confirm('⚠️ هل أنت متأكد من حذف هذا الطالب؟')) return;
             if (!confirm('⚠️ تأكيد الحذف النهائي؟')) return;
             showLoading();
-
             try {
-                // Delete user data
                 await database.ref('users/' + uid).remove();
-                await database.ref('courseSubscriptions').orderByChild('userId').equalTo(uid).once('value', snapshot => {
-                    snapshot.forEach(child => {
-                        database.ref('courseSubscriptions/' + child.key).remove();
-                    });
-                });
-
-                logAdminActivity('حذف حساب طالب', { uid });
-                showToast('✅ تم حذف حساب الطالب', 'success');
-                studentsData = studentsData.filter(s => s.uid !== uid);
+                const subs = await database.ref('courseSubscriptions').orderByChild('userId').equalTo(uid).once('value');
+                subs.forEach(c => database.ref('courseSubscriptions/' + c.key).remove());
+                logActivity('حذف حساب طالب', { uid });
+                showToast('✅ تم الحذف', 'success');
+                allStudents = allStudents.filter(s => s.uid !== uid);
                 filteredStudents = filteredStudents.filter(s => s.uid !== uid);
                 closeModal();
                 renderStudents();
                 hideLoading();
-            } catch (err) {
-                console.error('Error deleting student:', err);
-                showToast('❌ حدث خطأ في حذف الحساب', 'error');
-                hideLoading();
-            }
+            } catch (err) { showToast('❌ حدث خطأ', 'error');
+                hideLoading(); }
         }
 
         async function toggleSubscription(subId, uid) {
             showLoading();
             try {
-                const snapshot = await database.ref('courseSubscriptions/' + subId).once('value');
-                if (snapshot.exists()) {
-                    const data = snapshot.val();
-                    const newStatus = data.status === 'active' ? 'inactive' : 'active';
+                const snap = await database.ref('courseSubscriptions/' + subId).once('value');
+                if (snap.exists()) {
+                    const d = snap.val();
+                    const newStatus = d.status === 'active' ? 'inactive' : 'active';
                     await database.ref('courseSubscriptions/' + subId + '/status').set(newStatus);
-                    
-                    logAdminActivity('تغيير حالة اشتراك', { subId, uid, newStatus });
+                    logActivity('تغيير حالة اشتراك', { subId, uid, newStatus });
                     showToast(`✅ تم ${newStatus === 'active' ? 'تفعيل' : 'إلغاء'} الاشتراك`, 'success');
                     showStudentPage(uid);
                 }
                 hideLoading();
-            } catch (err) {
-                console.error('Error toggling subscription:', err);
-                showToast('❌ حدث خطأ', 'error');
-                hideLoading();
-            }
+            } catch (err) { showToast('❌ حدث خطأ', 'error');
+                hideLoading(); }
         }
 
         // ============================================================
@@ -2107,13 +1925,9 @@
             database.ref('courses').once('value', snapshot => {
                 allCourses = [];
                 snapshot.forEach(child => {
-                    const data = child.val();
-                    allCourses.push({
-                        id: child.key,
-                        ...data,
-                        studentsCount: data.studentsCount || data.students || 0,
-                        lessonsCount: data.lessonsCount || data.lessons || 0
-                    });
+                    const d = child.val();
+                    allCourses.push({ id: child.key, ...d, studentsCount: d.studentsCount || d.students || 0,
+                        lessonsCount: d.lessonsCount || d.lessons || 0 });
                 });
                 renderCourses();
                 hideLoading();
@@ -2123,44 +1937,29 @@
         function renderCourses() {
             const tbody = document.getElementById('coursesTableBody');
             if (allCourses.length === 0) {
-                tbody.innerHTML = `
-                    <tr><td colspan="9" style="text-align:center;padding:30px;color:var(--admin-text2);">
-                        <i class="fas fa-book" style="font-size:2rem;display:block;margin-bottom:8px;"></i>
-                        لا توجد كورسات
-                    </td></tr>
-                `;
+                tbody.innerHTML =
+                    `<tr><td colspan="9" style="text-align:center;padding:30px;color:var(--admin-text2);"><i class="fas fa-book" style="font-size:2rem;display:block;margin-bottom:8px;"></i>لا توجد كورسات</td></tr>`;
                 return;
             }
-
-            tbody.innerHTML = allCourses.map((course, idx) => {
-                const status = course.isActive !== false ? 'نشط' : 'متوقف';
-                const statusClass = course.isActive !== false ? 'active' : 'inactive';
-                const type = course.isFree !== false ? 'مجاني' : 'مدفوع';
-                const typeClass = course.isFree !== false ? 'free' : 'premium';
-
+            tbody.innerHTML = allCourses.map((c, i) => {
+                const status = c.isActive !== false ? 'نشط' : 'متوقف';
+                const sc = c.isActive !== false ? 'active' : 'inactive';
+                const type = c.isFree !== false ? 'مجاني' : 'مدفوع';
+                const tc = c.isFree !== false ? 'free' : 'premium';
                 return `
                     <tr>
-                        <td>${idx + 1}</td>
+                        <td>${i+1}</td>
+                        <td><img src="${c.image||'https://placehold.co/40x40/0B4F8C/fff?text=ك'}" style="width:40px;height:40px;border-radius:8px;object-fit:cover;"></td>
+                        <td><strong>${escapeHtml(c.title||'كورس')}</strong></td>
+                        <td>${escapeHtml(c.grade||'--')}</td>
+                        <td>${c.lessonsCount||0}</td>
+                        <td>${c.studentsCount||0}</td>
+                        <td><span class="status-badge ${tc}">${type}</span></td>
+                        <td><span class="status-badge ${sc}">${status}</span></td>
                         <td>
-                            <img src="${course.image || 'https://placehold.co/40x40/0B4F8C/fff?text=ك'}" 
-                                 style="width:40px;height:40px;border-radius:8px;object-fit:cover;">
-                        </td>
-                        <td><strong>${escapeHtml(course.title || 'كورس')}</strong></td>
-                        <td>${escapeHtml(course.grade || '--')}</td>
-                        <td>${course.lessonsCount || 0}</td>
-                        <td>${course.studentsCount || 0}</td>
-                        <td><span class="status-badge ${typeClass}">${type}</span></td>
-                        <td><span class="status-badge ${statusClass}">${status}</span></td>
-                        <td>
-                            <button class="btn-sm" onclick="editCourse('${course.id}')" style="padding:2px 10px;border:none;border-radius:4px;background:var(--admin-warning);color:#fff;cursor:pointer;font-size:0.7rem;">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button class="btn-sm" onclick="toggleCourseStatus('${course.id}')" style="padding:2px 10px;border:none;border-radius:4px;background:${course.isActive !== false ? 'var(--admin-danger)' : 'var(--admin-success)'};color:#fff;cursor:pointer;font-size:0.7rem;">
-                                <i class="fas fa-${course.isActive !== false ? 'pause' : 'play'}"></i>
-                            </button>
-                            <button class="btn-sm" onclick="deleteCourse('${course.id}')" style="padding:2px 10px;border:none;border-radius:4px;background:#dc2626;color:#fff;cursor:pointer;font-size:0.7rem;">
-                                <i class="fas fa-trash"></i>
-                            </button>
+                            <button class="btn-sm btn-sm-warning" onclick="editCourse('${c.id}')"><i class="fas fa-edit"></i></button>
+                            <button class="btn-sm ${c.isActive!==false?'btn-sm-danger':'btn-sm-success'}" onclick="toggleCourse('${c.id}')"><i class="fas fa-${c.isActive!==false?'pause':'play'}"></i></button>
+                            <button class="btn-sm" style="background:#dc2626;color:#fff;border:none;padding:4px 10px;border-radius:6px;cursor:pointer;" onclick="deleteCourse('${c.id}')"><i class="fas fa-trash"></i></button>
                         </td>
                     </tr>
                 `;
@@ -2170,41 +1969,16 @@
         function openAddCourseModal() {
             const modal = document.getElementById('adminModal');
             const content = document.getElementById('modalContent');
-
             content.innerHTML = `
                 <h3>📚 إضافة كورس جديد</h3>
                 <form id="addCourseForm" onsubmit="saveCourse(event)">
-                    <div class="form-group">
-                        <label>عنوان الكورس *</label>
-                        <input type="text" id="courseTitle" required>
-                    </div>
-                    <div class="form-group">
-                        <label>الوصف</label>
-                        <textarea id="courseDescription" rows="3"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label>الصف الدراسي</label>
-                        <input type="text" id="courseGrade" placeholder="مثال: أولى ثانوي">
-                    </div>
-                    <div class="form-group">
-                        <label>رابط الصورة</label>
-                        <input type="url" id="courseImage" placeholder="https://...">
-                    </div>
-                    <div class="form-group">
-                        <label>السعر (اترك فارغاً للمجاني)</label>
-                        <input type="text" id="coursePrice" placeholder="مثال: 100">
-                    </div>
-                    <div class="form-group">
-                        <label>النوع</label>
-                        <select id="courseType">
-                            <option value="free">مجاني</option>
-                            <option value="paid">مدفوع</option>
-                        </select>
-                    </div>
-                    <div class="modal-actions">
-                        <button type="submit" class="btn btn-primary"><i class="fas fa-plus"></i> إضافة</button>
-                        <button type="button" class="btn btn-secondary" onclick="closeModal()">إلغاء</button>
-                    </div>
+                    <div class="form-group"><label>عنوان الكورس *</label><input type="text" id="courseTitle" required></div>
+                    <div class="form-group"><label>الوصف</label><textarea id="courseDescription" rows="3"></textarea></div>
+                    <div class="form-group"><label>الصف</label><input type="text" id="courseGrade" placeholder="مثال: أولى ثانوي"></div>
+                    <div class="form-group"><label>رابط الصورة</label><input type="url" id="courseImage" placeholder="https://..."></div>
+                    <div class="form-group"><label>السعر</label><input type="text" id="coursePrice" placeholder="100"></div>
+                    <div class="form-group"><label>النوع</label><select id="courseType"><option value="free">مجاني</option><option value="paid">مدفوع</option></select></div>
+                    <div class="modal-actions"><button type="submit" class="btn btn-primary"><i class="fas fa-plus"></i> إضافة</button><button type="button" class="btn btn-secondary" onclick="closeModal()">إلغاء</button></div>
                 </form>
             `;
             modal.classList.add('open');
@@ -2213,93 +1987,55 @@
         async function saveCourse(e) {
             e.preventDefault();
             showLoading();
-
             try {
                 const title = document.getElementById('courseTitle').value.trim();
-                const description = document.getElementById('courseDescription').value.trim();
-                const grade = document.getElementById('courseGrade').value.trim();
-                const image = document.getElementById('courseImage').value.trim();
-                const price = document.getElementById('coursePrice').value.trim();
-                const type = document.getElementById('courseType').value;
-
-                const courseData = {
-                    title: title,
-                    description: description,
-                    grade: grade,
-                    image: image || 'https://placehold.co/600x400/0B4F8C/fff?text=' + encodeURIComponent(title),
-                    isFree: type === 'free',
-                    price: type === 'paid' ? price : null,
+                const data = {
+                    title,
+                    description: document.getElementById('courseDescription').value.trim(),
+                    grade: document.getElementById('courseGrade').value.trim(),
+                    image: document.getElementById('courseImage').value.trim() || 'https://placehold.co/600x400/0B4F8C/fff?text=' +
+                        encodeURIComponent(title),
+                    isFree: document.getElementById('courseType').value === 'free',
+                    price: document.getElementById('coursePrice').value.trim() || null,
                     isActive: true,
                     studentsCount: 0,
                     lessonsCount: 0,
                     createdAt: new Date().toISOString()
                 };
-
                 const ref = database.ref('courses').push();
-                await ref.set(courseData);
-
-                logAdminActivity('إضافة كورس', { courseId: ref.key, title });
-                showToast('✅ تم إضافة الكورس بنجاح', 'success');
+                await ref.set(data);
+                logActivity('إضافة كورس', { courseId: ref.key, title });
+                showToast('✅ تم الإضافة', 'success');
                 closeModal();
                 loadCourses();
                 hideLoading();
-            } catch (err) {
-                console.error('Error saving course:', err);
-                showToast('❌ حدث خطأ', 'error');
-                hideLoading();
-            }
+            } catch (err) { showToast('❌ حدث خطأ', 'error');
+                hideLoading(); }
         }
 
-        function editCourse(courseId) {
-            const course = allCourses.find(c => c.id === courseId);
-            if (!course) return;
-
+        function editCourse(id) {
+            const c = allCourses.find(x => x.id === id);
+            if (!c) return;
             const modal = document.getElementById('adminModal');
             const content = document.getElementById('modalContent');
-
             content.innerHTML = `
                 <h3>✏️ تعديل الكورس</h3>
-                <form id="editCourseForm" onsubmit="updateCourse(event, '${courseId}')">
-                    <div class="form-group">
-                        <label>عنوان الكورس *</label>
-                        <input type="text" id="editCourseTitle" value="${escapeHtml(course.title || '')}" required>
-                    </div>
-                    <div class="form-group">
-                        <label>الوصف</label>
-                        <textarea id="editCourseDescription" rows="3">${escapeHtml(course.description || '')}</textarea>
-                    </div>
-                    <div class="form-group">
-                        <label>الصف الدراسي</label>
-                        <input type="text" id="editCourseGrade" value="${escapeHtml(course.grade || '')}">
-                    </div>
-                    <div class="form-group">
-                        <label>رابط الصورة</label>
-                        <input type="url" id="editCourseImage" value="${course.image || ''}">
-                    </div>
-                    <div class="form-group">
-                        <label>السعر</label>
-                        <input type="text" id="editCoursePrice" value="${course.price || ''}">
-                    </div>
-                    <div class="form-group">
-                        <label>النوع</label>
-                        <select id="editCourseType">
-                            <option value="free" ${course.isFree !== false ? 'selected' : ''}>مجاني</option>
-                            <option value="paid" ${course.isFree === false ? 'selected' : ''}>مدفوع</option>
-                        </select>
-                    </div>
-                    <div class="modal-actions">
-                        <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> حفظ</button>
-                        <button type="button" class="btn btn-secondary" onclick="closeModal()">إلغاء</button>
-                    </div>
+                <form id="editCourseForm" onsubmit="updateCourse(event,'${id}')">
+                    <div class="form-group"><label>عنوان الكورس *</label><input type="text" id="editCourseTitle" value="${escapeHtml(c.title||'')}" required></div>
+                    <div class="form-group"><label>الوصف</label><textarea id="editCourseDescription" rows="3">${escapeHtml(c.description||'')}</textarea></div>
+                    <div class="form-group"><label>الصف</label><input type="text" id="editCourseGrade" value="${escapeHtml(c.grade||'')}"></div>
+                    <div class="form-group"><label>رابط الصورة</label><input type="url" id="editCourseImage" value="${c.image||''}"></div>
+                    <div class="form-group"><label>السعر</label><input type="text" id="editCoursePrice" value="${c.price||''}"></div>
+                    <div class="form-group"><label>النوع</label><select id="editCourseType"><option value="free" ${c.isFree!==false?'selected':''}>مجاني</option><option value="paid" ${c.isFree===false?'selected':''}>مدفوع</option></select></div>
+                    <div class="modal-actions"><button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> حفظ</button><button type="button" class="btn btn-secondary" onclick="closeModal()">إلغاء</button></div>
                 </form>
             `;
             modal.classList.add('open');
         }
 
-        async function updateCourse(e, courseId) {
+        async function updateCourse(e, id) {
             e.preventDefault();
             showLoading();
-
             try {
                 const updates = {
                     title: document.getElementById('editCourseTitle').value.trim(),
@@ -2309,57 +2045,44 @@
                     price: document.getElementById('editCoursePrice').value.trim() || null,
                     isFree: document.getElementById('editCourseType').value === 'free'
                 };
-
-                await database.ref('courses/' + courseId).update(updates);
-                logAdminActivity('تعديل كورس', { courseId, updates });
-                showToast('✅ تم تحديث الكورس', 'success');
+                await database.ref('courses/' + id).update(updates);
+                logActivity('تعديل كورس', { courseId: id });
+                showToast('✅ تم التحديث', 'success');
                 closeModal();
                 loadCourses();
                 hideLoading();
-            } catch (err) {
-                console.error('Error updating course:', err);
-                showToast('❌ حدث خطأ', 'error');
-                hideLoading();
-            }
+            } catch (err) { showToast('❌ حدث خطأ', 'error');
+                hideLoading(); }
         }
 
-        async function toggleCourseStatus(courseId) {
-            const course = allCourses.find(c => c.id === courseId);
-            if (!course) return;
-
-            const newStatus = course.isActive !== false ? false : true;
+        async function toggleCourse(id) {
+            const c = allCourses.find(x => x.id === id);
+            if (!c) return;
+            const newStatus = c.isActive !== false ? false : true;
             showLoading();
-
             try {
-                await database.ref('courses/' + courseId + '/isActive').set(newStatus);
-                course.isActive = newStatus;
-                logAdminActivity('تغيير حالة كورس', { courseId, newStatus });
+                await database.ref('courses/' + id + '/isActive').set(newStatus);
+                c.isActive = newStatus;
+                logActivity('تغيير حالة كورس', { courseId: id, newStatus });
                 showToast(`✅ تم ${newStatus ? 'تفعيل' : 'إيقاف'} الكورس`, 'success');
                 renderCourses();
                 hideLoading();
-            } catch (err) {
-                console.error('Error toggling course:', err);
-                showToast('❌ حدث خطأ', 'error');
-                hideLoading();
-            }
+            } catch (err) { showToast('❌ حدث خطأ', 'error');
+                hideLoading(); }
         }
 
-        async function deleteCourse(courseId) {
+        async function deleteCourse(id) {
             if (!confirm('⚠️ هل أنت متأكد من حذف هذا الكورس؟')) return;
             showLoading();
-
             try {
-                await database.ref('courses/' + courseId).remove();
-                logAdminActivity('حذف كورس', { courseId });
-                showToast('✅ تم حذف الكورس', 'success');
-                allCourses = allCourses.filter(c => c.id !== courseId);
+                await database.ref('courses/' + id).remove();
+                logActivity('حذف كورس', { courseId: id });
+                showToast('✅ تم الحذف', 'success');
+                allCourses = allCourses.filter(c => c.id !== id);
                 renderCourses();
                 hideLoading();
-            } catch (err) {
-                console.error('Error deleting course:', err);
-                showToast('❌ حدث خطأ', 'error');
-                hideLoading();
-            }
+            } catch (err) { showToast('❌ حدث خطأ', 'error');
+                hideLoading(); }
         }
 
         // ============================================================
@@ -2370,12 +2093,9 @@
             database.ref('exams').once('value', snapshot => {
                 allExams = [];
                 snapshot.forEach(child => {
-                    const data = child.val();
-                    allExams.push({
-                        id: child.key,
-                        ...data,
-                        questionsCount: data.questions ? data.questions.length : 0
-                    });
+                    const d = child.val();
+                    allExams.push({ id: child.key, ...d, questionsCount: d.questions ? d.questions.length :
+                            0 });
                 });
                 renderExams();
                 hideLoading();
@@ -2385,32 +2105,23 @@
         function renderExams() {
             const tbody = document.getElementById('examsTableBody');
             if (allExams.length === 0) {
-                tbody.innerHTML = `
-                    <tr><td colspan="9" style="text-align:center;padding:30px;color:var(--admin-text2);">
-                        <i class="fas fa-file-alt" style="font-size:2rem;display:block;margin-bottom:8px;"></i>
-                        لا توجد امتحانات
-                    </td></tr>
-                `;
+                tbody.innerHTML =
+                    `<tr><td colspan="9" style="text-align:center;padding:30px;color:var(--admin-text2);"><i class="fas fa-file-alt" style="font-size:2rem;display:block;margin-bottom:8px;"></i>لا توجد امتحانات</td></tr>`;
                 return;
             }
-
-            tbody.innerHTML = allExams.map((exam, idx) => `
+            tbody.innerHTML = allExams.map((e, i) => `
                 <tr>
-                    <td>${idx + 1}</td>
-                    <td><strong>${escapeHtml(exam.title || 'امتحان')}</strong></td>
-                    <td><span class="status-badge exam">${escapeHtml(exam.type || 'exam')}</span></td>
-                    <td>${exam.questionsCount || 0}</td>
-                    <td>${exam.atomsReward || 0}</td>
-                    <td>${exam.attempts || 0}</td>
-                    <td>${exam.completed || 0}</td>
-                    <td>${exam.averageScore || '--'}%</td>
+                    <td>${i+1}</td>
+                    <td><strong>${escapeHtml(e.title||'امتحان')}</strong></td>
+                    <td><span class="status-badge ${e.type==='quiz'?'quiz':'exam'}">${e.type||'exam'}</span></td>
+                    <td>${e.questionsCount||0}</td>
+                    <td>${e.atomsReward||0}</td>
+                    <td>${e.attempts||0}</td>
+                    <td>${e.completed||0}</td>
+                    <td>${e.averageScore||'--'}%</td>
                     <td>
-                        <button class="btn-sm" onclick="editExam('${exam.id}')" style="padding:2px 10px;border:none;border-radius:4px;background:var(--admin-warning);color:#fff;cursor:pointer;font-size:0.7rem;">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        <button class="btn-sm" onclick="deleteExam('${exam.id}')" style="padding:2px 10px;border:none;border-radius:4px;background:#dc2626;color:#fff;cursor:pointer;font-size:0.7rem;">
-                            <i class="fas fa-trash"></i>
-                        </button>
+                        <button class="btn-sm btn-sm-warning" onclick="editExam('${e.id}')"><i class="fas fa-edit"></i></button>
+                        <button class="btn-sm" style="background:#dc2626;color:#fff;border:none;padding:4px 10px;border-radius:6px;cursor:pointer;" onclick="deleteExam('${e.id}')"><i class="fas fa-trash"></i></button>
                     </td>
                 </tr>
             `).join('');
@@ -2419,37 +2130,15 @@
         function openAddExamModal() {
             const modal = document.getElementById('adminModal');
             const content = document.getElementById('modalContent');
-
             content.innerHTML = `
                 <h3>📝 إضافة امتحان جديد</h3>
                 <form id="addExamForm" onsubmit="saveExam(event)">
-                    <div class="form-group">
-                        <label>عنوان الامتحان *</label>
-                        <input type="text" id="examTitle" required>
-                    </div>
-                    <div class="form-group">
-                        <label>الوصف</label>
-                        <textarea id="examDescription" rows="3"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label>النوع</label>
-                        <select id="examType">
-                            <option value="exam">امتحان</option>
-                            <option value="quiz">كويز</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>مكافأة الذرات</label>
-                        <input type="number" id="examAtoms" value="10">
-                    </div>
-                    <div class="form-group">
-                        <label>المدة (دقائق)</label>
-                        <input type="number" id="examDuration" value="30">
-                    </div>
-                    <div class="modal-actions">
-                        <button type="submit" class="btn btn-primary"><i class="fas fa-plus"></i> إضافة</button>
-                        <button type="button" class="btn btn-secondary" onclick="closeModal()">إلغاء</button>
-                    </div>
+                    <div class="form-group"><label>عنوان الامتحان *</label><input type="text" id="examTitle" required></div>
+                    <div class="form-group"><label>الوصف</label><textarea id="examDescription" rows="3"></textarea></div>
+                    <div class="form-group"><label>النوع</label><select id="examType"><option value="exam">امتحان</option><option value="quiz">كويز</option></select></div>
+                    <div class="form-group"><label>مكافأة الذرات</label><input type="number" id="examAtoms" value="10"></div>
+                    <div class="form-group"><label>المدة (دقائق)</label><input type="number" id="examDuration" value="30"></div>
+                    <div class="modal-actions"><button type="submit" class="btn btn-primary"><i class="fas fa-plus"></i> إضافة</button><button type="button" class="btn btn-secondary" onclick="closeModal()">إلغاء</button></div>
                 </form>
             `;
             modal.classList.add('open');
@@ -2458,9 +2147,8 @@
         async function saveExam(e) {
             e.preventDefault();
             showLoading();
-
             try {
-                const examData = {
+                const data = {
                     title: document.getElementById('examTitle').value.trim(),
                     description: document.getElementById('examDescription').value.trim(),
                     type: document.getElementById('examType').value,
@@ -2469,88 +2157,46 @@
                     questions: [],
                     createdAt: new Date().toISOString()
                 };
-
                 const ref = database.ref('exams').push();
-                await ref.set(examData);
-
-                logAdminActivity('إضافة امتحان', { examId: ref.key, title: examData.title });
-                showToast('✅ تم إضافة الامتحان', 'success');
+                await ref.set(data);
+                logActivity('إضافة امتحان', { examId: ref.key, title: data.title });
+                showToast('✅ تم الإضافة', 'success');
                 closeModal();
                 loadExams();
                 hideLoading();
-            } catch (err) {
-                console.error('Error saving exam:', err);
-                showToast('❌ حدث خطأ', 'error');
-                hideLoading();
-            }
+            } catch (err) { showToast('❌ حدث خطأ', 'error');
+                hideLoading(); }
         }
 
-        function editExam(examId) {
-            const exam = allExams.find(e => e.id === examId);
-            if (!exam) return;
-
+        function editExam(id) {
+            const e = allExams.find(x => x.id === id);
+            if (!e) return;
             const modal = document.getElementById('adminModal');
             const content = document.getElementById('modalContent');
-
-            // Build questions editor
-            let questionsHtml = '';
-            if (exam.questions && exam.questions.length > 0) {
-                questionsHtml = exam.questions.map((q, idx) => `
-                    <div style="background:var(--admin-bg);padding:8px;border-radius:6px;margin-bottom:6px;font-size:0.85rem;">
-                        <strong>${idx + 1}.</strong> ${escapeHtml(q.question)}
-                        <br><span style="color:var(--admin-text2);font-size:0.75rem;">الإجابة: ${q.options ? escapeHtml(q.options[q.correctAnswer]) : '--'}</span>
-                    </div>
-                `).join('');
+            let qHtml = '';
+            if (e.questions && e.questions.length > 0) {
+                qHtml = e.questions.map((q, i) =>
+                    `<div style="background:var(--admin-bg);padding:8px;border-radius:6px;margin-bottom:6px;font-size:0.85rem;"><strong>${i+1}.</strong> ${escapeHtml(q.question)}<br><span style="color:var(--admin-text2);font-size:0.75rem;">الإجابة: ${q.options ? escapeHtml(q.options[q.correctAnswer]) : '--'}</span></div>`
+                    ).join('');
             }
-
             content.innerHTML = `
                 <h3>✏️ تعديل الامتحان</h3>
-                <form id="editExamForm" onsubmit="updateExam(event, '${examId}')">
-                    <div class="form-group">
-                        <label>عنوان الامتحان *</label>
-                        <input type="text" id="editExamTitle" value="${escapeHtml(exam.title || '')}" required>
-                    </div>
-                    <div class="form-group">
-                        <label>الوصف</label>
-                        <textarea id="editExamDescription" rows="3">${escapeHtml(exam.description || '')}</textarea>
-                    </div>
-                    <div class="form-group">
-                        <label>النوع</label>
-                        <select id="editExamType">
-                            <option value="exam" ${exam.type === 'exam' ? 'selected' : ''}>امتحان</option>
-                            <option value="quiz" ${exam.type === 'quiz' ? 'selected' : ''}>كويز</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>مكافأة الذرات</label>
-                        <input type="number" id="editExamAtoms" value="${exam.atomsReward || 10}">
-                    </div>
-                    <div class="form-group">
-                        <label>المدة (دقائق)</label>
-                        <input type="number" id="editExamDuration" value="${exam.duration || 30}">
-                    </div>
-                    ${questionsHtml ? `
-                        <div class="form-group">
-                            <label>الأسئلة الحالية (${exam.questions ? exam.questions.length : 0})</label>
-                            ${questionsHtml}
-                        </div>
-                        <p style="font-size:0.8rem;color:var(--admin-text2);">📝 لإضافة أو تعديل الأسئلة، استخدم Firebase Console</p>
-                    ` : `
-                        <p style="font-size:0.8rem;color:var(--admin-text2);">📝 لا توجد أسئلة، يمكنك إضافتها من Firebase Console</p>
-                    `}
-                    <div class="modal-actions">
-                        <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> حفظ</button>
-                        <button type="button" class="btn btn-secondary" onclick="closeModal()">إلغاء</button>
-                    </div>
+                <form id="editExamForm" onsubmit="updateExam(event,'${id}')">
+                    <div class="form-group"><label>عنوان الامتحان *</label><input type="text" id="editExamTitle" value="${escapeHtml(e.title||'')}" required></div>
+                    <div class="form-group"><label>الوصف</label><textarea id="editExamDescription" rows="3">${escapeHtml(e.description||'')}</textarea></div>
+                    <div class="form-group"><label>النوع</label><select id="editExamType"><option value="exam" ${e.type==='exam'?'selected':''}>امتحان</option><option value="quiz" ${e.type==='quiz'?'selected':''}>كويز</option></select></div>
+                    <div class="form-group"><label>مكافأة الذرات</label><input type="number" id="editExamAtoms" value="${e.atomsReward||10}"></div>
+                    <div class="form-group"><label>المدة (دقائق)</label><input type="number" id="editExamDuration" value="${e.duration||30}"></div>
+                    ${qHtml ? `<div class="form-group"><label>الأسئلة الحالية (${e.questions?e.questions.length:0})</label>${qHtml}</div><p style="font-size:0.8rem;color:var(--admin-text2);">📝 لتعديل الأسئلة استخدم Firebase Console</p>` : '<p style="font-size:0.8rem;color:var(--admin-text2);">📝 لا توجد أسئلة</p>'}
+                    <div class="modal-actions"><button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> حفظ</button><button type="button" class="btn btn-secondary" onclick="closeModal()">إلغاء</button></div>
                 </form>
             `;
             modal.classList.add('open');
         }
 
-        async function updateExam(e, examId) {
+        async function updateExam(e, id) {
             e.preventDefault();
             showLoading();
-
             try {
                 const updates = {
                     title: document.getElementById('editExamTitle').value.trim(),
@@ -2559,36 +2205,28 @@
                     atomsReward: parseInt(document.getElementById('editExamAtoms').value) || 10,
                     duration: parseInt(document.getElementById('editExamDuration').value) || 30
                 };
-
-                await database.ref('exams/' + examId).update(updates);
-                logAdminActivity('تعديل امتحان', { examId, updates });
-                showToast('✅ تم تحديث الامتحان', 'success');
+                await database.ref('exams/' + id).update(updates);
+                logActivity('تعديل امتحان', { examId: id });
+                showToast('✅ تم التحديث', 'success');
                 closeModal();
                 loadExams();
                 hideLoading();
-            } catch (err) {
-                console.error('Error updating exam:', err);
-                showToast('❌ حدث خطأ', 'error');
-                hideLoading();
-            }
+            } catch (err) { showToast('❌ حدث خطأ', 'error');
+                hideLoading(); }
         }
 
-        async function deleteExam(examId) {
+        async function deleteExam(id) {
             if (!confirm('⚠️ هل أنت متأكد من حذف هذا الامتحان؟')) return;
             showLoading();
-
             try {
-                await database.ref('exams/' + examId).remove();
-                logAdminActivity('حذف امتحان', { examId });
-                showToast('✅ تم حذف الامتحان', 'success');
-                allExams = allExams.filter(e => e.id !== examId);
+                await database.ref('exams/' + id).remove();
+                logActivity('حذف امتحان', { examId: id });
+                showToast('✅ تم الحذف', 'success');
+                allExams = allExams.filter(e => e.id !== id);
                 renderExams();
                 hideLoading();
-            } catch (err) {
-                console.error('Error deleting exam:', err);
-                showToast('❌ حدث خطأ', 'error');
-                hideLoading();
-            }
+            } catch (err) { showToast('❌ حدث خطأ', 'error');
+                hideLoading(); }
         }
 
         // ============================================================
@@ -2599,8 +2237,8 @@
             database.ref('adminLogs').orderByChild('timestamp').limitToLast(100).once('value', snapshot => {
                 allLogs = [];
                 snapshot.forEach(child => {
-                    const data = child.val();
-                    allLogs.push({ id: child.key, ...data });
+                    const d = child.val();
+                    allLogs.push({ id: child.key, ...d });
                 });
                 allLogs.reverse();
                 renderLogs();
@@ -2611,148 +2249,86 @@
         function renderLogs() {
             const container = document.getElementById('logsContainer');
             if (allLogs.length === 0) {
-                container.innerHTML = `
-                    <div class="empty-state" style="padding:40px;text-align:center;">
-                        <div style="font-size:3rem;">📋</div>
-                        <h3>لا توجد سجلات</h3>
-                    </div>
-                `;
+                container.innerHTML =
+                    `<div class="empty-state"><div class="icon">📋</div><h3>لا توجد سجلات</h3></div>`;
                 return;
             }
-
+            const iconMap = { 'تسجيل الدخول': 'login', 'إضافة كورس': 'add', 'تعديل كورس': 'edit', 'حذف كورس': 'delete',
+                'تفعيل اشتراك': 'add', 'إلغاء اشتراك': 'delete', 'حظر طالب': 'ban', 'فك الحظر عن طالب': 'add',
+                'تعديل بيانات طالب': 'edit', 'إضافة امتحان': 'add', 'حذف امتحان': 'delete', 'تغيير حالة اشتراك': 'edit',
+                'تغيير حالة كورس': 'edit' };
             container.innerHTML = allLogs.map(log => {
-                const iconMap = {
-                    'تسجيل الدخول': 'login',
-                    'إضافة كورس': 'add',
-                    'تعديل كورس': 'edit',
-                    'حذف كورس': 'delete',
-                    'تفعيل اشتراك': 'add',
-                    'إلغاء اشتراك': 'delete',
-                    'حظر طالب': 'ban',
-                    'فك الحظر عن طالب': 'add',
-                    'تعديل بيانات طالب': 'edit',
-                    'إضافة امتحان': 'add',
-                    'حذف امتحان': 'delete',
-                    'تغيير حالة اشتراك': 'edit',
-                    'تغيير حالة كورس': 'edit'
-                };
-                const iconClass = iconMap[log.action] || 'edit';
-
+                const ic = iconMap[log.action] || 'edit';
+                const icons = { login: 'sign-in-alt', add: 'plus', delete: 'trash', ban: 'ban', edit: 'edit' };
                 return `
                     <div class="log-item">
-                        <div class="log-icon ${iconClass}">
-                            <i class="fas fa-${iconClass === 'login' ? 'sign-in-alt' : iconClass === 'add' ? 'plus' : iconClass === 'delete' ? 'trash' : iconClass === 'ban' ? 'ban' : 'edit'}"></i>
-                        </div>
-                        <div class="log-content">
-                            <div class="log-action">${escapeHtml(log.action)}</div>
-                            <div class="log-details">
-                                <i class="fas fa-user"></i> ${escapeHtml(log.adminName || 'Admin')}
-                                ${log.details ? ` • ${escapeHtml(JSON.stringify(log.details))}` : ''}
-                            </div>
-                        </div>
+                        <div class="log-icon ${ic}"><i class="fas fa-${icons[ic]||'edit'}"></i></div>
+                        <div class="log-content"><div class="log-action">${escapeHtml(log.action)}</div>
+                        <div class="log-details"><i class="fas fa-user"></i> ${escapeHtml(log.adminName||'Admin')} ${log.details ? ' • '+escapeHtml(JSON.stringify(log.details)) : ''}</div></div>
                         <div class="log-time">${log.timestamp ? formatDate(log.timestamp) : '--'}</div>
                     </div>
                 `;
             }).join('');
         }
 
-        function refreshLogs() {
-            loadLogs();
-            showToast('✅ تم تحديث السجل', 'success');
-        }
+        function refreshLogs() { loadLogs();
+            showToast('✅ تم التحديث', 'success'); }
 
         // ============================================================
         // NOTIFICATIONS
         // ============================================================
         function loadNotifications() {
-            // New students today
-            database.ref('users').once('value', snapshot => {
+            database.ref('users').once('value', snap => {
                 let count = 0;
                 const today = new Date().toDateString();
-                snapshot.forEach(child => {
-                    const data = child.val();
-                    if (data.createdAt && new Date(data.createdAt).toDateString() === today) {
-                        count++;
-                    }
+                snap.forEach(c => {
+                    const d = c.val();
+                    if (d.createdAt && new Date(d.createdAt).toDateString() === today) count++;
                 });
                 document.getElementById('newStudentsToday').textContent = count;
             });
 
-            // New subscriptions
-            database.ref('courseSubscriptions').once('value', snapshot => {
+            database.ref('courseSubscriptions').once('value', snap => {
                 let count = 0;
                 const today = new Date().toDateString();
-                snapshot.forEach(child => {
-                    const data = child.val();
-                    if (data.subscribedAt && new Date(data.subscribedAt).toDateString() === today) {
-                        count++;
-                    }
+                snap.forEach(c => {
+                    const d = c.val();
+                    if (d.subscribedAt && new Date(d.subscribedAt).toDateString() === today) count++;
                 });
                 document.getElementById('newSubscriptions').textContent = count;
             });
 
-            // Recent exams
-            database.ref('exams').orderByChild('createdAt').limitToLast(5).once('value', snapshot => {
+            database.ref('exams').orderByChild('createdAt').limitToLast(5).once('value', snap => {
                 const container = document.getElementById('recentExams');
-                const exams = [];
-                snapshot.forEach(child => {
-                    exams.push({ id: child.key, ...child.val() });
-                });
-                exams.reverse();
-                container.innerHTML = exams.map(e => `
-                    <div style="padding:6px 0;border-bottom:1px solid var(--admin-border);font-size:0.85rem;">
-                        <strong>${escapeHtml(e.title || 'امتحان')}</strong>
-                        <span style="color:var(--admin-text2);font-size:0.75rem;">${e.createdAt ? formatDate(e.createdAt) : ''}</span>
-                    </div>
-                `).join('') || '<div style="color:var(--admin-text2);font-size:0.85rem;padding:8px;">لا توجد امتحانات</div>';
+                const items = [];
+                snap.forEach(c => items.push({ id: c.key, ...c.val() }));
+                items.reverse();
+                container.innerHTML = items.map(e =>
+                    `<div style="padding:6px 0;border-bottom:1px solid var(--admin-border);font-size:0.85rem;"><strong>${escapeHtml(e.title||'امتحان')}</strong> <span style="color:var(--admin-text2);font-size:0.75rem;">${e.createdAt ? formatDate(e.createdAt) : ''}</span></div>`
+                    ).join('') || '<div style="color:var(--admin-text2);font-size:0.85rem;padding:8px;">لا توجد امتحانات</div>';
             });
 
-            // Recent courses
-            database.ref('courses').orderByChild('createdAt').limitToLast(5).once('value', snapshot => {
+            database.ref('courses').orderByChild('createdAt').limitToLast(5).once('value', snap => {
                 const container = document.getElementById('recentCourses');
-                const courses = [];
-                snapshot.forEach(child => {
-                    courses.push({ id: child.key, ...child.val() });
-                });
-                courses.reverse();
-                container.innerHTML = courses.map(c => `
-                    <div style="padding:6px 0;border-bottom:1px solid var(--admin-border);font-size:0.85rem;">
-                        <strong>${escapeHtml(c.title || 'كورس')}</strong>
-                        <span style="color:var(--admin-text2);font-size:0.75rem;">${c.createdAt ? formatDate(c.createdAt) : ''}</span>
-                    </div>
-                `).join('') || '<div style="color:var(--admin-text2);font-size:0.85rem;padding:8px;">لا توجد كورسات</div>';
+                const items = [];
+                snap.forEach(c => items.push({ id: c.key, ...c.val() }));
+                items.reverse();
+                container.innerHTML = items.map(c =>
+                    `<div style="padding:6px 0;border-bottom:1px solid var(--admin-border);font-size:0.85rem;"><strong>${escapeHtml(c.title||'كورس')}</strong> <span style="color:var(--admin-text2);font-size:0.75rem;">${c.createdAt ? formatDate(c.createdAt) : ''}</span></div>`
+                    ).join('') || '<div style="color:var(--admin-text2);font-size:0.85rem;padding:8px;">لا توجد كورسات</div>';
             });
         }
 
         function sendNotification() {
             const modal = document.getElementById('adminModal');
             const content = document.getElementById('modalContent');
-
             content.innerHTML = `
                 <h3>🔔 إرسال إشعار</h3>
                 <form id="notificationForm" onsubmit="sendNotificationToAll(event)">
-                    <div class="form-group">
-                        <label>العنوان *</label>
-                        <input type="text" id="notifTitle" placeholder="عنوان الإشعار" required>
-                    </div>
-                    <div class="form-group">
-                        <label>الوصف</label>
-                        <textarea id="notifDescription" rows="3" placeholder="تفاصيل الإشعار"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label>الأيقونة</label>
-                        <select id="notifIcon">
-                            <option value="📢">📢 إعلان</option>
-                            <option value="🎉">🎉 جديد</option>
-                            <option value="📚">📚 تعليمي</option>
-                            <option value="🏆">🏆 إنجاز</option>
-                            <option value="🔔">🔔 تنبيه</option>
-                        </select>
-                    </div>
-                    <div class="modal-actions">
-                        <button type="submit" class="btn btn-primary"><i class="fas fa-bell"></i> إرسال للجميع</button>
-                        <button type="button" class="btn btn-secondary" onclick="closeModal()">إلغاء</button>
-                    </div>
+                    <div class="form-group"><label>العنوان *</label><input type="text" id="notifTitle" required></div>
+                    <div class="form-group"><label>الوصف</label><textarea id="notifDescription" rows="3"></textarea></div>
+                    <div class="form-group"><label>الأيقونة</label><select id="notifIcon"><option value="📢">📢 إعلان</option><option value="🎉">🎉 جديد</option><option value="📚">📚 تعليمي</option><option value="🏆">🏆 إنجاز</option><option value="🔔">🔔 تنبيه</option></select></div>
+                    <div class="modal-actions"><button type="submit" class="btn btn-primary"><i class="fas fa-bell"></i> إرسال للجميع</button><button type="button" class="btn btn-secondary" onclick="closeModal()">إلغاء</button></div>
                 </form>
             `;
             modal.classList.add('open');
@@ -2761,92 +2337,59 @@
         async function sendNotificationToAll(e) {
             e.preventDefault();
             showLoading();
-
             try {
                 const title = document.getElementById('notifTitle').value.trim();
                 const description = document.getElementById('notifDescription').value.trim();
                 const icon = document.getElementById('notifIcon').value;
-
-                // Get all users
-                const snapshot = await database.ref('users').once('value');
+                const snap = await database.ref('users').once('value');
                 const users = [];
-                snapshot.forEach(child => {
-                    users.push(child.key);
-                });
-
-                // Send notification to all users
+                snap.forEach(c => users.push(c.key));
                 const promises = users.map(uid => {
                     const ref = database.ref('users/' + uid + '/notifications').push();
-                    return ref.set({
-                        id: ref.key,
-                        title: title,
-                        description: description,
-                        icon: icon,
-                        read: false,
-                        createdAt: new Date().toISOString()
-                    });
+                    return ref.set({ id: ref.key, title, description, icon, read: false,
+                        createdAt: new Date().toISOString() });
                 });
-
                 await Promise.all(promises);
-
-                logAdminActivity('إرسال إشعار جماعي', { title, recipients: users.length });
-                showToast(`✅ تم إرسال الإشعار إلى ${users.length} طالب`, 'success');
+                logActivity('إرسال إشعار جماعي', { title, recipients: users.length });
+                showToast(`✅ تم الإرسال إلى ${users.length} طالب`, 'success');
                 closeModal();
                 hideLoading();
-            } catch (err) {
-                console.error('Error sending notification:', err);
-                showToast('❌ حدث خطأ في إرسال الإشعار', 'error');
-                hideLoading();
-            }
+            } catch (err) { showToast('❌ حدث خطأ', 'error');
+                hideLoading(); }
         }
 
         // ============================================================
-        // UTILITY FUNCTIONS
+        // UTILITY
         // ============================================================
-        function escapeHtml(str) {
-            if (!str) return '';
-            const div = document.createElement('div');
-            div.textContent = str;
-            return div.innerHTML;
-        }
+        function escapeHtml(str) { if (!str) return '';
+            const d = document.createElement('div');
+            d.textContent = str;
+            return d.innerHTML; }
 
-        function formatPhoneNumber(phone) {
-            if (!phone) return '--';
-            const cleaned = phone.replace(/\D/g, '');
-            if (cleaned.length === 0) return '--';
-            let formatted = '';
-            for (let i = cleaned.length; i > 0; i -= 3) {
-                const start = Math.max(0, i - 3);
-                const chunk = cleaned.substring(start, i);
-                formatted = (formatted ? ' ' : '') + chunk + (formatted ? ' ' : '');
-            }
-            return formatted.trim();
-        }
+        function formatPhone(p) { if (!p) return '--';
+            const c = p.replace(/\D/g, '');
+            if (!c) return '--';
+            let f = '';
+            for (let i = c.length; i > 0; i -= 3) { const s = Math.max(0, i - 3);
+                f = (f ? ' ' : '') + c.substring(s, i) + (f ? ' ' : ''); }
+            return f.trim(); }
 
-        function formatDate(timestamp) {
-            if (!timestamp) return '--';
-            const d = new Date(timestamp);
-            return d.toLocaleDateString('ar') + ' ' + d.toLocaleTimeString('ar', { hour: '2-digit', minute: '2-digit' });
-        }
+        function formatDate(ts) { if (!ts) return '--';
+            const d = new Date(ts);
+            return d.toLocaleDateString('ar') + ' ' + d.toLocaleTimeString('ar', { hour: '2-digit', minute: '2-digit' }); }
 
-        function closeModal() {
-            document.getElementById('adminModal').classList.remove('open');
-        }
+        function closeModal() { document.getElementById('adminModal').classList.remove('open'); }
 
-        // ============================================================
-        // LOG ADMIN ACTIVITY
-        // ============================================================
-        function logAdminActivity(action, details = {}) {
+        function logActivity(action, details = {}) {
             if (!window.currentUser) return;
-            const logRef = database.ref('adminLogs').push();
-            logRef.set({
+            database.ref('adminLogs').push({
                 adminId: window.currentUser.uid,
-                adminName: window.userData?.name || 'Admin',
-                action: action,
-                details: details,
+                adminName: window.adminData?.name || 'Admin',
+                action,
+                details,
                 timestamp: new Date().toISOString(),
                 userAgent: navigator.userAgent
-            }).catch(err => console.error('Error logging:', err));
+            }).catch(e => console.error(e));
         }
 
         // ============================================================
@@ -2854,73 +2397,42 @@
         // ============================================================
         async function logoutAdmin() {
             if (!confirm('⚠️ هل أنت متأكد من تسجيل الخروج؟')) return;
-            
             try {
                 await auth.signOut();
                 sessionStorage.removeItem('adminSession');
                 sessionStorage.removeItem('adminUid');
                 window.location.href = 'admin-login.html';
-            } catch (err) {
-                console.error('Logout error:', err);
-                showToast('❌ حدث خطأ', 'error');
-            }
+            } catch (err) { showToast('❌ حدث خطأ', 'error'); }
         }
 
         // ============================================================
-        // AUTH STATE OBSERVER
+        // AUTH STATE
         // ============================================================
         auth.onAuthStateChanged(async (user) => {
-            if (!user) {
-                window.location.href = 'admin-login.html';
-                return;
-            }
-
+            if (!user) { window.location.href = 'admin-login.html'; return; }
             window.currentUser = user;
-
-            // Verify admin
             const isAdmin = await verifyAdmin(user);
             if (!isAdmin) {
                 showToast('⛔ غير مصرح لك بالدخول', 'error');
                 await auth.signOut();
-                setTimeout(() => {
-                    window.location.href = 'admin-login.html';
-                }, 1500);
+                setTimeout(() => window.location.href = 'admin-login.html', 1500);
                 return;
             }
-
-            // Load user data
-            const snapshot = await database.ref('users/' + user.uid).once('value');
-            if (snapshot.exists()) {
-                window.userData = snapshot.val();
-                document.getElementById('adminName').textContent = window.userData.name || 'Admin';
+            const snap = await database.ref('users/' + user.uid).once('value');
+            if (snap.exists()) {
+                window.adminData = snap.val();
+                document.getElementById('adminName').textContent = window.adminData.name || 'Admin';
                 const avatar = document.getElementById('adminAvatar');
-                if (window.userData.photoURL) {
-                    avatar.innerHTML = `<img src="${window.userData.photoURL}" style="width:100%;height:100%;object-fit:cover;">`;
+                if (window.adminData.photoURL) {
+                    avatar.innerHTML = `<img src="${window.adminData.photoURL}" style="width:100%;height:100%;object-fit:cover;">`;
                 } else {
-                    avatar.textContent = (window.userData.name || 'A')[0].toUpperCase();
+                    avatar.textContent = (window.adminData.name || 'A')[0].toUpperCase();
                 }
             }
-
-            // Load initial data
             loadDashboard();
             loadLiveUsers();
-
-            // Track admin presence
-            database.ref('presence/' + user.uid).set({
-                online: true,
-                lastSeen: Date.now(),
-                isAdmin: true
-            });
-            
-            // Update presence on disconnect
-            const onDisconnect = database.ref('presence/' + user.uid).onDisconnect();
-            onDisconnect.set({
-                online: false,
-                lastSeen: Date.now(),
-                isAdmin: true
-            });
-
-            // Update presence periodically
+            database.ref('presence/' + user.uid).set({ online: true, lastSeen: Date.now(), isAdmin: true });
+            database.ref('presence/' + user.uid).onDisconnect().set({ online: false, lastSeen: Date.now(), isAdmin: true });
             setInterval(() => {
                 database.ref('presence/' + user.uid + '/lastSeen').set(Date.now());
             }, 30000);
@@ -2929,18 +2441,17 @@
         // ============================================================
         // INIT
         // ============================================================
-        // Check if admin session exists
-        if (!checkAdminSession()) {
-            // The function will redirect if needed
+        if (!sessionStorage.getItem('adminSession')) {
+            // Check if already logged in
         }
 
-        // Close modal on overlay click
         document.getElementById('adminModal').addEventListener('click', function(e) {
             if (e.target === this) closeModal();
         });
 
-        console.log('🚀 Admin Dashboard v1.0 loaded');
+        console.log('🚀 Admin Dashboard v2.0 loaded');
         console.log('✅ All features ready');
     </script>
+
 </body>
 </html>
