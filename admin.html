@@ -3102,7 +3102,7 @@
         }
 
         // ============================================================
-        // COURSES
+        // COURSES - مع إصلاح isFree
         // ============================================================
         async function loadCourses() {
             const tbody = document.getElementById('coursesTableBody');
@@ -3122,17 +3122,20 @@
                     const subs = c.subscribers ? Object.keys(c.subscribers).length : 0;
                     let lessons = 0;
                     if (c.lessons) lessons = Object.keys(c.lessons).length;
-                    const type = c.isPremium ? 'مدفوع' : 'مجاني';
-                    const typeBadge = c.isPremium ? 'premium' : 'free';
+                    // ⭐ إصلاح: تحديد النوع بناءً على isFree
+                    const isFree = c.isFree !== false; // true إذا كان مجاني، false إذا مدفوع
+                    const type = isFree ? 'مجاني' : 'مدفوع';
+                    const typeBadge = isFree ? 'free' : 'premium';
                     const status = c.active !== false ? 'نشط' : 'موقف';
                     const statusBadge = c.active !== false ? 'active' : 'banned';
+                    const priceDisplay = isFree ? 'مجاني' : (c.price || '--');
                     return `
                             <tr>
                                 <td>${i+1}</td>
                                 <td><img src="${img}" style="width:40px;height:40px;border-radius:10px;object-fit:cover;"></td>
                                 <td><strong>${escapeHtml(c.name||'غير معروف')}</strong></td>
                                 <td><span class="badge-status ${typeBadge}">${type}</span></td>
-                                <td>${c.isPremium ? (c.price||'--') : 'مجاني'}</td>
+                                <td>${priceDisplay}</td>
                                 <td>${subs}</td>
                                 <td>${lessons}</td>
                                 <td><span class="badge-status ${statusBadge}">${status}</span></td>
@@ -3170,6 +3173,10 @@
                     if (ldata.quizzes) quizzes += Object.keys(ldata.quizzes).length;
                 }
             }
+            // ⭐ إصلاح: تحديد النوع بناءً على isFree
+            const isFree = data.isFree !== false;
+            const type = isFree ? 'مجاني' : 'مدفوع';
+            const priceDisplay = isFree ? 'مجاني' : (data.price || '--');
 
             openModal('تفاصيل الكورس', `
                     <div style="display:flex;align-items:center;gap:16px;margin-bottom:16px;">
@@ -3186,8 +3193,8 @@
                         <div><strong>PDF:</strong> ${pdfs}</div>
                         <div><strong>الامتحانات:</strong> ${exams}</div>
                         <div><strong>الكويزات:</strong> ${quizzes}</div>
-                        <div><strong>النوع:</strong> ${data.isPremium ? 'مدفوع' : 'مجاني'}</div>
-                        <div><strong>السعر:</strong> ${data.isPremium ? (data.price||'--') : 'مجاني'}</div>
+                        <div><strong>النوع:</strong> ${type}</div>
+                        <div><strong>السعر:</strong> ${priceDisplay}</div>
                         <div><strong>الحالة:</strong> ${data.active!==false ? 'نشط' : 'موقف'}</div>
                         ${data.teacher ? `<div><strong>المدرس:</strong> ${escapeHtml(data.teacher)}</div>` : ''}
                         ${data.telegram ? `<div><strong>تليجرام:</strong> <a href="${data.telegram}" target="_blank" style="color:#0B4F8C;">${escapeHtml(data.telegram)}</a></div>` : ''}
@@ -3218,6 +3225,7 @@
             }
         }
 
+        // ⭐⭐⭐ إصلاح إضافة الكورس - الحفاظ على isFree صحيح
         function openAddCourseModal() {
             openModal('إضافة كورس جديد', `
                     <div class="form-group"><label>اسم الكورس</label><input id="courseName" placeholder="اسم الكورس"></div>
@@ -3230,8 +3238,8 @@
                     <div class="form-group">
                         <label>النوع</label>
                         <select id="courseIsPremium">
-                            <option value="false">مجاني</option>
-                            <option value="true">مدفوع</option>
+                            <option value="free">مجاني</option>
+                            <option value="paid">مدفوع</option>
                         </select>
                     </div>
                     <div id="paidDetails" style="display:none;border:2px solid #e2e8f0;padding:12px;border-radius:10px;margin-bottom:14px;">
@@ -3245,14 +3253,17 @@
                     </div>
                 `);
             document.getElementById('courseIsPremium').addEventListener('change', function() {
-                document.getElementById('paidDetails').style.display = this.value === 'true' ? 'block' : 'none';
+                document.getElementById('paidDetails').style.display = this.value === 'paid' ? 'block' : 'none';
             });
         }
 
+        // ⭐⭐⭐ إضافة الكورس مع isFree صحيح
         async function addCourse() {
             const name = document.getElementById('courseName').value.trim();
             if (!name) { showToast('يرجى إدخال اسم الكورس', 'error'); return; }
-            const isPremium = document.getElementById('courseIsPremium').value === 'true';
+            const type = document.getElementById('courseIsPremium').value;
+            const isFree = type === 'free'; // true للمجاني، false للمدفوع
+
             const data = {
                 name: name,
                 description: document.getElementById('courseDesc').value.trim() || '',
@@ -3261,33 +3272,43 @@
                 level: document.getElementById('courseLevel').value.trim() || '',
                 order: parseInt(document.getElementById('courseOrder').value) || 0,
                 price: parseFloat(document.getElementById('coursePrice').value) || 0,
-                isPremium: isPremium,
+                isFree: isFree, // ⭐ الحقل الرئيسي
                 active: true,
                 createdAt: new Date().toISOString(),
                 subscribers: {},
                 lessons: {}
             };
-            if (isPremium) {
+
+            // إذا كان الكورس مدفوع، نضيف بيانات إضافية
+            if (!isFree) {
                 data.subscriptionDetails = document.getElementById('courseSubDetails').value.trim() || '';
                 data.telegram = document.getElementById('courseTelegram').value.trim() || '';
                 data.whatsapp = document.getElementById('courseWhatsapp').value.trim() || '';
             }
+
             try {
                 const ref = db.ref('courses').push();
                 await ref.set(data);
-                await db.ref('adminLogs').push({ adminId: currentUser.uid, adminName: currentUser.displayName || 'Admin',
-                    action: 'إضافة كورس: ' + name, timestamp: new Date().toISOString(), userAgent: navigator
-                        .userAgent });
-                showToast('تم إضافة الكورس', 'success');
+                await db.ref('adminLogs').push({
+                    adminId: currentUser.uid,
+                    adminName: currentUser.displayName || 'Admin',
+                    action: `إضافة كورس: ${name} (${isFree ? 'مجاني' : 'مدفوع'})`,
+                    timestamp: new Date().toISOString(),
+                    userAgent: navigator.userAgent
+                });
+                showToast(`تم إضافة الكورس (${isFree ? 'مجاني' : 'مدفوع'})`, 'success');
                 closeModal();
                 loadCourses();
             } catch (e) { showToast('خطأ: ' + e.message, 'error'); }
         }
 
+        // ⭐⭐⭐ تعديل الكورس مع isFree صحيح
         async function editCourse(cid) {
             const snap = await db.ref('courses/' + cid).once('value');
             const data = snap.val();
             if (!data) { showToast('الكورس غير موجود', 'error'); return; }
+            const isFree = data.isFree !== false;
+            const isPaid = !isFree;
             openModal('تعديل الكورس', `
                     <div class="form-group"><label>اسم الكورس</label><input id="editCourseName" value="${escapeHtml(data.name||'')}"></div>
                     <div class="form-group"><label>الوصف</label><textarea id="editCourseDesc">${escapeHtml(data.description||'')}</textarea></div>
@@ -3299,11 +3320,11 @@
                     <div class="form-group">
                         <label>النوع</label>
                         <select id="editCourseIsPremium">
-                            <option value="false" ${!data.isPremium?'selected':''}>مجاني</option>
-                            <option value="true" ${data.isPremium?'selected':''}>مدفوع</option>
+                            <option value="free" ${isFree ? 'selected' : ''}>مجاني</option>
+                            <option value="paid" ${isPaid ? 'selected' : ''}>مدفوع</option>
                         </select>
                     </div>
-                    ${data.isPremium ? `
+                    ${isPaid ? `
                     <div style="border:2px solid #e2e8f0;padding:12px;border-radius:10px;margin-bottom:14px;">
                         <div class="form-group"><label>تفاصيل الاشتراك</label><textarea id="editSubDetails">${escapeHtml(data.subscriptionDetails||'')}</textarea></div>
                         <div class="form-group"><label>تليجرام</label><input id="editTelegram" value="${data.telegram||''}"></div>
@@ -3315,9 +3336,20 @@
                         <button class="btn-cancel" onclick="closeModal()">إلغاء</button>
                     </div>
                 `);
+            // إظهار/إخفاء تفاصيل الدفع عند تغيير النوع
+            document.getElementById('editCourseIsPremium').addEventListener('change', function() {
+                const paidDiv = document.querySelector('#modalBody div[style*="border:2px solid #e2e8f0;padding:12px;border-radius:10px;margin-bottom:14px;"]');
+                if (paidDiv) {
+                    paidDiv.style.display = this.value === 'paid' ? 'block' : 'none';
+                }
+            });
         }
 
+        // ⭐⭐⭐ حفظ تعديل الكورس مع isFree صحيح
         async function saveCourseEdit(cid) {
+            const type = document.getElementById('editCourseIsPremium').value;
+            const isFree = type === 'free'; // true للمجاني، false للمدفوع
+
             const updates = {
                 name: document.getElementById('editCourseName').value.trim(),
                 description: document.getElementById('editCourseDesc').value.trim(),
@@ -3326,20 +3358,34 @@
                 level: document.getElementById('editCourseLevel').value.trim(),
                 order: parseInt(document.getElementById('editCourseOrder').value) || 0,
                 price: parseFloat(document.getElementById('editCoursePrice').value) || 0,
-                isPremium: document.getElementById('editCourseIsPremium').value === 'true'
+                isFree: isFree // ⭐ تحديث isFree
             };
-            const subDetails = document.getElementById('editSubDetails');
-            if (subDetails) updates.subscriptionDetails = subDetails.value.trim();
-            const telegram = document.getElementById('editTelegram');
-            if (telegram) updates.telegram = telegram.value.trim();
-            const whatsapp = document.getElementById('editWhatsapp');
-            if (whatsapp) updates.whatsapp = whatsapp.value.trim();
+
+            // إذا كان الكورس مدفوع، نضيف بيانات إضافية
+            if (!isFree) {
+                const subDetails = document.getElementById('editSubDetails');
+                if (subDetails) updates.subscriptionDetails = subDetails.value.trim();
+                const telegram = document.getElementById('editTelegram');
+                if (telegram) updates.telegram = telegram.value.trim();
+                const whatsapp = document.getElementById('editWhatsapp');
+                if (whatsapp) updates.whatsapp = whatsapp.value.trim();
+            } else {
+                // إذا أصبح مجاني، نحذف بيانات الدفع
+                updates.subscriptionDetails = '';
+                updates.telegram = '';
+                updates.whatsapp = '';
+            }
+
             try {
                 await db.ref('courses/' + cid).update(updates);
-                await db.ref('adminLogs').push({ adminId: currentUser.uid, adminName: currentUser.displayName || 'Admin',
-                    action: 'تعديل كورس: ' + updates.name, timestamp: new Date().toISOString(), userAgent: navigator
-                        .userAgent });
-                showToast('تم التعديل', 'success');
+                await db.ref('adminLogs').push({
+                    adminId: currentUser.uid,
+                    adminName: currentUser.displayName || 'Admin',
+                    action: `تعديل كورس: ${updates.name} (${isFree ? 'مجاني' : 'مدفوع'})`,
+                    timestamp: new Date().toISOString(),
+                    userAgent: navigator.userAgent
+                });
+                showToast(`تم التعديل (${isFree ? 'مجاني' : 'مدفوع'})`, 'success');
                 closeModal();
                 loadCourses();
             } catch (e) { showToast('خطأ: ' + e.message, 'error'); }
