@@ -11,6 +11,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js">
     </script>
     <style>
+        /* ===== RESET ===== */
         * {
             margin: 0;
             padding: 0;
@@ -39,11 +40,12 @@
             border-radius: 10px;
         }
 
+        /* ===== SIDEBAR ===== */
         .sidebar {
             position: fixed;
             top: 0;
             right: 0;
-            width: 270px;
+            width: 280px;
             height: 100%;
             background: linear-gradient(180deg, #0a2f5a, #0B4F8C);
             color: #fff;
@@ -51,7 +53,7 @@
             overflow-y: auto;
             z-index: 1000;
             transition: transform 0.3s ease;
-            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.2);
+            box-shadow: 4px 0 25px rgba(0, 0, 0, 0.2);
         }
         .sidebar .brand {
             text-align: center;
@@ -59,8 +61,8 @@
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
         .sidebar .brand img {
-            width: 60px;
-            height: 60px;
+            width: 65px;
+            height: 65px;
             border-radius: 50%;
             border: 3px solid #4CC9F0;
             padding: 3px;
@@ -68,22 +70,23 @@
         }
         .sidebar .brand h2 {
             font-family: 'Lalezar', cursive;
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             margin-top: 6px;
             color: #fff;
+            letter-spacing: 1px;
         }
         .sidebar .brand small {
             display: block;
             font-size: 0.7rem;
-            opacity: 0.8;
+            opacity: 0.7;
         }
         .sidebar .nav {
-            padding: 20px 10px;
+            padding: 20px 12px;
         }
         .sidebar .nav .nav-item {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 14px;
             padding: 12px 18px;
             border-radius: 12px;
             color: rgba(255, 255, 255, 0.7);
@@ -92,6 +95,7 @@
             margin-bottom: 4px;
             font-weight: 600;
             font-size: 0.95rem;
+            position: relative;
         }
         .sidebar .nav .nav-item i {
             width: 24px;
@@ -102,6 +106,7 @@
         .sidebar .nav .nav-item.active {
             background: rgba(255, 255, 255, 0.15);
             color: #fff;
+            transform: translateX(-5px);
         }
         .sidebar .nav .nav-item.active {
             background: rgba(76, 201, 240, 0.25);
@@ -111,16 +116,27 @@
             margin-right: auto;
             background: #ef4444;
             color: #fff;
-            font-size: 0.65rem;
+            font-size: 0.6rem;
             padding: 2px 10px;
             border-radius: 20px;
+            font-weight: 700;
+            animation: pulse-badge 1.5s infinite;
+        }
+        @keyframes pulse-badge {
+            0%,
+            100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
         }
         .sidebar .logout-btn {
             position: absolute;
             bottom: 20px;
             right: 20px;
             left: 20px;
-            padding: 12px;
+            padding: 14px;
             border: none;
             border-radius: 12px;
             background: rgba(255, 255, 255, 0.1);
@@ -137,14 +153,17 @@
         }
         .sidebar .logout-btn:hover {
             background: rgba(239, 68, 68, 0.4);
+            transform: scale(1.02);
         }
 
+        /* ===== MAIN ===== */
         .main {
-            margin-right: 270px;
+            margin-right: 280px;
             padding: 20px 30px 40px;
             min-height: 100vh;
         }
 
+        /* ===== TOPBAR ===== */
         .topbar {
             display: flex;
             justify-content: space-between;
@@ -154,7 +173,7 @@
             gap: 10px;
         }
         .topbar .page-title h1 {
-            font-size: 1.6rem;
+            font-size: 1.7rem;
             font-weight: 800;
             color: #0B4F8C;
         }
@@ -169,18 +188,19 @@
             background: #fff;
             padding: 8px 16px 8px 20px;
             border-radius: 30px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
         }
         .topbar .admin-info img {
-            width: 40px;
-            height: 40px;
+            width: 42px;
+            height: 42px;
             border-radius: 50%;
             border: 2px solid #0B4F8C;
             object-fit: cover;
         }
         .topbar .admin-info .name {
             font-weight: 700;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
+            color: #0B4F8C;
         }
         .topbar .admin-info .role {
             font-size: 0.7rem;
@@ -190,7 +210,7 @@
             background: #0B4F8C;
             color: #fff;
             border: none;
-            padding: 10px 18px;
+            padding: 10px 20px;
             border-radius: 30px;
             font-weight: 700;
             cursor: pointer;
@@ -223,37 +243,51 @@
             }
         }
 
+        /* ===== STATS ===== */
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 12px;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 14px;
             margin-bottom: 28px;
         }
         .stat-card {
             background: #fff;
             border-radius: 16px;
-            padding: 12px 14px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+            padding: 14px 16px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
             border-right: 4px solid #0B4F8C;
             transition: 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        .stat-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: rgba(11, 79, 140, 0.03);
+            border-radius: 50%;
+            pointer-events: none;
         }
         .stat-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.07);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
         }
         .stat-card .icon {
-            font-size: 1.3rem;
+            font-size: 1.4rem;
             color: #0B4F8C;
             opacity: 0.6;
         }
         .stat-card .number {
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             font-weight: 900;
             color: #0B4F8C;
             margin-top: 2px;
         }
         .stat-card .label {
-            font-size: 0.65rem;
+            font-size: 0.7rem;
             color: #64748b;
             font-weight: 600;
         }
@@ -262,13 +296,18 @@
             color: #22C55E;
             margin-top: 4px;
         }
+        .stat-card .change.danger {
+            color: #ef4444;
+        }
 
+        /* ===== SECTIONS ===== */
         .section {
             background: #fff;
             border-radius: 20px;
-            padding: 20px 24px;
+            padding: 22px 26px;
             margin-bottom: 28px;
             box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+            border: 1px solid #f1f5f9;
         }
         .section .section-header {
             display: flex;
@@ -289,7 +328,7 @@
             flex-wrap: wrap;
         }
         .section .section-header .actions button {
-            padding: 6px 14px;
+            padding: 6px 16px;
             border: none;
             border-radius: 10px;
             font-weight: 600;
@@ -301,6 +340,8 @@
             align-items: center;
             gap: 6px;
         }
+
+        /* ===== BUTTONS ===== */
         .btn-primary-sm {
             background: #0B4F8C;
             color: #fff;
@@ -322,6 +363,13 @@
         .btn-danger-sm:hover {
             background: #dc2626;
         }
+        .btn-warning-sm {
+            background: #f59e0b;
+            color: #fff;
+        }
+        .btn-warning-sm:hover {
+            background: #d97706;
+        }
         .btn-outline-sm {
             background: transparent;
             border: 2px solid #e2e8f0;
@@ -332,8 +380,11 @@
             color: #0B4F8C;
         }
 
+        /* ===== TABLES ===== */
         .table-wrap {
             overflow-x: auto;
+            border-radius: 12px;
+            border: 1px solid #f1f5f9;
         }
         table {
             width: 100%;
@@ -344,13 +395,13 @@
             background: #f8fafc;
             color: #0B4F8C;
             font-weight: 700;
-            padding: 12px 10px;
+            padding: 12px 14px;
             text-align: right;
             border-bottom: 2px solid #e2e8f0;
             white-space: nowrap;
         }
         table td {
-            padding: 10px 10px;
+            padding: 10px 14px;
             border-bottom: 1px solid #f1f5f9;
             vertical-align: middle;
         }
@@ -358,17 +409,18 @@
             background: #f8fafc;
         }
         table .avatar-sm {
-            width: 34px;
-            height: 34px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             object-fit: cover;
             border: 2px solid #e2e8f0;
         }
         table .badge-status {
-            padding: 2px 12px;
+            padding: 3px 14px;
             border-radius: 20px;
             font-size: 0.7rem;
             font-weight: 700;
+            display: inline-block;
         }
         .badge-status.active {
             background: #dcfce7;
@@ -402,16 +454,16 @@
             background: #dbeafe;
             color: #0B4F8C;
         }
-        .badge-status.cancelled {
-            background: #f1f5f9;
-            color: #64748b;
+        .badge-status.paid {
+            background: #dbeafe;
+            color: #0B4F8C;
         }
         .table-actions button {
             background: none;
             border: none;
             cursor: pointer;
             font-size: 0.9rem;
-            padding: 4px 6px;
+            padding: 4px 8px;
             border-radius: 6px;
             transition: 0.2s;
             color: #64748b;
@@ -429,12 +481,13 @@
             background: #dcfce7;
         }
 
+        /* ===== MODAL ===== */
         .modal-overlay {
             display: none;
             position: fixed;
             inset: 0;
             background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(4px);
+            backdrop-filter: blur(6px);
             z-index: 2000;
             align-items: center;
             justify-content: center;
@@ -452,11 +505,11 @@
             max-height: 90vh;
             overflow-y: auto;
             box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
-            animation: modalIn 0.25s ease;
+            animation: modalIn 0.3s ease;
         }
         @keyframes modalIn {
             from {
-                transform: scale(0.9) translateY(20px);
+                transform: scale(0.95) translateY(20px);
                 opacity: 0;
             }
             to {
@@ -479,6 +532,7 @@
         .modal .modal-header h2 {
             font-weight: 800;
             color: #0B4F8C;
+            font-size: 1.4rem;
         }
         .modal .modal-header .close-modal {
             background: none;
@@ -487,13 +541,14 @@
             cursor: pointer;
             color: #94a3b8;
             transition: 0.3s;
+            padding: 0 8px;
         }
         .modal .modal-header .close-modal:hover {
             color: #ef4444;
             transform: rotate(90deg);
         }
         .modal .form-group {
-            margin-bottom: 14px;
+            margin-bottom: 16px;
         }
         .modal .form-group label {
             display: block;
@@ -572,28 +627,32 @@
             background: #16a34a;
         }
 
+        /* ===== LIVE USERS ===== */
         .live-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
             gap: 12px;
         }
         .live-user {
             background: #f8fafc;
             border-radius: 14px;
-            padding: 12px 14px;
+            padding: 12px 16px;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 14px;
             border: 1px solid #e2e8f0;
             transition: 0.3s;
+            position: relative;
         }
         .live-user:hover {
             border-color: #0B4F8C;
             background: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
         }
         .live-user img {
-            width: 40px;
-            height: 40px;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
             object-fit: cover;
             border: 2px solid #22C55E;
@@ -601,6 +660,7 @@
         .live-user .info .name {
             font-weight: 700;
             font-size: 0.9rem;
+            color: #1e293b;
         }
         .live-user .info .detail {
             font-size: 0.7rem;
@@ -612,9 +672,10 @@
             border-radius: 50%;
             background: #22C55E;
             margin-right: auto;
-            animation: pulse 1.5s infinite;
+            animation: pulse-dot 1.5s infinite;
+            flex-shrink: 0;
         }
-        @keyframes pulse {
+        @keyframes pulse-dot {
             0%,
             100% {
                 opacity: 1;
@@ -626,27 +687,30 @@
             }
         }
 
+        /* ===== CHARTS ===== */
         .chart-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 20px;
         }
         .chart-box {
             background: #f8fafc;
             border-radius: 14px;
-            padding: 16px;
+            padding: 18px;
             border: 1px solid #e2e8f0;
         }
         .chart-box h4 {
             font-size: 0.85rem;
             color: #0B4F8C;
             margin-bottom: 10px;
+            font-weight: 700;
         }
         .chart-box canvas {
             max-height: 200px;
             max-width: 100%;
         }
 
+        /* ===== LOGS ===== */
         .log-entry {
             display: flex;
             align-items: center;
@@ -654,6 +718,10 @@
             padding: 8px 12px;
             border-bottom: 1px solid #f1f5f9;
             font-size: 0.85rem;
+            transition: 0.2s;
+        }
+        .log-entry:hover {
+            background: #f8fafc;
         }
         .log-entry .log-icon {
             width: 32px;
@@ -678,56 +746,139 @@
             white-space: nowrap;
         }
 
-        @media (max-width: 768px) {
-            .sidebar {
-                transform: translateX(100%);
-                width: 280px;
-            }
-            .sidebar.open {
-                transform: translateX(0);
-            }
-            .main {
-                margin-right: 0;
-                padding: 16px;
-            }
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .topbar .page-title h1 {
-                font-size: 1.2rem;
-            }
-            .modal {
-                padding: 20px;
-                margin: 10px;
-            }
-            .chart-grid {
-                grid-template-columns: 1fr;
-            }
-            .hamburger {
-                display: block !important;
-            }
+        /* ===== REQUEST CARDS ===== */
+        .request-card {
+            background: #f8fafc;
+            border-radius: 14px;
+            padding: 16px 18px;
+            border: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            transition: 0.3s;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
         }
-        .hamburger {
-            display: none;
-            background: none;
+        .request-card:hover {
+            border-color: #0B4F8C;
+            background: #fff;
+            transform: translateX(-3px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+        .request-card img {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #e2e8f0;
+        }
+        .request-card .request-info {
+            flex: 1;
+            min-width: 180px;
+        }
+        .request-card .request-info .name {
+            font-weight: 700;
+            color: #1e293b;
+            font-size: 0.95rem;
+        }
+        .request-card .request-info .detail {
+            font-size: 0.75rem;
+            color: #64748b;
+        }
+        .request-card .request-status {
+            margin-right: auto;
+        }
+        .request-card .request-actions {
+            display: flex;
+            gap: 6px;
+        }
+        .request-card .request-actions button {
+            padding: 5px 14px;
             border: none;
-            font-size: 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.7rem;
+            cursor: pointer;
+            font-family: 'Cairo', sans-serif;
+            transition: 0.3s;
+        }
+        .request-card .request-actions .btn-approve {
+            background: #22C55E;
+            color: #fff;
+        }
+        .request-card .request-actions .btn-approve:hover {
+            background: #16a34a;
+        }
+        .request-card .request-actions .btn-reject {
+            background: #ef4444;
+            color: #fff;
+        }
+        .request-card .request-actions .btn-reject:hover {
+            background: #dc2626;
+        }
+        .request-card .request-actions .btn-view {
+            background: #0B4F8C;
+            color: #fff;
+        }
+        .request-card .request-actions .btn-view:hover {
+            background: #1E81CE;
+        }
+
+        /* ===== ALERTS ===== */
+        .alert-box {
+            padding: 14px 18px;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            border-right: 4px solid;
+            transition: 0.3s;
+        }
+        .alert-box:hover {
+            transform: translateX(-3px);
+        }
+        .alert-box.danger {
+            background: #fef2f2;
+            border-color: #ef4444;
+        }
+        .alert-box.warning {
+            background: #fffbeb;
+            border-color: #f59e0b;
+        }
+        .alert-box.info {
+            background: #eff6ff;
+            border-color: #0B4F8C;
+        }
+        .alert-box.success {
+            background: #f0fdf4;
+            border-color: #22C55E;
+        }
+        .alert-box .alert-icon {
+            font-size: 1.3rem;
+        }
+        .alert-box .alert-text {
+            flex: 1;
+            font-size: 0.85rem;
+        }
+        .alert-box .alert-text strong {
+            color: #1e293b;
+        }
+        .alert-box .alert-action {
+            font-size: 0.75rem;
             color: #0B4F8C;
             cursor: pointer;
-            padding: 6px;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 6px;
+            background: rgba(11, 79, 140, 0.1);
+            transition: 0.3s;
+        }
+        .alert-box .alert-action:hover {
+            background: rgba(11, 79, 140, 0.2);
         }
 
-        .loading-placeholder {
-            text-align: center;
-            padding: 30px;
-            color: #94a3b8;
-        }
-        .loading-placeholder i {
-            font-size: 2rem;
-            margin-bottom: 10px;
-            display: block;
-        }
-
+        /* ===== TOAST ===== */
         .toast-container {
             position: fixed;
             top: 20px;
@@ -736,7 +887,7 @@
             display: flex;
             flex-direction: column;
             gap: 8px;
-            max-width: 380px;
+            max-width: 400px;
             width: 100%;
         }
         .toast {
@@ -774,6 +925,7 @@
             }
         }
 
+        /* ===== TABS ===== */
         .tab-content {
             display: none;
         }
@@ -781,6 +933,7 @@
             display: block;
         }
 
+        /* ===== PAGINATION ===== */
         .pagination {
             display: flex;
             gap: 6px;
@@ -789,7 +942,7 @@
             flex-wrap: wrap;
         }
         .pagination button {
-            padding: 6px 14px;
+            padding: 6px 16px;
             border: 1px solid #e2e8f0;
             border-radius: 8px;
             background: #fff;
@@ -807,13 +960,15 @@
             background: #f1f5f9;
         }
 
+        /* ===== SEARCH ===== */
         .search-box {
             display: flex;
             gap: 10px;
             align-items: center;
             flex-wrap: wrap;
         }
-        .search-box input {
+        .search-box input,
+        .search-box select {
             padding: 8px 14px;
             border: 2px solid #e2e8f0;
             border-radius: 10px;
@@ -822,12 +977,13 @@
             min-width: 160px;
             background: #f8fafc;
         }
-        .search-box input:focus {
+        .search-box input:focus,
+        .search-box select:focus {
             outline: none;
             border-color: #0B4F8C;
         }
         .search-box button {
-            padding: 8px 16px;
+            padding: 8px 18px;
             border: none;
             border-radius: 10px;
             background: #0B4F8C;
@@ -835,11 +991,13 @@
             font-weight: 700;
             cursor: pointer;
             font-family: 'Cairo', sans-serif;
+            transition: 0.3s;
         }
         .search-box button:hover {
             background: #1E81CE;
         }
 
+        /* ===== UTILITY ===== */
         .flex-between {
             display: flex;
             justify-content: space-between;
@@ -861,11 +1019,11 @@
             display: inline-block;
             background: #ef4444;
             color: #fff;
-            padding: 2px 12px;
+            padding: 2px 14px;
             border-radius: 20px;
             font-size: 0.7rem;
             font-weight: 700;
-            animation: pulse 1s infinite;
+            animation: pulse-badge 1s infinite;
         }
         .mt-12 {
             margin-top: 12px;
@@ -876,174 +1034,277 @@
         .gap-8 {
             gap: 8px;
         }
+        .text-center {
+            text-align: center;
+        }
+        .text-success {
+            color: #22C55E;
+        }
+        .text-danger {
+            color: #ef4444;
+        }
+        .text-warning {
+            color: #f59e0b;
+        }
+        .text-primary {
+            color: #0B4F8C;
+        }
 
-        .alert-box {
-            padding: 12px 16px;
-            border-radius: 12px;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            border-right: 4px solid;
+        /* ===== LOADING ===== */
+        .loading-placeholder {
+            text-align: center;
+            padding: 30px;
+            color: #94a3b8;
         }
-        .alert-box.danger {
-            background: #fef2f2;
-            border-color: #ef4444;
+        .loading-placeholder i {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            display: block;
         }
-        .alert-box.warning {
-            background: #fffbeb;
-            border-color: #f59e0b;
-        }
-        .alert-box.info {
-            background: #eff6ff;
-            border-color: #0B4F8C;
-        }
-        .alert-box.success {
-            background: #f0fdf4;
-            border-color: #22C55E;
-        }
-        .alert-box .alert-icon {
-            font-size: 1.2rem;
-        }
-        .alert-box .alert-text {
-            flex: 1;
-            font-size: 0.85rem;
-        }
-        .alert-box .alert-text strong {
-            color: #1e293b;
-        }
-        .alert-box .alert-action {
-            font-size: 0.75rem;
+
+        /* ===== HAMBURGER ===== */
+        .hamburger {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
             color: #0B4F8C;
             cursor: pointer;
-            font-weight: 600;
-        }
-        .alert-box .alert-action:hover {
-            text-decoration: underline;
+            padding: 6px;
         }
 
-        .request-card {
-            background: #f8fafc;
-            border-radius: 12px;
-            padding: 14px 16px;
-            border: 1px solid #e2e8f0;
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(100%);
+                width: 280px;
+            }
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            .main {
+                margin-right: 0;
+                padding: 12px 14px;
+            }
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+            .topbar .page-title h1 {
+                font-size: 1.1rem;
+            }
+            .modal {
+                padding: 16px;
+                margin: 10px;
+            }
+            .chart-grid {
+                grid-template-columns: 1fr;
+            }
+            .hamburger {
+                display: block !important;
+            }
+            .live-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .request-card {
+                flex-direction: column;
+                align-items: stretch;
+                text-align: center;
+            }
+            .request-card .request-status {
+                margin-right: 0;
+            }
+            .request-card .request-actions {
+                justify-content: center;
+            }
+        }
+        @media (max-width: 480px) {
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .live-grid {
+                grid-template-columns: 1fr;
+            }
+            .topbar .admin-info {
+                padding: 6px 12px;
+            }
+            .topbar .admin-info .name {
+                font-size: 0.8rem;
+            }
+            .section {
+                padding: 14px 12px;
+            }
+            table {
+                font-size: 0.75rem;
+            }
+            table th,
+            table td {
+                padding: 6px 8px;
+            }
+            .modal .form-actions button {
+                min-width: 60px;
+                padding: 8px 16px;
+                font-size: 0.8rem;
+            }
+        }
+
+        /* ===== NOTIFICATION ITEM ===== */
+        .notification-item {
             display: flex;
             align-items: center;
             gap: 14px;
-            transition: 0.3s;
-            margin-bottom: 8px;
-            flex-wrap: wrap;
-        }
-        .request-card:hover {
-            border-color: #0B4F8C;
-            background: #fff;
-        }
-        .request-card img {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid #e2e8f0;
-        }
-        .request-card .request-info {
-            flex: 1;
-            min-width: 150px;
-        }
-        .request-card .request-info .name {
-            font-weight: 700;
-            color: #1e293b;
-        }
-        .request-card .request-info .detail {
-            font-size: 0.75rem;
-            color: #64748b;
-        }
-        .request-card .request-status {
-            margin-right: auto;
-        }
-        .request-card .request-actions {
-            display: flex;
-            gap: 6px;
-        }
-        .request-card .request-actions button {
-            padding: 4px 12px;
-            border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 0.7rem;
-            cursor: pointer;
-            font-family: 'Cairo', sans-serif;
-            transition: 0.3s;
-        }
-        .request-card .request-actions .btn-approve {
-            background: #22C55E;
-            color: #fff;
-        }
-        .request-card .request-actions .btn-approve:hover {
-            background: #16a34a;
-        }
-        .request-card .request-actions .btn-reject {
-            background: #ef4444;
-            color: #fff;
-        }
-        .request-card .request-actions .btn-reject:hover {
-            background: #dc2626;
-        }
-        .request-card .request-actions .btn-view {
-            background: #0B4F8C;
-            color: #fff;
-        }
-        .request-card .request-actions .btn-view:hover {
-            background: #1E81CE;
-        }
-
-        .health-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 8px 12px;
+            padding: 12px 16px;
             border-bottom: 1px solid #f1f5f9;
+            transition: 0.2s;
+            border-radius: 8px;
         }
-        .health-item .health-icon {
-            width: 30px;
-            height: 30px;
+        .notification-item:hover {
+            background: #f8fafc;
+        }
+        .notification-item.unread {
+            background: #eff6ff;
+            border-right: 3px solid #0B4F8C;
+        }
+        .notification-item .notif-icon {
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
+            background: #e2e8f0;
+            color: #0B4F8C;
             flex-shrink: 0;
         }
-        .health-item .health-icon.danger {
-            background: #fee2e2;
-            color: #ef4444;
-        }
-        .health-item .health-icon.warning {
-            background: #fef3c7;
-            color: #d97706;
-        }
-        .health-item .health-icon.success {
-            background: #dcfce7;
-            color: #22C55E;
-        }
-        .health-item .health-text {
+        .notification-item .notif-content {
             flex: 1;
-            font-size: 0.85rem;
         }
-        .health-item .health-action {
+        .notification-item .notif-content .notif-title {
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+        .notification-item .notif-content .notif-body {
+            font-size: 0.8rem;
+            color: #64748b;
+        }
+        .notification-item .notif-time {
             font-size: 0.7rem;
-            color: #0B4F8C;
-            cursor: pointer;
-            font-weight: 600;
+            color: #94a3b8;
+            white-space: nowrap;
         }
-        .health-item .health-action:hover {
-            text-decoration: underline;
+        .notification-item .notif-actions {
+            display: flex;
+            gap: 4px;
+        }
+        .notification-item .notif-actions button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #94a3b8;
+            padding: 4px;
+            border-radius: 4px;
+            transition: 0.2s;
+        }
+        .notification-item .notif-actions button:hover {
+            color: #0B4F8C;
+            background: #e2e8f0;
+        }
+        .notification-item .notif-actions button.danger:hover {
+            color: #ef4444;
+            background: #fee2e2;
         }
 
-        .activity-item {
+        /* ===== REQUEST STATS ===== */
+        .request-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+        .request-stat-card {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 10px 14px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+            transition: 0.3s;
+        }
+        .request-stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+        .request-stat-card .number {
+            font-size: 1.4rem;
+            font-weight: 900;
+        }
+        .request-stat-card .label {
+            font-size: 0.65rem;
+            color: #64748b;
+            font-weight: 600;
+        }
+        .request-stat-card .number.pending {
+            color: #f59e0b;
+        }
+        .request-stat-card .number.approved {
+            color: #22C55E;
+        }
+        .request-stat-card .number.rejected {
+            color: #ef4444;
+        }
+        .request-stat-card .number.total {
+            color: #0B4F8C;
+        }
+        .request-stat-card .number.reviewing {
+            color: #0B4F8C;
+        }
+        .request-stat-card .number.cancelled {
+            color: #64748b;
+        }
+
+        /* ===== COURSE CARD ===== */
+        .course-mini-card {
             display: flex;
             align-items: center;
             gap: 12px;
             padding: 8px 12px;
+            border-radius: 10px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            transition: 0.3s;
+        }
+        .course-mini-card:hover {
+            border-color: #0B4F8C;
+            background: #fff;
+        }
+        .course-mini-card img {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+        .course-mini-card .info {
+            flex: 1;
+        }
+        .course-mini-card .info .name {
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+        .course-mini-card .info .detail {
+            font-size: 0.7rem;
+            color: #64748b;
+        }
+
+        /* ===== ACTIVITY ITEM ===== */
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 8px 12px;
             border-bottom: 1px solid #f1f5f9;
+            transition: 0.2s;
+        }
+        .activity-item:hover {
+            background: #f8fafc;
         }
         .activity-item .activity-icon {
             width: 32px;
@@ -1052,9 +1313,9 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-shrink: 0;
             background: #e2e8f0;
             color: #0B4F8C;
+            flex-shrink: 0;
         }
         .activity-item .activity-text {
             flex: 1;
@@ -1068,45 +1329,11 @@
             color: #94a3b8;
             white-space: nowrap;
         }
-
-        .engagement-meter {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .engagement-meter .bar {
-            width: 100px;
-            height: 8px;
-            background: #e2e8f0;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-        .engagement-meter .bar .fill {
-            height: 100%;
-            border-radius: 10px;
-            transition: width 0.5s;
-        }
-        .engagement-meter .bar .fill.low {
-            background: #ef4444;
-        }
-        .engagement-meter .bar .fill.medium {
-            background: #f59e0b;
-        }
-        .engagement-meter .bar .fill.good {
-            background: #0B4F8C;
-        }
-        .engagement-meter .bar .fill.excellent {
-            background: #22C55E;
-        }
-        .engagement-meter .label {
-            font-size: 0.7rem;
-            font-weight: 600;
-            min-width: 40px;
-        }
     </style>
 </head>
 <body>
 
+    <!-- ===== SIDEBAR ===== -->
     <aside class="sidebar" id="sidebar">
         <div class="brand">
             <img src="https://res.cloudinary.com/dbahe7lxz/image/upload/v1785593692/idraaak/ogvolfsxxnvk24gho8eb.jpg" alt="يلا كيمياء" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2280%22 height=%2280%22 viewBox=%220 0 80 80%22%3E%3Crect width=%2280%22 height=%2280%22 fill=%22%230B4F8C%22 rx=%2240%22/%3E%3Ctext x=%2240%22 y=%2248%22 text-anchor=%22middle%22 fill=%22%23fff%22 font-size=%2232%22 font-weight=%22bold%22 font-family=%22Arial%22%3EYK%3C/text%3E%3C/svg%3E'">
@@ -1133,8 +1360,10 @@
         <button class="logout-btn" onclick="logoutAdmin()"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</button>
     </aside>
 
+    <!-- ===== MAIN ===== -->
     <div class="main" id="mainContent">
 
+        <!-- ===== TOPBAR ===== -->
         <div class="topbar">
             <div style="display:flex;align-items:center;gap:10px;">
                 <button class="hamburger" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
@@ -1155,7 +1384,7 @@
             </div>
         </div>
 
-        <!-- ====== DASHBOARD ====== -->
+        <!-- ===== DASHBOARD ===== -->
         <div class="tab-content active" id="tab-dashboard">
             <div class="stats-grid" id="statsGrid"></div>
 
@@ -1171,7 +1400,7 @@
             <!-- Live Users -->
             <div class="section">
                 <div class="section-header">
-                    <h3><i class="fas fa-circle" style="color:#22C55E;font-size:0.7rem;"></i> المتصلون الآن</h3>
+                    <h3><i class="fas fa-circle" style="color:#22C55E;font-size:0.7rem;"></i> المتصلون الآن <span class="live-badge" id="liveCountBadge">0</span></h3>
                     <span class="text-muted" id="liveCount">0 متصل</span>
                 </div>
                 <div class="live-grid" id="liveUsersGrid"></div>
@@ -1198,7 +1427,7 @@
             </div>
         </div>
 
-        <!-- ====== STUDENTS ====== -->
+        <!-- ===== STUDENTS ===== -->
         <div class="tab-content" id="tab-students">
             <div class="section">
                 <div class="flex-between mb-12">
@@ -1218,12 +1447,9 @@
                                 <th>الاسم</th>
                                 <th>UID</th>
                                 <th>الصف</th>
-                                <th>النوع</th>
                                 <th>الهاتف</th>
                                 <th>البريد</th>
-                                <th>ساعات</th>
                                 <th>كورسات</th>
-                                <th>حصص</th>
                                 <th>ذرات</th>
                                 <th>الترتيب</th>
                                 <th>الحالة</th>
@@ -1237,7 +1463,7 @@
             </div>
         </div>
 
-        <!-- ====== SUBSCRIPTIONS ====== -->
+        <!-- ===== SUBSCRIPTIONS ===== -->
         <div class="tab-content" id="tab-subscriptions">
             <div class="section">
                 <div class="flex-between mb-12">
@@ -1267,7 +1493,7 @@
             </div>
         </div>
 
-        <!-- ====== SUBSCRIPTION REQUESTS ====== -->
+        <!-- ===== SUBSCRIPTION REQUESTS ===== -->
         <div class="tab-content" id="tab-requests">
             <div class="section">
                 <div class="flex-between mb-12">
@@ -1287,21 +1513,20 @@
                     </div>
                 </div>
 
-                <!-- Request Stats -->
-                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:10px;margin-bottom:16px;" id="requestStats">
-                    <div class="stat-card"><div class="icon"><i class="fas fa-list"></i></div><div class="number" id="reqTotal">0</div><div class="label">إجمالي</div></div>
-                    <div class="stat-card" style="border-color:#f59e0b;"><div class="icon"><i class="fas fa-clock"></i></div><div class="number" id="reqPending">0</div><div class="label">جديد</div></div>
-                    <div class="stat-card" style="border-color:#0B4F8C;"><div class="icon"><i class="fas fa-spinner"></i></div><div class="number" id="reqReviewing">0</div><div class="label">قيد المراجعة</div></div>
-                    <div class="stat-card" style="border-color:#22C55E;"><div class="icon"><i class="fas fa-check"></i></div><div class="number" id="reqApproved">0</div><div class="label">مقبول</div></div>
-                    <div class="stat-card" style="border-color:#ef4444;"><div class="icon"><i class="fas fa-times"></i></div><div class="number" id="reqRejected">0</div><div class="label">مرفوض</div></div>
-                    <div class="stat-card" style="border-color:#64748b;"><div class="icon"><i class="fas fa-ban"></i></div><div class="number" id="reqCancelled">0</div><div class="label">ملغي</div></div>
+                <div class="request-stats-grid" id="requestStats">
+                    <div class="request-stat-card"><div class="number total" id="reqTotal">0</div><div class="label">إجمالي</div></div>
+                    <div class="request-stat-card"><div class="number pending" id="reqPending">0</div><div class="label">جديد</div></div>
+                    <div class="request-stat-card"><div class="number reviewing" id="reqReviewing">0</div><div class="label">قيد المراجعة</div></div>
+                    <div class="request-stat-card"><div class="number approved" id="reqApproved">0</div><div class="label">مقبول</div></div>
+                    <div class="request-stat-card"><div class="number rejected" id="reqRejected">0</div><div class="label">مرفوض</div></div>
+                    <div class="request-stat-card"><div class="number cancelled" id="reqCancelled">0</div><div class="label">ملغي</div></div>
                 </div>
 
                 <div id="requestsContainer"></div>
             </div>
         </div>
 
-        <!-- ====== COURSES ====== -->
+        <!-- ===== COURSES ===== -->
         <div class="tab-content" id="tab-courses">
             <div class="section">
                 <div class="flex-between mb-12">
@@ -1329,7 +1554,7 @@
             </div>
         </div>
 
-        <!-- ====== LESSONS ====== -->
+        <!-- ===== LESSONS ===== -->
         <div class="tab-content" id="tab-lessons">
             <div class="section">
                 <div class="flex-between mb-12">
@@ -1357,7 +1582,7 @@
             </div>
         </div>
 
-        <!-- ====== EXAMS ====== -->
+        <!-- ===== EXAMS ===== -->
         <div class="tab-content" id="tab-exams">
             <div class="section">
                 <div class="flex-between mb-12">
@@ -1373,8 +1598,6 @@
                                 <th>الكورس</th>
                                 <th>الحصة</th>
                                 <th>النوع</th>
-                                <th>المحاولات</th>
-                                <th>درجة النجاح</th>
                                 <th>المشاركين</th>
                                 <th>المتوسط</th>
                                 <th>الإجراءات</th>
@@ -1386,7 +1609,7 @@
             </div>
         </div>
 
-        <!-- ====== QUIZZES ====== -->
+        <!-- ===== QUIZZES ===== -->
         <div class="tab-content" id="tab-quizzes">
             <div class="section">
                 <div class="flex-between mb-12">
@@ -1413,7 +1636,7 @@
             </div>
         </div>
 
-        <!-- ====== ASSIGNMENTS ====== -->
+        <!-- ===== ASSIGNMENTS ===== -->
         <div class="tab-content" id="tab-assignments">
             <div class="section">
                 <div class="flex-between mb-12">
@@ -1439,7 +1662,7 @@
             </div>
         </div>
 
-        <!-- ====== QUESTIONS ====== -->
+        <!-- ===== QUESTIONS ===== -->
         <div class="tab-content" id="tab-questions">
             <div class="section">
                 <div class="flex-between mb-12">
@@ -1455,7 +1678,6 @@
                                 <th>النوع</th>
                                 <th>الدرجة</th>
                                 <th>الإجابة الصحيحة</th>
-                                <th>الصورة</th>
                                 <th>الإجراءات</th>
                             </tr>
                         </thead>
@@ -1465,7 +1687,7 @@
             </div>
         </div>
 
-        <!-- ====== PDFS ====== -->
+        <!-- ===== PDFS ===== -->
         <div class="tab-content" id="tab-pdfs">
             <div class="section">
                 <div class="flex-between mb-12">
@@ -1490,7 +1712,7 @@
             </div>
         </div>
 
-        <!-- ====== LIVE ====== -->
+        <!-- ===== LIVE ===== -->
         <div class="tab-content" id="tab-live">
             <div class="section">
                 <div class="flex-between mb-12">
@@ -1513,7 +1735,7 @@
             </div>
         </div>
 
-        <!-- ====== NOTIFICATIONS ====== -->
+        <!-- ===== NOTIFICATIONS ===== -->
         <div class="tab-content" id="tab-notifications">
             <div class="section">
                 <div class="flex-between mb-12">
@@ -1527,7 +1749,7 @@
             </div>
         </div>
 
-        <!-- ====== LOGS ====== -->
+        <!-- ===== LOGS ===== -->
         <div class="tab-content" id="tab-logs">
             <div class="section">
                 <div class="flex-between mb-12">
@@ -1538,7 +1760,7 @@
             </div>
         </div>
 
-        <!-- ====== SETTINGS ====== -->
+        <!-- ===== SETTINGS ===== -->
         <div class="tab-content" id="tab-settings">
             <div class="section">
                 <h3><i class="fas fa-cog"></i> إعدادات اللوحة</h3>
@@ -1555,6 +1777,7 @@
 
     </div>
 
+    <!-- ===== MODAL ===== -->
     <div class="modal-overlay" id="modalOverlay">
         <div class="modal" id="modalContent">
             <div class="modal-header">
@@ -1565,8 +1788,10 @@
         </div>
     </div>
 
+    <!-- ===== TOAST ===== -->
     <div class="toast-container" id="toastContainer"></div>
 
+    <!-- ===== FIREBASE ===== -->
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js">
     </script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js">
@@ -1576,7 +1801,7 @@
 
     <script>
         // ============================================================
-        // FIREBASE CONFIG (نفس المستخدم في المنصة الأساسية)
+        // FIREBASE CONFIG
         // ============================================================
         const firebaseConfig = {
             apiKey: "AIzaSyBOBu3wp3GcA-VjwtqIt1PAYYpo_HXFhtU",
@@ -1615,19 +1840,21 @@
         let studentsPage = 1;
         const pageSize = 15;
         let refreshing = false;
+        let isAdmin = false;
 
         // ============================================================
-        // AUTH & ADMIN CHECK - الأمان
+        // AUTH & ADMIN CHECK
         // ============================================================
         auth.onAuthStateChanged(async (user) => {
             if (!user) { window.location.href = 'admin-login.html'; return; }
-            const isAdmin = await checkAdmin(user.uid);
-            if (!isAdmin) {
+            const adminCheck = await checkAdmin(user.uid);
+            if (!adminCheck) {
                 showToast('⚠️ غير مصرح لك بالدخول إلى لوحة الإدارة', 'error');
                 await auth.signOut();
                 window.location.href = 'index.html';
                 return;
             }
+            isAdmin = true;
             currentUser = user;
             document.getElementById('adminName').textContent = user.displayName || 'Admin';
             document.getElementById('adminAvatar').src = user.photoURL ||
@@ -1636,17 +1863,16 @@
             listenLiveStatus();
             listenPresence();
             loadSubscriptionRequests();
+            loadNotifications();
         });
 
         async function checkAdmin(uid) {
             try {
-                // التحقق من users/{uid} isAdmin = true
                 const snap = await db.ref('users/' + uid).once('value');
                 if (snap.exists()) {
                     const data = snap.val();
                     if (data.isAdmin === true || data.role === true || data.role === 'admin') return true;
                 }
-                // التحقق من admins/{uid}
                 const snap2 = await db.ref('admins/' + uid).once('value');
                 if (snap2.exists()) {
                     const data = snap2.val();
@@ -1660,7 +1886,7 @@
         }
 
         // ============================================================
-        // UTILITY FUNCTIONS
+        // UTILITY
         // ============================================================
         function showToast(message, type = 'info') {
             const container = document.getElementById('toastContainer');
@@ -1755,7 +1981,6 @@
                 const t = titles[tab] || ['', ''];
                 document.getElementById('pageTitle').textContent = t[0];
                 document.getElementById('pageSubtitle').textContent = t[1];
-                // Load data for tab
                 if (tab === 'students') loadStudents();
                 if (tab === 'subscriptions') loadSubscriptions();
                 if (tab === 'requests') loadSubscriptionRequests();
@@ -1784,6 +2009,7 @@
             try {
                 await initDashboard();
                 await loadSubscriptionRequests();
+                await loadNotifications();
                 showToast('تم التحديث بنجاح', 'success');
             } catch (e) { showToast('خطأ: ' + e.message, 'error'); }
             btn.disabled = false;
@@ -1827,7 +2053,7 @@
                 for (const [uid, data] of Object.entries(users)) {
                     if (data.isAdmin === true || data.role === true) continue;
                     studentCount++;
-                    if (data.subscription === 'premium') premiumCount++;
+                    if (data.subscription === 'premium' || data.premium === true) premiumCount++;
                     else freeCount++;
                     const reg = data.createdAt ? new Date(data.createdAt).getTime() : 0;
                     if (reg >= dayAgo) todayCount++;
@@ -1984,10 +2210,10 @@
                     return;
                 }
                 container.innerHTML = entries.map(log => `
-                        <div class="log-entry">
-                            <div class="log-icon"><i class="fas ${getLogIcon(log.action)}"></i></div>
-                            <div class="log-text"><strong>${escapeHtml(log.adminName||'Admin')}</strong> ${escapeHtml(log.action)}</div>
-                            <div class="log-time">${formatTimeShort(log.timestamp)}</div>
+                        <div class="activity-item">
+                            <div class="activity-icon"><i class="fas ${getLogIcon(log.action)}"></i></div>
+                            <div class="activity-text"><strong>${escapeHtml(log.adminName||'Admin')}</strong> ${escapeHtml(log.action)}</div>
+                            <div class="activity-time">${formatTimeShort(log.timestamp)}</div>
                         </div>
                     `).join('');
             } catch (e) {
@@ -2014,7 +2240,7 @@
                         action: 'عرض الطلبات', actionTab: 'requests' });
                 }
 
-                // 2. كورسات بدون محتوى
+                // 2. كورسات بدون حصص
                 const courseSnap = await db.ref('courses').once('value');
                 const courses = courseSnap.val() || {};
                 let emptyCourses = 0;
@@ -2061,40 +2287,7 @@
                         action: 'مراجعة الامتحانات', actionTab: 'exams' });
                 }
 
-                // 5. واجبات متأخرة
-                const now = Date.now();
-                let lateAssignments = 0;
-                const assignSnap = await db.ref('assignments').once('value');
-                const assignments = assignSnap.val() || {};
-                for (const [aid, adata] of Object.entries(assignments)) {
-                    if (adata.deadline && new Date(adata.deadline).getTime() < now) {
-                        if (!adata.completed) lateAssignments++;
-                    }
-                }
-                if (lateAssignments > 0) {
-                    alerts.push({ type: 'warning', icon: 'fa-clock', text:
-                            `<strong>${lateAssignments}</strong> واجب متأخر`,
-                        action: 'مراجعة الواجبات', actionTab: 'assignments' });
-                }
-
-                // 6. طلاب غير نشطين في كورساتهم
-                let inactiveStudents = 0;
-                for (const [uid, data] of Object.entries(users)) {
-                    if (data.isAdmin === true || data.role === true) continue;
-                    if (data.subscriptions && data.subscriptions.length > 0) {
-                        const lastActive = data.lastActive ? new Date(data.lastActive).getTime() : 0;
-                        if (lastActive > 0 && (now - lastActive) > 604800000) { // 7 days
-                            inactiveStudents++;
-                        }
-                    }
-                }
-                if (inactiveStudents > 5) {
-                    alerts.push({ type: 'info', icon: 'fa-user-clock', text:
-                            `<strong>${inactiveStudents}</strong> طالب غير نشط في الكورسات`,
-                        action: 'عرض الطلاب', actionTab: 'students' });
-                }
-
-                // 7. أسئلة بدون إجابة صحيحة
+                // 5. أسئلة بدون إجابة صحيحة
                 const qSnap = await db.ref('questions').once('value');
                 const questions = qSnap.val() || {};
                 let badQuestions = 0;
@@ -2160,7 +2353,7 @@
                     count++;
                     const name = info.name || 'طالب';
                     const avatar = info.photoURL ||
-                        `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=0B4F8C&color=fff&size=40`;
+                        `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=0B4F8C&color=fff&size=44`;
                     const grade = info.grade || 'غير محدد';
                     const duration = info.sessionStart ? Math.floor((now - info.sessionStart) / 60000) + 'د' : '--';
                     const device = info.device || 'غير معروف';
@@ -2180,6 +2373,7 @@
                         `;
                 }
                 document.getElementById('liveCount').textContent = count + ' متصل';
+                document.getElementById('liveCountBadge').textContent = count;
                 const grid = document.getElementById('liveUsersGrid');
                 if (!html) { grid.innerHTML =
                         '<div class="text-muted" style="grid-column:1/-1;text-align:center;padding:20px;">لا يوجد طلاب متصلون حالياً</div>'; } else
@@ -2248,12 +2442,12 @@
         }
 
         // ============================================================
-        // STUDENTS
+        // STUDENTS - كامل
         // ============================================================
         async function loadStudents(page = 1) {
             studentsPage = page;
             const tbody = document.getElementById('studentsTableBody');
-            tbody.innerHTML = '<tr><td colspan="15" class="loading-placeholder"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="12" class="loading-placeholder"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</td></tr>';
             try {
                 const snap = await db.ref('users').once('value');
                 const users = snap.val() || {};
@@ -2265,7 +2459,7 @@
                 allStudents.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
                 renderStudents(page);
             } catch (e) {
-                tbody.innerHTML = '<tr><td colspan="15" style="color:#ef4444;">خطأ في تحميل الطلاب</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="12" style="color:#ef4444;">خطأ في تحميل الطلاب</td></tr>';
             }
         }
 
@@ -2289,7 +2483,7 @@
             const pageItems = filtered.slice(start, end);
 
             if (pageItems.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="15" class="text-muted" style="text-align:center;">لا يوجد طلاب</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="12" class="text-muted" style="text-align:center;">لا يوجد طلاب</td></tr>';
             } else {
                 tbody.innerHTML = pageItems.map((s, i) => {
                     const avatar = s.photoURL ||
@@ -2304,12 +2498,9 @@
                                 <td><strong>${escapeHtml(s.name||'غير معروف')}</strong></td>
                                 <td style="font-size:0.7rem;color:#64748b;">${s.uid ? s.uid.slice(0,8)+'...' : '--'}</td>
                                 <td>${escapeHtml(s.grade||'--')}</td>
-                                <td>${escapeHtml(s.studyType||'عام')}</td>
                                 <td>${s.phone||'--'}</td>
                                 <td style="font-size:0.8rem;">${s.email||'--'}</td>
-                                <td>${s.studyHours||0}</td>
                                 <td>${s.coursesCount||0}</td>
-                                <td>${s.lessonsCompleted||0}</td>
                                 <td>${s.atoms||0}</td>
                                 <td>${rank}</td>
                                 <td><span class="badge-status ${status}">${statusLabel}</span></td>
@@ -2319,7 +2510,7 @@
                                     ${s.banned ? `<button onclick="unbanStudent('${s.uid}')" title="إلغاء الحظر" style="color:#22C55E;"><i class="fas fa-unlock"></i></button>` :
                                     `<button onclick="banStudent('${s.uid}')" title="حظر" class="danger"><i class="fas fa-ban"></i></button>`}
                                     <button onclick="deleteStudent('${s.uid}')" title="حذف" class="danger"><i class="fas fa-trash"></i></button>
-                                    <button onclick="forceLogout('${s.uid}')" title="تسجيل خروج"><i class="fas fa-sign-out-alt"></i></button>
+                                    <button onclick="sendNotificationToStudentByUid('${s.uid}')" title="إرسال إشعار" style="color:#0B4F8C;"><i class="fas fa-bell"></i></button>
                                 </td>
                             </tr>
                         `;
@@ -2345,25 +2536,15 @@
             const data = snap.val();
             if (!data) { showToast('الطالب غير موجود', 'error'); return; }
 
-            // Calculate engagement score
-            const engagement = calculateEngagement(data);
-
             openModal('بيانات الطالب', `
                     <div style="display:flex;align-items:center;gap:16px;margin-bottom:16px;">
-                        <img src="${data.photoURL||'https://ui-avatars.com/api/?name='+encodeURIComponent(data.name||'طالب')+'&background=0B4F8C&color=fff&size=80'}" style="width:70px;height:70px;border-radius:50%;border:3px solid #0B4F8C;object-fit:cover;">
+                        <img src="${data.photoURL||'https://ui-avatars.com/api/?name='+encodeURIComponent(data.name||'طالب')+'&background=0B4F8C&color=fff&size=70'}" style="width:70px;height:70px;border-radius:50%;border:3px solid #0B4F8C;object-fit:cover;">
                         <div>
                             <h3 style="color:#0B4F8C;">${escapeHtml(data.name||'غير معروف')}</h3>
                             <div class="text-muted">${data.email||'--'} • ${data.phone||'--'}</div>
                             <div class="text-muted">${data.grade||'--'} • ${data.studyType||'عام'}</div>
                             <div><span class="badge-status ${data.banned?'banned':'active'}">${data.banned?'محظور':'نشط'}</span>
                             <span class="badge-status premium">UID: ${uid.slice(0,8)}...</span></div>
-                            <div class="mt-12">
-                                <div class="engagement-meter">
-                                    <span class="label">مستوى النشاط:</span>
-                                    <div class="bar"><div class="fill ${engagement.level}" style="width:${engagement.percent}%;"></div></div>
-                                    <span class="label">${engagement.text}</span>
-                                </div>
-                            </div>
                         </div>
                     </div>
                     <hr style="border-color:#e2e8f0;margin:12px 0;">
@@ -2371,10 +2552,7 @@
                         <div><strong>UID:</strong> ${uid}</div>
                         <div><strong>الكود:</strong> ${data.code||'--'}</div>
                         <div><strong>الصف:</strong> ${data.grade||'--'}</div>
-                        <div><strong>النوع:</strong> ${data.studyType||'عام'}</div>
-                        <div><strong>المدرسة:</strong> ${data.school||'--'}</div>
-                        <div><strong>المحافظة:</strong> ${data.governorate||'--'}</div>
-                        <div><strong>هاتف:</strong> ${data.phone||'--'}</div>
+                        <div><strong>الهاتف:</strong> ${data.phone||'--'}</div>
                         <div><strong>ولي الأمر:</strong> ${data.parentPhone||'--'}</div>
                         <div><strong>البريد:</strong> ${data.email||'--'}</div>
                         <div><strong>تاريخ التسجيل:</strong> ${formatTime(data.createdAt)}</div>
@@ -2390,12 +2568,16 @@
                         <div><strong>الكويزات:</strong> ${data.quizzesTaken||0}</div>
                         <div><strong>الواجبات:</strong> ${data.assignmentsSubmitted||0}</div>
                         <div><strong>نسبة الإنجاز:</strong> ${data.completionRate||'0%'}</div>
-                        <div><strong>الأخطاء:</strong> ${data.errors||0}</div>
                     </div>
                     <hr style="border-color:#e2e8f0;margin:12px 0;">
                     <h4 style="color:#0B4F8C;">الاشتراكات</h4>
                     <div id="studentSubscriptions_${uid}" style="font-size:0.85rem;padding:8px 0;">
                         <div class="loading-placeholder" style="padding:10px;"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</div>
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn-cancel" onclick="closeModal()">إغلاق</button>
+                        ${!data.banned ? `<button class="btn-danger" onclick="banStudent('${uid}')">حظر الطالب</button>` : `<button class="btn-success" onclick="unbanStudent('${uid}')">إلغاء الحظر</button>`}
+                        <button class="btn-primary-sm" onclick="sendNotificationToStudentByUid('${uid}')"><i class="fas fa-bell"></i> إرسال إشعار</button>
                     </div>
                 `);
 
@@ -2416,46 +2598,7 @@
             }
         }
 
-        function calculateEngagement(data) {
-            let score = 0;
-            let maxScore = 100;
-
-            // Videos watched (max 20)
-            const videos = data.videosWatched || 0;
-            score += Math.min(videos * 2, 20);
-
-            // Lessons completed (max 20)
-            const lessons = data.lessonsCompleted || 0;
-            score += Math.min(lessons * 2, 20);
-
-            // Quizzes taken (max 15)
-            const quizzes = data.quizzesTaken || 0;
-            score += Math.min(quizzes * 3, 15);
-
-            // Exams taken (max 20)
-            const exams = data.examsTaken || 0;
-            score += Math.min(exams * 2, 20);
-
-            // Assignments submitted (max 15)
-            const assignments = data.assignmentsSubmitted || 0;
-            score += Math.min(assignments * 3, 15);
-
-            // Study hours (max 10)
-            const hours = data.studyHours || 0;
-            score += Math.min(hours, 10);
-
-            const percent = Math.min(Math.round((score / maxScore) * 100), 100);
-
-            let level, text;
-            if (percent >= 80) { level = 'excellent';
-                text = 'ممتاز ⭐'; } else if (percent >= 60) { level = 'good';
-                text = 'جيد 👍'; } else if (percent >= 40) { level = 'medium';
-                text = 'متوسط 📚'; } else { level = 'low';
-                text = 'منخفض 🌱'; }
-
-            return { percent, level, text };
-        }
-
+        // ===== حظر الطالب =====
         async function banStudent(uid) {
             if (!confirm('هل أنت متأكد من حظر هذا الطالب؟')) return;
             try {
@@ -2464,6 +2607,7 @@
                     action: 'حظر طالب: ' + uid.slice(0, 8), timestamp: new Date().toISOString(),
                     userAgent: navigator.userAgent });
                 showToast('تم حظر الطالب', 'success');
+                closeModal();
                 loadStudents(studentsPage);
             } catch (e) { showToast('خطأ: ' + e.message, 'error'); }
         }
@@ -2476,6 +2620,7 @@
                     action: 'إلغاء حظر طالب: ' + uid.slice(0, 8), timestamp: new Date().toISOString(),
                     userAgent: navigator.userAgent });
                 showToast('تم إلغاء الحظر', 'success');
+                closeModal();
                 loadStudents(studentsPage);
             } catch (e) { showToast('خطأ: ' + e.message, 'error'); }
         }
@@ -2490,29 +2635,6 @@
                     userAgent: navigator.userAgent });
                 showToast('تم حذف الطالب', 'success');
                 loadStudents(studentsPage);
-            } catch (e) { showToast('خطأ: ' + e.message, 'error'); }
-        }
-
-        async function forceLogout(uid) {
-            if (!confirm('تسجيل خروج هذا الطالب من جميع الأجهزة؟')) return;
-            try {
-                await db.ref('online/' + uid).remove();
-                await db.ref('users/' + uid + '/sessionId').remove();
-                await db.ref('adminLogs').push({ adminId: currentUser.uid, adminName: currentUser.displayName || 'Admin',
-                    action: 'تسجيل خروج إجباري لطالب: ' + uid.slice(0, 8), timestamp: new Date().toISOString(),
-                    userAgent: navigator.userAgent });
-                showToast('تم تسجيل الخروج', 'success');
-            } catch (e) { showToast('خطأ: ' + e.message, 'error'); }
-        }
-
-        async function forceLogoutAll() {
-            if (!confirm('تسجيل خروج جميع الطلاب من جميع الأجهزة؟')) return;
-            try {
-                await db.ref('online').remove();
-                await db.ref('adminLogs').push({ adminId: currentUser.uid, adminName: currentUser.displayName || 'Admin',
-                    action: 'تسجيل خروج جميع الطلاب', timestamp: new Date().toISOString(), userAgent: navigator
-                        .userAgent });
-                showToast('تم تسجيل خروج الجميع', 'success');
             } catch (e) { showToast('خطأ: ' + e.message, 'error'); }
         }
 
@@ -2551,6 +2673,49 @@
                 showToast('تم تحديث البيانات', 'success');
                 closeModal();
                 loadStudents(studentsPage);
+            } catch (e) { showToast('خطأ: ' + e.message, 'error'); }
+        }
+
+        // ===== إرسال إشعار لطالب =====
+        function sendNotificationToStudentByUid(uid) {
+            openModal('إرسال إشعار للطالب', `
+                    <div class="form-group"><label>عنوان الإشعار</label><input id="notifStudentTitle" placeholder="عنوان الإشعار"></div>
+                    <div class="form-group"><label>محتوى الإشعار</label><textarea id="notifStudentBody" placeholder="محتوى الإشعار"></textarea></div>
+                    <div class="form-actions">
+                        <button class="btn-submit" onclick="sendNotifToStudent('${uid}')">إرسال</button>
+                        <button class="btn-cancel" onclick="closeModal()">إلغاء</button>
+                    </div>
+                `);
+        }
+
+        async function sendNotifToStudent(uid) {
+            const title = document.getElementById('notifStudentTitle').value.trim();
+            const body = document.getElementById('notifStudentBody').value.trim();
+            if (!title || !body) { showToast('يرجى ملء جميع الحقول', 'error'); return; }
+            try {
+                await db.ref('notifications').push({
+                    title: title,
+                    body: body,
+                    target: 'student',
+                    targetId: uid,
+                    read: false,
+                    createdAt: new Date().toISOString(),
+                    sender: currentUser.displayName || 'Admin',
+                    senderId: currentUser.uid
+                });
+                await db.ref('users/' + uid + '/notifications').push({
+                    title: title,
+                    description: body,
+                    icon: '📢',
+                    read: false,
+                    createdAt: new Date().toISOString()
+                });
+                await db.ref('adminLogs').push({ adminId: currentUser.uid, adminName: currentUser.displayName || 'Admin',
+                    action: 'إرسال إشعار لطالب: ' + uid.slice(0, 8), timestamp: new Date().toISOString(),
+                    userAgent: navigator.userAgent });
+                showToast('تم إرسال الإشعار', 'success');
+                closeModal();
+                loadNotifications();
             } catch (e) { showToast('خطأ: ' + e.message, 'error'); }
         }
 
@@ -2667,7 +2832,6 @@
                 const data = snap.val() || {};
                 allRequests = Object.entries(data).map(([id, req]) => ({ id, ...req })).reverse();
 
-                // Update stats
                 const pending = allRequests.filter(r => r.status === 'pending').length;
                 const reviewing = allRequests.filter(r => r.status === 'reviewing').length;
                 const approved = allRequests.filter(r => r.status === 'approved').length;
@@ -2680,8 +2844,6 @@
                 document.getElementById('reqApproved').textContent = approved;
                 document.getElementById('reqRejected').textContent = rejected;
                 document.getElementById('reqCancelled').textContent = cancelled;
-
-                // Update badge
                 document.getElementById('requestBadge').textContent = pending;
 
                 renderRequests();
@@ -2723,7 +2885,7 @@
                 };
                 const status = statusMap[req.status] || statusMap.pending;
                 const avatar = req.studentPhoto ||
-                    `https://ui-avatars.com/api/?name=${encodeURIComponent(req.studentName||'طالب')}&background=0B4F8C&color=fff&size=44`;
+                    `https://ui-avatars.com/api/?name=${encodeURIComponent(req.studentName||'طالب')}&background=0B4F8C&color=fff&size=48`;
 
                 return `
                         <div class="request-card">
@@ -2801,13 +2963,14 @@
                 `);
         }
 
+        // ===== قبول طلب الاشتراك =====
         async function approveRequest(reqId) {
             if (!confirm('قبول طلب الاشتراك هذا؟ سيتم منح الطالب الوصول للكورس.')) return;
             try {
                 const req = allRequests.find(r => r.id === reqId);
                 if (!req) { showToast('الطلب غير موجود', 'error'); return; }
 
-                // Check if student already has subscription
+                // التحقق من وجود اشتراك سابق
                 const subSnap = await db.ref('users/' + req.studentId + '/subscriptions/' + req.courseId).once('value');
                 if (subSnap.exists()) {
                     const existing = subSnap.val();
@@ -2817,47 +2980,53 @@
                     }
                 }
 
-                // Create/Update subscription
-                const subscriptionData = {
+                // إنشاء الاشتراك
+                const expiry = new Date();
+                expiry.setFullYear(expiry.getFullYear() + 1);
+
+                await db.ref('users/' + req.studentId + '/subscriptions/' + req.courseId).set({
                     courseName: req.courseName,
                     type: 'premium',
                     startDate: new Date().toISOString(),
+                    expiryDate: expiry.toISOString(),
                     active: true,
                     approvedBy: currentUser.uid,
                     approvedAt: new Date().toISOString()
-                };
+                });
 
-                // Calculate expiry (1 year from now)
-                const expiry = new Date();
-                expiry.setFullYear(expiry.getFullYear() + 1);
-                subscriptionData.expiryDate = expiry.toISOString();
-
-                await db.ref('users/' + req.studentId + '/subscriptions/' + req.courseId).set(subscriptionData);
-
-                // Update user's premium courses
                 await db.ref('users/' + req.studentId + '/premiumCourses/' + req.courseId).set(true);
-
-                // Update request status
                 await db.ref('subscriptionRequests/' + reqId).update({
                     status: 'approved',
                     reviewedAt: new Date().toISOString(),
                     adminId: currentUser.uid,
                     adminName: currentUser.displayName || 'Admin'
                 });
-
-                // Add to course subscribers
                 await db.ref('courses/' + req.courseId + '/subscribers/' + req.studentId).set(true);
 
-                // Update user courses count
+                // تحديث عدد الكورسات
                 const userSnap = await db.ref('users/' + req.studentId + '/coursesCount').once('value');
                 const currentCount = userSnap.val() || 0;
                 await db.ref('users/' + req.studentId + '/coursesCount').set(currentCount + 1);
 
-                // Send notification
-                await sendNotificationToStudent(req.studentId, '🎉 تم قبول طلب الاشتراك!',
-                    `تم قبول طلبك في كورس "${req.courseName}"، يمكنك الآن الوصول إلى المحتوى.`);
+                // إشعار للطالب
+                await db.ref('notifications').push({
+                    title: '🎉 تم قبول طلب الاشتراك!',
+                    body: `تم قبول طلبك في كورس "${req.courseName}"، يمكنك الآن الوصول إلى المحتوى.`,
+                    target: 'student',
+                    targetId: req.studentId,
+                    read: false,
+                    createdAt: new Date().toISOString(),
+                    sender: currentUser.displayName || 'Admin',
+                    senderId: currentUser.uid
+                });
+                await db.ref('users/' + req.studentId + '/notifications').push({
+                    title: '🎉 تم قبول طلب الاشتراك!',
+                    description: `تم قبول طلبك في كورس "${req.courseName}"، يمكنك الآن الوصول إلى المحتوى.`,
+                    icon: '🎉',
+                    read: false,
+                    createdAt: new Date().toISOString()
+                });
 
-                // Admin log
                 await db.ref('adminLogs').push({
                     adminId: currentUser.uid,
                     adminName: currentUser.displayName || 'Admin',
@@ -2878,6 +3047,7 @@
             }
         }
 
+        // ===== رفض طلب الاشتراك =====
         async function rejectRequest(reqId) {
             if (!confirm('رفض طلب الاشتراك هذا؟')) return;
             const reason = prompt('سبب الرفض (اختياري):');
@@ -2893,9 +3063,24 @@
                     adminName: currentUser.displayName || 'Admin'
                 });
 
-                // Send notification
-                await sendNotificationToStudent(req.studentId, '❌ تم رفض طلب الاشتراك',
-                    `تم رفض طلبك في كورس "${req.courseName}"${reason ? '، السبب: ' + reason : ''}`);
+                // إشعار للطالب
+                await db.ref('notifications').push({
+                    title: '❌ تم رفض طلب الاشتراك',
+                    body: `تم رفض طلبك في كورس "${req.courseName}"${reason ? '، السبب: ' + reason : ''}`,
+                    target: 'student',
+                    targetId: req.studentId,
+                    read: false,
+                    createdAt: new Date().toISOString(),
+                    sender: currentUser.displayName || 'Admin',
+                    senderId: currentUser.uid
+                });
+                await db.ref('users/' + req.studentId + '/notifications').push({
+                    title: '❌ تم رفض طلب الاشتراك',
+                    description: `تم رفض طلبك في كورس "${req.courseName}"${reason ? '، السبب: ' + reason : ''}`,
+                    icon: '❌',
+                    read: false,
+                    createdAt: new Date().toISOString()
+                });
 
                 await db.ref('adminLogs').push({
                     adminId: currentUser.uid,
@@ -2913,32 +3098,6 @@
             } catch (e) {
                 console.error('Reject error:', e);
                 showToast('خطأ: ' + e.message, 'error');
-            }
-        }
-
-        async function sendNotificationToStudent(studentId, title, body) {
-            try {
-                const ref = db.ref('notifications').push();
-                await ref.set({
-                    title: title,
-                    body: body,
-                    target: 'student',
-                    targetId: studentId,
-                    read: false,
-                    createdAt: new Date().toISOString(),
-                    sender: currentUser.displayName || 'Admin',
-                    senderId: currentUser.uid
-                });
-                // Also add to user's notifications
-                await db.ref('users/' + studentId + '/notifications').push({
-                    title: title,
-                    description: body,
-                    icon: '📢',
-                    read: false,
-                    createdAt: new Date().toISOString()
-                });
-            } catch (e) {
-                console.error('Notification error:', e);
             }
         }
 
@@ -2973,7 +3132,7 @@
                                 <td><img src="${img}" style="width:40px;height:40px;border-radius:10px;object-fit:cover;"></td>
                                 <td><strong>${escapeHtml(c.name||'غير معروف')}</strong></td>
                                 <td><span class="badge-status ${typeBadge}">${type}</span></td>
-                                <td>${c.price||'--'}</td>
+                                <td>${c.isPremium ? (c.price||'--') : 'مجاني'}</td>
                                 <td>${subs}</td>
                                 <td>${lessons}</td>
                                 <td><span class="badge-status ${statusBadge}">${status}</span></td>
@@ -3028,12 +3187,9 @@
                         <div><strong>الامتحانات:</strong> ${exams}</div>
                         <div><strong>الكويزات:</strong> ${quizzes}</div>
                         <div><strong>النوع:</strong> ${data.isPremium ? 'مدفوع' : 'مجاني'}</div>
-                        <div><strong>السعر:</strong> ${data.price||'--'}</div>
+                        <div><strong>السعر:</strong> ${data.isPremium ? (data.price||'--') : 'مجاني'}</div>
                         <div><strong>الحالة:</strong> ${data.active!==false ? 'نشط' : 'موقف'}</div>
-                        <div><strong>الترتيب:</strong> ${data.order||0}</div>
                         ${data.teacher ? `<div><strong>المدرس:</strong> ${escapeHtml(data.teacher)}</div>` : ''}
-                        ${data.level ? `<div><strong>المستوى:</strong> ${escapeHtml(data.level)}</div>` : ''}
-                        ${data.type ? `<div><strong>التصنيف:</strong> ${escapeHtml(data.type)}</div>` : ''}
                         ${data.telegram ? `<div><strong>تليجرام:</strong> <a href="${data.telegram}" target="_blank" style="color:#0B4F8C;">${escapeHtml(data.telegram)}</a></div>` : ''}
                         ${data.whatsapp ? `<div><strong>واتساب:</strong> <a href="${data.whatsapp}" target="_blank" style="color:#0B4F8C;">${escapeHtml(data.whatsapp)}</a></div>` : ''}
                     </div>
@@ -3041,6 +3197,9 @@
                     <h4 style="color:#0B4F8C;">الحصص</h4>
                     <div id="courseLessons_${cid}" style="font-size:0.85rem;">
                         <div class="loading-placeholder" style="padding:10px;"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</div>
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn-cancel" onclick="closeModal()">إغلاق</button>
                     </div>
                 `);
 
@@ -3064,10 +3223,8 @@
                     <div class="form-group"><label>اسم الكورس</label><input id="courseName" placeholder="اسم الكورس"></div>
                     <div class="form-group"><label>الوصف</label><textarea id="courseDesc" placeholder="وصف الكورس"></textarea></div>
                     <div class="form-group"><label>صورة الكورس (URL)</label><input id="courseImage" placeholder="رابط الصورة"></div>
-                    <div class="form-group"><label>رابط الغلاف (URL)</label><input id="courseCover" placeholder="رابط الغلاف"></div>
                     <div class="form-group"><label>المدرس</label><input id="courseTeacher" placeholder="اسم المدرس"></div>
                     <div class="form-group"><label>المستوى</label><input id="courseLevel" placeholder="المستوى (مثال: مبتدئ، متوسط، متقدم)"></div>
-                    <div class="form-group"><label>التصنيف</label><input id="courseType" placeholder="التصنيف (مثال: كيمياء، فيزياء)"></div>
                     <div class="form-group"><label>الترتيب</label><input id="courseOrder" type="number" placeholder="الترتيب" value="0"></div>
                     <div class="form-group"><label>السعر</label><input id="coursePrice" placeholder="السعر" type="number"></div>
                     <div class="form-group">
@@ -3100,10 +3257,8 @@
                 name: name,
                 description: document.getElementById('courseDesc').value.trim() || '',
                 image: document.getElementById('courseImage').value.trim() || '',
-                cover: document.getElementById('courseCover').value.trim() || '',
                 teacher: document.getElementById('courseTeacher').value.trim() || '',
                 level: document.getElementById('courseLevel').value.trim() || '',
-                type: document.getElementById('courseType').value.trim() || '',
                 order: parseInt(document.getElementById('courseOrder').value) || 0,
                 price: parseFloat(document.getElementById('coursePrice').value) || 0,
                 isPremium: isPremium,
@@ -3137,10 +3292,8 @@
                     <div class="form-group"><label>اسم الكورس</label><input id="editCourseName" value="${escapeHtml(data.name||'')}"></div>
                     <div class="form-group"><label>الوصف</label><textarea id="editCourseDesc">${escapeHtml(data.description||'')}</textarea></div>
                     <div class="form-group"><label>صورة الكورس</label><input id="editCourseImage" value="${data.image||''}"></div>
-                    <div class="form-group"><label>الغلاف</label><input id="editCourseCover" value="${data.cover||''}"></div>
                     <div class="form-group"><label>المدرس</label><input id="editCourseTeacher" value="${escapeHtml(data.teacher||'')}"></div>
                     <div class="form-group"><label>المستوى</label><input id="editCourseLevel" value="${escapeHtml(data.level||'')}"></div>
-                    <div class="form-group"><label>التصنيف</label><input id="editCourseType" value="${escapeHtml(data.type||'')}"></div>
                     <div class="form-group"><label>الترتيب</label><input id="editCourseOrder" type="number" value="${data.order||0}"></div>
                     <div class="form-group"><label>السعر</label><input id="editCoursePrice" type="number" value="${data.price||0}"></div>
                     <div class="form-group">
@@ -3169,10 +3322,8 @@
                 name: document.getElementById('editCourseName').value.trim(),
                 description: document.getElementById('editCourseDesc').value.trim(),
                 image: document.getElementById('editCourseImage').value.trim(),
-                cover: document.getElementById('editCourseCover').value.trim(),
                 teacher: document.getElementById('editCourseTeacher').value.trim(),
                 level: document.getElementById('editCourseLevel').value.trim(),
-                type: document.getElementById('editCourseType').value.trim(),
                 order: parseInt(document.getElementById('editCourseOrder').value) || 0,
                 price: parseFloat(document.getElementById('editCoursePrice').value) || 0,
                 isPremium: document.getElementById('editCourseIsPremium').value === 'true'
@@ -3273,8 +3424,6 @@
                     <div class="form-group"><label>صورة الحصة</label><input id="lessonImage" placeholder="رابط الصورة"></div>
                     <div class="form-group"><label>رابط الفيديو</label><input id="lessonVideo" placeholder="https://..."></div>
                     <div class="form-group"><label>رابط PDF</label><input id="lessonPdf" placeholder="https://..."></div>
-                    <div class="form-group"><label>رابط المجموعة</label><input id="lessonGroup" placeholder="https://..."></div>
-                    <div class="form-group"><label>رابط لايف</label><input id="lessonLive" placeholder="https://zoom/..."></div>
                     <div class="form-group"><label>الترتيب</label><input id="lessonOrder" type="number" placeholder="0" value="0"></div>
                     <div class="form-group">
                         <label>إضافة محتوى</label>
@@ -3302,8 +3451,6 @@
                 image: document.getElementById('lessonImage').value.trim() || '',
                 video: document.getElementById('lessonVideo').value.trim() || '',
                 pdf: document.getElementById('lessonPdf').value.trim() || '',
-                groupLink: document.getElementById('lessonGroup').value.trim() || '',
-                liveLink: document.getElementById('lessonLive').value.trim() || '',
                 order: parseInt(document.getElementById('lessonOrder').value) || 0,
                 createdAt: new Date().toISOString()
             };
@@ -3334,8 +3481,6 @@
                     <div class="form-group"><label>صورة الحصة</label><input id="editLessonImage" value="${data.image||''}"></div>
                     <div class="form-group"><label>رابط الفيديو</label><input id="editLessonVideo" value="${data.video||''}"></div>
                     <div class="form-group"><label>رابط PDF</label><input id="editLessonPdf" value="${data.pdf||''}"></div>
-                    <div class="form-group"><label>رابط المجموعة</label><input id="editLessonGroup" value="${data.groupLink||''}"></div>
-                    <div class="form-group"><label>رابط لايف</label><input id="editLessonLive" value="${data.liveLink||''}"></div>
                     <div class="form-group"><label>الترتيب</label><input id="editLessonOrder" type="number" value="${data.order||0}"></div>
                     <div class="form-actions">
                         <button class="btn-submit" onclick="saveLessonEdit('${cid}','${lid}')">حفظ</button>
@@ -3351,8 +3496,6 @@
                 image: document.getElementById('editLessonImage').value.trim(),
                 video: document.getElementById('editLessonVideo').value.trim(),
                 pdf: document.getElementById('editLessonPdf').value.trim(),
-                groupLink: document.getElementById('editLessonGroup').value.trim(),
-                liveLink: document.getElementById('editLessonLive').value.trim(),
                 order: parseInt(document.getElementById('editLessonOrder').value) || 0
             };
             try {
@@ -3383,7 +3526,7 @@
         // ============================================================
         async function loadExams() {
             const tbody = document.getElementById('examsTableBody');
-            tbody.innerHTML = '<tr><td colspan="10" class="loading-placeholder"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="8" class="loading-placeholder"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</td></tr>';
             try {
                 const snap = await db.ref('courses').once('value');
                 const courses = snap.val() || {};
@@ -3401,7 +3544,7 @@
                     }
                 }
                 if (allExams.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="10" class="text-muted" style="text-align:center;">لا توجد امتحانات</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="8" class="text-muted" style="text-align:center;">لا توجد امتحانات</td></tr>';
                     return;
                 }
                 tbody.innerHTML = allExams.map((e, i) => `
@@ -3411,8 +3554,6 @@
                             <td>${escapeHtml(e.courseName)}</td>
                             <td>${escapeHtml(e.lessonTitle)}</td>
                             <td><span class="badge-status ${e.type==='نهائي'?'premium':'free'}">${e.type||'عادي'}</span></td>
-                            <td>${e.attempts||1}</td>
-                            <td>${e.passScore||'--'}</td>
                             <td>${e.participants||0}</td>
                             <td>${e.averageScore||'--'}</td>
                             <td class="table-actions">
@@ -3423,7 +3564,7 @@
                         </tr>
                     `).join('');
             } catch (e) {
-                tbody.innerHTML = '<tr><td colspan="10" style="color:#ef4444;">خطأ في تحميل الامتحانات</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="8" style="color:#ef4444;">خطأ في تحميل الامتحانات</td></tr>';
             }
         }
 
@@ -3448,11 +3589,9 @@
                     </div>
                     <div class="form-group"><label>المدة (دقائق)</label><input id="examDuration" type="number" value="30"></div>
                     <div class="form-group"><label>عدد المحاولات</label><input id="examAttempts" type="number" value="1"></div>
-                    <div class="form-group"><label>درجة النجاح (%)</label><input id="examPass" type="number" placeholder="50"></div>
+                    <div class="form-group"><label>درجة النجاح</label><input id="examPass" type="number" placeholder="50"></div>
                     <div class="form-group"><label>عدد الأسئلة</label><input id="examQuestions" type="number" placeholder="عدد الأسئلة"></div>
                     <div class="form-group"><label>النقاط</label><input id="examPoints" type="number" value="10"></div>
-                    <div class="form-group"><label>وقت البداية</label><input id="examStart" type="datetime-local"></div>
-                    <div class="form-group"><label>وقت النهاية</label><input id="examEnd" type="datetime-local"></div>
                     <div class="form-actions">
                         <button class="btn-submit" onclick="addExam()">إضافة</button>
                         <button class="btn-cancel" onclick="closeModal()">إلغاء</button>
@@ -3481,8 +3620,6 @@
             const passScore = parseInt(document.getElementById('examPass').value) || 0;
             const duration = parseInt(document.getElementById('examDuration').value) || 30;
             const points = parseInt(document.getElementById('examPoints').value) || 10;
-            const startTime = document.getElementById('examStart').value;
-            const endTime = document.getElementById('examEnd').value;
             if (!title || !cid || !lid) { showToast('يرجى ملء جميع الحقول', 'error'); return; }
             try {
                 const ref = db.ref('courses/' + cid + '/lessons/' + lid + '/exams').push();
@@ -3494,13 +3631,9 @@
                     passScore: passScore,
                     duration: duration,
                     points: points,
-                    startTime: startTime ? new Date(startTime).toISOString() : undefined,
-                    endTime: endTime ? new Date(endTime).toISOString() : undefined,
                     participants: 0,
                     completed: 0,
                     averageScore: 0,
-                    highestScore: 0,
-                    lowestScore: 0,
                     createdAt: new Date().toISOString()
                 });
                 await db.ref('adminLogs').push({ adminId: currentUser.uid, adminName: currentUser.displayName || 'Admin',
@@ -3518,12 +3651,10 @@
             if (!data) { showToast('الامتحان غير موجود', 'error'); return; }
             openModal('تعديل الامتحان', `
                     <div class="form-group"><label>اسم الامتحان</label><input id="editExamTitle" value="${escapeHtml(data.title||'')}"></div>
-                    <div class="form-group"><label>المدة (دقائق)</label><input id="editExamDuration" type="number" value="${data.duration||30}"></div>
+                    <div class="form-group"><label>المدة</label><input id="editExamDuration" type="number" value="${data.duration||30}"></div>
                     <div class="form-group"><label>عدد المحاولات</label><input id="editExamAttempts" type="number" value="${data.attempts||1}"></div>
                     <div class="form-group"><label>درجة النجاح</label><input id="editExamPass" type="number" value="${data.passScore||0}"></div>
                     <div class="form-group"><label>النقاط</label><input id="editExamPoints" type="number" value="${data.points||10}"></div>
-                    <div class="form-group"><label>وقت البداية</label><input id="editExamStart" type="datetime-local" value="${data.startTime ? new Date(data.startTime).toISOString().slice(0,16) : ''}"></div>
-                    <div class="form-group"><label>وقت النهاية</label><input id="editExamEnd" type="datetime-local" value="${data.endTime ? new Date(data.endTime).toISOString().slice(0,16) : ''}"></div>
                     <div class="form-actions">
                         <button class="btn-submit" onclick="saveExamEdit('${cid}','${lid}','${eid}')">حفظ</button>
                         <button class="btn-cancel" onclick="closeModal()">إلغاء</button>
@@ -3537,11 +3668,7 @@
                 duration: parseInt(document.getElementById('editExamDuration').value) || 30,
                 attempts: parseInt(document.getElementById('editExamAttempts').value) || 1,
                 passScore: parseInt(document.getElementById('editExamPass').value) || 0,
-                points: parseInt(document.getElementById('editExamPoints').value) || 10,
-                startTime: document.getElementById('editExamStart').value ? new Date(document.getElementById(
-                    'editExamStart').value).toISOString() : undefined,
-                endTime: document.getElementById('editExamEnd').value ? new Date(document.getElementById('editExamEnd')
-                    .value).toISOString() : undefined,
+                points: parseInt(document.getElementById('editExamPoints').value) || 10
             };
             try {
                 await db.ref('courses/' + cid + '/lessons/' + lid + '/exams/' + eid).update(updates);
@@ -3584,12 +3711,10 @@
                     <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;font-size:0.9rem;">
                         <div><strong>المشاركين:</strong> ${data.participants||0}</div>
                         <div><strong>أكملوا:</strong> ${data.completed||0}</div>
-                        <div><strong>لم يكملوا:</strong> ${(data.participants||0) - (data.completed||0)}</div>
                         <div><strong>أعلى درجة:</strong> ${data.highestScore||'--'}</div>
                         <div><strong>أقل درجة:</strong> ${data.lowestScore||'--'}</div>
-                        <div><strong>متوسط:</strong> ${data.averageScore||'--'}</div>
+                        <div><strong>المتوسط:</strong> ${data.averageScore||'--'}</div>
                         <div><strong>درجة النجاح:</strong> ${data.passScore||'--'}</div>
-                        <div><strong>المحاولات:</strong> ${data.attempts||1}</div>
                         <div><strong>النقاط:</strong> ${data.points||10}</div>
                     </div>
                     <hr style="border-color:#e2e8f0;margin:12px 0;">
@@ -3602,7 +3727,6 @@
                     </div>
                 `);
 
-            // Load attempts from results
             const resultsSnap = await db.ref('users').once('value');
             const users = resultsSnap.val() || {};
             let attemptsHtml = '';
@@ -3891,13 +4015,6 @@
                     <div class="form-group"><label>رابط الملف</label><input id="assignFile" placeholder="https://..."></div>
                     <div class="form-group"><label>آخر موعد للتسليم</label><input id="assignDeadline" type="datetime-local"></div>
                     <div class="form-group"><label>النقاط</label><input id="assignPoints" type="number" value="10"></div>
-                    <div class="form-group">
-                        <label>نوع التصحيح</label>
-                        <select id="assignGrading">
-                            <option value="auto">تلقائي</option>
-                            <option value="manual">يدوي</option>
-                        </select>
-                    </div>
                     <div class="form-actions">
                         <button class="btn-submit" onclick="addAssignment()">إضافة</button>
                         <button class="btn-cancel" onclick="closeModal()">إلغاء</button>
@@ -3923,7 +4040,6 @@
                 deadline: document.getElementById('assignDeadline').value ? new Date(document.getElementById(
                     'assignDeadline').value).toISOString() : undefined,
                 points: parseInt(document.getElementById('assignPoints').value) || 10,
-                gradingType: document.getElementById('assignGrading').value,
                 submissions: 0,
                 createdAt: new Date().toISOString()
             };
@@ -3998,7 +4114,6 @@
                         <div class="text-muted">${escapeHtml(data.description||'')}</div>
                         <div><strong>آخر موعد:</strong> ${data.deadline ? formatTime(data.deadline) : '--'}</div>
                         <div><strong>إجمالي التسليمات:</strong> ${data.submissions||0}</div>
-                        <div><strong>نوع التصحيح:</strong> ${data.gradingType==='manual'?'يدوي':'تلقائي'}</div>
                     </div>
                     <div id="submissionsList" style="font-size:0.85rem;">
                         <div class="loading-placeholder"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</div>
@@ -4008,7 +4123,6 @@
                     </div>
                 `);
 
-            // Load submissions from users
             const usersSnap = await db.ref('users').once('value');
             const users = usersSnap.val() || {};
             let html = '';
@@ -4058,7 +4172,6 @@
                     gradedBy: currentUser.uid,
                     gradedAt: new Date().toISOString()
                 });
-                // Update results
                 await db.ref('users/' + uid + '/results').push({
                     assignmentId: aid,
                     score: score,
@@ -4079,13 +4192,13 @@
         // ============================================================
         async function loadQuestions() {
             const tbody = document.getElementById('questionsTableBody');
-            tbody.innerHTML = '<tr><td colspan="7" class="loading-placeholder"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="6" class="loading-placeholder"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</td></tr>';
             try {
                 const snap = await db.ref('questions').once('value');
                 const questions = snap.val() || {};
                 allQuestions = Object.entries(questions).map(([id, data]) => ({ id, ...data }));
                 if (allQuestions.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="7" class="text-muted" style="text-align:center;">لا توجد أسئلة</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="6" class="text-muted" style="text-align:center;">لا توجد أسئلة</td></tr>';
                     return;
                 }
                 tbody.innerHTML = allQuestions.map((q, i) => `
@@ -4095,7 +4208,6 @@
                             <td><span class="badge-status ${q.type==='exam'?'premium':'free'}">${q.type||'quiz'}</span></td>
                             <td>${q.points||0}</td>
                             <td>${q.correctAnswer !== undefined ? 'الاختيار ' + (q.correctAnswer+1) : '--'}</td>
-                            <td>${q.image ? '✅' : '❌'}</td>
                             <td class="table-actions">
                                 <button onclick="viewQuestion('${q.id}')" title="عرض"><i class="fas fa-eye"></i></button>
                                 <button onclick="editQuestion('${q.id}')" title="تعديل"><i class="fas fa-edit"></i></button>
@@ -4104,7 +4216,7 @@
                         </tr>
                     `).join('');
             } catch (e) {
-                tbody.innerHTML = '<tr><td colspan="7" style="color:#ef4444;">خطأ في تحميل الأسئلة</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="6" style="color:#ef4444;">خطأ في تحميل الأسئلة</td></tr>';
             }
         }
 
@@ -4184,7 +4296,6 @@
                         ${optionsHtml}
                         <div><strong>الإجابة الصحيحة:</strong> ${data.correctAnswer !== undefined ? 'الاختيار ' + (data.correctAnswer+1) : '--'}</div>
                         <div><strong>الدرجة:</strong> ${data.points||0}</div>
-                        <div><strong>النوع:</strong> ${data.type||'quiz'}</div>
                         ${data.explanation ? `<div><strong>الشرح:</strong> ${escapeHtml(data.explanation)}</div>` : ''}
                     </div>
                     <div class="form-actions">
@@ -4384,16 +4495,17 @@
                     return;
                 }
                 container.innerHTML = allNotifications.map(n => `
-                        <div style="display:flex;align-items:center;gap:12px;padding:10px 12px;border-bottom:1px solid #f1f5f9;${!n.read ? 'background:#f0f7ff;' : ''}">
-                            <div style="flex:1;">
-                                <div style="font-weight:700;">${escapeHtml(n.title||'إشعار')}</div>
-                                <div style="font-size:0.85rem;color:#1e293b;">${escapeHtml(n.body||'')}</div>
-                                <div class="text-muted fs-small">${formatTimeShort(n.createdAt)}</div>
+                        <div class="notification-item ${!n.read ? 'unread' : ''}">
+                            <div class="notif-icon"><i class="fas fa-bell"></i></div>
+                            <div class="notif-content">
+                                <div class="notif-title">${escapeHtml(n.title||'إشعار')}</div>
+                                <div class="notif-body">${escapeHtml(n.body||'')}</div>
                             </div>
-                            <div style="display:flex;gap:6px;">
-                                ${!n.read ? `<button onclick="markNotifRead('${n.id}')" style="background:none;border:none;color:#0B4F8C;cursor:pointer;"><i class="fas fa-check"></i></button>` : ''}
-                                <button onclick="editNotification('${n.id}')" style="background:none;border:none;color:#f59e0b;cursor:pointer;"><i class="fas fa-edit"></i></button>
-                                <button onclick="deleteNotif('${n.id}')" style="background:none;border:none;color:#ef4444;cursor:pointer;"><i class="fas fa-trash"></i></button>
+                            <div class="notif-time">${formatTimeShort(n.createdAt)}</div>
+                            <div class="notif-actions">
+                                ${!n.read ? `<button onclick="markNotifRead('${n.id}')" title="تحديد كمقروء"><i class="fas fa-check"></i></button>` : ''}
+                                <button onclick="editNotification('${n.id}')" title="تعديل"><i class="fas fa-edit"></i></button>
+                                <button class="danger" onclick="deleteNotif('${n.id}')" title="حذف"><i class="fas fa-trash"></i></button>
                             </div>
                         </div>
                     `).join('');
@@ -4551,61 +4663,34 @@
                 const container = document.getElementById('healthResults');
                 let issues = [];
 
-                // Check courses without image
                 const courseSnap = await db.ref('courses').once('value');
                 const courses = courseSnap.val() || {};
                 for (const [cid, cdata] of Object.entries(courses)) {
                     if (!cdata.image) issues.push({ type: 'warning', icon: 'fa-image', text: 'كورس بدون صورة: ' +
-                            (cdata.name || cid), target: 'courses', targetId: cid });
+                            (cdata.name || cid), target: 'courses' });
                     if (!cdata.description) issues.push({ type: 'warning', icon: 'fa-file-alt', text: 'كورس بدون وصف: ' +
-                            (cdata.name || cid), target: 'courses', targetId: cid });
+                            (cdata.name || cid), target: 'courses' });
                     if (!cdata.lessons || Object.keys(cdata.lessons).length === 0) {
                         issues.push({ type: 'danger', icon: 'fa-exclamation-circle', text: 'كورس بدون حصص: ' + (cdata
-                                .name || cid), target: 'courses', targetId: cid });
+                                .name || cid), target: 'courses' });
                     }
                     if (cdata.lessons) {
                         for (const [lid, ldata] of Object.entries(cdata.lessons)) {
                             if (!ldata.video) issues.push({ type: 'warning', icon: 'fa-video-slash', text: 'حصة بدون فيديو: ' +
-                                    (ldata.title || lid), target: 'lessons', targetId: lid });
+                                    (ldata.title || lid), target: 'lessons' });
                             if (!ldata.pdf && !ldata.quizzes && !ldata.exams) {
                                 issues.push({ type: 'info', icon: 'fa-info-circle', text: 'حصة بدون محتوى: ' + (ldata
-                                        .title || lid), target: 'lessons', targetId: lid });
+                                        .title || lid), target: 'lessons' });
                             }
                         }
                     }
                 }
 
-                // Check questions without correct answer
                 const qSnap = await db.ref('questions').once('value');
                 const questions = qSnap.val() || {};
                 for (const [qid, qdata] of Object.entries(questions)) {
                     if (qdata.correctAnswer === undefined || qdata.correctAnswer === null) {
-                        issues.push({ type: 'danger', icon: 'fa-question', text: 'سؤال بدون إجابة صحيحة', target: 'questions',
-                            targetId: qid });
-                    }
-                }
-
-                // Check exams without questions
-                for (const [cid, cdata] of Object.entries(courses)) {
-                    if (cdata.lessons) {
-                        for (const [lid, ldata] of Object.entries(cdata.lessons)) {
-                            if (ldata.exams) {
-                                for (const [eid, edata] of Object.entries(ldata.exams)) {
-                                    if (!edata.questions || edata.questions === 0) {
-                                        issues.push({ type: 'danger', icon: 'fa-file-alt', text: 'امتحان بدون أسئلة: ' +
-                                                (edata.title || eid), target: 'exams', targetId: eid });
-                                    }
-                                }
-                            }
-                            if (ldata.quizzes) {
-                                for (const [qid, qdata] of Object.entries(ldata.quizzes)) {
-                                    if (!qdata.questions || qdata.questions === 0) {
-                                        issues.push({ type: 'danger', icon: 'fa-question-circle', text: 'كويز بدون أسئلة: ' +
-                                                (qdata.title || qid), target: 'quizzes', targetId: qid });
-                                    }
-                                }
-                            }
-                        }
+                        issues.push({ type: 'danger', icon: 'fa-question', text: 'سؤال بدون إجابة صحيحة', target: 'questions' });
                     }
                 }
 
@@ -4670,9 +4755,23 @@
         }
 
         // ============================================================
+        // FORCE LOGOUT ALL
+        // ============================================================
+        async function forceLogoutAll() {
+            if (!confirm('تسجيل خروج جميع الطلاب من جميع الأجهزة؟')) return;
+            try {
+                await db.ref('online').remove();
+                await db.ref('adminLogs').push({ adminId: currentUser.uid, adminName: currentUser.displayName || 'Admin',
+                    action: 'تسجيل خروج جميع الطلاب', timestamp: new Date().toISOString(), userAgent: navigator
+                        .userAgent });
+                showToast('تم تسجيل خروج الجميع', 'success');
+            } catch (e) { showToast('خطأ: ' + e.message, 'error'); }
+        }
+
+        // ============================================================
         // INIT
         // ============================================================
-        console.log('🚀 Yalla Kimya Admin Dashboard v7.0 - ULTIMATE');
+        console.log('🚀 Yalla Kimya Admin Dashboard v8.0 - ULTIMATE PRO');
         console.log('👤 Admin:', currentUser?.uid);
         console.log('📊 Ready for production!');
     </script>
