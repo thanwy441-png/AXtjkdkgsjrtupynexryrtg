@@ -1834,6 +1834,132 @@
                 padding: 8px;
             }
         }
+
+        /* ===== TOP STUDENT ===== */
+        .top-student-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 8px 12px;
+            border-bottom: 1px solid #f1f5f9;
+            transition: 0.2s;
+        }
+        body.dark-mode .top-student-item {
+            border-bottom-color: #334155;
+        }
+        .top-student-item:hover {
+            background: #f8fafc;
+        }
+        body.dark-mode .top-student-item:hover {
+            background: #0f172a;
+        }
+        .top-student-item .rank {
+            font-size: 1.2rem;
+            width: 32px;
+            text-align: center;
+        }
+        .top-student-item .top-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #e2e8f0;
+        }
+        body.dark-mode .top-student-item .top-avatar {
+            border-color: #334155;
+        }
+        .top-student-item .top-info {
+            flex: 1;
+        }
+        .top-student-item .top-info .name {
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+        .top-student-item .top-info .detail {
+            font-size: 0.7rem;
+            color: #64748b;
+        }
+        body.dark-mode .top-student-item .top-info .detail {
+            color: #94a3b8;
+        }
+        .top-student-item .top-score {
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: #0B4F8C;
+        }
+        body.dark-mode .top-student-item .top-score {
+            color: #38BDF8;
+        }
+
+        /* ===== NOTIFICATION ITEM ===== */
+        .notification-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 10px 12px;
+            border-bottom: 1px solid #f1f5f9;
+            transition: 0.2s;
+            border-radius: 8px;
+        }
+        body.dark-mode .notification-item {
+            border-bottom-color: #334155;
+        }
+        .notification-item.unread {
+            background: #eff6ff;
+        }
+        body.dark-mode .notification-item.unread {
+            background: #1e293b;
+        }
+        .notification-item:hover {
+            background: #f8fafc;
+        }
+        body.dark-mode .notification-item:hover {
+            background: #0f172a;
+        }
+        .notification-item .notif-icon {
+            font-size: 1.2rem;
+            color: #0B4F8C;
+        }
+        body.dark-mode .notification-item .notif-icon {
+            color: #38BDF8;
+        }
+        .notification-item .notif-content {
+            flex: 1;
+        }
+        .notification-item .notif-title {
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+        .notification-item .notif-body {
+            font-size: 0.75rem;
+            color: #64748b;
+        }
+        body.dark-mode .notification-item .notif-body {
+            color: #94a3b8;
+        }
+        .notification-item .notif-time {
+            font-size: 0.65rem;
+            color: #94a3b8;
+            white-space: nowrap;
+        }
+        .notification-item .notif-actions {
+            display: flex;
+            gap: 4px;
+        }
+        .notification-item .notif-actions button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 0.8rem;
+            padding: 4px 8px;
+            border-radius: 6px;
+            transition: 0.2s;
+            color: #64748b;
+        }
+        .notification-item .notif-actions button:hover {
+            background: #e2e8f0;
+            color: #0B4F8C;
+        }
     </style>
 </head>
 <body>
@@ -3545,7 +3671,8 @@
                     banned: true,
                     banReason: reason || 'مخالفة قوانين المنصة',
                     bannedAt: new Date().toISOString(),
-                    bannedBy: currentUser.uid
+                    bannedBy: currentUser.uid,
+                    bannedByName: currentUser.displayName || 'Admin'
                 });
                 await db.ref('adminLogs').push({
                     adminId: currentUser.uid,
@@ -3580,8 +3707,10 @@
                     banReason: null,
                     bannedAt: null,
                     bannedBy: null,
+                    bannedByName: null,
                     unbannedAt: new Date().toISOString(),
-                    unbannedBy: currentUser.uid
+                    unbannedBy: currentUser.uid,
+                    unbannedByName: currentUser.displayName || 'Admin'
                 });
                 await db.ref('adminLogs').push({
                     adminId: currentUser.uid,
@@ -4505,7 +4634,6 @@
 
         // ============================================================
         // LESSONS, EXAMS, QUIZZES, ASSIGNMENTS, QUESTIONS, PDFS
-        // (يتم الاحتفاظ بالدوال الحالية مع تحسينات عرض)
         // ============================================================
         async function loadLessons() {
             const tbody = document.getElementById('lessonsTableBody');
@@ -5348,8 +5476,10 @@
                                 <div class="notif-body">${escapeHtml(n.body||'')}</div>
                             </div>
                             <div class="notif-time">${formatTimeShort(n.createdAt)}</div>
-                            <button onclick="markNotifRead('${n.id}')" class="btn-outline-sm" style="padding:2px 10px;font-size:0.6rem;border:none;">${!n.read ? 'تحديد كمقروء' : ''}</button>
-                            <button onclick="deleteNotif('${n.id}')" class="btn-danger-sm" style="padding:2px 10px;font-size:0.6rem;border:none;"><i class="fas fa-trash"></i></button>
+                            <div class="notif-actions">
+                                <button onclick="markNotifRead('${n.id}')" title="تحديد كمقروء"><i class="fas fa-check" style="color:#22C55E;"></i></button>
+                                <button onclick="deleteNotif('${n.id}')" title="حذف" class="danger"><i class="fas fa-trash"></i></button>
+                            </div>
                         </div>
                     `).join('');
             } catch (e) {
@@ -5867,17 +5997,6 @@
         }
 
         // ============================================================
-        // LESSONS (المتبقي), EXAMS (المتبقي), QUIZZES (المتبقي), ASSIGNMENTS (المتبقي), QUESTIONS (المتبقي), PDFS
-        // تم الاحتفاظ بجميع الدوال الأصلية مع تحسينات العرض
-        // سيتم استكمالها في القسم التالي
-        // ============================================================
-
-        // ... [سيتم استكمال باقي الدوال في الأجزاء التالية]
-        // نظرًا لطول الكود، تم تضمين جميع الدوال الأساسية مع تحسينات البيانات الحقيقية.
-        // باقي الدوال (editExam, deleteExam, editQuiz, deleteQuiz, editAssignment, deleteAssignment, etc)
-        // محفوظة بنفس الشكل مع إضافة التحليلات الحقيقية.
-
-        // ============================================================
         // INIT - Load theme and sidebar state
         // ============================================================
         const savedTheme = localStorage.getItem('theme');
@@ -5910,7 +6029,7 @@
             document.querySelector('.hamburger').style.display = 'block';
         }
 
-        console.log('🚀 Yalla Kimya Admin Dashboard v11.0 - PRODUCTION READY');
+        console.log('🚀 Yalla Kimya Admin Dashboard v12.0 - PRODUCTION READY');
         console.log('👤 Admin:', currentUser?.uid);
         console.log('📊 All data from Firebase - NO FAKE DATA');
     </script>
