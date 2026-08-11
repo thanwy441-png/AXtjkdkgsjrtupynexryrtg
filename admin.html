@@ -9,6 +9,9 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js">
     </script>
     <style>
+        /* ============================================================
+           ROOT VARIABLES
+           ============================================================ */
         :root {
             --primary: #E52B9C;
             --primary-dark: #c91d84;
@@ -47,7 +50,9 @@
             overflow-x: hidden;
         }
 
-        /* ===== SIDEBAR ===== */
+        /* ============================================================
+           SIDEBAR
+           ============================================================ */
         .sidebar {
             position: fixed;
             top: 0;
@@ -150,14 +155,18 @@
             margin: 0.5rem 1.5rem;
         }
 
-        /* ===== MAIN CONTENT ===== */
+        /* ============================================================
+           MAIN CONTENT
+           ============================================================ */
         .main-content {
             margin-right: var(--sidebar-width);
             min-height: 100vh;
             padding: 0;
         }
 
-        /* ===== ADMIN NAVBAR ===== */
+        /* ============================================================
+           ADMIN NAVBAR
+           ============================================================ */
         .admin-navbar {
             background: rgba(22, 16, 42, 0.9);
             backdrop-filter: blur(12px);
@@ -238,12 +247,16 @@
             background: rgba(239, 68, 68, 0.1);
         }
 
-        /* ===== PAGE CONTENT ===== */
+        /* ============================================================
+           PAGE CONTENT
+           ============================================================ */
         .page-content {
             padding: 1.5rem;
         }
 
-        /* ===== STATS GRID - 30+ Stats ===== */
+        /* ============================================================
+           STATS GRID
+           ============================================================ */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
@@ -310,7 +323,9 @@
             color: var(--danger);
         }
 
-        /* ===== CHARTS ===== */
+        /* ============================================================
+           CHARTS
+           ============================================================ */
         .charts-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -388,7 +403,9 @@
             text-align: left;
         }
 
-        /* ===== CARDS ===== */
+        /* ============================================================
+           CARDS
+           ============================================================ */
         .card {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
@@ -418,7 +435,9 @@
             flex-wrap: wrap;
         }
 
-        /* ===== TABLE ===== */
+        /* ============================================================
+           TABLE
+           ============================================================ */
         .table-wrapper {
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
@@ -504,7 +523,9 @@
             color: var(--text-muted);
         }
 
-        /* ===== BUTTONS ===== */
+        /* ============================================================
+           BUTTONS
+           ============================================================ */
         .btn-sm {
             padding: 0.25rem 0.8rem;
             border-radius: var(--radius-sm);
@@ -580,7 +601,9 @@
             justify-content: center;
         }
 
-        /* ===== SEARCH / FILTER ===== */
+        /* ============================================================
+           SEARCH / FILTER
+           ============================================================ */
         .search-bar {
             display: flex;
             gap: 0.5rem;
@@ -618,7 +641,9 @@
             color: var(--text-light);
         }
 
-        /* ===== PAGINATION ===== */
+        /* ============================================================
+           PAGINATION
+           ============================================================ */
         .pagination {
             display: flex;
             gap: 0.3rem;
@@ -656,7 +681,9 @@
             cursor: not-allowed;
         }
 
-        /* ===== MODAL ===== */
+        /* ============================================================
+           MODAL
+           ============================================================ */
         .modal-overlay {
             position: fixed;
             inset: 0;
@@ -803,7 +830,9 @@
             color: var(--danger);
         }
 
-        /* ===== TOAST ===== */
+        /* ============================================================
+           TOAST
+           ============================================================ */
         .toast-container {
             position: fixed;
             bottom: 24px;
@@ -857,7 +886,9 @@
             }
         }
 
-        /* ===== LOADING ===== */
+        /* ============================================================
+           LOADING
+           ============================================================ */
         .loading-spinner {
             display: inline-block;
             width: 20px;
@@ -890,7 +921,9 @@
             }
         }
 
-        /* ===== RESPONSIVE ===== */
+        /* ============================================================
+           RESPONSIVE
+           ============================================================ */
         @media (max-width: 1024px) {
             .stats-grid {
                 grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
@@ -968,7 +1001,9 @@
             }
         }
 
-        /* ===== SCROLLBAR ===== */
+        /* ============================================================
+           SCROLLBAR
+           ============================================================ */
         ::-webkit-scrollbar {
             width: 4px;
             height: 4px;
@@ -981,7 +1016,9 @@
             border-radius: 10px;
         }
 
-        /* ===== UTILITY ===== */
+        /* ============================================================
+           UTILITY
+           ============================================================ */
         .hidden {
             display: none !important;
         }
@@ -1428,7 +1465,8 @@
                             premiumCourses: data.premiumCourses || {},
                             howFound: data.howFound || 'أخرى',
                             errorBank: data.errorBank || [],
-                            results: data.results || []
+                            results: data.results || [],
+                            subscriptions: data.subscriptions || {}
                         });
                     });
                     document.getElementById('usersCountBadge').textContent = allUsers.length;
@@ -1447,7 +1485,9 @@
                             id: child.key,
                             ...data,
                             isFree: data.isFree !== false,
-                            lessonsCount: data.lessonsCount || 0
+                            lessonsCount: data.lessonsCount || 0,
+                            subscribers: data.subscribers || {},
+                            subscriberCount: data.subscribers ? Object.keys(data.subscribers).length : 0
                         });
                     });
                     resolve(allCourses);
@@ -1837,6 +1877,14 @@
             // Sort howFound for display
             const howFoundSorted = Object.entries(howFoundStats).sort((a, b) => b[1] - a[1]);
 
+            // Calculate course subscriber counts
+            let totalFreeSubs = 0,
+                totalPaidSubs = 0;
+            allCourses.forEach(c => {
+                if (c.isFree) totalFreeSubs += c.subscriberCount || 0;
+                else totalPaidSubs += c.subscriberCount || 0;
+            });
+
             content.innerHTML = `
                     <div class="stats-grid">
                         <div class="stat-card">
@@ -1923,7 +1971,7 @@
                             <div class="label">نشطون هذا الأسبوع</div>
                         </div>
                         <div class="stat-card">
-                            <div class="icon">📈</div>
+                            <div class> 📈</div>
                             <span class="number info">${activeMonth}</span>
                             <div class="label">نشطون هذا الشهر</div>
                         </div>
@@ -1953,7 +2001,7 @@
                             <div class="label">دروس شوهدت اليوم</div>
                         </div>
                         <div class="stat-card">
-                            <div class> 📝</div>
+                            <div class="icon">📝</div>
                             <span class="number info">${examsToday}</span>
                             <div class="label">امتحانات اليوم</div>
                         </div>
@@ -1976,6 +2024,7 @@
                             <div class="icon">📚</div>
                             <span class="number primary">${totalCourses}</span>
                             <div class="label">إجمالي الكورسات</div>
+                            <div class="change up">مجاني: ${allCourses.filter(c=>c.isFree).length} • مدفوع: ${allCourses.filter(c=>!c.isFree).length}</div>
                         </div>
                         <div class="stat-card">
                             <div class="icon">🎥</div>
@@ -2001,6 +2050,7 @@
                             <div class="icon">💳</div>
                             <span class="number primary">${totalSubscriptions}</span>
                             <div class="label">الاشتراكات</div>
+                            <div class="change up">مجاني: ${totalFreeSubs} • مدفوع: ${totalPaidSubs}</div>
                         </div>
                     </div>
 
@@ -2119,6 +2169,7 @@
 
             if (usersSort === 'newest') filtered.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
             else if (usersSort === 'oldest') filtered.sort((a, b) => (a.createdAt || 0) - (b.createdAt || 0));
+            else if (usersSort === 'name') filtered.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
             else if (usersSort === 'most_atoms') filtered.sort((a, b) => (b.atoms || 0) - (a.atoms || 0));
             else if (usersSort === 'least_atoms') filtered.sort((a, b) => (a.atoms || 0) - (b.atoms || 0));
             else if (usersSort === 'most_active') filtered.sort((a, b) => (b.lastLogin || 0) - (a.lastLogin || 0));
@@ -2152,6 +2203,7 @@
                             <select onchange="usersSort=this.value;renderUsers();">
                                 <option value="newest" ${usersSort==='newest'?'selected':''}>الأحدث</option>
                                 <option value="oldest" ${usersSort==='oldest'?'selected':''}>الأقدم</option>
+                                <option value="name" ${usersSort==='name'?'selected':''}>الاسم</option>
                                 <option value="most_atoms" ${usersSort==='most_atoms'?'selected':''}>الأكثر نقاط</option>
                                 <option value="least_atoms" ${usersSort==='least_atoms'?'selected':''}>الأقل نقاط</option>
                                 <option value="most_active" ${usersSort==='most_active'?'selected':''}>الأكثر نشاط</option>
@@ -2170,14 +2222,16 @@
                                         <th>الترتيب</th>
                                         <th>الحالة</th>
                                         <th>آخر نشاط</th>
+                                        <th>كورسات</th>
                                         <th>إجراءات</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     ${pageItems.length === 0 ? `
-                                        <tr><td colspan="9" style="text-align:center;color:var(--text-muted);padding:1.5rem;">لا يوجد طلاب</td></tr>
+                                        <tr><td colspan="10" style="text-align:center;color:var(--text-muted);padding:1.5rem;">لا يوجد طلاب</td></tr>
                                     ` : pageItems.map(u => {
                                         const isOnline = onlineUsers.some(o => o.id === u.id && o.online);
+                                        const subCount = allSubscriptions.filter(s => s.userId === u.id && s.status === 'active').length;
                                         return `
                                         <tr>
                                             <td>
@@ -2199,6 +2253,7 @@
                                                 ${isOnline ? '<span class="status-badge online" style="margin-right:0.3rem;"><span class="online-dot"></span></span>' : ''}
                                             </td>
                                             <td style="font-size:0.7rem;color:var(--text-muted);">${u.lastLogin ? new Date(u.lastLogin).toLocaleDateString('ar') : '—'}</td>
+                                            <td>${subCount}</td>
                                             <td>
                                                 <button class="btn-sm primary icon-only" onclick="viewUser('${u.id}')" title="عرض"><i class="fas fa-eye"></i></button>
                                                 <button class="btn-sm ${u.banned ? 'success' : 'danger'} icon-only" onclick="toggleBan('${u.id}')" title="${u.banned ? 'فك الحظر' : 'حظر'}">
@@ -2723,7 +2778,7 @@
         }
 
         // ============================================================
-        // RENDER COURSES
+        // RENDER COURSES - WITH SUBSCRIBERS LIST
         // ============================================================
         function renderCourses() {
             const content = document.getElementById('pageContent');
@@ -2739,12 +2794,17 @@
                         <div class="table-wrapper">
                             <table>
                                 <thead>
-                                    <tr><th>#</th><th>الكورس</th><th>الحصص</th><th>السعر</th><th>النوع</th><th>الحالة</th><th>إجراءات</th></tr>
+                                    <tr><th>#</th><th>الكورس</th><th>الحصص</th><th>السعر</th><th>النوع</th><th>المشتركين</th><th>مجاني</th><th>مدفوع</th><th>الحالة</th><th>إجراءات</th></tr>
                                 </thead>
                                 <tbody>
                                     ${allCourses.length === 0 ? `
-                                        <tr><td colspan="7" style="text-align:center;color:var(--text-muted);padding:1.5rem;">لا توجد كورسات</td></tr>
-                                    ` : allCourses.map((c, i) => `
+                                        <tr><td colspan="10" style="text-align:center;color:var(--text-muted);padding:1.5rem;">لا توجد كورسات</td></tr>
+                                    ` : allCourses.map((c, i) => {
+                                        const subs = c.subscribers || {};
+                                        const subKeys = Object.keys(subs);
+                                        const freeCount = subKeys.filter(k => subs[k].type === 'free' || subs[k].isFree === true).length;
+                                        const paidCount = subKeys.filter(k => subs[k].type === 'paid' || subs[k].isFree === false).length;
+                                        return `
                                         <tr>
                                             <td>${i+1}</td>
                                             <td>
@@ -2755,14 +2815,19 @@
                                             </td>
                                             <td>${c.lessonsCount || 0}</td>
                                             <td>${c.isFree ? 'مجاني' : (c.price || 'مدفوع')}</td>
-                                            <td>${c.type || 'مسجل'}</td>
+                                            <td>${c.isFree ? 'مجاني' : 'مدفوع'}</td>
+                                            <td>${subKeys.length}</td>
+                                            <td>${freeCount}</td>
+                                            <td>${paidCount}</td>
                                             <td><span class="status-badge active">نشط</span></td>
                                             <td>
+                                                <button class="btn-sm primary icon-only" onclick="viewCourseSubscribers('${c.id}')" title="عرض المشتركين"><i class="fas fa-users"></i></button>
                                                 <button class="btn-sm primary icon-only" onclick="editCourse('${c.id}')" title="تعديل"><i class="fas fa-edit"></i></button>
                                                 <button class="btn-sm danger icon-only" onclick="deleteCourse('${c.id}')" title="حذف"><i class="fas fa-trash"></i></button>
                                             </td>
                                         </tr>
-                                    `).join('')}
+                                        `;
+                                    }).join('')}
                                 </tbody>
                             </table>
                         </div>
@@ -2770,6 +2835,68 @@
                 `;
         }
 
+        // ============================================================
+        // VIEW COURSE SUBSCRIBERS
+        // ============================================================
+        function viewCourseSubscribers(courseId) {
+            const course = allCourses.find(c => c.id === courseId);
+            if (!course) { showToast('الكورس غير موجود', 'error'); return; }
+
+            const subs = course.subscribers || {};
+            const subKeys = Object.keys(subs);
+
+            if (subKeys.length === 0) {
+                showToast('لا يوجد مشتركين في هذا الكورس', 'info');
+                return;
+            }
+
+            let html = `
+                    <div style="margin-bottom:1rem;">
+                        <h4 style="color:var(--primary);">📚 مشتركين كورس: ${course.title}</h4>
+                        <div style="display:flex;gap:0.5rem;margin-top:0.3rem;">
+                            <span class="status-badge active">إجمالي: ${subKeys.length}</span>
+                            <span class="status-badge active">مجاني: ${subKeys.filter(k => subs[k].type === 'free' || subs[k].isFree === true).length}</span>
+                            <span class="status-badge premium">مدفوع: ${subKeys.filter(k => subs[k].type === 'paid' || subs[k].isFree === false).length}</span>
+                        </div>
+                    </div>
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr><th>#</th><th>الطالب</th><th>رقم الهاتف</th><th>النوع</th><th>تاريخ الاشتراك</th></tr>
+                            </thead>
+                            <tbody>
+                                ${subKeys.map((uid, idx) => {
+                                    const user = allUsers.find(u => u.id === uid);
+                                    const sub = subs[uid];
+                                    return `
+                                        <tr>
+                                            <td>${idx+1}</td>
+                                            <td>
+                                                <div style="display:flex;align-items:center;gap:0.5rem;">
+                                                    <span class="avatar-sm">${user?.name ? user.name[0] : 'U'}</span>
+                                                    ${user?.name || 'مستخدم غير موجود'}
+                                                </div>
+                                            </td>
+                                            <td>${user?.phone || '—'}</td>
+                                            <td><span class="status-badge ${sub.type === 'paid' || sub.isFree === false ? 'premium' : 'free'}">${sub.type === 'paid' || sub.isFree === false ? 'مدفوع' : 'مجاني'}</span></td>
+                                            <td style="font-size:0.7rem;color:var(--text-muted);">${sub.subscribedAt ? new Date(sub.subscribedAt).toLocaleDateString('ar') : '—'}</td>
+                                        </tr>
+                                    `;
+                                }).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn-cancel" onclick="closeModal()">إغلاق</button>
+                    </div>
+                `;
+
+            openModal(`📚 مشتركين كورس: ${course.title}`, html);
+        }
+
+        // ============================================================
+        // SHOW ADD COURSE MODAL
+        // ============================================================
         function showAddCourseModal() {
             const html = `
                     <div class="form-group">
@@ -2920,6 +3047,7 @@
                 section: section,
                 lessonsCount: lessonsCount,
                 type: type2 || 'مسجل',
+                subscribers: {},
                 updatedAt: new Date().toISOString()
             };
 
@@ -2955,7 +3083,7 @@
         }
 
         // ============================================================
-        // RENDER LESSONS
+        // RENDER LESSONS (Shortened for brevity - similar to before)
         // ============================================================
         function renderLessons() {
             const content = document.getElementById('pageContent');
@@ -2998,6 +3126,9 @@
                 `;
         }
 
+        // ============================================================
+        // SHOW ADD LESSON MODAL
+        // ============================================================
         function showAddLessonModal() {
             const courseOptions = allCourses.map(c =>
                 `<option value="${c.id}">${c.title}</option>`
@@ -3162,7 +3293,7 @@
         }
 
         // ============================================================
-        // RENDER EXAMS
+        // RENDER EXAMS (Shortened)
         // ============================================================
         function renderExams() {
             const content = document.getElementById('pageContent');
@@ -3203,6 +3334,9 @@
                 `;
         }
 
+        // ============================================================
+        // SHOW ADD EXAM MODAL
+        // ============================================================
         function showAddExamModal() {
             const html = `
                     <div class="form-group">
@@ -3319,7 +3453,7 @@
         }
 
         // ============================================================
-        // RENDER QUIZZES
+        // RENDER QUIZZES (Shortened)
         // ============================================================
         function renderQuizzes() {
             const content = document.getElementById('pageContent');
@@ -3476,7 +3610,7 @@
         }
 
         // ============================================================
-        // RENDER ASSIGNMENTS
+        // RENDER ASSIGNMENTS (Shortened)
         // ============================================================
         function renderAssignments() {
             const content = document.getElementById('pageContent');
@@ -3698,6 +3832,11 @@
                 activatedBy: currentUser.uid,
                 activatedByName: currentAdmin?.name || 'Admin'
             }).then(() => {
+                // Add to course subscribers
+                db.ref('courses/' + courseId + '/subscribers/' + userId).set({
+                    type: type,
+                    subscribedAt: new Date().toISOString()
+                });
                 db.ref('users/' + userId + '/premiumCourses/' + courseId).set(true);
 
                 db.ref('adminLogs').push({
@@ -3715,6 +3854,7 @@
                 showToast('✅ تم تفعيل الاشتراك', 'success');
                 closeModal();
                 loadAllSubscriptions().then(() => renderSubscriptions());
+                loadAllCourses();
             });
         }
 
@@ -3727,6 +3867,7 @@
             db.ref('subscriptions/' + subId).remove().then(() => {
                 if (userId && courseId) {
                     db.ref('users/' + userId + '/premiumCourses/' + courseId).remove();
+                    db.ref('courses/' + courseId + '/subscribers/' + userId).remove();
                 }
 
                 db.ref('adminLogs').push({
@@ -3743,6 +3884,7 @@
 
                 showToast('✅ تم إلغاء الاشتراك', 'success');
                 loadAllSubscriptions().then(() => renderSubscriptions());
+                loadAllCourses();
             });
         }
 
@@ -4295,10 +4437,11 @@
             if (e.target === this) closeModal();
         });
 
-        console.log('🚀 Admin Panel v2.0 - يلا كيمياء');
+        console.log('🚀 Admin Panel v3.0 - يلا كيمياء');
         console.log('📊 All systems ready');
         console.log('👥 Total users loaded:', allUsers.length);
         console.log('📚 Total courses loaded:', allCourses.length);
+        console.log('👨‍💼 Admin UID:', currentUser?.uid);
     </script>
 
 </body>
