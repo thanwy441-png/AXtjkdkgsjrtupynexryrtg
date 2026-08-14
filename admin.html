@@ -522,6 +522,22 @@
             background: rgba(148, 163, 184, 0.1);
             color: var(--text-muted);
         }
+        .status-badge.available {
+            background: rgba(34, 197, 94, 0.15);
+            color: var(--success);
+        }
+        .status-badge.used {
+            background: rgba(148, 163, 184, 0.1);
+            color: var(--text-muted);
+        }
+        .status-badge.disabled {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--danger);
+        }
+        .status-badge.expired {
+            background: rgba(245, 158, 11, 0.15);
+            color: var(--warning);
+        }
 
         /* ============================================================
            BUTTONS
@@ -1188,6 +1204,10 @@
             <a class="nav-item" data-page="subscriptions" onclick="loadPage('subscriptions')">
                 <i class="fas fa-crown"></i> الاشتراكات
             </a>
+            <a class="nav-item" data-page="codes" onclick="loadPage('codes')">
+                <i class="fas fa-key"></i> الأكواد
+                <span class="badge" id="codesCountBadge" style="background:#F59E0B;">0</span>
+            </a>
             <a class="nav-item" data-page="leaderboard" onclick="loadPage('leaderboard')">
                 <i class="fas fa-trophy"></i> المتصدرين
             </a>
@@ -1295,6 +1315,7 @@
         let allSubscriptions = [];
         let allLogs = [];
         let onlineUsers = [];
+        let allActivationCodes = [];
         let currentPage = 'dashboard';
         let isLoading = false;
         let usersPage = 1;
@@ -1302,6 +1323,10 @@
         let usersFilter = 'all';
         let usersSearch = '';
         let usersSort = 'newest';
+        let codesPage = 1;
+        const CODES_PAGE_SIZE = 20;
+        let codesFilter = 'all';
+        let codesSearch = '';
 
         // ============================================================
         // TOAST
@@ -1344,12 +1369,10 @@
         // ============================================================
         async function checkAdmin(uid) {
             try {
-                // Check in admins collection
                 const snap1 = await db.ref('admins/' + uid).once('value');
                 if (snap1.exists() && snap1.val() === true) {
                     return true;
                 }
-                // Check in users collection
                 const snap2 = await db.ref('users/' + uid).once('value');
                 if (snap2.exists()) {
                     const data = snap2.val();
@@ -1385,7 +1408,6 @@
             document.getElementById('adminName').textContent = user.displayName || 'Admin';
             document.getElementById('adminAvatar').textContent = (user.displayName || 'A')[0];
 
-            // Load admin data
             db.ref('users/' + user.uid).once('value').then(snap => {
                 if (snap.exists()) {
                     currentAdmin = snap.val();
@@ -1394,13 +1416,11 @@
                 }
             });
 
-            // Load all data and render dashboard
             loadAllData().then(() => {
                 loadPage('dashboard');
                 showToast('👋 مرحباً بك في لوحة التحكم', 'info');
             });
 
-            // Real-time online users
             db.ref('online').on('value', (snap) => {
                 onlineUsers = [];
                 snap.forEach(child => {
@@ -1428,7 +1448,7 @@
         }
 
         // ============================================================
-        // LOAD DATA
+        // LOAD DATA (updated with activation codes)
         // ============================================================
         function loadAllUsers() {
             return new Promise((resolve) => {
@@ -1436,7 +1456,6 @@
                     allUsers = [];
                     snap.forEach(child => {
                         const data = child.val();
-                        // Skip admin accounts
                         if (data.isAdmin === true || data.role === 'admin' || data.role === true) {
                             return;
                         }
@@ -1463,7 +1482,6 @@
                             photoURL: data.photoURL || '',
                             code: data.code || '',
                             premiumCourses: data.premiumCourses || {},
-                            howFound: data.howFound || 'أخرى',
                             errorBank: data.errorBank || [],
                             results: data.results || [],
                             subscriptions: data.subscriptions || {}
@@ -1591,7 +1609,6 @@
                             online: data.online !== false
                         });
                     });
-                    // Also check users with recent activity
                     const now = Date.now();
                     allUsers.forEach(u => {
                         if (u.lastLogin && (now - new Date(u.lastLogin).getTime() < 5 * 60 * 1000)) {
@@ -1613,6 +1630,24 @@
             });
         }
 
+        // NEW: Load activation codes
+        function loadActivationCodes() {
+            return new Promise((resolve) => {
+                db.ref('activationCodes').orderByChild('createdAt').once('value').then(snap => {
+                    allActivationCodes = [];
+                    snap.forEach(child => {
+                        allActivationCodes.push({
+                            id: child.key,
+                            ...child.val()
+                        });
+                    });
+                    allActivationCodes.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+                    document.getElementById('codesCountBadge').textContent = allActivationCodes.length;
+                    resolve(allActivationCodes);
+                }).catch(() => { resolve([]); });
+            });
+        }
+
         function loadAllData() {
             return Promise.all([
                 loadAllUsers(),
@@ -1623,12 +1658,13 @@
                 loadAllAssignments(),
                 loadAllSubscriptions(),
                 loadAllLogs(),
-                loadOnlineUsers()
+                loadOnlineUsers(),
+                loadActivationCodes()
             ]);
         }
 
         // ============================================================
-        // PAGE LOADER
+        // PAGE LOADER (updated with codes page)
         // ============================================================
         function loadPage(page) {
             if (isLoading) return;
@@ -1647,9 +1683,10 @@
                 quizzes: 'الكويزات',
                 assignments: 'الواجبات',
                 subscriptions: 'الاشتراكات',
+                codes: 'أكواد التفعيل',
+                leaderboard: 'المتصدرين',
                 notifications: 'الإشعارات',
                 announcements: 'الإعلانات',
-                leaderboard: 'المتصدرين',
                 logs: 'سجل العمليات',
                 analytics: 'التحليلات',
                 settings: 'الإعدادات'
@@ -1658,7 +1695,6 @@
 
             currentPage = page;
 
-            // Close sidebar on mobile
             if (window.innerWidth <= 768) {
                 document.getElementById('sidebar').classList.remove('open');
                 document.getElementById('sidebarOverlay').classList.remove('open');
@@ -1696,6 +1732,9 @@
                 case 'subscriptions':
                     renderSubscriptions();
                     break;
+                case 'codes':
+                    renderActivationCodes();
+                    break;
                 case 'leaderboard':
                     renderLeaderboard();
                     break;
@@ -1723,7 +1762,7 @@
         }
 
         // ============================================================
-        // RENDER DASHBOARD - 30+ Stats
+        // RENDER DASHBOARD - 30+ Stats (existing - unchanged)
         // ============================================================
         function renderDashboard() {
             const content = document.getElementById('pageContent');
@@ -1731,7 +1770,6 @@
             const now = Date.now();
             const today = new Date().toDateString();
             const yesterday = new Date(now - 86400000).toDateString();
-            const twoDaysAgo = new Date(now - 2 * 86400000).toDateString();
             const weekAgo = new Date(now - 7 * 86400000);
             const monthAgo = new Date(now - 30 * 86400000);
             const threeMonthsAgo = new Date(now - 90 * 86400000);
@@ -1793,7 +1831,6 @@
                     topStudent = u; }
                 if (atoms === 0) zeroAtomsCount++;
 
-                // Progress stats
                 if (u.progress) {
                     const keys = Object.keys(u.progress);
                     keys.forEach(k => {
@@ -1827,7 +1864,6 @@
             const totalAssignments = allAssignments.length;
             const totalSubscriptions = allSubscriptions.length;
 
-            // Find most active student
             let mostActiveStudent = null;
             let maxLessonsWatched = 0;
             allUsers.forEach(u => {
@@ -1841,7 +1877,6 @@
                 }
             });
 
-            // Most consistent student (highest streak)
             let mostConsistentStudent = null;
             let maxStreak = 0;
             allUsers.forEach(u => {
@@ -1852,7 +1887,6 @@
                 }
             });
 
-            // Top exam solver
             let topExamSolver = null;
             let maxExams = 0;
             allUsers.forEach(u => {
@@ -1863,7 +1897,6 @@
                 }
             });
 
-            // Top points earner
             let topPointsEarner = null;
             let maxPoints = 0;
             allUsers.forEach(u => {
@@ -1874,10 +1907,8 @@
                 }
             });
 
-            // Sort howFound for display
             const howFoundSorted = Object.entries(howFoundStats).sort((a, b) => b[1] - a[1]);
 
-            // Calculate course subscriber counts
             let totalFreeSubs = 0,
                 totalPaidSubs = 0;
             allCourses.forEach(c => {
@@ -2052,6 +2083,12 @@
                             <div class="label">الاشتراكات</div>
                             <div class="change up">مجاني: ${totalFreeSubs} • مدفوع: ${totalPaidSubs}</div>
                         </div>
+                        <div class="stat-card">
+                            <div class="icon">🔑</div>
+                            <span class="number warning">${allActivationCodes.length}</span>
+                            <div class="label">أكواد التفعيل</div>
+                            <div class="change up">متاح: ${allActivationCodes.filter(c=>c.status==='available').length}</div>
+                        </div>
                     </div>
 
                     <!-- Sources -->
@@ -2130,7 +2167,7 @@
         }
 
         // ============================================================
-        // RENDER USERS
+        // RENDER USERS (existing - unchanged)
         // ============================================================
         function renderUsers() {
             const content = document.getElementById('pageContent');
@@ -2281,7 +2318,7 @@
         }
 
         // ============================================================
-        // VIEW USER PROFILE
+        // VIEW USER PROFILE (existing - unchanged)
         // ============================================================
         function viewUser(userId) {
             const user = allUsers.find(u => u.id === userId);
@@ -2349,7 +2386,7 @@
         }
 
         // ============================================================
-        // TOGGLE BAN
+        // TOGGLE BAN (existing - unchanged)
         // ============================================================
         function toggleBan(userId) {
             const user = allUsers.find(u => u.id === userId);
@@ -2378,7 +2415,7 @@
         }
 
         // ============================================================
-        // ADD POINTS
+        // ADD POINTS (existing - unchanged)
         // ============================================================
         function addPointsModal(userId) {
             const user = allUsers.find(u => u.id === userId);
@@ -2441,7 +2478,7 @@
         }
 
         // ============================================================
-        // REMOVE POINTS
+        // REMOVE POINTS (existing - unchanged)
         // ============================================================
         function removePointsModal(userId) {
             const user = allUsers.find(u => u.id === userId);
@@ -2505,7 +2542,7 @@
         }
 
         // ============================================================
-        // VIEW USER ERRORS
+        // VIEW USER ERRORS (existing - unchanged)
         // ============================================================
         function viewUserErrors(userId) {
             const user = allUsers.find(u => u.id === userId);
@@ -2556,7 +2593,7 @@
         }
 
         // ============================================================
-        // VIEW USER ACTIVITY
+        // VIEW USER ACTIVITY (existing - unchanged)
         // ============================================================
         function viewUserActivity(userId) {
             const user = allUsers.find(u => u.id === userId);
@@ -2605,7 +2642,7 @@
         }
 
         // ============================================================
-        // MANAGE USER SUBSCRIPTIONS
+        // MANAGE USER SUBSCRIPTIONS (existing - unchanged)
         // ============================================================
         function manageUserSubscriptions(userId) {
             const user = allUsers.find(u => u.id === userId);
@@ -2660,7 +2697,6 @@
             const course = allCourses.find(c => c.id === courseId);
             if (!course) { showToast('الكورس غير موجود', 'error'); return; }
 
-            // Check if already subscribed
             const existing = allSubscriptions.find(s => s.userId === userId && s.courseId === courseId && s.status ===
                 'active');
             if (existing) {
@@ -2679,6 +2715,10 @@
                 activatedByName: currentAdmin?.name || 'Admin'
             }).then(() => {
                 db.ref('users/' + userId + '/premiumCourses/' + courseId).set(true);
+                db.ref('courses/' + courseId + '/subscribers/' + userId).set({
+                    type: course.isFree ? 'free' : 'paid',
+                    subscribedAt: new Date().toISOString()
+                });
 
                 db.ref('adminLogs').push({
                     action: 'add_subscription',
@@ -2694,9 +2734,7 @@
 
                 showToast(`✅ تم تفعيل الاشتراك في "${course.title}"`, 'success');
                 closeModal();
-                loadAllSubscriptions().then(() => loadAllUsers());
-                showToast('🔄 تم التحديث', 'info');
-                // Re-open the user management
+                loadAllSubscriptions().then(() => loadAllUsers()).then(() => loadAllCourses());
                 setTimeout(() => manageUserSubscriptions(userId), 500);
             });
         }
@@ -2712,6 +2750,7 @@
             db.ref('subscriptions/' + subId).remove().then(() => {
                 if (userId && courseId) {
                     db.ref('users/' + userId + '/premiumCourses/' + courseId).remove();
+                    db.ref('courses/' + courseId + '/subscribers/' + userId).remove();
                 }
 
                 db.ref('adminLogs').push({
@@ -2727,15 +2766,14 @@
                 });
 
                 showToast('✅ تم إلغاء الاشتراك', 'success');
-                loadAllSubscriptions().then(() => loadAllUsers());
-                // Refresh the modal
+                loadAllSubscriptions().then(() => loadAllUsers()).then(() => loadAllCourses());
                 closeModal();
                 setTimeout(() => manageUserSubscriptions(userId), 500);
             });
         }
 
         // ============================================================
-        // RENDER ONLINE USERS
+        // RENDER ONLINE USERS (existing - unchanged)
         // ============================================================
         function renderOnlineUsers() {
             const content = document.getElementById('pageContent');
@@ -2778,7 +2816,7 @@
         }
 
         // ============================================================
-        // RENDER COURSES - WITH SUBSCRIBERS LIST
+        // RENDER COURSES (existing - unchanged)
         // ============================================================
         function renderCourses() {
             const content = document.getElementById('pageContent');
@@ -2836,7 +2874,7 @@
         }
 
         // ============================================================
-        // VIEW COURSE SUBSCRIBERS
+        // VIEW COURSE SUBSCRIBERS (existing - unchanged)
         // ============================================================
         function viewCourseSubscribers(courseId) {
             const course = allCourses.find(c => c.id === courseId);
@@ -2895,7 +2933,7 @@
         }
 
         // ============================================================
-        // SHOW ADD COURSE MODAL
+        // SHOW ADD COURSE MODAL (existing - unchanged)
         // ============================================================
         function showAddCourseModal() {
             const html = `
@@ -3069,7 +3107,6 @@
         function deleteCourse(courseId) {
             if (!confirm('⚠️ هل أنت متأكد من حذف هذا الكورس؟ سيتم حذف جميع الحصص المرتبطة به.')) return;
 
-            // Delete associated lessons
             const courseLessons = allLessons.filter(l => l.courseId === courseId);
             courseLessons.forEach(l => {
                 db.ref('lessons/' + l.id).remove();
@@ -3083,7 +3120,7 @@
         }
 
         // ============================================================
-        // RENDER LESSONS (Shortened for brevity - similar to before)
+        // RENDER LESSONS (existing - unchanged)
         // ============================================================
         function renderLessons() {
             const content = document.getElementById('pageContent');
@@ -3127,7 +3164,7 @@
         }
 
         // ============================================================
-        // SHOW ADD LESSON MODAL
+        // SHOW ADD LESSON MODAL (existing - unchanged)
         // ============================================================
         function showAddLessonModal() {
             const courseOptions = allCourses.map(c =>
@@ -3293,7 +3330,7 @@
         }
 
         // ============================================================
-        // RENDER EXAMS (Shortened)
+        // RENDER EXAMS (existing - unchanged)
         // ============================================================
         function renderExams() {
             const content = document.getElementById('pageContent');
@@ -3335,7 +3372,7 @@
         }
 
         // ============================================================
-        // SHOW ADD EXAM MODAL
+        // SHOW ADD EXAM MODAL (existing - unchanged)
         // ============================================================
         function showAddExamModal() {
             const html = `
@@ -3453,7 +3490,7 @@
         }
 
         // ============================================================
-        // RENDER QUIZZES (Shortened)
+        // RENDER QUIZZES (existing - unchanged)
         // ============================================================
         function renderQuizzes() {
             const content = document.getElementById('pageContent');
@@ -3610,7 +3647,7 @@
         }
 
         // ============================================================
-        // RENDER ASSIGNMENTS (Shortened)
+        // RENDER ASSIGNMENTS (existing - unchanged)
         // ============================================================
         function renderAssignments() {
             const content = document.getElementById('pageContent');
@@ -3736,7 +3773,7 @@
         }
 
         // ============================================================
-        // RENDER SUBSCRIPTIONS
+        // RENDER SUBSCRIPTIONS (existing - unchanged)
         // ============================================================
         function renderSubscriptions() {
             const content = document.getElementById('pageContent');
@@ -3832,7 +3869,6 @@
                 activatedBy: currentUser.uid,
                 activatedByName: currentAdmin?.name || 'Admin'
             }).then(() => {
-                // Add to course subscribers
                 db.ref('courses/' + courseId + '/subscribers/' + userId).set({
                     type: type,
                     subscribedAt: new Date().toISOString()
@@ -3889,7 +3925,361 @@
         }
 
         // ============================================================
-        // RENDER LEADERBOARD
+        // ============================================================
+        // ACTIVATION CODES - NEW SYSTEM
+        // ============================================================
+        // ============================================================
+
+        // Generate a random code
+        function generateRandomCode() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let code = '';
+            for (let i = 0; i < 11; i++) {
+                code += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return code;
+        }
+
+        // Validate code format
+        function isValidCodeFormat(code) {
+            // Only English letters and numbers, no spaces, min 9 chars
+            return /^[A-Z0-9]{9,}$/.test(code);
+        }
+
+        // Render Activation Codes Page
+        function renderActivationCodes() {
+            const content = document.getElementById('pageContent');
+
+            let filtered = [...allActivationCodes];
+
+            if (codesSearch) {
+                const s = codesSearch.toLowerCase();
+                filtered = filtered.filter(c =>
+                    (c.code || '').toLowerCase().includes(s) ||
+                    (c.courseName || '').toLowerCase().includes(s) ||
+                    (c.usedBy || '').toLowerCase().includes(s)
+                );
+            }
+
+            if (codesFilter === 'available') filtered = filtered.filter(c => c.status === 'available');
+            else if (codesFilter === 'used') filtered = filtered.filter(c => c.status === 'used');
+            else if (codesFilter === 'disabled') filtered = filtered.filter(c => c.status === 'disabled');
+            else if (codesFilter === 'expired') filtered = filtered.filter(c => c.status === 'expired');
+
+            const totalPages = Math.ceil(filtered.length / CODES_PAGE_SIZE);
+            const start = (codesPage - 1) * CODES_PAGE_SIZE;
+            const pageItems = filtered.slice(start, start + CODES_PAGE_SIZE);
+
+            const total = allActivationCodes.length;
+            const available = allActivationCodes.filter(c => c.status === 'available').length;
+            const used = allActivationCodes.filter(c => c.status === 'used').length;
+            const disabled = allActivationCodes.filter(c => c.status === 'disabled').length;
+            const expired = allActivationCodes.filter(c => c.status === 'expired').length;
+            const usageRate = total > 0 ? Math.round((used / total) * 100) : 0;
+
+            content.innerHTML = `
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="icon">🔑</div>
+                            <span class="number primary">${total}</span>
+                            <div class="label">إجمالي الأكواد</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="icon">🟢</div>
+                            <span class="number success">${available}</span>
+                            <div class="label">متاحة</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="icon">🔴</div>
+                            <span class="number danger">${used}</span>
+                            <div class="label">مستخدمة</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="icon">🟠</div>
+                            <span class="number warning">${disabled}</span>
+                            <div class="label">معطلة</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="icon">⚫</div>
+                            <span class="number info">${expired}</span>
+                            <div class="label">منتهية</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="icon">📊</div>
+                            <span class="number info">${usageRate}%</span>
+                            <div class="label">نسبة الاستخدام</div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>🔐 إدارة أكواد التفعيل</h4>
+                            <div class="actions">
+                                <button class="btn-sm primary" onclick="showAddCodeModal()">➕ إنشاء كود</button>
+                                <button class="btn-sm info" onclick="loadActivationCodes();renderActivationCodes();">🔄 تحديث</button>
+                            </div>
+                        </div>
+
+                        <div class="search-bar">
+                            <input type="text" placeholder="🔍 بحث بالكود أو الكورس أو الطالب..." value="${codesSearch}" oninput="codesSearch=this.value;codesPage=1;renderActivationCodes();" style="flex:1;min-width:150px;">
+                            <select onchange="codesFilter=this.value;codesPage=1;renderActivationCodes();">
+                                <option value="all" ${codesFilter==='all'?'selected':''}>جميع الأكواد</option>
+                                <option value="available" ${codesFilter==='available'?'selected':''}>متاحة</option>
+                                <option value="used" ${codesFilter==='used'?'selected':''}>مستخدمة</option>
+                                <option value="disabled" ${codesFilter==='disabled'?'selected':''}>معطلة</option>
+                                <option value="expired" ${codesFilter==='expired'?'selected':''}>منتهية</option>
+                            </select>
+                        </div>
+
+                        <div class="table-wrapper">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>الكود</th>
+                                        <th>الكورس</th>
+                                        <th>الحالة</th>
+                                        <th>الطالب المستخدم</th>
+                                        <th>تاريخ الاستخدام</th>
+                                        <th>تم الإنشاء</th>
+                                        <th>إجراءات</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${pageItems.length === 0 ? `
+                                        <tr><td colspan="7" style="text-align:center;color:var(--text-muted);padding:1.5rem;">لا توجد أكواد</td></tr>
+                                    ` : pageItems.map(c => {
+                                        const user = allUsers.find(u => u.id === c.usedBy);
+                                        return `
+                                        <tr>
+                                            <td><strong style="font-family:monospace;font-size:0.85rem;color:var(--primary);">${c.code}</strong></td>
+                                            <td>${c.courseName || '—'}</td>
+                                            <td><span class="status-badge ${c.status}">${c.status === 'available' ? '🟢 متاح' : c.status === 'used' ? '🔴 مستخدم' : c.status === 'disabled' ? '🟠 معطل' : '⚫ منتهي'}</span></td>
+                                            <td>${user ? user.name : (c.usedBy || '—')}</td>
+                                            <td style="font-size:0.7rem;color:var(--text-muted);">${c.usedAt ? new Date(c.usedAt).toLocaleString('ar') : '—'}</td>
+                                            <td style="font-size:0.7rem;color:var(--text-muted);">${c.createdAt ? new Date(c.createdAt).toLocaleDateString('ar') : '—'}</td>
+                                            <td>
+                                                ${c.status === 'available' ? `
+                                                    <button class="btn-sm warning icon-only" onclick="disableCode('${c.id}','${c.code}')" title="تعطيل"><i class="fas fa-pause"></i></button>
+                                                ` : ''}
+                                                ${c.status === 'disabled' ? `
+                                                    <button class="btn-sm success icon-only" onclick="enableCode('${c.id}','${c.code}')" title="تفعيل"><i class="fas fa-play"></i></button>
+                                                ` : ''}
+                                                ${c.status === 'available' || c.status === 'disabled' ? `
+                                                    <button class="btn-sm danger icon-only" onclick="deleteCode('${c.id}','${c.code}')" title="حذف"><i class="fas fa-trash"></i></button>
+                                                ` : ''}
+                                            </td>
+                                        </tr>
+                                        `;
+                                    }).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="pagination">
+                            <button onclick="codesPage=1;renderActivationCodes();" ${codesPage===1?'disabled':''}>⏮</button>
+                            <button onclick="codesPage=Math.max(1,codesPage-1);renderActivationCodes();" ${codesPage===1?'disabled':''}>◀</button>
+                            <span style="color:var(--text-muted);font-size:0.8rem;">${codesPage} / ${totalPages || 1}</span>
+                            <button onclick="codesPage=Math.min(${totalPages},codesPage+1);renderActivationCodes();" ${codesPage>=totalPages?'disabled':''}>▶</button>
+                            <button onclick="codesPage=${totalPages};renderActivationCodes();" ${codesPage>=totalPages?'disabled':''}>⏭</button>
+                        </div>
+                    </div>
+
+                    <!-- Usage Logs -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>📋 سجل استخدام الأكواد</h4>
+                        </div>
+                        <div class="table-wrapper">
+                            <table>
+                                <thead>
+                                    <tr><th>الكود</th><th>الكورس</th><th>الطالب</th><th>UID</th><th>تاريخ الاستخدام</th></tr>
+                                </thead>
+                                <tbody>
+                                    ${allActivationCodes.filter(c => c.status === 'used').slice(0,20).map(c => {
+                                        const user = allUsers.find(u => u.id === c.usedBy);
+                                        return `
+                                        <tr>
+                                            <td><strong style="font-family:monospace;font-size:0.85rem;color:var(--primary);">${c.code}</strong></td>
+                                            <td>${c.courseName || '—'}</td>
+                                            <td>${user ? user.name : (c.usedBy || '—')}</td>
+                                            <td style="font-size:0.7rem;color:var(--text-muted);">${c.usedBy || '—'}</td>
+                                            <td style="font-size:0.7rem;color:var(--text-muted);">${c.usedAt ? new Date(c.usedAt).toLocaleString('ar') : '—'}</td>
+                                        </tr>
+                                        `;
+                                    }).join('')}
+                                    ${allActivationCodes.filter(c => c.status === 'used').length === 0 ? `
+                                        <tr><td colspan="5" style="text-align:center;color:var(--text-muted);padding:1.5rem;">لا توجد أكواد مستخدمة</td></tr>
+                                    ` : ''}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                `;
+        }
+
+        // Show Add Code Modal
+        function showAddCodeModal() {
+            const courseOptions = allCourses.map(c =>
+                `<option value="${c.id}">${c.title}</option>`
+            ).join('');
+
+            const html = `
+                    <div class="form-group">
+                        <label>الكود (اتركه فارغاً للتوليد التلقائي)</label>
+                        <input type="text" id="codeInput" placeholder="CHEM2027X91" style="font-family:monospace;text-transform:uppercase;direction:ltr;text-align:left;">
+                        <button class="btn-sm outline" onclick="document.getElementById('codeInput').value=generateRandomCode();" style="margin-top:0.3rem;">🎲 توليد عشوائي</button>
+                    </div>
+                    <div class="form-group">
+                        <label>الكورس *</label>
+                        <select id="codeCourse">${courseOptions}</select>
+                    </div>
+                    <div class="form-group">
+                        <label>ملاحظات</label>
+                        <input type="text" id="codeNote" placeholder="مثال: دفعة 2027">
+                    </div>
+                    <div class="form-group">
+                        <label>حالة الكود</label>
+                        <select id="codeStatus">
+                            <option value="available">🟢 متاح</option>
+                            <option value="disabled">🟠 معطل</option>
+                        </select>
+                    </div>
+                    <div style="background:var(--bg-dark);padding:0.8rem;border-radius:var(--radius-sm);margin-bottom:0.8rem;">
+                        <p style="font-size:0.8rem;color:var(--text-muted);">
+                            <strong>الشروط:</strong><br>
+                            • الحد الأدنى 9 أحرف/أرقام<br>
+                            • إنجليزي فقط (A-Z, 0-9)<br>
+                            • بدون مسافات<br>
+                            • استخدام مرة واحدة فقط
+                        </p>
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn-cancel" onclick="closeModal()">إلغاء</button>
+                        <button class="btn-submit" onclick="saveCode()">💾 حفظ</button>
+                    </div>
+                `;
+
+            openModal('🔐 إنشاء كود تفعيل جديد', html);
+        }
+
+        // Save Code
+        function saveCode() {
+            let code = document.getElementById('codeInput').value.trim().toUpperCase();
+            const courseId = document.getElementById('codeCourse').value;
+            const note = document.getElementById('codeNote').value.trim();
+            const status = document.getElementById('codeStatus').value;
+
+            if (!courseId) { showToast('يرجى اختيار الكورس', 'error'); return; }
+
+            // Auto-generate if empty
+            if (!code) {
+                code = generateRandomCode();
+            }
+
+            // Validate
+            if (!isValidCodeFormat(code)) {
+                showToast('⚠️ الكود غير صالح. يجب أن يكون 9 أحرف أو أكثر، إنجليزي فقط (A-Z, 0-9)، بدون مسافات', 'error');
+                return;
+            }
+
+            // Check if code already exists
+            if (allActivationCodes.some(c => c.code === code)) {
+                showToast('⚠️ هذا الكود موجود بالفعل', 'error');
+                return;
+            }
+
+            const course = allCourses.find(c => c.id === courseId);
+            if (!course) { showToast('الكورس غير موجود', 'error'); return; }
+
+            db.ref('activationCodes').push({
+                code: code,
+                courseId: courseId,
+                courseName: course.title,
+                note: note || '',
+                status: status,
+                used: false,
+                usedBy: null,
+                usedAt: null,
+                createdAt: new Date().toISOString(),
+                createdBy: currentUser.uid,
+                createdByName: currentAdmin?.name || 'Admin'
+            }).then(() => {
+                db.ref('adminLogs').push({
+                    action: 'create_activation_code',
+                    code: code,
+                    courseId: courseId,
+                    courseName: course.title,
+                    adminId: currentUser.uid,
+                    adminName: currentAdmin?.name || 'Admin',
+                    timestamp: new Date().toISOString(),
+                    details: `إنشاء كود تفعيل "${code}" لكورس "${course.title}"`
+                });
+
+                showToast(`✅ تم إنشاء الكود: ${code}`, 'success');
+                closeModal();
+                loadActivationCodes().then(() => renderActivationCodes());
+            });
+        }
+
+        // Disable Code
+        function disableCode(codeId, code) {
+            if (!confirm(`⚠️ هل أنت متأكد من تعطيل الكود "${code}"؟`)) return;
+
+            db.ref('activationCodes/' + codeId + '/status').set('disabled').then(() => {
+                db.ref('adminLogs').push({
+                    action: 'disable_activation_code',
+                    code: code,
+                    adminId: currentUser.uid,
+                    adminName: currentAdmin?.name || 'Admin',
+                    timestamp: new Date().toISOString(),
+                    details: `تعطيل كود التفعيل "${code}"`
+                });
+
+                showToast(`✅ تم تعطيل الكود ${code}`, 'success');
+                loadActivationCodes().then(() => renderActivationCodes());
+            });
+        }
+
+        // Enable Code
+        function enableCode(codeId, code) {
+            if (!confirm(`⚠️ هل أنت متأكد من تفعيل الكود "${code}"؟`)) return;
+
+            db.ref('activationCodes/' + codeId + '/status').set('available').then(() => {
+                db.ref('adminLogs').push({
+                    action: 'enable_activation_code',
+                    code: code,
+                    adminId: currentUser.uid,
+                    adminName: currentAdmin?.name || 'Admin',
+                    timestamp: new Date().toISOString(),
+                    details: `تفعيل كود التفعيل "${code}"`
+                });
+
+                showToast(`✅ تم تفعيل الكود ${code}`, 'success');
+                loadActivationCodes().then(() => renderActivationCodes());
+            });
+        }
+
+        // Delete Code
+        function deleteCode(codeId, code) {
+            if (!confirm(`⚠️ هل أنت متأكد من حذف الكود "${code}"؟ لا يمكن التراجع عن هذا الإجراء.`)) return;
+
+            db.ref('activationCodes/' + codeId).remove().then(() => {
+                db.ref('adminLogs').push({
+                    action: 'delete_activation_code',
+                    code: code,
+                    adminId: currentUser.uid,
+                    adminName: currentAdmin?.name || 'Admin',
+                    timestamp: new Date().toISOString(),
+                    details: `حذف كود التفعيل "${code}"`
+                });
+
+                showToast(`✅ تم حذف الكود ${code}`, 'success');
+                loadActivationCodes().then(() => renderActivationCodes());
+            });
+        }
+
+        // ============================================================
+        // RENDER LEADERBOARD (existing - unchanged)
         // ============================================================
         function renderLeaderboard() {
             const content = document.getElementById('pageContent');
@@ -3932,7 +4322,7 @@
         }
 
         // ============================================================
-        // RENDER NOTIFICATIONS
+        // RENDER NOTIFICATIONS (existing - unchanged)
         // ============================================================
         function renderNotifications() {
             const content = document.getElementById('pageContent');
@@ -4021,7 +4411,7 @@
         }
 
         // ============================================================
-        // RENDER ANNOUNCEMENTS
+        // RENDER ANNOUNCEMENTS (existing - unchanged)
         // ============================================================
         function renderAnnouncements() {
             const content = document.getElementById('pageContent');
@@ -4108,7 +4498,7 @@
         }
 
         // ============================================================
-        // RENDER LOGS
+        // RENDER LOGS (existing - unchanged)
         // ============================================================
         function renderLogs() {
             const content = document.getElementById('pageContent');
@@ -4146,7 +4536,7 @@
         }
 
         // ============================================================
-        // RENDER ANALYTICS
+        // RENDER ANALYTICS (existing - unchanged)
         // ============================================================
         function renderAnalytics() {
             const content = document.getElementById('pageContent');
@@ -4173,7 +4563,6 @@
                 howFoundStats[source] = (howFoundStats[source] || 0) + 1;
             });
 
-            // Atoms distribution
             const atomRanges = { '0-10': 0, '11-50': 0, '51-100': 0, '101-500': 0, '501-1000': 0, '1000+': 0 };
             allUsers.forEach(u => {
                 const a = u.atoms || 0;
@@ -4185,7 +4574,6 @@
                 else atomRanges['1000+']++;
             });
 
-            // Daily registrations (last 30 days)
             const dailyRegs = {};
             allUsers.forEach(u => {
                 const d = new Date(u.createdAt).toLocaleDateString('ar');
@@ -4293,7 +4681,7 @@
         }
 
         // ============================================================
-        // RENDER SETTINGS
+        // RENDER SETTINGS (existing - unchanged)
         // ============================================================
         function renderSettings() {
             const content = document.getElementById('pageContent');
@@ -4387,6 +4775,7 @@
                 db.ref('subscriptionRequests').remove();
                 db.ref('announcements').remove();
                 db.ref('online').remove();
+                db.ref('activationCodes').remove();
                 showToast('✅ تم مسح جميع البيانات', 'success');
                 loadAllData();
             });
@@ -4406,7 +4795,7 @@
         }
 
         // ============================================================
-        // EXPORT USERS CSV
+        // EXPORT USERS CSV (existing - unchanged)
         // ============================================================
         function exportUsersCSV() {
             if (allUsers.length === 0) { showToast('لا يوجد طلاب للتصدير', 'warning'); return; }
@@ -4441,6 +4830,7 @@
         console.log('📊 All systems ready');
         console.log('👥 Total users loaded:', allUsers.length);
         console.log('📚 Total courses loaded:', allCourses.length);
+        console.log('🔑 Total activation codes loaded:', allActivationCodes.length);
         console.log('👨‍💼 Admin UID:', currentUser?.uid);
     </script>
 
