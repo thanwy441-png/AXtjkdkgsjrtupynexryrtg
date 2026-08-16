@@ -81,9 +81,6 @@
             transition: background 0.3s, color 0.3s;
         }
 
-        /* ============================================================
-           SIDEBAR
-           ============================================================ */
         .sidebar {
             position: fixed;
             top: 0;
@@ -189,18 +186,12 @@
             margin: 0.3rem 1.2rem;
         }
 
-        /* ============================================================
-           MAIN CONTENT
-           ============================================================ */
         .main-content {
             margin-right: var(--sidebar-width);
             min-height: 100vh;
             padding: 0;
         }
 
-        /* ============================================================
-           ADMIN NAVBAR
-           ============================================================ */
         .admin-navbar {
             background: var(--bg-card);
             border-bottom: 1px solid var(--border-color);
@@ -305,16 +296,10 @@
             background: var(--danger-bg);
         }
 
-        /* ============================================================
-           PAGE CONTENT
-           ============================================================ */
         .page-content {
             padding: 1.5rem;
         }
 
-        /* ============================================================
-           STATS GRID
-           ============================================================ */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
@@ -346,7 +331,6 @@
             font-size: 1.3rem;
             font-weight: 900;
             display: block;
-            font-family: 'Tajawal', sans-serif;
         }
 
         .stat-card .number.primary {
@@ -371,9 +355,6 @@
             font-weight: 600;
         }
 
-        /* ============================================================
-           CHARTS
-           ============================================================ */
         .charts-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -457,9 +438,6 @@
             text-align: left;
         }
 
-        /* ============================================================
-           CARDS
-           ============================================================ */
         .card {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
@@ -496,9 +474,6 @@
             flex-wrap: wrap;
         }
 
-        /* ============================================================
-           TABLE
-           ============================================================ */
         .table-wrapper {
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
@@ -580,9 +555,6 @@
             color: var(--warning);
         }
 
-        /* ============================================================
-           BUTTONS
-           ============================================================ */
         .btn-sm {
             padding: 0.25rem 0.8rem;
             border-radius: var(--radius-sm);
@@ -659,9 +631,6 @@
             justify-content: center;
         }
 
-        /* ============================================================
-           SEARCH / FILTER
-           ============================================================ */
         .search-bar {
             display: flex;
             gap: 0.5rem;
@@ -699,9 +668,6 @@
             color: var(--text-primary);
         }
 
-        /* ============================================================
-           PAGINATION
-           ============================================================ */
         .pagination {
             display: flex;
             gap: 0.3rem;
@@ -740,9 +706,6 @@
             cursor: not-allowed;
         }
 
-        /* ============================================================
-           MODAL
-           ============================================================ */
         .modal-overlay {
             position: fixed;
             inset: 0;
@@ -926,9 +889,6 @@
             box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
         }
 
-        /* ============================================================
-           TOAST
-           ============================================================ */
         .toast-container {
             position: fixed;
             bottom: 24px;
@@ -982,9 +942,6 @@
             }
         }
 
-        /* ============================================================
-           LOADING
-           ============================================================ */
         .loading-spinner {
             display: inline-block;
             width: 20px;
@@ -1020,171 +977,6 @@
             font-size: 0.85rem;
         }
 
-        /* ============================================================
-           RESPONSIVE
-           ============================================================ */
-        @media (max-width: 1024px) {
-            .stats-grid {
-                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            }
-            .charts-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .sidebar {
-                transform: translateX(100%);
-                width: 280px;
-            }
-            .sidebar.open {
-                transform: translateX(0);
-            }
-
-            .main-content {
-                margin-right: 0;
-            }
-
-            .admin-navbar .left .menu-toggle {
-                display: block;
-            }
-
-            .admin-navbar .left .page-title {
-                font-size: 0.85rem;
-            }
-
-            .page-content {
-                padding: 1rem;
-            }
-
-            .stats-grid {
-                grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-                gap: 0.5rem;
-            }
-
-            .stat-card .number {
-                font-size: 1.1rem;
-            }
-
-            .modal-box {
-                padding: 1rem 1.2rem;
-            }
-
-            .admin-navbar .right .admin-info .name {
-                display: none;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .stats-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-
-            .search-bar {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .card .card-header {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .card .card-header .actions {
-                justify-content: stretch;
-            }
-
-            .card .card-header .actions .btn-sm {
-                flex: 1;
-                justify-content: center;
-            }
-        }
-
-        /* ============================================================
-           UTILITY
-           ============================================================ */
-        .hidden {
-            display: none !important;
-        }
-        .text-center {
-            text-align: center;
-        }
-        .text-muted {
-            color: var(--text-muted);
-        }
-        .mt-1 {
-            margin-top: 0.5rem;
-        }
-        .mb-1 {
-            margin-bottom: 0.5rem;
-        }
-        .flex {
-            display: flex;
-        }
-        .flex-wrap {
-            flex-wrap: wrap;
-        }
-        .gap-1 {
-            gap: 0.5rem;
-        }
-        .gap-2 {
-            gap: 1rem;
-        }
-        .items-center {
-            align-items: center;
-        }
-        .justify-between {
-            justify-content: space-between;
-        }
-        .w-full {
-            width: 100%;
-        }
-
-        .online-dot {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: var(--success);
-            animation: pulse-dot 2s infinite;
-        }
-
-        .online-dot.offline {
-            background: var(--text-muted);
-            animation: none;
-        }
-
-        @keyframes pulse-dot {
-            0%,
-            100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0.4;
-            }
-        }
-
-        .sidebar-overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.4);
-            z-index: 999;
-        }
-
-        .sidebar-overlay.open {
-            display: block;
-        }
-
-        @media (max-width: 768px) {
-            .sidebar-overlay.open {
-                display: block;
-            }
-        }
-
-        /* ============================================================
-           QUESTION BLOCK STYLES
-           ============================================================ */
         .question-block {
             background: var(--bg-input);
             border: 1px solid var(--border-color);
@@ -1265,14 +1057,17 @@
             flex-wrap: wrap;
         }
 
-        .question-actions .btn-sm {
-            font-size: 0.65rem;
-        }
-
         .question-remove-btn {
             color: var(--danger);
             background: var(--danger-bg);
             border: 1px solid var(--danger);
+            padding: 0.2rem 0.8rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.65rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: 'Tajawal', sans-serif;
         }
 
         .question-remove-btn:hover {
@@ -1300,6 +1095,107 @@
             border-color: var(--primary);
             color: var(--primary);
             background: var(--primary-bg);
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(100%);
+                width: 280px;
+            }
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            .main-content {
+                margin-right: 0;
+            }
+            .admin-navbar .left .menu-toggle {
+                display: block;
+            }
+            .admin-navbar .left .page-title {
+                font-size: 0.85rem;
+            }
+            .page-content {
+                padding: 1rem;
+            }
+            .stats-grid {
+                grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+                gap: 0.5rem;
+            }
+            .stat-card .number {
+                font-size: 1.1rem;
+            }
+            .modal-box {
+                padding: 1rem 1.2rem;
+            }
+            .admin-navbar .right .admin-info .name {
+                display: none;
+            }
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .search-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .card .card-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .card .card-header .actions {
+                justify-content: stretch;
+            }
+            .card .card-header .actions .btn-sm {
+                flex: 1;
+                justify-content: center;
+            }
+        }
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 999;
+        }
+
+        .sidebar-overlay.open {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar-overlay.open {
+                display: block;
+            }
+        }
+
+        .online-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--success);
+            animation: pulse-dot 2s infinite;
+        }
+
+        .online-dot.offline {
+            background: var(--text-muted);
+            animation: none;
+        }
+
+        @keyframes pulse-dot {
+            0%,
+            100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.4;
+            }
         }
     </style>
 </head>
@@ -1505,10 +1401,7 @@
             document.getElementById('modalTitle').textContent = title;
             document.getElementById('modalBody').innerHTML = bodyHTML;
             document.getElementById('modalOverlay').classList.add('open');
-            // Reinitialize question counter if this is a quiz/exam form
-            if (title.includes('كويز') || title.includes('امتحان')) {
-                questionCounter = document.querySelectorAll('.question-block').length || 0;
-            }
+            questionCounter = document.querySelectorAll('.question-block').length || 0;
         }
 
         function closeModal() {
@@ -1819,19 +1712,12 @@
         }
 
         // ============================================================
-        // DASHBOARD - REAL STATS
+        // DASHBOARD
         // ============================================================
         function renderDashboard() {
             const content = document.getElementById('pageContent');
 
-            const now = Date.now();
-            const today = new Date().toDateString();
-            const weekAgo = new Date(now - 7 * 86400000);
-
             let totalStudents = allUsers.length;
-            let onlineCount = 0;
-            let newToday = allUsers.filter(u => new Date(u.createdAt).toDateString() === today).length;
-            let newWeek = allUsers.filter(u => new Date(u.createdAt) >= weekAgo).length;
             let totalCourses = allCourses.length;
             let totalLessons = allLessons.length;
             let totalExams = allExams.length;
@@ -1842,7 +1728,6 @@
             let totalAtoms = allUsers.reduce((sum, u) => sum + (u.atoms || 0), 0);
             let avgAtoms = totalStudents > 0 ? Math.round(totalAtoms / totalStudents) : 0;
 
-            // Section distribution
             const sectionStats = {
                 'علمي علوم': 0,
                 'علمي رياضة': 0,
@@ -1851,7 +1736,6 @@
                 'غير محدد': 0
             };
 
-            // Gender distribution
             const genderStats = {
                 'ذكر': 0,
                 'أنثى': 0,
@@ -1868,7 +1752,6 @@
                 else genderStats['غير محدد']++;
             });
 
-            // Course distribution
             const courseSubs = {};
             allCourses.forEach(c => {
                 const count = c.subscribers ? Object.keys(c.subscribers).length : 0;
@@ -1876,22 +1759,11 @@
             });
 
             content.innerHTML = `
-                <!-- Stats Cards -->
                 <div class="stats-grid">
                     <div class="stat-card">
                         <div class="icon">👥</div>
                         <span class="number primary">${totalStudents}</span>
                         <div class="label">إجمالي الطلاب</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="icon">🟢</div>
-                        <span class="number success">${onlineCount}</span>
-                        <div class="label">متصلون الآن</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="icon">📈</div>
-                        <span class="number info">${newToday}</span>
-                        <div class="label">جدد اليوم</div>
                     </div>
                     <div class="stat-card">
                         <div class="icon">📚</div>
@@ -1936,7 +1808,6 @@
                     </div>
                 </div>
 
-                <!-- Charts -->
                 <div class="charts-grid">
                     <div class="chart-card">
                         <div class="chart-header">📊 توزيع الطلاب حسب الشعبة</div>
@@ -2022,7 +1893,6 @@
                     </div>
                 </div>
 
-                <!-- Recent Activity -->
                 <div class="card">
                     <div class="card-header">
                         <h4>📋 آخر الأنشطة</h4>
@@ -2030,13 +1900,13 @@
                     </div>
                     <div>
                         ${allLogs.slice(0, 8).map(log => `
-                            <div class="activity-item" style="display:flex;align-items:center;gap:0.8rem;padding:0.4rem 0.6rem;border-bottom:1px solid var(--border-color);">
-                                <div class="activity-icon" style="width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.8rem;background:${log.action === 'ban_user' ? 'var(--danger-bg)' : 'var(--primary-bg)'};color:${log.action === 'ban_user' ? 'var(--danger)' : 'var(--primary)'};">
-                                    <i class="fas ${log.action === 'ban_user' ? 'fa-ban' : log.action === 'add_subscription' ? 'fa-crown' : log.action === 'activate_code' ? 'fa-key' : log.action === 'delete_course' ? 'fa-trash' : log.action === 'delete_user' ? 'fa-user-minus' : 'fa-pen'}"></i>
+                            <div style="display:flex;align-items:center;gap:0.8rem;padding:0.4rem 0.6rem;border-bottom:1px solid var(--border-color);">
+                                <div style="width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.8rem;background:${log.action === 'ban_user' ? 'var(--danger-bg)' : 'var(--primary-bg)'};color:${log.action === 'ban_user' ? 'var(--danger)' : 'var(--primary)'};">
+                                    <i class="fas ${log.action === 'ban_user' ? 'fa-ban' : log.action === 'add_subscription' ? 'fa-crown' : log.action === 'activate_code' ? 'fa-key' : 'fa-pen'}"></i>
                                 </div>
-                                <div class="activity-content" style="flex:1;">
-                                    <div class="activity-text" style="font-size:0.8rem;font-weight:600;">${log.details || log.action || 'نشاط'}</div>
-                                    <div class="activity-time" style="font-size:0.65rem;color:var(--text-muted);">${log.timestamp ? new Date(log.timestamp).toLocaleString('ar') : 'الآن'} • ${log.adminName || 'Admin'}</div>
+                                <div style="flex:1;">
+                                    <div style="font-size:0.8rem;font-weight:600;">${log.details || log.action || 'نشاط'}</div>
+                                    <div style="font-size:0.65rem;color:var(--text-muted);">${log.timestamp ? new Date(log.timestamp).toLocaleString('ar') : 'الآن'} • ${log.adminName || 'Admin'}</div>
                                 </div>
                             </div>
                         `).join('') || '<div class="empty-state"><p>لا توجد أنشطة حديثة</p></div>'}
@@ -2046,7 +1916,7 @@
         }
 
         // ============================================================
-        // RENDER USERS
+        // USERS
         // ============================================================
         function renderUsers() {
             const content = document.getElementById('pageContent');
@@ -2117,7 +1987,7 @@
                                     <tr>
                                         <td>
                                             <div style="display:flex;align-items:center;gap:0.5rem;">
-                                                <span class="avatar-sm" style="width:28px;height:28px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:0.65rem;background:var(--gradient-primary);color:#fff;overflow:hidden;">${u.photoURL ? `<img src="${u.photoURL}" style="width:100%;height:100%;object-fit:cover;">` : (u.name ? u.name[0] : 'U')}</span>
+                                                <span style="width:28px;height:28px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:0.65rem;background:var(--gradient-primary);color:#fff;overflow:hidden;">${u.photoURL ? `<img src="${u.photoURL}" style="width:100%;height:100%;object-fit:cover;">` : (u.name ? u.name[0] : 'U')}</span>
                                                 <div>
                                                     <div style="font-weight:600;">${u.name}</div>
                                                     <div style="font-size:0.6rem;color:var(--text-muted);">${u.code || ''}</div>
@@ -2910,7 +2780,7 @@
                     <div id="questionsContainer">
                         ${questions.length > 0 ? questions.map((question, idx) => getQuestionBlockHTML(question, idx)).join('') : getQuestionBlockHTML(null, 0)}
                     </div>
-                    <button class="add-question-btn" onclick="addQuestionBlock()">
+                    <button class="add-question-btn" onclick="addQuestionBlock('questionsContainer')">
                         <i class="fas fa-plus"></i> إضافة سؤال
                     </button>
                 </div>
@@ -2953,7 +2823,7 @@
                         `).join('')}
                     </div>
                     <div class="question-actions">
-                        <button class="btn-sm question-remove-btn" onclick="removeQuestionBlock(this)" ${index === 0 && document.querySelectorAll('.question-block').length === 1 ? 'style="display:none;"' : ''}>
+                        <button class="question-remove-btn" onclick="removeQuestionBlock(this)" ${index === 0 && document.querySelectorAll('.question-block').length === 1 ? 'style="display:none;"' : ''}>
                             🗑️ حذف السؤال
                         </button>
                     </div>
@@ -2961,30 +2831,32 @@
             `;
         }
 
-        function addQuestionBlock() {
-            const container = document.getElementById('questionsContainer');
+        function addQuestionBlock(containerId) {
+            const container = document.getElementById(containerId);
             if (!container) return;
-            const index = document.querySelectorAll('.question-block').length;
+            const index = container.querySelectorAll('.question-block').length;
             const newBlock = document.createElement('div');
             newBlock.innerHTML = getQuestionBlockHTML(null, index);
             container.appendChild(newBlock.firstElementChild);
-            // Re-index radios
-            reindexQuestions();
+            reindexQuestions(containerId);
         }
 
         function removeQuestionBlock(btn) {
             const block = btn.closest('.question-block');
             if (!block) return;
-            if (document.querySelectorAll('.question-block').length <= 1) {
+            const container = block.parentElement;
+            if (container.querySelectorAll('.question-block').length <= 1) {
                 showToast('⚠️ لا يمكن حذف السؤال الوحيد', 'warning');
                 return;
             }
             block.remove();
-            reindexQuestions();
+            reindexQuestions(container.id);
         }
 
-        function reindexQuestions() {
-            const blocks = document.querySelectorAll('.question-block');
+        function reindexQuestions(containerId) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            const blocks = container.querySelectorAll('.question-block');
             blocks.forEach((block, idx) => {
                 block.dataset.index = idx;
                 const numLabel = block.querySelector('.question-number');
@@ -2997,7 +2869,9 @@
         }
 
         function collectQuizQuestions() {
-            const blocks = document.querySelectorAll('.question-block');
+            const container = document.getElementById('questionsContainer');
+            if (!container) return [];
+            const blocks = container.querySelectorAll('.question-block');
             const questions = [];
 
             blocks.forEach((block, idx) => {
@@ -3056,7 +2930,6 @@
                     showToast('✅ تم إضافة الكويز', 'success');
                     closeModal();
                     loadAllQuizzes().then(() => renderQuizzes());
-                    // عرض خيار ربطه بحصة
                     setTimeout(() => {
                         showLinkToLessonModal(newQuizId, 'quiz');
                     }, 500);
@@ -3087,7 +2960,6 @@
             if (quizId) {
                 db.ref('quizzes/' + quizId).update(data).then(() => {
                     showToast('✅ تم تحديث الكويز', 'success');
-                    // Clear form for next
                     clearQuizForm();
                     loadAllQuizzes().then(() => renderQuizzes());
                     showToast('📝 جاهز للكويز التالي', 'info');
@@ -3123,7 +2995,7 @@
         }
 
         // ============================================================
-        // EXAMS - Same as Quiz but with different name
+        // EXAMS - Same as Quiz but with different container
         // ============================================================
         function renderExams() {
             const content = document.getElementById('pageContent');
@@ -3206,7 +3078,7 @@
                     <div id="examQuestionsContainer">
                         ${questions.length > 0 ? questions.map((question, idx) => getQuestionBlockHTML(question, idx)).join('') : getQuestionBlockHTML(null, 0)}
                     </div>
-                    <button class="add-question-btn" onclick="addExamQuestionBlock()">
+                    <button class="add-question-btn" onclick="addQuestionBlock('examQuestionsContainer')">
                         <i class="fas fa-plus"></i> إضافة سؤال
                     </button>
                 </div>
@@ -3217,40 +3089,6 @@
                     <button class="btn-next" onclick="saveExamAndContinue()">💾 حفظ واستمرار</button>
                 </div>
             `;
-        }
-
-        function addExamQuestionBlock() {
-            const container = document.getElementById('examQuestionsContainer');
-            if (!container) return;
-            const index = document.querySelectorAll('#examQuestionsContainer .question-block').length;
-            const newBlock = document.createElement('div');
-            newBlock.innerHTML = getQuestionBlockHTML(null, index);
-            container.appendChild(newBlock.firstElementChild);
-            reindexExamQuestions();
-        }
-
-        function removeExamQuestionBlock(btn) {
-            const block = btn.closest('.question-block');
-            if (!block) return;
-            if (document.querySelectorAll('#examQuestionsContainer .question-block').length <= 1) {
-                showToast('⚠️ لا يمكن حذف السؤال الوحيد', 'warning');
-                return;
-            }
-            block.remove();
-            reindexExamQuestions();
-        }
-
-        function reindexExamQuestions() {
-            const blocks = document.querySelectorAll('#examQuestionsContainer .question-block');
-            blocks.forEach((block, idx) => {
-                block.dataset.index = idx;
-                const numLabel = block.querySelector('.question-number');
-                if (numLabel) numLabel.textContent = `سؤال ${idx + 1}`;
-                const radios = block.querySelectorAll('.q-correct');
-                radios.forEach(radio => {
-                    radio.name = `correct_${idx}`;
-                });
-            });
         }
 
         function collectExamQuestions() {
