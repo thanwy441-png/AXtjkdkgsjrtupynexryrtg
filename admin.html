@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لوحة التحكم - يلا كيمياء</title>
+    <title>لوحة التحكم المتطورة - يلا كيمياء</title>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         /* ============================================================
-           ROOT VARIABLES - Light & Dark Modes
+           ROOT VARIABLES
            ============================================================ */
         :root {
             --bg-body: #f8f7fc;
@@ -66,11 +66,7 @@
             --info-bg: rgba(59, 130, 246, 0.15);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Tajawal', sans-serif;
@@ -160,11 +156,7 @@
             background: var(--primary-bg);
         }
 
-        .sidebar .nav-item i {
-            width: 20px;
-            text-align: center;
-            font-size: 0.9rem;
-        }
+        .sidebar .nav-item i { width: 20px; text-align: center; font-size: 0.9rem; }
 
         .sidebar .nav-item .badge {
             margin-right: auto;
@@ -347,6 +339,13 @@
             color: var(--text-muted);
             font-weight: 600;
         }
+        .stat-card .change {
+            font-size: 0.6rem;
+            font-weight: 600;
+            margin-top: 0.1rem;
+        }
+        .stat-card .change.up { color: var(--success); }
+        .stat-card .change.down { color: var(--danger); }
 
         /* ============================================================
            CHARTS
@@ -1013,6 +1012,62 @@
             background: var(--primary-bg);
         }
 
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.4rem 0.6rem;
+            border-radius: var(--radius-sm);
+            transition: var(--transition);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .activity-item:hover {
+            background: var(--bg-hover);
+        }
+
+        .activity-item .activity-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            flex-shrink: 0;
+        }
+
+        .activity-item .activity-icon.primary {
+            background: var(--primary-bg);
+            color: var(--primary);
+        }
+        .activity-item .activity-icon.success {
+            background: var(--success-bg);
+            color: var(--success);
+        }
+        .activity-item .activity-icon.danger {
+            background: var(--danger-bg);
+            color: var(--danger);
+        }
+        .activity-item .activity-icon.warning {
+            background: var(--warning-bg);
+            color: var(--warning);
+        }
+
+        .activity-item .activity-content {
+            flex: 1;
+        }
+
+        .activity-item .activity-content .activity-text {
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .activity-item .activity-content .activity-time {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+        }
+
         /* ============================================================
            RESPONSIVE
            ============================================================ */
@@ -1110,6 +1165,40 @@
         @keyframes pulse-dot {
             0%, 100% { opacity: 1; }
             50% { opacity: 0.4; }
+        }
+
+        .avatar-sm {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.65rem;
+            background: var(--gradient-primary);
+            color: #fff;
+            overflow: hidden;
+        }
+
+        .avatar-sm img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .question-tags .tag {
+            background: var(--bg-input);
+            padding: 0.1rem 0.5rem;
+            border-radius: 50px;
+            font-size: 0.6rem;
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
+        }
+
+        .question-tags .tag.primary {
+            border-color: var(--primary);
+            color: var(--primary);
         }
     </style>
 </head>
@@ -1405,13 +1494,18 @@
                             atoms: data.atoms || 0,
                             name: data.name || 'مستخدم',
                             phone: data.phone || '',
+                            parentPhone: data.parentPhone || '',
                             email: data.email || '',
                             grade: data.grade || 'تالتة ثانوي',
                             section: data.section || '',
+                            studyType: data.studyType || 'عام',
+                            howFound: data.howFound || 'أخرى',
                             gender: data.gender || 'غير محدد',
                             createdAt: data.createdAt || Date.now(),
                             banned: data.banned === true || data.isBanned === true,
                             status: data.banned === true || data.isBanned === true ? 'banned' : 'active',
+                            active: data.active !== false,
+                            loginCount: data.loginCount || 0,
                             lastLogin: data.lastLogin || null,
                             rank: data.rank || '--',
                             progress: data.progress || {},
@@ -1443,6 +1537,9 @@
                             subscribers: data.subscribers || {},
                             subscriberCount: data.subscribers ? Object.keys(data.subscribers).length : 0,
                             pageViews: data.pageViews || 0,
+                            clickSubscribes: data.clickSubscribes || 0,
+                            startedSubscriptions: data.startedSubscriptions || 0,
+                            completedSubscriptions: data.completedSubscriptions || 0,
                             revenue: data.revenue || 0
                         });
                     });
@@ -1623,11 +1720,17 @@
         }
 
         // ============================================================
-        // DASHBOARD
+        // DASHBOARD - FULL ADVANCED STATS
         // ============================================================
         function renderDashboard() {
             const content = document.getElementById('pageContent');
 
+            const now = Date.now();
+            const today = new Date().toDateString();
+            const weekAgo = new Date(now - 7 * 86400000);
+            const monthAgo = new Date(now - 30 * 86400000);
+
+            // Basic Stats
             let totalStudents = allUsers.length;
             let totalCourses = allCourses.length;
             let totalLessons = allLessons.length;
@@ -1639,6 +1742,38 @@
             let totalAtoms = allUsers.reduce((sum, u) => sum + (u.atoms || 0), 0);
             let avgAtoms = totalStudents > 0 ? Math.round(totalAtoms / totalStudents) : 0;
 
+            // Time-based Stats
+            let newToday = allUsers.filter(u => new Date(u.createdAt).toDateString() === today).length;
+            let newWeek = allUsers.filter(u => new Date(u.createdAt) >= weekAgo).length;
+            let newMonth = allUsers.filter(u => new Date(u.createdAt) >= monthAgo).length;
+
+            let activeToday = allUsers.filter(u => u.lastLogin && new Date(u.lastLogin).toDateString() === today).length;
+            let activeWeek = allUsers.filter(u => u.lastLogin && new Date(u.lastLogin) >= weekAgo).length;
+            let activeMonth = allUsers.filter(u => u.lastLogin && new Date(u.lastLogin) >= monthAgo).length;
+
+            // Subscriptions today
+            let subsToday = allSubscriptions.filter(s =>
+                s.createdAt && new Date(s.createdAt).toDateString() === today
+            ).length;
+
+            let subsWeek = allSubscriptions.filter(s =>
+                s.createdAt && new Date(s.createdAt) >= weekAgo
+            ).length;
+
+            // Course opens (page views today)
+            let courseViewsToday = allCourses.reduce((sum, c) => {
+                if (c.pageViewsToday) sum += c.pageViewsToday;
+                return sum;
+            }, 0);
+
+            // Gender stats
+            const genderStats = {
+                'ذكر': 0,
+                'أنثى': 0,
+                'غير محدد': 0
+            };
+
+            // Section stats
             const sectionStats = {
                 'علمي علوم': 0,
                 'علمي رياضة': 0,
@@ -1647,34 +1782,94 @@
                 'غير محدد': 0
             };
 
-            const genderStats = {
-                'ذكر': 0,
-                'أنثى': 0,
-                'غير محدد': 0
-            };
+            // How found stats
+            const howFoundStats = {};
 
             allUsers.forEach(u => {
+                const gender = u.gender || 'غير محدد';
+                if (genderStats[gender] !== undefined) genderStats[gender]++;
+                else genderStats['غير محدد']++;
+
                 const section = u.section || 'غير محدد';
                 if (sectionStats[section] !== undefined) sectionStats[section]++;
                 else sectionStats['غير محدد']++;
 
-                const gender = u.gender || 'غير محدد';
-                if (genderStats[gender] !== undefined) genderStats[gender]++;
-                else genderStats['غير محدد']++;
+                const how = u.howFound || 'أخرى';
+                howFoundStats[how] = (howFoundStats[how] || 0) + 1;
             });
 
+            // Course subscriptions distribution
             const courseSubs = {};
             allCourses.forEach(c => {
                 const count = c.subscribers ? Object.keys(c.subscribers).length : 0;
                 if (count > 0) courseSubs[c.title || c.id] = count;
             });
 
+            // Most popular course
+            let mostPopularCourse = null;
+            let maxSubs = 0;
+            allCourses.forEach(c => {
+                const count = c.subscribers ? Object.keys(c.subscribers).length : 0;
+                if (count > maxSubs) {
+                    maxSubs = count;
+                    mostPopularCourse = c;
+                }
+            });
+
+            // Most viewed course
+            let mostViewedCourse = null;
+            let maxViews = 0;
+            allCourses.forEach(c => {
+                if ((c.pageViews || 0) > maxViews) {
+                    maxViews = c.pageViews || 0;
+                    mostViewedCourse = c;
+                }
+            });
+
+            // Grade distribution
+            const gradeStats = {};
+            allUsers.forEach(u => {
+                const grade = u.grade || 'غير محدد';
+                gradeStats[grade] = (gradeStats[grade] || 0) + 1;
+            });
+
+            // Study type distribution
+            const studyTypeStats = {};
+            allUsers.forEach(u => {
+                const type = u.studyType || 'عام';
+                studyTypeStats[type] = (studyTypeStats[type] || 0) + 1;
+            });
+
             content.innerHTML = `
+                <!-- Stats Cards -->
                 <div class="stats-grid">
                     <div class="stat-card">
                         <div class="icon">👥</div>
                         <span class="number primary">${totalStudents}</span>
                         <div class="label">إجمالي الطلاب</div>
+                        <div class="change up">+${newToday} اليوم • +${newWeek} أسبوعياً</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="icon">🟢</div>
+                        <span class="number success">${activeToday}</span>
+                        <div class="label">نشطون اليوم</div>
+                        <div class="change up">${activeWeek} هذا الأسبوع</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="icon">📈</div>
+                        <span class="number info">${newToday}</span>
+                        <div class="label">تسجيلات اليوم</div>
+                        <div class="change up">${newWeek} هذا الأسبوع • ${newMonth} هذا الشهر</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="icon">👨</div>
+                        <span class="number info">${genderStats['ذكر']}</span>
+                        <div class="label">ذكور</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="icon">👩</div>
+                        <span class="number success">${genderStats['أنثى']}</span>
+                        <div class="label">إناث</div>
                     </div>
                     <div class="stat-card">
                         <div class="icon">📚</div>
@@ -1705,6 +1900,7 @@
                         <div class="icon">💳</div>
                         <span class="number success">${totalSubscriptions}</span>
                         <div class="label">اشتراكات نشطة</div>
+                        <div class="change up">+${subsToday} اليوم</div>
                     </div>
                     <div class="stat-card">
                         <div class="icon">🔑</div>
@@ -1717,8 +1913,14 @@
                         <div class="label">إجمالي النقاط</div>
                         <div style="font-size:0.6rem;color:var(--text-muted);">المتوسط: ${avgAtoms}</div>
                     </div>
+                    <div class="stat-card">
+                        <div class="icon">👁️</div>
+                        <span class="number info">${courseViewsToday}</span>
+                        <div class="label">مشاهدات كورسات اليوم</div>
+                    </div>
                 </div>
 
+                <!-- Charts Grid -->
                 <div class="charts-grid">
                     <div class="chart-card">
                         <div class="chart-header">📊 توزيع الطلاب حسب الشعبة</div>
@@ -1762,6 +1964,25 @@
                     </div>
 
                     <div class="chart-card">
+                        <div class="chart-header">📊 توزيع الطلاب حسب الصف</div>
+                        <div class="chart-bar-container">
+                            ${Object.entries(gradeStats).sort((a,b) => b[1] - a[1]).map(([grade, count]) => {
+                                const max = Math.max(...Object.values(gradeStats), 1);
+                                const pct = Math.round((count / max) * 100);
+                                return `
+                                    <div class="chart-bar-item">
+                                        <span class="label">${grade}</span>
+                                        <div class="bar-track">
+                                            <div class="bar-fill primary" style="width:${pct}%;"></div>
+                                        </div>
+                                        <span class="value">${count}</span>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+
+                    <div class="chart-card">
                         <div class="chart-header">📚 توزيع المشتركين في الكورسات</div>
                         <div class="chart-bar-container">
                             ${Object.entries(courseSubs).sort((a,b) => b[1] - a[1]).slice(0, 5).map(([key, count]) => {
@@ -1782,28 +2003,69 @@
                     </div>
 
                     <div class="chart-card">
-                        <div class="chart-header">📊 إحصائيات سريعة</div>
-                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
-                            <div style="background:var(--bg-input);padding:0.5rem;border-radius:var(--radius-sm);text-align:center;">
-                                <div style="font-weight:700;color:var(--primary);">${totalLessons}</div>
-                                <div style="font-size:0.6rem;color:var(--text-muted);">حصص</div>
-                            </div>
-                            <div style="background:var(--bg-input);padding:0.5rem;border-radius:var(--radius-sm);text-align:center;">
-                                <div style="font-weight:700;color:var(--success);">${totalExams + totalQuizzes}</div>
-                                <div style="font-size:0.6rem;color:var(--text-muted);">اختبارات</div>
-                            </div>
-                            <div style="background:var(--bg-input);padding:0.5rem;border-radius:var(--radius-sm);text-align:center;">
-                                <div style="font-weight:700;color:var(--warning);">${totalSubscriptions}</div>
-                                <div style="font-size:0.6rem;color:var(--text-muted);">اشتراكات</div>
-                            </div>
-                            <div style="background:var(--bg-input);padding:0.5rem;border-radius:var(--radius-sm);text-align:center;">
-                                <div style="font-weight:700;color:var(--info);">${totalCodes}</div>
-                                <div style="font-size:0.6rem;color:var(--text-muted);">أكواد</div>
-                            </div>
+                        <div class="chart-header">📊 مصدر معرفة الطلاب بالمنصة</div>
+                        <div class="chart-bar-container">
+                            ${Object.entries(howFoundStats).sort((a,b) => b[1] - a[1]).slice(0, 5).map(([key, count]) => {
+                                const max = Math.max(...Object.values(howFoundStats), 1);
+                                const pct = Math.round((count / max) * 100);
+                                const label = key === 'فيسبوك' ? '📘' : key === 'تيك توك' ? '🎵' : key === 'انستغرام' ? '📸' : key === 'واتساب' ? '💬' : key === 'تليجرام' ? '✈️' : '🔗';
+                                return `
+                                    <div class="chart-bar-item">
+                                        <span class="label" style="min-width:70px;font-size:0.65rem;">${label} ${key}</span>
+                                        <div class="bar-track">
+                                            <div class="bar-fill success" style="width:${pct}%;"></div>
+                                        </div>
+                                        <span class="value">${count}</span>
+                                    </div>
+                                `;
+                            }).join('')}
+                            ${Object.keys(howFoundStats).length === 0 ? '<div class="text-muted" style="text-align:center;font-size:0.8rem;">لا توجد بيانات</div>' : ''}
                         </div>
+                    </div>
+
+                    <div class="chart-card">
+                        <div class="chart-header">📊 نوع التعليم</div>
+                        <div class="chart-bar-container">
+                            ${Object.entries(studyTypeStats).map(([key, count]) => {
+                                const max = Math.max(...Object.values(studyTypeStats), 1);
+                                const pct = Math.round((count / max) * 100);
+                                const label = key === 'عام' ? '🏫 عام' : key === 'أزهري' ? '🕌 أزهري' : '📚 ' + key;
+                                return `
+                                    <div class="chart-bar-item">
+                                        <span class="label" style="min-width:70px;font-size:0.65rem;">${label}</span>
+                                        <div class="bar-track">
+                                            <div class="bar-fill info" style="width:${pct}%;"></div>
+                                        </div>
+                                        <span class="value">${count}</span>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+
+                    <div class="chart-card">
+                        <div class="chart-header">🏆 الكورس الأكثر اشتراكاً</div>
+                        ${mostPopularCourse ? `
+                            <div style="text-align:center;padding:0.5rem;">
+                                <div style="font-size:1.2rem;font-weight:700;color:var(--primary);">${mostPopularCourse.title}</div>
+                                <div style="font-size:0.9rem;color:var(--text-muted);">👥 ${maxSubs} مشترك</div>
+                                <div style="font-size:0.8rem;color:var(--text-muted);">${mostPopularCourse.isFree ? '🆓 مجاني' : '💰 مدفوع'}</div>
+                            </div>
+                        ` : '<div class="text-muted" style="text-align:center;">لا توجد بيانات</div>'}
+                    </div>
+
+                    <div class="chart-card">
+                        <div class="chart-header">👁️ الكورس الأكثر مشاهدة</div>
+                        ${mostViewedCourse ? `
+                            <div style="text-align:center;padding:0.5rem;">
+                                <div style="font-size:1.2rem;font-weight:700;color:var(--info);">${mostViewedCourse.title}</div>
+                                <div style="font-size:0.9rem;color:var(--text-muted);">👁️ ${maxViews} مشاهدة</div>
+                            </div>
+                        ` : '<div class="text-muted" style="text-align:center;">لا توجد بيانات</div>'}
                     </div>
                 </div>
 
+                <!-- Recent Activity -->
                 <div class="card">
                     <div class="card-header">
                         <h4>📋 آخر الأنشطة</h4>
@@ -1811,13 +2073,13 @@
                     </div>
                     <div>
                         ${allLogs.slice(0, 8).map(log => `
-                            <div style="display:flex;align-items:center;gap:0.8rem;padding:0.4rem 0.6rem;border-bottom:1px solid var(--border-color);">
-                                <div style="width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.8rem;background:${log.action === 'ban_user' ? 'var(--danger-bg)' : 'var(--primary-bg)'};color:${log.action === 'ban_user' ? 'var(--danger)' : 'var(--primary)'};">
-                                    <i class="fas ${log.action === 'ban_user' ? 'fa-ban' : log.action === 'add_subscription' ? 'fa-crown' : log.action === 'activate_code' ? 'fa-key' : 'fa-pen'}"></i>
+                            <div class="activity-item">
+                                <div class="activity-icon ${log.action === 'ban_user' || log.action === 'delete_course' || log.action === 'delete_user' ? 'danger' : log.action === 'add_subscription' || log.action === 'activate_code' ? 'success' : 'primary'}">
+                                    <i class="fas ${log.action === 'ban_user' ? 'fa-ban' : log.action === 'add_subscription' ? 'fa-crown' : log.action === 'activate_code' ? 'fa-key' : log.action === 'delete_course' ? 'fa-trash' : log.action === 'delete_user' ? 'fa-user-minus' : 'fa-pen'}"></i>
                                 </div>
-                                <div style="flex:1;">
-                                    <div style="font-size:0.8rem;font-weight:600;">${log.details || log.action || 'نشاط'}</div>
-                                    <div style="font-size:0.65rem;color:var(--text-muted);">${log.timestamp ? new Date(log.timestamp).toLocaleString('ar') : 'الآن'} • ${log.adminName || 'Admin'}</div>
+                                <div class="activity-content">
+                                    <div class="activity-text">${log.details || log.action || 'نشاط'}</div>
+                                    <div class="activity-time">${log.timestamp ? new Date(log.timestamp).toLocaleString('ar') : 'الآن'} • ${log.adminName || 'Admin'}</div>
                                 </div>
                             </div>
                         `).join('') || '<div class="empty-state"><p>لا توجد أنشطة حديثة</p></div>'}
@@ -1827,7 +2089,7 @@
         }
 
         // ============================================================
-        // USERS
+        // USERS - FULL MANAGEMENT
         // ============================================================
         function renderUsers() {
             const content = document.getElementById('pageContent');
@@ -1840,16 +2102,29 @@
                     (u.name || '').toLowerCase().includes(s) ||
                     (u.phone || '').includes(s) ||
                     (u.email || '').toLowerCase().includes(s) ||
-                    (u.code || '').toLowerCase().includes(s)
+                    (u.code || '').toLowerCase().includes(s) ||
+                    (u.id || '').toLowerCase().includes(s)
                 );
             }
 
             if (usersFilter === 'banned') filtered = filtered.filter(u => u.banned);
-            else if (usersFilter === 'active') filtered = filtered.filter(u => !u.banned);
+            else if (usersFilter === 'active') filtered = filtered.filter(u => !u.banned && !u.frozen);
+            else if (usersFilter === 'frozen') filtered = filtered.filter(u => u.frozen);
+            else if (usersFilter === 'subscribed') {
+                const subUserIds = allSubscriptions.filter(s => s.status === 'active').map(s => s.userId);
+                filtered = filtered.filter(u => subUserIds.includes(u.id));
+            } else if (usersFilter === 'male') filtered = filtered.filter(u => u.gender === 'ذكر');
+            else if (usersFilter === 'female') filtered = filtered.filter(u => u.gender === 'أنثى');
+            else if (usersFilter === 'new_today') {
+                const today = new Date().toDateString();
+                filtered = filtered.filter(u => new Date(u.createdAt).toDateString() === today);
+            }
 
             if (usersSort === 'newest') filtered.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
-            else if (usersSort === 'most_atoms') filtered.sort((a, b) => (b.atoms || 0) - (a.atoms || 0));
+            else if (usersSort === 'oldest') filtered.sort((a, b) => (a.createdAt || 0) - (b.createdAt || 0));
             else if (usersSort === 'name') filtered.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
+            else if (usersSort === 'most_atoms') filtered.sort((a, b) => (b.atoms || 0) - (a.atoms || 0));
+            else if (usersSort === 'most_active') filtered.sort((a, b) => (b.lastLogin || 0) - (a.lastLogin || 0));
 
             const totalPages = Math.ceil(filtered.length / USERS_PAGE_SIZE);
             const start = (usersPage - 1) * USERS_PAGE_SIZE;
@@ -1866,16 +2141,23 @@
                     </div>
 
                     <div class="search-bar">
-                        <input type="text" placeholder="🔍 بحث بالاسم أو الرقم أو البريد..." value="${usersSearch}" oninput="usersSearch=this.value;usersPage=1;renderUsers();" style="flex:1;min-width:150px;">
+                        <input type="text" placeholder="🔍 بحث بالاسم أو الرقم أو البريد أو الكود..." value="${usersSearch}" oninput="usersSearch=this.value;usersPage=1;renderUsers();" style="flex:1;min-width:150px;">
                         <select onchange="usersFilter=this.value;usersPage=1;renderUsers();">
                             <option value="all" ${usersFilter==='all'?'selected':''}>كل الطلاب</option>
                             <option value="active" ${usersFilter==='active'?'selected':''}>نشطون</option>
                             <option value="banned" ${usersFilter==='banned'?'selected':''}>محظورون</option>
+                            <option value="frozen" ${usersFilter==='frozen'?'selected':''}>مجمدون</option>
+                            <option value="subscribed" ${usersFilter==='subscribed'?'selected':''}>لديهم اشتراك</option>
+                            <option value="male" ${usersFilter==='male'?'selected':''}>ذكور</option>
+                            <option value="female" ${usersFilter==='female'?'selected':''}>إناث</option>
+                            <option value="new_today" ${usersFilter==='new_today'?'selected':''}>جدد اليوم</option>
                         </select>
                         <select onchange="usersSort=this.value;renderUsers();">
                             <option value="newest" ${usersSort==='newest'?'selected':''}>الأحدث</option>
-                            <option value="most_atoms" ${usersSort==='most_atoms'?'selected':''}>الأكثر نقاط</option>
+                            <option value="oldest" ${usersSort==='oldest'?'selected':''}>الأقدم</option>
                             <option value="name" ${usersSort==='name'?'selected':''}>الاسم</option>
+                            <option value="most_atoms" ${usersSort==='most_atoms'?'selected':''}>الأكثر نقاط</option>
+                            <option value="most_active" ${usersSort==='most_active'?'selected':''}>الأكثر نشاط</option>
                         </select>
                     </div>
 
@@ -1887,18 +2169,25 @@
                                     <th>الهاتف</th>
                                     <th>الصف</th>
                                     <th>النقاط</th>
+                                    <th>الاشتراك</th>
+                                    <th>المصدر</th>
                                     <th>الحالة</th>
                                     <th>إجراءات</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 ${pageItems.length === 0 ? `
-                                    <tr><td colspan="6" style="text-align:center;color:var(--text-muted);padding:1.5rem;">لا يوجد طلاب</td></tr>
-                                ` : pageItems.map(u => `
+                                    <tr><td colspan="8" style="text-align:center;color:var(--text-muted);padding:1.5rem;">لا يوجد طلاب</td></tr>
+                                ` : pageItems.map(u => {
+                                    const userSubs = allSubscriptions.filter(s => s.userId === u.id && s.status === 'active');
+                                    const subTypes = userSubs.map(s => s.type === 'free' || s.type === 'free_subscription' ? 'مجاني' : 'مدفوع');
+                                    const subDisplay = userSubs.length > 0 ? (subTypes.includes('مدفوع') ? '💳 مدفوع' : '🆓 مجاني') : '—';
+                                    const genderIcon = u.gender === 'ذكر' ? '👨' : u.gender === 'أنثى' ? '👩' : '👤';
+                                    return `
                                     <tr>
                                         <td>
                                             <div style="display:flex;align-items:center;gap:0.5rem;">
-                                                <span style="width:28px;height:28px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:0.65rem;background:var(--gradient-primary);color:#fff;overflow:hidden;">${u.photoURL ? `<img src="${u.photoURL}" style="width:100%;height:100%;object-fit:cover;">` : (u.name ? u.name[0] : 'U')}</span>
+                                                <span class="avatar-sm">${u.photoURL ? `<img src="${u.photoURL}">` : (u.name ? u.name[0] : 'U')}</span>
                                                 <div>
                                                     <div style="font-weight:600;">${u.name}</div>
                                                     <div style="font-size:0.6rem;color:var(--text-muted);">${u.code || ''}</div>
@@ -1908,15 +2197,24 @@
                                         <td>${u.phone || '—'}</td>
                                         <td>${u.grade || '—'}</td>
                                         <td><strong style="color:var(--primary);">${u.atoms||0}</strong></td>
-                                        <td><span class="status-badge ${u.banned ? 'banned' : 'active'}">${u.banned ? 'محظور' : 'نشط'}</span></td>
+                                        <td>${subDisplay}</td>
+                                        <td style="font-size:0.7rem;">${u.howFound || '—'}</td>
+                                        <td>
+                                            <span class="status-badge ${u.banned ? 'banned' : u.frozen ? 'pending' : 'active'}">
+                                                ${u.banned ? 'محظور' : u.frozen ? 'مجمد' : 'نشط'}
+                                            </span>
+                                        </td>
                                         <td>
                                             <button class="btn-sm primary icon-only" onclick="viewUser('${u.id}')" title="عرض"><i class="fas fa-eye"></i></button>
-                                            <button class="btn-sm ${u.banned ? 'success' : 'danger'} icon-only" onclick="toggleBan('${u.id}')" title="${u.banned ? 'فك الحظر' : 'حظر'}"><i class="fas ${u.banned ? 'fa-unlock' : 'fa-ban'}"></i></button>
+                                            <button class="btn-sm ${u.banned ? 'success' : 'danger'} icon-only" onclick="toggleBan('${u.id}')" title="${u.banned ? 'فك الحظر' : 'حظر'}">
+                                                <i class="fas ${u.banned ? 'fa-unlock' : 'fa-ban'}"></i>
+                                            </button>
                                             <button class="btn-sm warning icon-only" onclick="addPointsModal('${u.id}')" title="إضافة نقاط"><i class="fas fa-plus"></i></button>
-                                            <button class="btn-sm danger icon-only" onclick="deleteUser('${u.id}')" title="حذف"><i class="fas fa-user-minus"></i></button>
+                                            <button class="btn-sm danger icon-only" onclick="deleteUser('${u.id}')" title="حذف نهائي"><i class="fas fa-user-minus"></i></button>
                                         </td>
                                     </tr>
-                                `).join('')}
+                                    `;
+                                }).join('')}
                             </tbody>
                         </table>
                     </div>
@@ -2016,25 +2314,49 @@
             if (!user) { showToast('الطالب غير موجود', 'error'); return; }
 
             const subs = allSubscriptions.filter(s => s.userId === userId && s.status === 'active');
+            const userLessons = Object.keys(user.progress || {}).filter(k => user.progress[k] && user.progress[k].watched);
+            const userExams = Object.keys(user.progress || {}).filter(k => user.progress[k] && user.progress[k].type ===
+                'exam' && user.progress[k].completed);
+            const userQuizzes = Object.keys(user.progress || {}).filter(k => user.progress[k] && user.progress[k].type ===
+                'quiz' && user.progress[k].completed);
 
             let html = `
                 <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;margin-bottom:1rem;">
-                    <div><label style="font-size:0.7rem;color:var(--text-muted);">الاسم</label><div style="font-weight:700;">${user.name}</div></div>
-                    <div><label style="font-size:0.7rem;color:var(--text-muted);">النقاط</label><div style="font-weight:700;color:var(--primary);font-size:1.2rem;">${user.atoms||0}</div></div>
-                    <div><label style="font-size:0.7rem;color:var(--text-muted);">الهاتف</label><div>${user.phone || '—'}</div></div>
+                    <div><label style="font-size:0.7rem;color:var(--text-muted);">الاسم</label><div style="font-weight:700;font-size:1rem;">${user.name}</div></div>
+                    <div><label style="font-size:0.7rem;color:var(--text-muted);">UID</label><div style="font-family:monospace;font-size:0.75rem;color:var(--text-muted);">${user.id}</div></div>
+                    <div><label style="font-size:0.7rem;color:var(--text-muted);">رقم الهاتف</label><div>${user.phone || '—'}</div></div>
+                    <div><label style="font-size:0.7rem;color:var(--text-muted);">البريد</label><div>${user.email || '—'}</div></div>
+                    <div><label style="font-size:0.7rem;color:var(--text-muted);">النوع</label><div>${user.gender || '—'}</div></div>
                     <div><label style="font-size:0.7rem;color:var(--text-muted);">الصف</label><div>${user.grade || '—'}</div></div>
                     <div><label style="font-size:0.7rem;color:var(--text-muted);">الشعبة</label><div>${user.section || '—'}</div></div>
-                    <div><label style="font-size:0.7rem;color:var(--text-muted);">النوع</label><div>${user.gender || '—'}</div></div>
+                    <div><label style="font-size:0.7rem;color:var(--text-muted);">النقاط</label><div style="font-weight:700;color:var(--primary);font-size:1.2rem;">${user.atoms||0}</div></div>
+                    <div><label style="font-size:0.7rem;color:var(--text-muted);">الترتيب</label><div>${user.rank || '—'}</div></div>
                     <div><label style="font-size:0.7rem;color:var(--text-muted);">كود الطالب</label><div style="font-weight:700;color:var(--primary);">${user.code || '—'}</div></div>
-                    <div><label style="font-size:0.7rem;color:var(--text-muted);">الحالة</label><div><span class="status-badge ${user.banned ? 'banned' : 'active'}">${user.banned ? 'محظور' : 'نشط'}</span></div></div>
+                    <div><label style="font-size:0.7rem;color:var(--text-muted);">مصدر المعرفة</label><div>${user.howFound || '—'}</div></div>
+                    <div><label style="font-size:0.7rem;color:var(--text-muted);">نوع التعليم</label><div>${user.studyType || '—'}</div></div>
+                    <div><label style="font-size:0.7rem;color:var(--text-muted);">تاريخ التسجيل</label><div>${user.createdAt ? new Date(user.createdAt).toLocaleDateString('ar') : '—'}</div></div>
+                    <div><label style="font-size:0.7rem;color:var(--text-muted);">آخر ظهور</label><div>${user.lastLogin ? new Date(user.lastLogin).toLocaleString('ar') : '—'}</div></div>
+                    <div><label style="font-size:0.7rem;color:var(--text-muted);">الحالة</label><div>
+                        <span class="status-badge ${user.banned ? 'banned' : user.frozen ? 'pending' : 'active'}">
+                            ${user.banned ? 'محظور' : user.frozen ? 'مجمد' : 'نشط'}
+                        </span>
+                    </div></div>
                 </div>
 
-                <div style="background:var(--bg-input);padding:0.8rem;border-radius:var(--radius-sm);margin-bottom:1rem;">
+                <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:0.5rem;margin-bottom:1rem;background:var(--bg-input);padding:0.8rem;border-radius:var(--radius-sm);">
+                    <div style="text-align:center;"><div style="font-weight:700;color:var(--primary);">${userLessons.length}</div><div style="font-size:0.7rem;color:var(--text-muted);">حصص مكتملة</div></div>
+                    <div style="text-align:center;"><div style="font-weight:700;color:var(--warning);">${userExams.length}</div><div style="font-size:0.7rem;color:var(--text-muted);">امتحانات</div></div>
+                    <div style="text-align:center;"><div style="font-weight:700;color:var(--success);">${userQuizzes.length}</div><div style="font-size:0.7rem;color:var(--text-muted);">كويزات</div></div>
+                    <div style="text-align:center;"><div style="font-weight:700;color:var(--info);">${subs.length}</div><div style="font-size:0.7rem;color:var(--text-muted);">اشتراكات</div></div>
+                </div>
+
+                <div style="margin-bottom:0.8rem;">
                     <label style="font-size:0.7rem;color:var(--text-muted);">📚 الكورسات المشترك فيها (${subs.length})</label>
                     <div style="display:flex;flex-wrap:wrap;gap:0.3rem;margin-top:0.2rem;">
                         ${subs.length > 0 ? subs.map(s => {
                             const course = allCourses.find(c => c.id === s.courseId);
-                            return `<span style="background:var(--bg-input);padding:0.15rem 0.6rem;border-radius:50px;font-size:0.7rem;border:1px solid var(--primary);color:var(--primary);">${course ? course.title : s.courseId}</span>`;
+                            const isFree = s.type === 'free' || s.type === 'free_subscription' || course?.isFree === true;
+                            return `<span style="background:var(--bg-input);padding:0.15rem 0.6rem;border-radius:50px;font-size:0.7rem;border:1px solid ${isFree ? 'var(--success)' : 'var(--primary)'};color:${isFree ? 'var(--success)' : 'var(--primary)'};">${course ? course.title : s.courseId} ${isFree ? '🆓' : '💳'}</span>`;
                         }).join('') : '<span style="color:var(--text-muted);font-size:0.8rem;">لا يوجد اشتراكات</span>'}
                     </div>
                 </div>
@@ -2094,10 +2416,11 @@
 
         function exportUsersCSV() {
             if (allUsers.length === 0) { showToast('لا يوجد طلاب للتصدير', 'warning'); return; }
-            let csv = 'الاسم,الهاتف,البريد,الكود,النقاط,الحالة,الصف,الشعبة,النوع,تاريخ التسجيل\n';
+            let csv =
+                'الاسم,الهاتف,البريد,الكود,النقاط,الحالة,الصف,الشعبة,النوع,مصدر المعرفة,نوع التعليم,تاريخ التسجيل,آخر ظهور\n';
             allUsers.forEach(u => {
                 csv +=
-                    `${u.name},${u.phone||''},${u.email||''},${u.code||''},${u.atoms||0},${u.banned?'محظور':'نشط'},${u.grade||''},${u.section||''},${u.gender||''},${u.createdAt?new Date(u.createdAt).toLocaleDateString('ar'):''}\n`;
+                    `${u.name},${u.phone||''},${u.email||''},${u.code||''},${u.atoms||0},${u.banned?'محظور':'نشط'},${u.grade||''},${u.section||''},${u.gender||''},${u.howFound||''},${u.studyType||''},${u.createdAt?new Date(u.createdAt).toLocaleDateString('ar'):''},${u.lastLogin?new Date(u.lastLogin).toLocaleDateString('ar'):''}\n`;
             });
             const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
             const link = document.createElement('a');
@@ -2206,19 +2529,31 @@
                     <div class="table-wrapper">
                         <table>
                             <thead>
-                                <tr><th>#</th><th>الكورس</th><th>النوع</th><th>👥 المشتركين</th><th>إجراءات</th></tr>
+                                <tr><th>#</th><th>الكورس</th><th>النوع</th><th>👥 المشتركين</th><th>👁️ مشاهدات</th><th>💰 الإيراد</th><th>إجراءات</th></tr>
                             </thead>
                             <tbody>
                                 ${allCourses.length === 0 ? `
-                                    <tr><td colspan="5" style="text-align:center;color:var(--text-muted);padding:1.5rem;">لا توجد كورسات</td></tr>
+                                    <tr><td colspan="7" style="text-align:center;color:var(--text-muted);padding:1.5rem;">لا توجد كورسات</td></tr>
                                 ` : allCourses.map((c, i) => {
                                     const subKeys = c.subscribers ? Object.keys(c.subscribers) : [];
+                                    const freeCount = subKeys.filter(k => c.subscribers[k]?.type === 'free' || c.subscribers[k]?.isFree === true).length;
+                                    const paidCount = subKeys.filter(k => c.subscribers[k]?.type === 'paid' || c.subscribers[k]?.isFree === false).length;
                                     return `
                                     <tr>
                                         <td>${i+1}</td>
-                                        <td><span style="font-weight:600;">${c.title}</span></td>
+                                        <td>
+                                            <div style="display:flex;align-items:center;gap:0.5rem;">
+                                                ${c.image ? `<img src="${c.image}" style="width:32px;height:32px;object-fit:cover;border-radius:var(--radius-sm);" onerror="this.style.display='none'">` : ''}
+                                                <span style="font-weight:600;">${c.title}</span>
+                                            </div>
+                                        </td>
                                         <td><span class="status-badge ${c.isFree ? 'active' : 'banned'}">${c.isFree ? '🆓 مجاني' : '💳 مدفوع'}</span></td>
-                                        <td><strong style="color:var(--primary);">${subKeys.length}</strong></td>
+                                        <td>
+                                            <strong style="color:var(--primary);">${subKeys.length}</strong>
+                                            <span style="font-size:0.6rem;color:var(--text-muted);">(مجاني: ${freeCount}, مدفوع: ${paidCount})</span>
+                                        </td>
+                                        <td>${c.pageViews || 0}</td>
+                                        <td>${c.revenue || 0} ج.م</td>
                                         <td>
                                             <button class="btn-sm primary icon-only" onclick="editCourse('${c.id}')" title="تعديل"><i class="fas fa-edit"></i></button>
                                             <button class="btn-sm danger icon-only" onclick="deleteCourse('${c.id}')" title="حذف"><i class="fas fa-trash"></i></button>
@@ -2843,7 +3178,6 @@
                     showToast('✅ تم إضافة الكويز', 'success');
                     closeModal();
                     loadAllQuizzes().then(() => renderQuizzes());
-                    // عرض خيار ربطه بحصة
                     setTimeout(() => {
                         showLinkToLessonModal(newQuizId, 'quiz');
                     }, 500);
@@ -3798,7 +4132,7 @@
             if (e.target === this) closeModal();
         });
 
-        console.log('🚀 Admin Panel v7.0 - يلا كيمياء');
+        console.log('🚀 Admin Panel v8.0 - يلا كيمياء (مطور بالكامل)');
         console.log('👥 Total users:', allUsers.length);
         console.log('📚 Total courses:', allCourses.length);
         console.log('🧪 Total quizzes:', allQuizzes.length);
