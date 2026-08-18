@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لوحة التحكم - يلا كيمياء</title>
+    <title>لوحة التحكم المتطورة - يلا كيمياء</title>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
@@ -11,8 +11,8 @@
            ROOT VARIABLES
            ============================================================ */
         :root {
-            --bg-body: #f8f7fc;
-            --bg-sidebar: #ffffff;
+            --bg-body: #f0edf7;
+            --bg-sidebar: #1a1025;
             --bg-card: #ffffff;
             --bg-card-hover: #f5f3ff;
             --bg-input: #f8f7fc;
@@ -22,7 +22,7 @@
             --text-muted: #9a8da8;
             --border-color: #e8e4f0;
             --shadow: 0 2px 12px rgba(106, 76, 147, 0.08);
-            --shadow-hover: 0 6px 24px rgba(106, 76, 147, 0.12);
+            --shadow-hover: 0 6px 24px rgba(106, 76, 147, 0.15);
             --radius: 1rem;
             --radius-sm: 0.6rem;
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -48,8 +48,8 @@
 
         [data-theme="dark"] {
             --bg-body: #0f0a1a;
-            --bg-sidebar: #1a1128;
-            --bg-card: #1f1635;
+            --bg-sidebar: #0d0718;
+            --bg-card: #1a1128;
             --bg-card-hover: #2a1f42;
             --bg-input: #2a1f42;
             --bg-hover: #2a1f42;
@@ -57,8 +57,8 @@
             --text-secondary: #b8adc9;
             --text-muted: #7a6d8d;
             --border-color: #2f2347;
-            --shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
-            --shadow-hover: 0 6px 24px rgba(0, 0, 0, 0.4);
+            --shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+            --shadow-hover: 0 6px 24px rgba(0, 0, 0, 0.5);
             --primary-bg: rgba(124, 58, 237, 0.15);
             --success-bg: rgba(16, 185, 129, 0.15);
             --danger-bg: rgba(239, 68, 68, 0.15);
@@ -87,12 +87,11 @@
             width: var(--sidebar-width);
             height: 100vh;
             background: var(--bg-sidebar);
-            border-left: 1px solid var(--border-color);
             z-index: 1000;
             transition: var(--transition);
             overflow-y: auto;
             padding: 0.5rem 0;
-            box-shadow: var(--shadow);
+            box-shadow: 4px 0 30px rgba(0,0,0,0.3);
         }
 
         .sidebar::-webkit-scrollbar { width: 3px; }
@@ -102,7 +101,7 @@
         .sidebar .logo {
             padding: 0.8rem 1.2rem 1.2rem;
             text-align: center;
-            border-bottom: 1px solid var(--border-color);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
             margin-bottom: 0.5rem;
         }
 
@@ -125,8 +124,8 @@
 
         .sidebar .logo .sub {
             font-size: 0.65rem;
-            color: var(--text-muted);
-            -webkit-text-fill-color: var(--text-muted);
+            color: rgba(255,255,255,0.3);
+            -webkit-text-fill-color: rgba(255,255,255,0.3);
         }
 
         .sidebar .nav-item {
@@ -134,7 +133,7 @@
             align-items: center;
             gap: 12px;
             padding: 0.6rem 1.2rem;
-            color: var(--text-secondary);
+            color: rgba(255,255,255,0.5);
             text-decoration: none;
             transition: var(--transition);
             cursor: pointer;
@@ -146,14 +145,14 @@
         }
 
         .sidebar .nav-item:hover {
-            background: var(--bg-hover);
-            color: var(--text-primary);
+            background: rgba(255,255,255,0.04);
+            color: rgba(255,255,255,0.8);
         }
 
         .sidebar .nav-item.active {
-            color: var(--primary);
+            color: #fff;
             border-right-color: var(--primary);
-            background: var(--primary-bg);
+            background: rgba(124, 58, 237, 0.15);
         }
 
         .sidebar .nav-item i { width: 20px; text-align: center; font-size: 0.9rem; }
@@ -174,7 +173,7 @@
 
         .sidebar .nav-divider {
             height: 1px;
-            background: var(--border-color);
+            background: rgba(255,255,255,0.06);
             margin: 0.3rem 1.2rem;
         }
 
@@ -263,8 +262,8 @@
         }
 
         @keyframes pulse-dot {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.3; transform: scale(0.8); }
         }
 
         .admin-navbar .right .theme-toggle {
@@ -332,7 +331,7 @@
            ============================================================ */
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
             gap: 0.8rem;
             margin-bottom: 1.5rem;
         }
@@ -341,22 +340,44 @@
             background: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: var(--radius);
-            padding: 1rem 1rem 0.8rem;
+            padding: 0.8rem 1rem;
             transition: var(--transition);
             box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
         }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 3px;
+            height: 100%;
+            border-radius: 0 3px 3px 0;
+        }
+
+        .stat-card.primary::before { background: var(--primary); }
+        .stat-card.success::before { background: var(--success); }
+        .stat-card.warning::before { background: var(--warning); }
+        .stat-card.danger::before { background: var(--danger); }
+        .stat-card.info::before { background: var(--info); }
 
         .stat-card:hover {
             transform: translateY(-3px);
             box-shadow: var(--shadow-hover);
-            border-color: var(--primary);
         }
 
-        .stat-card .icon { font-size: 1.2rem; margin-bottom: 0.1rem; }
+        .stat-card .stat-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .stat-card .icon { font-size: 1.2rem; opacity: 0.6; }
         .stat-card .number {
             font-size: 1.3rem;
             font-weight: 900;
-            display: block;
             font-family: 'Tajawal', sans-serif;
         }
         .stat-card .number.primary { color: var(--primary); }
@@ -365,20 +386,24 @@
         .stat-card .number.danger { color: var(--danger); }
         .stat-card .number.info { color: var(--info); }
         .stat-card .label {
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             color: var(--text-muted);
-            font-weight: 600;
-        }
-        .stat-card .change {
-            font-size: 0.6rem;
             font-weight: 600;
             margin-top: 0.1rem;
         }
-        .stat-card .change.up { color: var(--success); }
-        .stat-card .change.down { color: var(--danger); }
+        .stat-card .change {
+            font-size: 0.55rem;
+            font-weight: 600;
+            margin-top: 0.1rem;
+            padding: 0.05rem 0.4rem;
+            border-radius: 50px;
+            display: inline-block;
+        }
+        .stat-card .change.up { background: var(--success-bg); color: var(--success); }
+        .stat-card .change.down { background: var(--danger-bg); color: var(--danger); }
 
         /* ============================================================
-           ONLINE USERS CARD
+           ONLINE USERS GRID
            ============================================================ */
         .online-users-grid {
             display: grid;
@@ -397,6 +422,7 @@
             gap: 0.8rem;
             transition: var(--transition);
             box-shadow: var(--shadow);
+            border-right: 3px solid var(--success);
         }
 
         .online-user-card:hover {
@@ -406,14 +432,14 @@
         }
 
         .online-user-card .avatar {
-            width: 40px;
-            height: 40px;
+            width: 42px;
+            height: 42px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 700;
-            font-size: 0.8rem;
+            font-size: 0.9rem;
             flex-shrink: 0;
             background: var(--gradient-primary);
             color: #fff;
@@ -438,11 +464,18 @@
         }
 
         .online-user-card .info .details {
-            font-size: 0.65rem;
+            font-size: 0.6rem;
             color: var(--text-muted);
             display: flex;
             flex-wrap: wrap;
-            gap: 0.3rem 0.6rem;
+            gap: 0.2rem 0.5rem;
+        }
+
+        .online-user-card .info .details .tag {
+            background: var(--bg-input);
+            padding: 0.05rem 0.4rem;
+            border-radius: 50px;
+            border: 1px solid var(--border-color);
         }
 
         .online-user-card .status-dot {
@@ -457,15 +490,18 @@
             animation: pulse-dot 2s infinite;
         }
 
-        .online-user-card .status-dot.offline {
-            background: var(--text-muted);
-        }
-
         .online-user-card .time {
             font-size: 0.6rem;
             color: var(--text-muted);
             text-align: left;
             flex-shrink: 0;
+            min-width: 60px;
+        }
+
+        .online-user-card .time .duration {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 0.7rem;
         }
 
         /* ============================================================
@@ -473,7 +509,7 @@
            ============================================================ */
         .charts-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 1rem;
             margin-bottom: 1.5rem;
         }
@@ -482,7 +518,7 @@
             background: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: var(--radius);
-            padding: 1rem 1rem 1.2rem;
+            padding: 1rem;
             box-shadow: var(--shadow);
             transition: var(--transition);
         }
@@ -492,16 +528,25 @@
         }
 
         .chart-card .chart-header {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             font-weight: 700;
-            margin-bottom: 0.8rem;
+            margin-bottom: 0.6rem;
             color: var(--text-primary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chart-card .chart-header .sub {
+            font-size: 0.6rem;
+            color: var(--text-muted);
+            font-weight: 400;
         }
 
         .chart-bar-container {
             display: flex;
             flex-direction: column;
-            gap: 0.4rem;
+            gap: 0.3rem;
         }
 
         .chart-bar-item {
@@ -511,15 +556,16 @@
         }
 
         .chart-bar-item .label {
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             color: var(--text-muted);
-            min-width: 70px;
+            min-width: 60px;
             text-align: right;
+            white-space: nowrap;
         }
 
         .chart-bar-item .bar-track {
             flex: 1;
-            height: 20px;
+            height: 18px;
             background: var(--bg-body);
             border-radius: var(--radius-sm);
             overflow: hidden;
@@ -537,14 +583,24 @@
         .chart-bar-item .bar-track .bar-fill.warning { background: var(--warning); }
         .chart-bar-item .bar-track .bar-fill.danger { background: var(--danger); }
         .chart-bar-item .bar-track .bar-fill.info { background: var(--info); }
+        .chart-bar-item .bar-track .bar-fill.gold { background: linear-gradient(135deg, #F59E0B, #FBBF24); }
 
         .chart-bar-item .value {
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             font-weight: 700;
             color: var(--text-primary);
-            min-width: 35px;
+            min-width: 30px;
             text-align: left;
         }
+
+        .chart-empty {
+            text-align: center;
+            padding: 1rem 0.5rem;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        .chart-empty .icon { font-size: 2rem; display: block; margin-bottom: 0.3rem; }
 
         /* ============================================================
            CARDS
@@ -602,22 +658,23 @@
         }
 
         table thead th {
-            padding: 0.5rem 0.8rem;
+            padding: 0.4rem 0.6rem;
             text-align: right;
             font-weight: 700;
             color: var(--text-muted);
             border-bottom: 2px solid var(--border-color);
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             white-space: nowrap;
         }
 
         table tbody td {
-            padding: 0.5rem 0.8rem;
+            padding: 0.4rem 0.6rem;
             border-bottom: 1px solid var(--border-color);
             color: var(--text-primary);
             vertical-align: middle;
+            font-size: 0.75rem;
         }
 
         table tbody tr:hover {
@@ -625,7 +682,7 @@
         }
 
         .status-badge {
-            padding: 0.1rem 0.6rem;
+            padding: 0.05rem 0.5rem;
             border-radius: 50px;
             font-size: 0.6rem;
             font-weight: 700;
@@ -640,16 +697,15 @@
         .status-badge.available { background: var(--success-bg); color: var(--success); }
         .status-badge.used { background: var(--bg-hover); color: var(--text-muted); }
         .status-badge.disabled { background: var(--danger-bg); color: var(--danger); }
-        .status-badge.expired { background: var(--warning-bg); color: var(--warning); }
 
         /* ============================================================
            BUTTONS
            ============================================================ */
         .btn-sm {
-            padding: 0.25rem 0.8rem;
+            padding: 0.2rem 0.7rem;
             border-radius: var(--radius-sm);
             border: none;
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             font-weight: 700;
             font-family: 'Tajawal', sans-serif;
             cursor: pointer;
@@ -680,7 +736,7 @@
             background: var(--primary-bg);
         }
         .btn-sm.icon-only {
-            padding: 0.25rem 0.4rem;
+            padding: 0.2rem 0.35rem;
             min-width: 28px;
             justify-content: center;
         }
@@ -698,16 +754,16 @@
 
         .search-bar input,
         .search-bar select {
-            padding: 0.4rem 0.8rem;
+            padding: 0.35rem 0.7rem;
             border-radius: var(--radius-sm);
             border: 1px solid var(--border-color);
             background: var(--bg-input);
             color: var(--text-primary);
             font-family: 'Tajawal', sans-serif;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             outline: none;
             transition: var(--transition);
-            min-height: 36px;
+            min-height: 34px;
         }
 
         .search-bar input:focus,
@@ -737,7 +793,7 @@
         }
 
         .pagination button {
-            padding: 0.2rem 0.6rem;
+            padding: 0.15rem 0.5rem;
             border-radius: var(--radius-sm);
             border: 1px solid var(--border-color);
             background: transparent;
@@ -745,8 +801,8 @@
             cursor: pointer;
             transition: var(--transition);
             font-family: 'Tajawal', sans-serif;
-            font-size: 0.75rem;
-            min-width: 32px;
+            font-size: 0.7rem;
+            min-width: 30px;
         }
 
         .pagination button:hover {
@@ -772,7 +828,7 @@
         .modal-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.6);
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
             z-index: 9999;
@@ -791,7 +847,7 @@
             border: 1px solid var(--border-color);
             border-radius: var(--radius);
             padding: 1.5rem 2rem 2rem;
-            max-width: 850px;
+            max-width: 700px;
             width: 100%;
             max-height: 90vh;
             overflow-y: auto;
@@ -839,7 +895,7 @@
 
         .modal-box .form-group label {
             display: block;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-weight: 700;
             color: var(--text-secondary);
             margin-bottom: 0.2rem;
@@ -849,13 +905,13 @@
         .modal-box .form-group select,
         .modal-box .form-group textarea {
             width: 100%;
-            padding: 0.5rem 0.8rem;
+            padding: 0.4rem 0.7rem;
             border-radius: var(--radius-sm);
             border: 1px solid var(--border-color);
             background: var(--bg-input);
             color: var(--text-primary);
             font-family: 'Tajawal', sans-serif;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             outline: none;
             transition: var(--transition);
         }
@@ -869,7 +925,7 @@
 
         .modal-box .form-group textarea {
             resize: vertical;
-            min-height: 60px;
+            min-height: 50px;
         }
 
         .modal-box .form-actions {
@@ -881,14 +937,14 @@
         }
 
         .modal-box .form-actions button {
-            padding: 0.4rem 1.2rem;
+            padding: 0.35rem 1rem;
             border-radius: var(--radius-sm);
             border: none;
             font-weight: 700;
             font-family: 'Tajawal', sans-serif;
             cursor: pointer;
             transition: var(--transition);
-            font-size: 0.8rem;
+            font-size: 0.75rem;
         }
 
         .modal-box .form-actions .btn-submit {
@@ -909,6 +965,14 @@
             color: var(--danger);
             background: var(--danger-bg);
         }
+        .modal-box .form-actions .btn-danger {
+            background: var(--gradient-danger);
+            color: #fff;
+        }
+        .modal-box .form-actions .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+        }
 
         /* ============================================================
            TOAST
@@ -926,12 +990,12 @@
 
         .toast {
             pointer-events: auto;
-            padding: 0.7rem 1.2rem;
+            padding: 0.6rem 1rem;
             border-radius: var(--radius-sm);
             font-weight: 600;
             animation: slideUp 0.4s ease;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             text-align: center;
             margin-bottom: 0.3rem;
             backdrop-filter: blur(10px);
@@ -967,146 +1031,26 @@
 
         .empty-state {
             text-align: center;
-            padding: 2rem 1rem;
+            padding: 1.5rem 1rem;
             color: var(--text-muted);
         }
 
-        .empty-state .icon { font-size: 3rem; margin-bottom: 0.5rem; }
+        .empty-state .icon { font-size: 2.5rem; margin-bottom: 0.3rem; }
         .empty-state h4 {
-            font-size: 1rem;
+            font-size: 0.9rem;
             font-weight: 700;
             color: var(--text-primary);
         }
-        .empty-state p { font-size: 0.85rem; }
+        .empty-state p { font-size: 0.8rem; }
 
         /* ============================================================
-           QUESTION BLOCK STYLES
+           ACTIVITY ITEMS
            ============================================================ */
-        .question-block {
-            background: var(--bg-input);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-sm);
-            padding: 1rem;
-            margin-bottom: 1rem;
-            transition: var(--transition);
-        }
-
-        .question-block:hover {
-            border-color: var(--primary);
-        }
-
-        .question-block .question-number {
-            font-weight: 700;
-            color: var(--primary);
-            font-size: 0.85rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .options-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 0.5rem;
-            margin: 0.5rem 0;
-        }
-
-        .option-item {
-            display: flex;
-            align-items: center;
-            gap: 0.3rem;
-            background: var(--bg-card);
-            padding: 0.3rem 0.6rem;
-            border-radius: var(--radius-sm);
-            border: 1px solid var(--border-color);
-        }
-
-        .option-item label {
-            font-weight: 700;
-            color: var(--text-secondary);
-            min-width: 18px;
-            font-size: 0.8rem;
-        }
-
-        .option-item input[type="text"] {
-            flex: 1;
-            background: transparent;
-            border: none;
-            color: var(--text-primary);
-            padding: 0.2rem;
-            font-family: 'Tajawal', sans-serif;
-            font-size: 0.85rem;
-            min-width: 50px;
-        }
-
-        .option-item input[type="text"]:focus {
-            outline: none;
-            border-bottom: 1px solid var(--primary);
-        }
-
-        .option-item .correct-radio {
-            margin: 0 0.2rem;
-            accent-color: var(--primary);
-            width: 16px;
-            height: 16px;
-            cursor: pointer;
-        }
-
-        .option-item .correct-label {
-            font-size: 0.6rem;
-            color: var(--text-muted);
-        }
-
-        .question-actions {
-            display: flex;
-            gap: 0.5rem;
-            margin-top: 0.5rem;
-            flex-wrap: wrap;
-        }
-
-        .question-remove-btn {
-            color: var(--danger);
-            background: var(--danger-bg);
-            border: 1px solid var(--danger);
-            padding: 0.2rem 0.8rem;
-            border-radius: var(--radius-sm);
-            font-size: 0.65rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: var(--transition);
-            font-family: 'Tajawal', sans-serif;
-        }
-
-        .question-remove-btn:hover {
-            background: var(--danger);
-            color: #fff;
-        }
-
-        .add-question-btn {
-            margin-top: 0.5rem;
-            width: 100%;
-            justify-content: center;
-            padding: 0.5rem;
-            border: 2px dashed var(--border-color);
-            background: transparent;
-            color: var(--text-secondary);
-            border-radius: var(--radius-sm);
-            cursor: pointer;
-            transition: var(--transition);
-            font-family: 'Tajawal', sans-serif;
-            font-size: 0.85rem;
-            font-weight: 600;
-        }
-
-        .add-question-btn:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-            background: var(--primary-bg);
-        }
-
         .activity-item {
             display: flex;
             align-items: center;
             gap: 0.8rem;
-            padding: 0.4rem 0.6rem;
+            padding: 0.3rem 0.5rem;
             border-radius: var(--radius-sm);
             transition: var(--transition);
             border-bottom: 1px solid var(--border-color);
@@ -1123,7 +1067,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             flex-shrink: 0;
         }
 
@@ -1143,18 +1087,22 @@
             background: var(--warning-bg);
             color: var(--warning);
         }
+        .activity-item .activity-icon.info {
+            background: var(--info-bg);
+            color: var(--info);
+        }
 
         .activity-item .activity-content {
             flex: 1;
         }
 
         .activity-item .activity-content .activity-text {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: 600;
         }
 
         .activity-item .activity-content .activity-time {
-            font-size: 0.65rem;
+            font-size: 0.6rem;
             color: var(--text-muted);
         }
 
@@ -1182,7 +1130,7 @@
                 padding: 1rem;
             }
             .stats-grid {
-                grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
                 gap: 0.5rem;
             }
             .stat-card .number {
@@ -1194,10 +1142,10 @@
             .admin-navbar .right .admin-info .name {
                 display: none;
             }
-            .options-grid {
+            .online-users-grid {
                 grid-template-columns: 1fr;
             }
-            .online-users-grid {
+            .charts-grid {
                 grid-template-columns: 1fr;
             }
         }
@@ -1241,20 +1189,6 @@
             }
         }
 
-        .online-dot {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: var(--success);
-            animation: pulse-dot 2s infinite;
-        }
-
-        .online-dot.offline {
-            background: var(--text-muted);
-            animation: none;
-        }
-
         .avatar-sm {
             width: 28px;
             height: 28px;
@@ -1263,7 +1197,7 @@
             align-items: center;
             justify-content: center;
             font-weight: 700;
-            font-size: 0.65rem;
+            font-size: 0.6rem;
             background: var(--gradient-primary);
             color: #fff;
             overflow: hidden;
@@ -1275,27 +1209,10 @@
             object-fit: cover;
         }
 
-        .question-tags .tag {
-            background: var(--bg-input);
-            padding: 0.1rem 0.5rem;
-            border-radius: 50px;
-            font-size: 0.6rem;
-            color: var(--text-secondary);
-            border: 1px solid var(--border-color);
-        }
-
-        .question-tags .tag.primary {
-            border-color: var(--primary);
-            color: var(--primary);
-        }
-
-        /* ============================================================
-           LIVE ACTIVITY TIMELINE
-           ============================================================ */
         .timeline-item {
             display: flex;
             gap: 0.8rem;
-            padding: 0.5rem 0;
+            padding: 0.4rem 0;
             border-bottom: 1px solid var(--border-color);
         }
 
@@ -1304,9 +1221,9 @@
         }
 
         .timeline-item .time {
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             color: var(--text-muted);
-            min-width: 60px;
+            min-width: 55px;
             text-align: left;
             font-weight: 600;
         }
@@ -1316,24 +1233,24 @@
         }
 
         .timeline-item .content .event {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: 600;
             color: var(--text-primary);
         }
 
         .timeline-item .content .detail {
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             color: var(--text-muted);
         }
 
         .timeline-item .icon {
-            width: 28px;
-            height: 28px;
+            width: 26px;
+            height: 26px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             flex-shrink: 0;
         }
 
@@ -1342,6 +1259,46 @@
         .timeline-item .icon.danger { background: var(--danger-bg); color: var(--danger); }
         .timeline-item .icon.warning { background: var(--warning-bg); color: var(--warning); }
         .timeline-item .icon.info { background: var(--info-bg); color: var(--info); }
+
+        .points-audit-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.3rem 0.5rem;
+            border-radius: var(--radius-sm);
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.75rem;
+            flex-wrap: wrap;
+            gap: 0.3rem;
+        }
+
+        .points-audit-item .change.positive { color: var(--success); }
+        .points-audit-item .change.negative { color: var(--danger); }
+
+        .refresh-btn {
+            padding: 0.2rem 0.7rem;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-color);
+            background: transparent;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-family: 'Tajawal', sans-serif;
+            font-size: 0.65rem;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .refresh-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: var(--primary-bg);
+        }
+
+        .refresh-btn .spinning {
+            animation: spin 0.8s linear infinite;
+        }
     </style>
 </head>
 <body>
@@ -1362,7 +1319,7 @@
                 <i class="fas fa-chart-pie"></i> الرئيسية
             </a>
             <a class="nav-item" data-page="online" onclick="loadPage('online')">
-                <i class="fas fa-circle" style="color:var(--success);"></i> المتصلون الآن
+                <i class="fas fa-circle" style="color:var(--success);"></i> المتصلون
                 <span class="badge success" id="onlineCountBadge">0</span>
             </a>
             <a class="nav-item" data-page="users" onclick="loadPage('users')">
@@ -1495,14 +1452,11 @@
         let isAdmin = false;
         let allUsers = [];
         let allCourses = [];
-        let allLessons = [];
-        let allExams = [];
-        let allQuizzes = [];
-        let allAssignments = [];
         let allSubscriptions = [];
-        let allLogs = [];
         let allActivationCodes = [];
+        let allLogs = [];
         let onlineSessions = {};
+        let pointsAuditLog = [];
         let currentPage = 'dashboard';
         let isLoading = false;
         let usersPage = 1;
@@ -1518,6 +1472,7 @@
         let subscriptionsListener = null;
         let codesListener = null;
         let logsListener = null;
+        let pointsAuditListener = null;
 
         // ============================================================
         // TOAST
@@ -1615,34 +1570,25 @@
         // LOGOUT
         // ============================================================
         function logout() {
-            // Clean up listeners
             stopRealTimeListeners();
             auth.signOut().then(() => { window.location.href = 'login.html'; });
         }
 
         // ============================================================
-        // REAL-TIME LISTENERS
+        // REAL-TIME LISTENERS (FULL)
         // ============================================================
         function startRealTimeListeners() {
-            // ✅ Online Sessions (المسار الصحيح: onlineSessions)
-            if (onlineListener) {
-                db.ref('onlineSessions').off('value', onlineListener);
-            }
+            // ✅ Online Sessions
+            if (onlineListener) { db.ref('onlineSessions').off('value', onlineListener); }
             onlineListener = db.ref('onlineSessions').on('value', (snapshot) => {
-                if (snapshot.exists()) {
-                    onlineSessions = snapshot.val();
-                } else {
-                    onlineSessions = {};
-                }
+                onlineSessions = snapshot.exists() ? snapshot.val() : {};
                 updateOnlineCounter();
                 if (currentPage === 'online') renderOnlineUsers();
                 if (currentPage === 'dashboard') renderDashboard();
             });
 
             // ✅ Users
-            if (usersListener) {
-                db.ref('users').off('value', usersListener);
-            }
+            if (usersListener) { db.ref('users').off('value', usersListener); }
             usersListener = db.ref('users').on('value', (snapshot) => {
                 allUsers = [];
                 if (snapshot.exists()) {
@@ -1663,19 +1609,15 @@
                             gender: data.gender || 'غير محدد',
                             createdAt: data.createdAt || Date.now(),
                             banned: data.banned === true || data.isBanned === true,
-                            status: data.banned === true || data.isBanned === true ? 'banned' : 'active',
+                            frozen: data.frozen || false,
                             active: data.active !== false,
-                            loginCount: data.loginCount || 0,
                             lastLogin: data.lastLogin || null,
                             rank: data.rank || '--',
                             progress: data.progress || {},
                             photoURL: data.photoURL || '',
                             code: data.code || '',
                             premiumCourses: data.premiumCourses || {},
-                            errorBank: data.errorBank || [],
-                            results: data.results || [],
-                            subscriptions: data.subscriptions || {},
-                            frozen: data.frozen || false
+                            results: data.results || []
                         });
                     });
                 }
@@ -1685,9 +1627,7 @@
             });
 
             // ✅ Courses
-            if (coursesListener) {
-                db.ref('courses').off('value', coursesListener);
-            }
+            if (coursesListener) { db.ref('courses').off('value', coursesListener); }
             coursesListener = db.ref('courses').on('value', (snapshot) => {
                 allCourses = [];
                 if (snapshot.exists()) {
@@ -1708,10 +1648,8 @@
                 if (currentPage === 'dashboard') renderDashboard();
             });
 
-            // ✅ Subscriptions (المسار الصحيح: subscriptions)
-            if (subscriptionsListener) {
-                db.ref('subscriptions').off('value', subscriptionsListener);
-            }
+            // ✅ Subscriptions
+            if (subscriptionsListener) { db.ref('subscriptions').off('value', subscriptionsListener); }
             subscriptionsListener = db.ref('subscriptions').on('value', (snapshot) => {
                 allSubscriptions = [];
                 if (snapshot.exists()) {
@@ -1723,10 +1661,8 @@
                 if (currentPage === 'dashboard') renderDashboard();
             });
 
-            // ✅ Activation Codes (المسار الصحيح: activationCodes)
-            if (codesListener) {
-                db.ref('activationCodes').off('value', codesListener);
-            }
+            // ✅ Activation Codes
+            if (codesListener) { db.ref('activationCodes').off('value', codesListener); }
             codesListener = db.ref('activationCodes').on('value', (snapshot) => {
                 allActivationCodes = [];
                 if (snapshot.exists()) {
@@ -1739,10 +1675,8 @@
                 if (currentPage === 'dashboard') renderDashboard();
             });
 
-            // ✅ Admin Logs (المسار الصحيح: adminLogs)
-            if (logsListener) {
-                db.ref('adminLogs').off('value', logsListener);
-            }
+            // ✅ Admin Logs
+            if (logsListener) { db.ref('adminLogs').off('value', logsListener); }
             logsListener = db.ref('adminLogs').orderByChild('timestamp').limitToLast(100).on('value', (snapshot) => {
                 allLogs = [];
                 if (snapshot.exists()) {
@@ -1750,6 +1684,20 @@
                         allLogs.push({ id: child.key, ...child.val() });
                     });
                     allLogs.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+                }
+                if (currentPage === 'dashboard') renderDashboard();
+            });
+
+            // ✅ Points Audit Log
+            if (pointsAuditListener) { db.ref('pointsAudit').off('value', pointsAuditListener); }
+            pointsAuditListener = db.ref('pointsAudit').orderByChild('timestamp').limitToLast(100).on('value', (
+                snapshot) => {
+                pointsAuditLog = [];
+                if (snapshot.exists()) {
+                    snapshot.forEach(child => {
+                        pointsAuditLog.push({ id: child.key, ...child.val() });
+                    });
+                    pointsAuditLog.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
                 }
                 if (currentPage === 'dashboard') renderDashboard();
             });
@@ -1768,10 +1716,12 @@
                 codesListener = null; }
             if (logsListener) { db.ref('adminLogs').off('value', logsListener);
                 logsListener = null; }
+            if (pointsAuditListener) { db.ref('pointsAudit').off('value', pointsAuditListener);
+                pointsAuditListener = null; }
         }
 
         // ============================================================
-        // ONLINE COUNTER - REAL-TIME
+        // ONLINE COUNTER
         // ============================================================
         function updateOnlineCounter() {
             const count = Object.keys(onlineSessions).length;
@@ -1780,17 +1730,10 @@
         }
 
         // ============================================================
-        // LOAD DATA (Initial)
+        // LOAD DATA
         // ============================================================
         function loadAllData() {
-            return Promise.all([
-                // Users are loaded via listener
-                // Courses are loaded via listener
-                // Subscriptions are loaded via listener
-                // Codes are loaded via listener
-                // Logs are loaded via listener
-                // Online sessions are loaded via listener
-            ]);
+            return Promise.all([]);
         }
 
         // ============================================================
@@ -1853,7 +1796,7 @@
         }
 
         // ============================================================
-        // DASHBOARD - FULL REAL-TIME STATS
+        // DASHBOARD - FULL REAL-TIME
         // ============================================================
         function renderDashboard() {
             const content = document.getElementById('pageContent');
@@ -1861,27 +1804,20 @@
             const now = Date.now();
             const today = new Date().toDateString();
             const weekAgo = new Date(now - 7 * 86400000);
-            const monthAgo = new Date(now - 30 * 86400000);
 
+            let onlineCount = Object.keys(onlineSessions).length;
             let totalStudents = allUsers.length;
             let totalCourses = allCourses.length;
             let totalSubscriptions = allSubscriptions.filter(s => s.status === 'active').length;
             let totalCodes = allActivationCodes.length;
-            const availableCodes = allActivationCodes.filter(c => c.status === 'available' || c.status === 'active' || !
-                c.used).length;
+            let availableCodes = allActivationCodes.filter(c => c.status === 'available' || c.status === 'active' || !c
+                .used).length;
             let totalAtoms = allUsers.reduce((sum, u) => sum + (u.atoms || 0), 0);
             let avgAtoms = totalStudents > 0 ? Math.round(totalAtoms / totalStudents) : 0;
 
-            let onlineCount = Object.keys(onlineSessions).length;
-
-            // Time-based Stats
             let newToday = allUsers.filter(u => new Date(u.createdAt).toDateString() === today).length;
             let newWeek = allUsers.filter(u => new Date(u.createdAt) >= weekAgo).length;
-            let newMonth = allUsers.filter(u => new Date(u.createdAt) >= monthAgo).length;
-
             let activeToday = allUsers.filter(u => u.lastLogin && new Date(u.lastLogin).toDateString() === today).length;
-            let activeWeek = allUsers.filter(u => u.lastLogin && new Date(u.lastLogin) >= weekAgo).length;
-
             let subsToday = allSubscriptions.filter(s =>
                 s.createdAt && new Date(s.createdAt).toDateString() === today
             ).length;
@@ -1894,34 +1830,18 @@
                 else genderStats['غير محدد']++;
             });
 
-            // Section stats
-            const sectionStats = {
-                'علمي علوم': 0,
-                'علمي رياضة': 0,
-                'أدبي': 0,
-                'كل الشعب': 0,
-                'غير محدد': 0
-            };
-            allUsers.forEach(u => {
-                const section = u.section || 'غير محدد';
-                if (sectionStats[section] !== undefined) sectionStats[section]++;
-                else sectionStats['غير محدد']++;
-            });
-
             // Device stats from online sessions
             const deviceStats = { 'Desktop': 0, 'Mobile': 0, 'Tablet': 0 };
             const browserStats = { 'Chrome': 0, 'Edge': 0, 'Firefox': 0, 'Safari': 0, 'Other': 0 };
-
             Object.values(onlineSessions).forEach(session => {
                 const device = session.deviceType || 'Desktop';
                 deviceStats[device] = (deviceStats[device] || 0) + 1;
-
                 const browser = session.browser || 'Other';
                 if (browserStats[browser] !== undefined) browserStats[browser]++;
                 else browserStats['Other']++;
             });
 
-            // Course subscriptions distribution
+            // Course subscriptions
             const courseSubs = {};
             allCourses.forEach(c => {
                 const count = c.subscribers ? Object.keys(c.subscribers).length : 0;
@@ -1938,7 +1858,21 @@
                 }
             });
 
-            // Grade distribution
+            // Section stats
+            const sectionStats = {
+                'علمي علوم': 0,
+                'علمي رياضة': 0,
+                'أدبي': 0,
+                'كل الشعب': 0,
+                'غير محدد': 0
+            };
+            allUsers.forEach(u => {
+                const section = u.section || 'غير محدد';
+                if (sectionStats[section] !== undefined) sectionStats[section]++;
+                else sectionStats['غير محدد']++;
+            });
+
+            // Grade stats
             const gradeStats = {};
             allUsers.forEach(u => {
                 const grade = u.grade || 'غير محدد';
@@ -1948,62 +1882,81 @@
             content.innerHTML = `
                 <!-- Stats Cards -->
                 <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="icon">🟢</div>
-                        <span class="number success">${onlineCount}</span>
+                    <div class="stat-card success">
+                        <div class="stat-top">
+                            <span class="number success">${onlineCount}</span>
+                            <span class="icon">🟢</span>
+                        </div>
                         <div class="label">متصلون الآن</div>
-                        <div class="change up">تحديث فوري</div>
+                        <span class="change up">تحديث فوري</span>
                     </div>
-                    <div class="stat-card">
-                        <div class="icon">👥</div>
-                        <span class="number primary">${totalStudents}</span>
+                    <div class="stat-card primary">
+                        <div class="stat-top">
+                            <span class="number primary">${totalStudents}</span>
+                            <span class="icon">👥</span>
+                        </div>
                         <div class="label">إجمالي الطلاب</div>
-                        <div class="change up">+${newToday} اليوم • +${newWeek} أسبوعياً</div>
+                        <span class="change up">+${newToday} اليوم</span>
                     </div>
-                    <div class="stat-card">
-                        <div class="icon">📈</div>
-                        <span class="number info">${newToday}</span>
+                    <div class="stat-card info">
+                        <div class="stat-top">
+                            <span class="number info">${newToday}</span>
+                            <span class="icon">📈</span>
+                        </div>
                         <div class="label">تسجيلات اليوم</div>
-                        <div class="change up">${newWeek} هذا الأسبوع • ${newMonth} هذا الشهر</div>
+                        <span class="change up">+${newWeek} أسبوعياً</span>
                     </div>
-                    <div class="stat-card">
-                        <div class="icon">👨</div>
-                        <span class="number info">${genderStats['ذكر']}</span>
+                    <div class="stat-card primary">
+                        <div class="stat-top">
+                            <span class="number primary">${genderStats['ذكر']}</span>
+                            <span class="icon">👨</span>
+                        </div>
                         <div class="label">ذكور</div>
                     </div>
-                    <div class="stat-card">
-                        <div class="icon">👩</div>
-                        <span class="number success">${genderStats['أنثى']}</span>
+                    <div class="stat-card success">
+                        <div class="stat-top">
+                            <span class="number success">${genderStats['أنثى']}</span>
+                            <span class="icon">👩</span>
+                        </div>
                         <div class="label">إناث</div>
                     </div>
-                    <div class="stat-card">
-                        <div class="icon">📚</div>
-                        <span class="number primary">${totalCourses}</span>
+                    <div class="stat-card info">
+                        <div class="stat-top">
+                            <span class="number info">${totalCourses}</span>
+                            <span class="icon">📚</span>
+                        </div>
                         <div class="label">الكورسات</div>
                     </div>
-                    <div class="stat-card">
-                        <div class="icon">💳</div>
-                        <span class="number success">${totalSubscriptions}</span>
+                    <div class="stat-card success">
+                        <div class="stat-top">
+                            <span class="number success">${totalSubscriptions}</span>
+                            <span class="icon">💳</span>
+                        </div>
                         <div class="label">اشتراكات نشطة</div>
-                        <div class="change up">+${subsToday} اليوم</div>
+                        <span class="change up">+${subsToday} اليوم</span>
                     </div>
-                    <div class="stat-card">
-                        <div class="icon">🔑</div>
-                        <span class="number warning">${totalCodes}</span>
+                    <div class="stat-card warning">
+                        <div class="stat-top">
+                            <span class="number warning">${totalCodes}</span>
+                            <span class="icon">🔑</span>
+                        </div>
                         <div class="label">أكواد التفعيل</div>
-                        <div style="font-size:0.6rem;color:var(--text-muted);">متاحة: ${availableCodes}</div>
+                        <div style="font-size:0.55rem;color:var(--text-muted);">متاحة: ${availableCodes}</div>
                     </div>
-                    <div class="stat-card">
-                        <div class="icon">⚛️</div>
-                        <span class="number primary">${totalAtoms}</span>
+                    <div class="stat-card primary">
+                        <div class="stat-top">
+                            <span class="number primary">${totalAtoms}</span>
+                            <span class="icon">⚛️</span>
+                        </div>
                         <div class="label">إجمالي النقاط</div>
-                        <div style="font-size:0.6rem;color:var(--text-muted);">المتوسط: ${avgAtoms}</div>
+                        <div style="font-size:0.55rem;color:var(--text-muted);">المتوسط: ${avgAtoms}</div>
                     </div>
-                    <div class="stat-card">
-                        <div class="icon">🔥</div>
-                        <span class="number warning">${activeToday}</span>
+                    <div class="stat-card warning">
+                        <div class="stat-top">
+                            <span class="number warning">${activeToday}</span>
+                            <span class="icon">🔥</span>
+                        </div>
                         <div class="label">نشطون اليوم</div>
-                        <div class="change up">${activeWeek} هذا الأسبوع</div>
                     </div>
                 </div>
 
@@ -2012,7 +1965,7 @@
                     <div class="chart-card">
                         <div class="chart-header">📊 توزيع الطلاب حسب الشعبة</div>
                         <div class="chart-bar-container">
-                            ${Object.entries(sectionStats).filter(([k,v]) => v > 0 || k === 'غير محدد').map(([key, count]) => {
+                            ${Object.entries(sectionStats).filter(([k,v]) => v > 0).map(([key, count]) => {
                                 const max = Math.max(...Object.values(sectionStats), 1);
                                 const pct = Math.round((count / max) * 100);
                                 const color = key === 'علمي علوم' ? 'primary' : key === 'علمي رياضة' ? 'info' : key === 'أدبي' ? 'success' : 'warning';
@@ -2025,14 +1978,14 @@
                                         <span class="value">${count}</span>
                                     </div>
                                 `;
-                            }).join('')}
+                            }).join('') || '<div class="chart-empty"><span class="icon">📊</span>لا توجد بيانات</div>'}
                         </div>
                     </div>
 
                     <div class="chart-card">
                         <div class="chart-header">👤 توزيع الطلاب حسب النوع</div>
                         <div class="chart-bar-container">
-                            ${Object.entries(genderStats).filter(([k,v]) => v > 0 || k === 'غير محدد').map(([key, count]) => {
+                            ${Object.entries(genderStats).filter(([k,v]) => v > 0).map(([key, count]) => {
                                 const max = Math.max(...Object.values(genderStats), 1);
                                 const pct = Math.round((count / max) * 100);
                                 const color = key === 'ذكر' ? 'info' : key === 'أنثى' ? 'success' : 'warning';
@@ -2046,7 +1999,7 @@
                                         <span class="value">${count}</span>
                                     </div>
                                 `;
-                            }).join('')}
+                            }).join('') || '<div class="chart-empty"><span class="icon">👤</span>لا توجد بيانات</div>'}
                         </div>
                     </div>
 
@@ -2065,32 +2018,32 @@
                                         <span class="value">${count}</span>
                                     </div>
                                 `;
-                            }).join('')}
+                            }).join('') || '<div class="chart-empty"><span class="icon">📊</span>لا توجد بيانات</div>'}
                         </div>
                     </div>
 
                     <div class="chart-card">
                         <div class="chart-header">📚 توزيع المشتركين في الكورسات</div>
                         <div class="chart-bar-container">
-                            ${Object.entries(courseSubs).sort((a,b) => b[1] - a[1]).slice(0, 5).map(([key, count]) => {
+                            ${Object.entries(courseSubs).sort((a,b) => b[1] - a[1]).slice(0, 6).map(([key, count]) => {
                                 const max = Math.max(...Object.values(courseSubs), 1);
                                 const pct = Math.round((count / max) * 100);
+                                const display = key.length > 10 ? key.substring(0,10)+'...' : key;
                                 return `
                                     <div class="chart-bar-item">
-                                        <span class="label" style="min-width:80px;font-size:0.65rem;">${key.length > 12 ? key.substring(0,12)+'...' : key}</span>
+                                        <span class="label" style="min-width:60px;font-size:0.6rem;">${display}</span>
                                         <div class="bar-track">
                                             <div class="bar-fill primary" style="width:${pct}%;"></div>
                                         </div>
                                         <span class="value">${count}</span>
                                     </div>
                                 `;
-                            }).join('')}
-                            ${Object.keys(courseSubs).length === 0 ? '<div class="text-muted" style="text-align:center;font-size:0.8rem;">لا توجد بيانات</div>' : ''}
+                            }).join('') || '<div class="chart-empty"><span class="icon">📚</span>لا توجد بيانات</div>'}
                         </div>
                     </div>
 
                     <div class="chart-card">
-                        <div class="chart-header">💻 توزيع الأجهزة (المتصلون)</div>
+                        <div class="chart-header">💻 الأجهزة المستخدمة (المتصلون)</div>
                         <div class="chart-bar-container">
                             ${Object.entries(deviceStats).filter(([k,v]) => v > 0).map(([key, count]) => {
                                 const max = Math.max(...Object.values(deviceStats), 1);
@@ -2105,13 +2058,12 @@
                                         <span class="value">${count}</span>
                                     </div>
                                 `;
-                            }).join('')}
-                            ${Object.keys(deviceStats).filter(k => deviceStats[k] > 0).length === 0 ? '<div class="text-muted" style="text-align:center;font-size:0.8rem;">لا توجد بيانات</div>' : ''}
+                            }).join('') || '<div class="chart-empty"><span class="icon">💻</span>لا توجد بيانات</div>'}
                         </div>
                     </div>
 
                     <div class="chart-card">
-                        <div class="chart-header">🌐 توزيع المتصفحات (المتصلون)</div>
+                        <div class="chart-header">🌐 المتصفحات المستخدمة (المتصلون)</div>
                         <div class="chart-bar-container">
                             ${Object.entries(browserStats).filter(([k,v]) => v > 0).map(([key, count]) => {
                                 const max = Math.max(...Object.values(browserStats), 1);
@@ -2126,47 +2078,42 @@
                                         <span class="value">${count}</span>
                                     </div>
                                 `;
-                            }).join('')}
-                            ${Object.keys(browserStats).filter(k => browserStats[k] > 0).length === 0 ? '<div class="text-muted" style="text-align:center;font-size:0.8rem;">لا توجد بيانات</div>' : ''}
+                            }).join('') || '<div class="chart-empty"><span class="icon">🌐</span>لا توجد بيانات</div>'}
                         </div>
                     </div>
+                </div>
 
-                    <div class="chart-card">
-                        <div class="chart-header">🏆 الكورس الأكثر اشتراكاً</div>
-                        ${mostPopularCourse ? `
-                            <div style="text-align:center;padding:0.5rem;">
-                                <div style="font-size:1.2rem;font-weight:700;color:var(--primary);">${mostPopularCourse.title}</div>
-                                <div style="font-size:0.9rem;color:var(--text-muted);">👥 ${maxSubs} مشترك</div>
-                                <div style="font-size:0.8rem;color:var(--text-muted);">${mostPopularCourse.isFree ? '🆓 مجاني' : '💰 مدفوع'}</div>
-                            </div>
-                        ` : '<div class="text-muted" style="text-align:center;">لا توجد بيانات</div>'}
+                <!-- Points Audit Log -->
+                <div class="card">
+                    <div class="card-header">
+                        <h4>🧾 سجل تعديلات النقاط</h4>
+                        <span style="font-size:0.6rem;color:var(--text-muted);">آخر 100 عملية</span>
                     </div>
-
-                    <div class="chart-card">
-                        <div class="chart-header">📊 توزيع نوع التعليم</div>
-                        <div class="chart-bar-container">
-                            ${(() => {
-                                const types = {};
-                                allUsers.forEach(u => {
-                                    const t = u.studyType || 'عام';
-                                    types[t] = (types[t] || 0) + 1;
-                                });
-                                return Object.entries(types).map(([key, count]) => {
-                                    const max = Math.max(...Object.values(types), 1);
-                                    const pct = Math.round((count / max) * 100);
-                                    const label = key === 'عام' ? '🏫 عام' : key === 'أزهري' ? '🕌 أزهري' : '📚 ' + key;
-                                    return `
-                                        <div class="chart-bar-item">
-                                            <span class="label" style="min-width:70px;font-size:0.65rem;">${label}</span>
-                                            <div class="bar-track">
-                                                <div class="bar-fill info" style="width:${pct}%;"></div>
-                                            </div>
-                                            <span class="value">${count}</span>
-                                        </div>
-                                    `;
-                                }).join('') || '<div class="text-muted" style="text-align:center;font-size:0.8rem;">لا توجد بيانات</div>';
-                            })()}
-                        </div>
+                    <div>
+                        ${pointsAuditLog.length === 0 ? `
+                            <div class="empty-state"><p>لا توجد تعديلات نقاط</p></div>
+                        ` : pointsAuditLog.slice(0, 10).map(log => {
+                            const change = log.newValue - log.oldValue;
+                            const isPositive = change > 0;
+                            return `
+                                <div class="points-audit-item">
+                                    <div>
+                                        <strong>${log.userName || 'مستخدم'}</strong>
+                                        <span style="color:var(--text-muted);font-size:0.65rem;">${log.userId ? log.userId.substring(0,8)+'...' : ''}</span>
+                                    </div>
+                                    <div>
+                                        <span style="color:var(--text-muted);font-size:0.65rem;">${log.oldValue || 0} → ${log.newValue || 0}</span>
+                                        <span class="change ${isPositive ? 'positive' : 'negative'}">
+                                            ${isPositive ? '+' : ''}${change}
+                                        </span>
+                                    </div>
+                                    <div style="font-size:0.6rem;color:var(--text-muted);">
+                                        ${log.adminName || 'Admin'} • ${log.timestamp ? new Date(log.timestamp).toLocaleString('ar') : ''}
+                                        ${log.reason ? `• ${log.reason}` : ''}
+                                    </div>
+                                </div>
+                            `;
+                        }).join('')}
                     </div>
                 </div>
 
@@ -2174,7 +2121,7 @@
                 <div class="card">
                     <div class="card-header">
                         <h4>📋 آخر الأنشطة</h4>
-                        <span style="font-size:0.7rem;color:var(--text-muted);">تحديث فوري</span>
+                        <span style="font-size:0.6rem;color:var(--text-muted);">تحديث فوري</span>
                     </div>
                     <div>
                         ${allLogs.slice(0, 8).map(log => {
@@ -2227,15 +2174,17 @@
 
             content.innerHTML = `
                 <div class="stats-grid" style="margin-bottom:1rem;">
-                    <div class="stat-card">
-                        <div class="icon">🟢</div>
-                        <span class="number success">${onlineCount}</span>
+                    <div class="stat-card success">
+                        <div class="stat-top">
+                            <span class="number success">${onlineCount}</span>
+                            <span class="icon">🟢</span>
+                        </div>
                         <div class="label">متصلون الآن</div>
-                        <div class="change up">تحديث فوري</div>
+                        <span class="change up">تحديث فوري</span>
                     </div>
                 </div>
 
-                <div class="online-users-grid" id="onlineUsersGrid">
+                <div class="online-users-grid">
                     ${Object.keys(onlineSessions).length === 0 ? `
                         <div class="empty-state" style="grid-column:1/-1;">
                             <div class="icon">🟢</div>
@@ -2255,6 +2204,7 @@
                         const courseName = course?.title || courseId;
                         const loginTime = session.loginAt ? new Date(session.loginAt).toLocaleTimeString('ar') : '—';
                         const duration = session.loginAt ? Math.floor((Date.now() - new Date(session.loginAt).getTime()) / 60000) : 0;
+                        const durationDisplay = duration > 0 ? `${duration}m` : '—';
 
                         const deviceIcon = device === 'Desktop' ? '🖥️' : device === 'Mobile' ? '📱' : '📟';
                         const osIcon = os === 'Windows' ? '🪟' : os === 'macOS' ? '🍎' : os === 'Android' ? '🤖' : os === 'iOS' ? '🍏' : '💻';
@@ -2267,17 +2217,18 @@
                                 <div class="info">
                                     <div class="name">${name}</div>
                                     <div class="details">
-                                        <span>${deviceIcon} ${device}</span>
-                                        <span>${osIcon} ${os}</span>
-                                        <span>${browser}</span>
+                                        <span class="tag">${deviceIcon} ${device}</span>
+                                        <span class="tag">${osIcon} ${os}</span>
+                                        <span class="tag">${browser}</span>
                                     </div>
-                                    <div class="details" style="font-size:0.6rem;color:var(--text-muted);">
+                                    <div class="details" style="font-size:0.55rem;color:var(--text-muted);">
                                         <span>📄 ${page}</span>
                                         ${courseName && courseName !== '—' ? `<span>📚 ${courseName}</span>` : ''}
+                                        <span>🆔 ${sessionId.substring(0, 8)}...</span>
                                     </div>
                                 </div>
                                 <div class="time">
-                                    <div><span class="status-dot online"></span> ${duration}m</div>
+                                    <div class="duration">${durationDisplay}</div>
                                     <div style="font-size:0.5rem;color:var(--text-muted);">🕐 ${loginTime}</div>
                                 </div>
                             </div>
@@ -2285,9 +2236,10 @@
                     }).join('')}
                 </div>
 
-                <div class="card" style="margin-top:1rem;">
+                <div class="card">
                     <div class="card-header">
-                        <h4>📊 تفاصيل الجلسات</h4>
+                        <h4>📊 تفاصيل الجلسات النشطة</h4>
+                        <span style="font-size:0.6rem;color:var(--text-muted);">${Object.keys(onlineSessions).length} جلسة</span>
                     </div>
                     <div class="table-wrapper">
                         <table>
@@ -2296,7 +2248,7 @@
                             </thead>
                             <tbody>
                                 ${Object.keys(onlineSessions).length === 0 ? `
-                                    <tr><td colspan="8" style="text-align:center;color:var(--text-muted);padding:1rem;">لا توجد جلسات نشطة</td></tr>
+                                    <tr><td colspan="8" style="text-align:center;color:var(--text-muted);padding:0.8rem;">لا توجد جلسات نشطة</td></tr>
                                 ` : Object.entries(onlineSessions).slice(0, 30).map(([sessionId, session]) => {
                                     const user = allUsers.find(u => u.id === session.uid);
                                     const name = user?.name || session.name || 'مستخدم';
@@ -2306,7 +2258,7 @@
                                     return `
                                         <tr>
                                             <td>${name}</td>
-                                            <td style="font-family:monospace;font-size:0.6rem;">${sessionId.substring(0, 12)}...</td>
+                                            <td style="font-family:monospace;font-size:0.55rem;">${sessionId.substring(0, 12)}...</td>
                                             <td>${loginTime}</td>
                                             <td>${durationDisplay}</td>
                                             <td>${session.deviceType || '—'}</td>
@@ -2322,7 +2274,6 @@
                 </div>
             `;
 
-            // Update online counter badge
             document.getElementById('onlineCountBadge').textContent = onlineCount;
         }
 
@@ -2348,21 +2299,17 @@
             if (usersFilter === 'banned') filtered = filtered.filter(u => u.banned);
             else if (usersFilter === 'active') filtered = filtered.filter(u => !u.banned && !u.frozen);
             else if (usersFilter === 'frozen') filtered = filtered.filter(u => u.frozen);
-            else if (usersFilter === 'subscribed') {
-                const subUserIds = allSubscriptions.filter(s => s.status === 'active').map(s => s.userId);
-                filtered = filtered.filter(u => subUserIds.includes(u.id));
-            } else if (usersFilter === 'male') filtered = filtered.filter(u => u.gender === 'ذكر');
-            else if (usersFilter === 'female') filtered = filtered.filter(u => u.gender === 'أنثى');
             else if (usersFilter === 'online') {
                 const onlineIds = Object.values(onlineSessions).map(s => s.uid);
                 filtered = filtered.filter(u => onlineIds.includes(u.id));
-            }
+            } else if (usersFilter === 'male') filtered = filtered.filter(u => u.gender === 'ذكر');
+            else if (usersFilter === 'female') filtered = filtered.filter(u => u.gender === 'أنثى');
 
             if (usersSort === 'newest') filtered.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
             else if (usersSort === 'oldest') filtered.sort((a, b) => (a.createdAt || 0) - (b.createdAt || 0));
             else if (usersSort === 'name') filtered.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
             else if (usersSort === 'most_atoms') filtered.sort((a, b) => (b.atoms || 0) - (a.atoms || 0));
-            else if (usersSort === 'most_active') filtered.sort((a, b) => (b.lastLogin || 0) - (a.lastLogin || 0));
+            else if (usersSort === 'most_active') filtered.sort((a, b) => (b.lastLogin || 0) - (b.lastLogin || 0));
 
             const totalPages = Math.ceil(filtered.length / USERS_PAGE_SIZE);
             const start = (usersPage - 1) * USERS_PAGE_SIZE;
@@ -2378,14 +2325,13 @@
                     </div>
 
                     <div class="search-bar">
-                        <input type="text" placeholder="🔍 بحث بالاسم أو الرقم أو البريد أو الكود..." value="${usersSearch}" oninput="usersSearch=this.value;usersPage=1;renderUsers();" style="flex:1;min-width:150px;">
+                        <input type="text" placeholder="🔍 بحث بالاسم أو الرقم أو البريد أو الكود..." value="${usersSearch}" oninput="usersSearch=this.value;usersPage=1;renderUsers();" style="flex:1;min-width:120px;">
                         <select onchange="usersFilter=this.value;usersPage=1;renderUsers();">
                             <option value="all" ${usersFilter==='all'?'selected':''}>كل الطلاب</option>
                             <option value="active" ${usersFilter==='active'?'selected':''}>نشطون</option>
                             <option value="online" ${usersFilter==='online'?'selected':''}>🟢 متصلون</option>
                             <option value="banned" ${usersFilter==='banned'?'selected':''}>محظورون</option>
                             <option value="frozen" ${usersFilter==='frozen'?'selected':''}>مجمدون</option>
-                            <option value="subscribed" ${usersFilter==='subscribed'?'selected':''}>لديهم اشتراك</option>
                             <option value="male" ${usersFilter==='male'?'selected':''}>ذكور</option>
                             <option value="female" ${usersFilter==='female'?'selected':''}>إناث</option>
                         </select>
@@ -2406,21 +2352,20 @@
                                     <th>الهاتف</th>
                                     <th>الصف</th>
                                     <th>النقاط</th>
-                                    <th>الاشتراك</th>
                                     <th>الحالة</th>
+                                    <th>آخر ظهور</th>
                                     <th>إجراءات</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 ${pageItems.length === 0 ? `
-                                    <tr><td colspan="7" style="text-align:center;color:var(--text-muted);padding:1.5rem;">لا يوجد طلاب</td></tr>
+                                    <tr><td colspan="7" style="text-align:center;color:var(--text-muted);padding:1rem;">لا يوجد طلاب</td></tr>
                                 ` : pageItems.map(u => {
                                     const isOnline = Object.values(onlineSessions).some(s => s.uid === u.id);
                                     const userSubs = allSubscriptions.filter(s => s.userId === u.id && s.status === 'active');
-                                    const subTypes = userSubs.map(s => s.type === 'free' || s.type === 'free_subscription' ? 'مجاني' : 'مدفوع');
-                                    const subDisplay = userSubs.length > 0 ? (subTypes.includes('مدفوع') ? '💳 مدفوع' : '🆓 مجاني') : '—';
-                                    const genderIcon = u.gender === 'ذكر' ? '👨' : u.gender === 'أنثى' ? '👩' : '👤';
+                                    const subDisplay = userSubs.length > 0 ? `${userSubs.length} ${userSubs.some(s => s.type !== 'free') ? '💳' : '🆓'}` : '—';
                                     const onlineStatus = isOnline ? '<span class="status-badge online">🟢 متصل</span>' : '<span class="status-badge offline">⚫ غير متصل</span>';
+                                    const lastSeen = u.lastLogin ? new Date(u.lastLogin).toLocaleDateString('ar') : '—';
                                     return `
                                     <tr>
                                         <td>
@@ -2428,27 +2373,27 @@
                                                 <span class="avatar-sm">${u.photoURL ? `<img src="${u.photoURL}">` : (u.name ? u.name[0] : 'U')}</span>
                                                 <div>
                                                     <div style="font-weight:600;">${u.name}</div>
-                                                    <div style="font-size:0.6rem;color:var(--text-muted);">${u.code || ''}</div>
+                                                    <div style="font-size:0.55rem;color:var(--text-muted);">${u.code || ''}</div>
                                                 </div>
                                             </div>
                                         </td>
                                         <td>${u.phone || '—'}</td>
                                         <td>${u.grade || '—'}</td>
                                         <td><strong style="color:var(--primary);">${u.atoms||0}</strong></td>
-                                        <td>${subDisplay}</td>
                                         <td>
                                             ${onlineStatus}
                                             <span class="status-badge ${u.banned ? 'banned' : u.frozen ? 'pending' : 'active'}">
                                                 ${u.banned ? 'محظور' : u.frozen ? 'مجمد' : 'نشط'}
                                             </span>
                                         </td>
+                                        <td style="font-size:0.65rem;">${lastSeen}</td>
                                         <td>
                                             <button class="btn-sm primary icon-only" onclick="viewUser('${u.id}')" title="عرض"><i class="fas fa-eye"></i></button>
                                             <button class="btn-sm ${u.banned ? 'success' : 'danger'} icon-only" onclick="toggleBan('${u.id}')" title="${u.banned ? 'فك الحظر' : 'حظر'}">
                                                 <i class="fas ${u.banned ? 'fa-unlock' : 'fa-ban'}"></i>
                                             </button>
-                                            <button class="btn-sm warning icon-only" onclick="addPointsModal('${u.id}')" title="إضافة نقاط"><i class="fas fa-plus"></i></button>
-                                            <button class="btn-sm danger icon-only" onclick="deleteUser('${u.id}')" title="حذف نهائي"><i class="fas fa-user-minus"></i></button>
+                                            <button class="btn-sm warning icon-only" onclick="addPointsModal('${u.id}')" title="نقاط"><i class="fas fa-plus"></i></button>
+                                            <button class="btn-sm danger icon-only" onclick="deleteUser('${u.id}')" title="حذف"><i class="fas fa-user-minus"></i></button>
                                         </td>
                                     </tr>
                                     `;
@@ -2460,7 +2405,7 @@
                     <div class="pagination">
                         <button onclick="usersPage=1;renderUsers();" ${usersPage===1?'disabled':''}>⏮</button>
                         <button onclick="usersPage=Math.max(1,usersPage-1);renderUsers();" ${usersPage===1?'disabled':''}>◀</button>
-                        <span style="color:var(--text-muted);font-size:0.8rem;">${usersPage} / ${totalPages || 1}</span>
+                        <span style="color:var(--text-muted);font-size:0.7rem;">${usersPage} / ${totalPages || 1}</span>
                         <button onclick="usersPage=Math.min(${totalPages},usersPage+1);renderUsers();" ${usersPage>=totalPages?'disabled':''}>▶</button>
                         <button onclick="usersPage=${totalPages};renderUsers();" ${usersPage>=totalPages?'disabled':''}>⏭</button>
                     </div>
@@ -2510,38 +2455,74 @@
                     <input type="number" id="pointsAmount" value="10" min="1">
                 </div>
                 <div class="form-group">
+                    <label>نوع العملية</label>
+                    <select id="pointsAction">
+                        <option value="add">➕ إضافة</option>
+                        <option value="subtract">➖ خصم</option>
+                        <option value="set">🎯 تعيين</option>
+                    </select>
+                </div>
+                <div class="form-group">
                     <label>السبب</label>
                     <input type="text" id="pointsReason" placeholder="مثال: مكافأة على التفوق">
                 </div>
                 <div class="form-actions">
                     <button class="btn-cancel" onclick="closeModal()">إلغاء</button>
-                    <button class="btn-submit" onclick="addPoints('${userId}')">⭐ إضافة</button>
+                    <button class="btn-submit" onclick="updatePoints('${userId}')">💾 تنفيذ</button>
                 </div>
             `;
-            openModal('⭐ إضافة نقاط', html);
+            openModal('⭐ إدارة النقاط', html);
         }
 
-        function addPoints(userId) {
+        function updatePoints(userId) {
             const amount = parseInt(document.getElementById('pointsAmount').value) || 0;
+            const action = document.getElementById('pointsAction').value;
             const reason = document.getElementById('pointsReason').value || 'بدون سبب';
+
             if (amount <= 0) { showToast('يجب إدخال عدد نقاط صحيح', 'error'); return; }
 
             const user = allUsers.find(u => u.id === userId);
             if (!user) { showToast('الطالب غير موجود', 'error'); return; }
 
-            db.ref('users/' + userId + '/atoms').transaction(current => (current || 0) + amount);
+            const oldValue = user.atoms || 0;
+            let newValue = oldValue;
+
+            if (action === 'add') newValue = oldValue + amount;
+            else if (action === 'subtract') newValue = Math.max(0, oldValue - amount);
+            else if (action === 'set') newValue = amount;
+
+            if (newValue === oldValue) { showToast('⚠️ لا يوجد تغيير في النقاط', 'warning'); return; }
+
+            // ✅ تحديث النقاط
+            db.ref('users/' + userId + '/atoms').set(newValue);
+
+            // ✅ تسجيل في سجل التعديلات
+            const auditData = {
+                userId: userId,
+                userName: user.name,
+                oldValue: oldValue,
+                newValue: newValue,
+                change: newValue - oldValue,
+                action: action,
+                reason: reason,
+                adminId: currentUser.uid,
+                adminName: currentAdmin?.name || 'Admin',
+                timestamp: new Date().toISOString()
+            };
+            db.ref('pointsAudit').push(auditData);
+
+            // ✅ تسجيل في Admin Logs
             db.ref('adminLogs').push({
-                action: 'add_points',
+                action: 'update_points',
                 userId: userId,
                 userName: user.name,
                 adminId: currentUser.uid,
                 adminName: currentAdmin?.name || 'Admin',
-                amount: amount,
-                reason: reason,
                 timestamp: new Date().toISOString(),
-                details: `إضافة ${amount} نقطة للطالب ${user.name} (${reason})`
+                details: `تعديل نقاط ${user.name}: ${oldValue} → ${newValue} (${reason})`
             });
-            showToast(`✅ تم إضافة ${amount} نقطة`, 'success');
+
+            showToast(`✅ تم تحديث النقاط: ${oldValue} → ${newValue}`, 'success');
             closeModal();
         }
 
@@ -2550,66 +2531,67 @@
             if (!user) { showToast('الطالب غير موجود', 'error'); return; }
 
             const subs = allSubscriptions.filter(s => s.userId === userId && s.status === 'active');
+            const isOnline = Object.values(onlineSessions).some(s => s.uid === userId);
+            const userSessions = Object.entries(onlineSessions).filter(([id, s]) => s.uid === userId);
             const userLessons = Object.keys(user.progress || {}).filter(k => user.progress[k] && user.progress[k].watched);
             const userExams = Object.keys(user.progress || {}).filter(k => user.progress[k] && user.progress[k].type ===
                 'exam' && user.progress[k].completed);
             const userQuizzes = Object.keys(user.progress || {}).filter(k => user.progress[k] && user.progress[k].type ===
                 'quiz' && user.progress[k].completed);
-            const isOnline = Object.values(onlineSessions).some(s => s.uid === userId);
 
-            // Get user sessions
-            const userSessions = Object.entries(onlineSessions).filter(([id, s]) => s.uid === userId);
+            // Get user points audit
+            const userAudit = pointsAuditLog.filter(a => a.userId === userId).slice(0, 5);
 
             let html = `
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;margin-bottom:1rem;">
-                    <div><label style="font-size:0.7rem;color:var(--text-muted);">الاسم</label><div style="font-weight:700;font-size:1rem;">${user.name}</div></div>
-                    <div><label style="font-size:0.7rem;color:var(--text-muted);">UID</label><div style="font-family:monospace;font-size:0.75rem;color:var(--text-muted);">${user.id}</div></div>
-                    <div><label style="font-size:0.7rem;color:var(--text-muted);">رقم الهاتف</label><div>${user.phone || '—'}</div></div>
-                    <div><label style="font-size:0.7rem;color:var(--text-muted);">البريد</label><div>${user.email || '—'}</div></div>
-                    <div><label style="font-size:0.7rem;color:var(--text-muted);">النوع</label><div>${user.gender || '—'}</div></div>
-                    <div><label style="font-size:0.7rem;color:var(--text-muted);">الصف</label><div>${user.grade || '—'}</div></div>
-                    <div><label style="font-size:0.7rem;color:var(--text-muted);">الشعبة</label><div>${user.section || '—'}</div></div>
-                    <div><label style="font-size:0.7rem;color:var(--text-muted);">النقاط</label><div style="font-weight:700;color:var(--primary);font-size:1.2rem;">${user.atoms||0}</div></div>
-                    <div><label style="font-size:0.7rem;color:var(--text-muted);">الترتيب</label><div>${user.rank || '—'}</div></div>
-                    <div><label style="font-size:0.7rem;color:var(--text-muted);">كود الطالب</label><div style="font-weight:700;color:var(--primary);">${user.code || '—'}</div></div>
-                    <div><label style="font-size:0.7rem;color:var(--text-muted);">مصدر المعرفة</label><div>${user.howFound || '—'}</div></div>
-                    <div><label style="font-size:0.7rem;color:var(--text-muted);">نوع التعليم</label><div>${user.studyType || '—'}</div></div>
-                    <div><label style="font-size:0.7rem;color:var(--text-muted);">تاريخ التسجيل</label><div>${user.createdAt ? new Date(user.createdAt).toLocaleDateString('ar') : '—'}</div></div>
-                    <div><label style="font-size:0.7rem;color:var(--text-muted);">آخر ظهور</label><div>${user.lastLogin ? new Date(user.lastLogin).toLocaleString('ar') : '—'}</div></div>
-                    <div><label style="font-size:0.7rem;color:var(--text-muted);">الحالة</label><div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;margin-bottom:0.8rem;">
+                    <div><label style="font-size:0.6rem;color:var(--text-muted);">الاسم</label><div style="font-weight:700;font-size:0.9rem;">${user.name}</div></div>
+                    <div><label style="font-size:0.6rem;color:var(--text-muted);">UID</label><div style="font-family:monospace;font-size:0.65rem;color:var(--text-muted);">${user.id}</div></div>
+                    <div><label style="font-size:0.6rem;color:var(--text-muted);">رقم الهاتف</label><div>${user.phone || '—'}</div></div>
+                    <div><label style="font-size:0.6rem;color:var(--text-muted);">البريد</label><div>${user.email || '—'}</div></div>
+                    <div><label style="font-size:0.6rem;color:var(--text-muted);">النوع</label><div>${user.gender || '—'}</div></div>
+                    <div><label style="font-size:0.6rem;color:var(--text-muted);">الصف</label><div>${user.grade || '—'}</div></div>
+                    <div><label style="font-size:0.6rem;color:var(--text-muted);">الشعبة</label><div>${user.section || '—'}</div></div>
+                    <div><label style="font-size:0.6rem;color:var(--text-muted);">النقاط</label><div style="font-weight:700;color:var(--primary);font-size:1rem;">${user.atoms||0}</div></div>
+                    <div><label style="font-size:0.6rem;color:var(--text-muted);">الترتيب</label><div>${user.rank || '—'}</div></div>
+                    <div><label style="font-size:0.6rem;color:var(--text-muted);">كود الطالب</label><div style="font-weight:700;color:var(--primary);">${user.code || '—'}</div></div>
+                    <div><label style="font-size:0.6rem;color:var(--text-muted);">مصدر المعرفة</label><div>${user.howFound || '—'}</div></div>
+                    <div><label style="font-size:0.6rem;color:var(--text-muted);">نوع التعليم</label><div>${user.studyType || '—'}</div></div>
+                    <div><label style="font-size:0.6rem;color:var(--text-muted);">تاريخ التسجيل</label><div>${user.createdAt ? new Date(user.createdAt).toLocaleDateString('ar') : '—'}</div></div>
+                    <div><label style="font-size:0.6rem;color:var(--text-muted);">آخر ظهور</label><div>${user.lastLogin ? new Date(user.lastLogin).toLocaleString('ar') : '—'}</div></div>
+                    <div><label style="font-size:0.6rem;color:var(--text-muted);">الحالة</label><div>
                         ${isOnline ? '<span class="status-badge online">🟢 متصل</span>' : '<span class="status-badge offline">⚫ غير متصل</span>'}
                         <span class="status-badge ${user.banned ? 'banned' : user.frozen ? 'pending' : 'active'}">
                             ${user.banned ? 'محظور' : user.frozen ? 'مجمد' : 'نشط'}
                         </span>
                     </div></div>
-                    <div><label style="font-size:0.7rem;color:var(--text-muted);">الجلسات النشطة</label><div>${userSessions.length}</div></div>
+                    <div><label style="font-size:0.6rem;color:var(--text-muted);">الجلسات النشطة</label><div>${userSessions.length}</div></div>
                 </div>
 
-                <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:0.5rem;margin-bottom:1rem;background:var(--bg-input);padding:0.8rem;border-radius:var(--radius-sm);">
-                    <div style="text-align:center;"><div style="font-weight:700;color:var(--primary);">${userLessons.length}</div><div style="font-size:0.7rem;color:var(--text-muted);">حصص مكتملة</div></div>
-                    <div style="text-align:center;"><div style="font-weight:700;color:var(--warning);">${userExams.length}</div><div style="font-size:0.7rem;color:var(--text-muted);">امتحانات</div></div>
-                    <div style="text-align:center;"><div style="font-weight:700;color:var(--success);">${userQuizzes.length}</div><div style="font-size:0.7rem;color:var(--text-muted);">كويزات</div></div>
-                    <div style="text-align:center;"><div style="font-weight:700;color:var(--info);">${subs.length}</div><div style="font-size:0.7rem;color:var(--text-muted);">اشتراكات</div></div>
+                <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:0.3rem;margin-bottom:0.8rem;background:var(--bg-input);padding:0.5rem;border-radius:var(--radius-sm);">
+                    <div style="text-align:center;"><div style="font-weight:700;color:var(--primary);font-size:0.9rem;">${userLessons.length}</div><div style="font-size:0.55rem;color:var(--text-muted);">حصص مكتملة</div></div>
+                    <div style="text-align:center;"><div style="font-weight:700;color:var(--warning);font-size:0.9rem;">${userExams.length}</div><div style="font-size:0.55rem;color:var(--text-muted);">امتحانات</div></div>
+                    <div style="text-align:center;"><div style="font-weight:700;color:var(--success);font-size:0.9rem;">${userQuizzes.length}</div><div style="font-size:0.55rem;color:var(--text-muted);">كويزات</div></div>
+                    <div style="text-align:center;"><div style="font-weight:700;color:var(--info);font-size:0.9rem;">${subs.length}</div><div style="font-size:0.55rem;color:var(--text-muted);">اشتراكات</div></div>
                 </div>
 
-                <div style="margin-bottom:0.8rem;">
-                    <label style="font-size:0.7rem;color:var(--text-muted);">📚 الكورسات المشترك فيها (${subs.length})</label>
-                    <div style="display:flex;flex-wrap:wrap;gap:0.3rem;margin-top:0.2rem;">
+                <div style="margin-bottom:0.6rem;">
+                    <label style="font-size:0.6rem;color:var(--text-muted);">📚 الكورسات المشترك فيها (${subs.length})</label>
+                    <div style="display:flex;flex-wrap:wrap;gap:0.2rem;margin-top:0.2rem;">
                         ${subs.length > 0 ? subs.map(s => {
                             const course = allCourses.find(c => c.id === s.courseId);
                             const isFree = s.type === 'free' || s.type === 'free_subscription' || course?.isFree === true;
-                            return `<span style="background:var(--bg-input);padding:0.15rem 0.6rem;border-radius:50px;font-size:0.7rem;border:1px solid ${isFree ? 'var(--success)' : 'var(--primary)'};color:${isFree ? 'var(--success)' : 'var(--primary)'};">${course ? course.title : s.courseId} ${isFree ? '🆓' : '💳'}</span>`;
-                        }).join('') : '<span style="color:var(--text-muted);font-size:0.8rem;">لا يوجد اشتراكات</span>'}
+                            return `<span style="background:var(--bg-input);padding:0.1rem 0.4rem;border-radius:50px;font-size:0.6rem;border:1px solid ${isFree ? 'var(--success)' : 'var(--primary)'};color:${isFree ? 'var(--success)' : 'var(--primary)'};">${course ? course.title : s.courseId}</span>`;
+                        }).join('') : '<span style="color:var(--text-muted);font-size:0.7rem;">لا يوجد اشتراكات</span>'}
                     </div>
                 </div>
 
                 ${userSessions.length > 0 ? `
-                <div style="margin-bottom:0.8rem;">
-                    <label style="font-size:0.7rem;color:var(--text-muted);">🟢 الجلسات النشطة (${userSessions.length})</label>
+                <div style="margin-bottom:0.6rem;">
+                    <label style="font-size:0.6rem;color:var(--text-muted);">🟢 الجلسات النشطة (${userSessions.length})</label>
                     ${userSessions.map(([id, s]) => {
                         const duration = s.loginAt ? Math.floor((Date.now() - new Date(s.loginAt).getTime()) / 60000) : 0;
                         return `
-                            <div style="background:var(--bg-input);padding:0.3rem 0.8rem;border-radius:var(--radius-sm);margin-top:0.2rem;border:1px solid var(--success);font-size:0.7rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.3rem;">
+                            <div style="background:var(--bg-input);padding:0.2rem 0.6rem;border-radius:var(--radius-sm);margin-top:0.2rem;border:1px solid var(--success);font-size:0.65rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.2rem;">
                                 <span>🕐 ${s.loginAt ? new Date(s.loginAt).toLocaleTimeString('ar') : '—'}</span>
                                 <span>⏱ ${duration}m</span>
                                 <span>${s.deviceType || '—'} • ${s.browser || '—'}</span>
@@ -2620,11 +2602,25 @@
                 </div>
                 ` : ''}
 
-                <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+                ${userAudit.length > 0 ? `
+                <div style="margin-bottom:0.6rem;">
+                    <label style="font-size:0.6rem;color:var(--text-muted);">🧾 آخر تعديلات النقاط</label>
+                    ${userAudit.map(a => `
+                        <div style="background:var(--bg-input);padding:0.2rem 0.6rem;border-radius:var(--radius-sm);margin-top:0.2rem;font-size:0.65rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.2rem;border:1px solid ${a.change > 0 ? 'var(--success)' : 'var(--danger)'};">
+                            <span>${a.oldValue || 0} → ${a.newValue || 0} ${a.change > 0 ? '⬆' : '⬇'}</span>
+                            <span>${a.adminName || 'Admin'}</span>
+                            <span style="color:var(--text-muted);font-size:0.55rem;">${a.timestamp ? new Date(a.timestamp).toLocaleString('ar') : ''}</span>
+                            ${a.reason ? `<span style="color:var(--text-muted);font-size:0.55rem;">${a.reason}</span>` : ''}
+                        </div>
+                    `).join('')}
+                </div>
+                ` : ''}
+
+                <div style="display:flex;gap:0.3rem;flex-wrap:wrap;">
                     <button class="btn-sm ${user.banned ? 'success' : 'danger'}" onclick="toggleBan('${user.id}');closeModal();">${user.banned ? '✅ فك الحظر' : '🚫 حظر'}</button>
-                    <button class="btn-sm warning" onclick="addPointsModal('${user.id}');closeModal();">⭐ إضافة نقاط</button>
-                    <button class="btn-sm primary" onclick="closeModal();showAddSubscriptionForUser('${user.id}')">📚 إدارة الاشتراكات</button>
-                    <button class="btn-sm danger" onclick="deleteUser('${user.id}');closeModal();">🗑️ حذف نهائي</button>
+                    <button class="btn-sm warning" onclick="addPointsModal('${user.id}');closeModal();">⭐ نقاط</button>
+                    <button class="btn-sm primary" onclick="closeModal();showAddSubscriptionForUser('${user.id}')">📚 اشتراك</button>
+                    <button class="btn-sm danger" onclick="deleteUser('${user.id}');closeModal();">🗑️ حذف</button>
                 </div>
             `;
             openModal('👤 ملف الطالب: ' + user.name, html);
@@ -2647,7 +2643,6 @@
                 db.ref('users/' + userId + '/attempts').remove()
             ];
 
-            // Remove from onlineSessions
             Object.keys(onlineSessions).forEach(sessionId => {
                 if (onlineSessions[sessionId].uid === userId) {
                     promises.push(db.ref('onlineSessions/' + sessionId).remove());
@@ -2707,19 +2702,19 @@
             ).join('');
 
             let html = `
-                <div style="margin-bottom:1rem;">
-                    <h4 style="font-size:0.9rem;font-weight:700;margin-bottom:0.5rem;">📚 اشتراكات ${user.name}</h4>
+                <div style="margin-bottom:0.8rem;">
+                    <h4 style="font-size:0.85rem;font-weight:700;margin-bottom:0.3rem;">📚 اشتراكات ${user.name}</h4>
                     ${userSubs.filter(s => s.status === 'active').map(s => {
                         const course = allCourses.find(c => c.id === s.courseId);
-                        return `<div style="display:flex;justify-content:space-between;align-items:center;background:var(--bg-input);padding:0.3rem 0.8rem;border-radius:var(--radius-sm);margin-bottom:0.2rem;border:1px solid var(--primary);">
+                        return `<div style="display:flex;justify-content:space-between;align-items:center;background:var(--bg-input);padding:0.2rem 0.6rem;border-radius:var(--radius-sm);margin-bottom:0.15rem;border:1px solid var(--primary);font-size:0.75rem;">
                             <span>${course ? course.title : s.courseId}</span>
                             <span class="status-badge active">نشط</span>
                         </div>`;
-                    }).join('') || '<p style="color:var(--text-muted);font-size:0.8rem;">لا يوجد اشتراكات نشطة</p>'}
+                    }).join('') || '<p style="color:var(--text-muted);font-size:0.75rem;">لا يوجد اشتراكات نشطة</p>'}
                 </div>
 
-                <div style="border-top:1px solid var(--border-color);padding-top:0.8rem;">
-                    <h4 style="font-size:0.9rem;font-weight:700;margin-bottom:0.5rem;">➕ إضافة اشتراك</h4>
+                <div style="border-top:1px solid var(--border-color);padding-top:0.6rem;">
+                    <h4 style="font-size:0.85rem;font-weight:700;margin-bottom:0.3rem;">➕ إضافة اشتراك</h4>
                     <div class="form-group">
                         <label>اختر الكورس</label>
                         <select id="subCourseSelect">${courseOptions}</select>
@@ -2780,13 +2775,39 @@
         function renderCourses() {
             const content = document.getElementById('pageContent');
 
+            const totalFree = allCourses.filter(c => c.isFree === true).length;
+            const totalPaid = allCourses.filter(c => c.isFree === false).length;
+
             content.innerHTML = `
+                <div class="stats-grid" style="margin-bottom:1rem;">
+                    <div class="stat-card primary">
+                        <div class="stat-top">
+                            <span class="number primary">${allCourses.length}</span>
+                            <span class="icon">📚</span>
+                        </div>
+                        <div class="label">إجمالي الكورسات</div>
+                    </div>
+                    <div class="stat-card success">
+                        <div class="stat-top">
+                            <span class="number success">${totalFree}</span>
+                            <span class="icon">🆓</span>
+                        </div>
+                        <div class="label">مجانية</div>
+                    </div>
+                    <div class="stat-card warning">
+                        <div class="stat-top">
+                            <span class="number warning">${totalPaid}</span>
+                            <span class="icon">💳</span>
+                        </div>
+                        <div class="label">مدفوعة</div>
+                    </div>
+                </div>
+
                 <div class="card">
                     <div class="card-header">
                         <h4>📚 الكورسات (${allCourses.length})</h4>
                         <div class="actions">
                             <button class="btn-sm primary" onclick="showAddCourseModal()">➕ إضافة كورس</button>
-                            <button class="btn-sm primary" onclick="showAddLessonModal()">➕ إضافة حصة</button>
                         </div>
                     </div>
                     <div class="table-wrapper">
@@ -2796,7 +2817,7 @@
                             </thead>
                             <tbody>
                                 ${allCourses.length === 0 ? `
-                                    <tr><td colspan="7" style="text-align:center;color:var(--text-muted);padding:1.5rem;">لا توجد كورسات</td></tr>
+                                    <tr><td colspan="7" style="text-align:center;color:var(--text-muted);padding:1rem;">لا توجد كورسات</td></tr>
                                 ` : allCourses.map((c, i) => {
                                     const subKeys = c.subscribers ? Object.keys(c.subscribers) : [];
                                     const freeCount = subKeys.filter(k => c.subscribers[k]?.type === 'free' || c.subscribers[k]?.isFree === true).length;
@@ -2805,18 +2826,18 @@
                                     <tr>
                                         <td>${i+1}</td>
                                         <td>
-                                            <div style="display:flex;align-items:center;gap:0.5rem;">
-                                                ${c.image ? `<img src="${c.image}" style="width:32px;height:32px;object-fit:cover;border-radius:var(--radius-sm);" onerror="this.style.display='none'">` : ''}
-                                                <span style="font-weight:600;">${c.title}</span>
+                                            <div style="display:flex;align-items:center;gap:0.4rem;">
+                                                ${c.image ? `<img src="${c.image}" style="width:28px;height:28px;object-fit:cover;border-radius:var(--radius-sm);" onerror="this.style.display='none'">` : ''}
+                                                <span style="font-weight:600;font-size:0.75rem;">${c.title}</span>
                                             </div>
                                         </td>
                                         <td><span class="status-badge ${c.isFree ? 'active' : 'banned'}">${c.isFree ? '🆓 مجاني' : '💳 مدفوع'}</span></td>
                                         <td>
                                             <strong style="color:var(--primary);">${subKeys.length}</strong>
-                                            <span style="font-size:0.6rem;color:var(--text-muted);">(مجاني: ${freeCount}, مدفوع: ${paidCount})</span>
+                                            <span style="font-size:0.5rem;color:var(--text-muted);">(مجاني: ${freeCount}, مدفوع: ${paidCount})</span>
                                         </td>
                                         <td>${c.pageViews || 0}</td>
-                                        <td>${c.revenue || 0} ج.م</td>
+                                        <td>${c.revenue || 0}</td>
                                         <td>
                                             <button class="btn-sm primary icon-only" onclick="editCourse('${c.id}')" title="تعديل"><i class="fas fa-edit"></i></button>
                                             <button class="btn-sm danger icon-only" onclick="deleteCourse('${c.id}')" title="حذف"><i class="fas fa-trash"></i></button>
@@ -2831,8 +2852,128 @@
             `;
         }
 
+        function showAddCourseModal() {
+            const html = `
+                <div class="form-group">
+                    <label>اسم الكورس *</label>
+                    <input type="text" id="courseTitle" placeholder="اسم الكورس">
+                </div>
+                <div class="form-group">
+                    <label>الوصف</label>
+                    <textarea id="courseDesc" placeholder="وصف الكورس"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>رابط الصورة</label>
+                    <input type="text" id="courseImage" placeholder="https://...">
+                </div>
+                <div class="form-group">
+                    <label>النوع</label>
+                    <select id="courseType">
+                        <option value="مجاني">🆓 مجاني</option>
+                        <option value="مدفوع">💳 مدفوع</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>الصف</label>
+                    <select id="courseGrade">
+                        <option value="تالتة ثانوي">تالتة ثانوي</option>
+                        <option value="تانية ثانوي">تانية ثانوي</option>
+                        <option value="أولى ثانوي">أولى ثانوي</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button class="btn-cancel" onclick="closeModal()">إلغاء</button>
+                    <button class="btn-submit" onclick="saveCourse()">💾 حفظ</button>
+                </div>
+            `;
+            openModal('➕ إضافة كورس جديد', html);
+            window._editCourseId = null;
+        }
+
+        function editCourse(courseId) {
+            const c = allCourses.find(c => c.id === courseId);
+            if (!c) return;
+
+            const html = `
+                <div class="form-group">
+                    <label>اسم الكورس *</label>
+                    <input type="text" id="courseTitle" value="${c.title || ''}">
+                </div>
+                <div class="form-group">
+                    <label>الوصف</label>
+                    <textarea id="courseDesc">${c.description || ''}</textarea>
+                </div>
+                <div class="form-group">
+                    <label>رابط الصورة</label>
+                    <input type="text" id="courseImage" value="${c.image || ''}">
+                </div>
+                <div class="form-group">
+                    <label>النوع</label>
+                    <select id="courseType">
+                        <option value="مجاني" ${c.isFree ? 'selected' : ''}>🆓 مجاني</option>
+                        <option value="مدفوع" ${!c.isFree ? 'selected' : ''}>💳 مدفوع</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>الصف</label>
+                    <select id="courseGrade">
+                        <option value="تالتة ثانوي" ${c.grade === 'تالتة ثانوي' ? 'selected' : ''}>تالتة ثانوي</option>
+                        <option value="تانية ثانوي" ${c.grade === 'تانية ثانوي' ? 'selected' : ''}>تانية ثانوي</option>
+                        <option value="أولى ثانوي" ${c.grade === 'أولى ثانوي' ? 'selected' : ''}>أولى ثانوي</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button class="btn-cancel" onclick="closeModal()">إلغاء</button>
+                    <button class="btn-submit" onclick="saveCourse('${courseId}')">💾 تحديث</button>
+                </div>
+            `;
+            openModal('✏️ تعديل كورس: ' + c.title, html);
+            window._editCourseId = courseId;
+        }
+
+        function saveCourse(courseId) {
+            const title = document.getElementById('courseTitle').value.trim();
+            const description = document.getElementById('courseDesc').value.trim();
+            const image = document.getElementById('courseImage').value.trim();
+            const type = document.getElementById('courseType').value;
+            const grade = document.getElementById('courseGrade').value;
+
+            if (!title) { showToast('يرجى إدخال اسم الكورس', 'error'); return; }
+
+            const data = {
+                title: title,
+                description: description || '',
+                image: image || '',
+                isFree: type === 'مجاني',
+                grade: grade,
+                subscribers: {},
+                pageViews: 0,
+                revenue: 0,
+                updatedAt: new Date().toISOString()
+            };
+
+            if (courseId) {
+                db.ref('courses/' + courseId).update(data).then(() => {
+                    showToast('✅ تم تحديث الكورس', 'success');
+                    closeModal();
+                });
+            } else {
+                db.ref('courses').push(data).then(() => {
+                    showToast('✅ تم إضافة الكورس', 'success');
+                    closeModal();
+                });
+            }
+        }
+
+        function deleteCourse(courseId) {
+            if (!confirm('⚠️ هل أنت متأكد من حذف هذا الكورس؟')) return;
+            db.ref('courses/' + courseId).remove().then(() => {
+                showToast('✅ تم حذف الكورس', 'success');
+            });
+        }
+
         // ============================================================
-        // SUBSCRIPTIONS - FULL LIST
+        // SUBSCRIPTIONS
         // ============================================================
         function renderSubscriptions() {
             const content = document.getElementById('pageContent');
@@ -2843,19 +2984,25 @@
 
             content.innerHTML = `
                 <div class="stats-grid" style="margin-bottom:1rem;">
-                    <div class="stat-card">
-                        <div class="icon">💳</div>
-                        <span class="number primary">${totalActive}</span>
+                    <div class="stat-card primary">
+                        <div class="stat-top">
+                            <span class="number primary">${totalActive}</span>
+                            <span class="icon">💳</span>
+                        </div>
                         <div class="label">اشتراكات نشطة</div>
                     </div>
-                    <div class="stat-card">
-                        <div class="icon">🆓</div>
-                        <span class="number success">${totalFree}</span>
+                    <div class="stat-card success">
+                        <div class="stat-top">
+                            <span class="number success">${totalFree}</span>
+                            <span class="icon">🆓</span>
+                        </div>
                         <div class="label">مجانية</div>
                     </div>
-                    <div class="stat-card">
-                        <div class="icon">💰</div>
-                        <span class="number warning">${totalPaid}</span>
+                    <div class="stat-card warning">
+                        <div class="stat-top">
+                            <span class="number warning">${totalPaid}</span>
+                            <span class="icon">💰</span>
+                        </div>
                         <div class="label">مدفوعة</div>
                     </div>
                 </div>
@@ -2874,7 +3021,7 @@
                             </thead>
                             <tbody>
                                 ${allSubscriptions.length === 0 ? `
-                                    <tr><td colspan="6" style="text-align:center;color:var(--text-muted);padding:1.5rem;">لا توجد اشتراكات</td></tr>
+                                    <tr><td colspan="6" style="text-align:center;color:var(--text-muted);padding:1rem;">لا توجد اشتراكات</td></tr>
                                 ` : allSubscriptions.slice().reverse().map(s => {
                                     const user = allUsers.find(u => u.id === s.userId);
                                     const course = allCourses.find(c => c.id === s.courseId);
@@ -2885,7 +3032,7 @@
                                         <td>${course?.title || '—'}</td>
                                         <td><span class="status-badge ${isFree ? 'active' : 'banned'}">${isFree ? '🆓 مجاني' : '💳 مدفوع'}</span></td>
                                         <td><span class="status-badge ${s.status === 'active' ? 'active' : 'banned'}">${s.status === 'active' ? 'نشط' : 'غير نشط'}</span></td>
-                                        <td style="font-size:0.65rem;">${s.createdAt ? new Date(s.createdAt).toLocaleDateString('ar') : '—'}</td>
+                                        <td style="font-size:0.6rem;">${s.createdAt ? new Date(s.createdAt).toLocaleDateString('ar') : '—'}</td>
                                         <td>
                                             ${s.status === 'active' ? `<button class="btn-sm danger icon-only" onclick="cancelSubscription('${s.id}','${s.userId}','${s.courseId}')" title="إلغاء"><i class="fas fa-times"></i></button>` : ''}
                                         </td>
@@ -3015,19 +3162,25 @@
 
             content.innerHTML = `
                 <div class="stats-grid" style="margin-bottom:1rem;">
-                    <div class="stat-card">
-                        <div class="icon">🔑</div>
-                        <span class="number primary">${total}</span>
+                    <div class="stat-card primary">
+                        <div class="stat-top">
+                            <span class="number primary">${total}</span>
+                            <span class="icon">🔑</span>
+                        </div>
                         <div class="label">إجمالي الأكواد</div>
                     </div>
-                    <div class="stat-card">
-                        <div class="icon">🟢</div>
-                        <span class="number success">${available}</span>
+                    <div class="stat-card success">
+                        <div class="stat-top">
+                            <span class="number success">${available}</span>
+                            <span class="icon">🟢</span>
+                        </div>
                         <div class="label">متاحة</div>
                     </div>
-                    <div class="stat-card">
-                        <div class="icon">🔴</div>
-                        <span class="number danger">${used}</span>
+                    <div class="stat-card danger">
+                        <div class="stat-top">
+                            <span class="number danger">${used}</span>
+                            <span class="icon">🔴</span>
+                        </div>
                         <div class="label">مستخدمة</div>
                     </div>
                 </div>
@@ -3046,13 +3199,13 @@
                             </thead>
                             <tbody>
                                 ${allActivationCodes.length === 0 ? `
-                                    <tr><td colspan="5" style="text-align:center;color:var(--text-muted);padding:1.5rem;">لا توجد أكواد</td></tr>
+                                    <tr><td colspan="5" style="text-align:center;color:var(--text-muted);padding:1rem;">لا توجد أكواد</td></tr>
                                 ` : allActivationCodes.map(c => {
                                     const user = allUsers.find(u => u.id === c.usedBy);
                                     const isAvailable = c.status === 'available' || c.status === 'active' || !c.used;
                                     return `
                                     <tr>
-                                        <td><strong style="font-family:monospace;font-size:0.85rem;color:var(--primary);">${c.code}</strong></td>
+                                        <td><strong style="font-family:monospace;font-size:0.8rem;color:var(--primary);">${c.code}</strong></td>
                                         <td>${c.courseName || '—'}</td>
                                         <td><span class="status-badge ${isAvailable ? 'available' : 'used'}">${isAvailable ? '🟢 متاح' : '🔴 مستخدم'}</span></td>
                                         <td>${!isAvailable ? (user?.name || c.usedByName || '—') : '—'}</td>
@@ -3154,190 +3307,6 @@
         }
 
         // ============================================================
-        // COURSE & LESSON MODALS (Simplified)
-        // ============================================================
-        function showAddCourseModal() {
-            const html = `
-                <div class="form-group">
-                    <label>اسم الكورس *</label>
-                    <input type="text" id="courseTitle" placeholder="اسم الكورس">
-                </div>
-                <div class="form-group">
-                    <label>الوصف</label>
-                    <textarea id="courseDesc" placeholder="وصف الكورس"></textarea>
-                </div>
-                <div class="form-group">
-                    <label>رابط الصورة</label>
-                    <input type="text" id="courseImage" placeholder="https://...">
-                </div>
-                <div class="form-group">
-                    <label>النوع</label>
-                    <select id="courseType">
-                        <option value="مجاني">🆓 مجاني</option>
-                        <option value="مدفوع">💳 مدفوع</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>الصف</label>
-                    <select id="courseGrade">
-                        <option value="تالتة ثانوي">تالتة ثانوي</option>
-                        <option value="تانية ثانوي">تانية ثانوي</option>
-                        <option value="أولى ثانوي">أولى ثانوي</option>
-                    </select>
-                </div>
-                <div class="form-actions">
-                    <button class="btn-cancel" onclick="closeModal()">إلغاء</button>
-                    <button class="btn-submit" onclick="saveCourse()">💾 حفظ</button>
-                </div>
-            `;
-            openModal('➕ إضافة كورس جديد', html);
-            window._editCourseId = null;
-        }
-
-        function editCourse(courseId) {
-            const c = allCourses.find(c => c.id === courseId);
-            if (!c) return;
-
-            const html = `
-                <div class="form-group">
-                    <label>اسم الكورس *</label>
-                    <input type="text" id="courseTitle" value="${c.title || ''}">
-                </div>
-                <div class="form-group">
-                    <label>الوصف</label>
-                    <textarea id="courseDesc">${c.description || ''}</textarea>
-                </div>
-                <div class="form-group">
-                    <label>رابط الصورة</label>
-                    <input type="text" id="courseImage" value="${c.image || ''}">
-                </div>
-                <div class="form-group">
-                    <label>النوع</label>
-                    <select id="courseType">
-                        <option value="مجاني" ${c.isFree ? 'selected' : ''}>🆓 مجاني</option>
-                        <option value="مدفوع" ${!c.isFree ? 'selected' : ''}>💳 مدفوع</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>الصف</label>
-                    <select id="courseGrade">
-                        <option value="تالتة ثانوي" ${c.grade === 'تالتة ثانوي' ? 'selected' : ''}>تالتة ثانوي</option>
-                        <option value="تانية ثانوي" ${c.grade === 'تانية ثانوي' ? 'selected' : ''}>تانية ثانوي</option>
-                        <option value="أولى ثانوي" ${c.grade === 'أولى ثانوي' ? 'selected' : ''}>أولى ثانوي</option>
-                    </select>
-                </div>
-                <div class="form-actions">
-                    <button class="btn-cancel" onclick="closeModal()">إلغاء</button>
-                    <button class="btn-submit" onclick="saveCourse('${courseId}')">💾 تحديث</button>
-                </div>
-            `;
-            openModal('✏️ تعديل كورس: ' + c.title, html);
-            window._editCourseId = courseId;
-        }
-
-        function saveCourse(courseId) {
-            const title = document.getElementById('courseTitle').value.trim();
-            const description = document.getElementById('courseDesc').value.trim();
-            const image = document.getElementById('courseImage').value.trim();
-            const type = document.getElementById('courseType').value;
-            const grade = document.getElementById('courseGrade').value;
-
-            if (!title) { showToast('يرجى إدخال اسم الكورس', 'error'); return; }
-
-            const data = {
-                title: title,
-                description: description || '',
-                image: image || '',
-                isFree: type === 'مجاني',
-                grade: grade,
-                subscribers: {},
-                pageViews: 0,
-                revenue: 0,
-                updatedAt: new Date().toISOString()
-            };
-
-            if (courseId) {
-                db.ref('courses/' + courseId).update(data).then(() => {
-                    showToast('✅ تم تحديث الكورس', 'success');
-                    closeModal();
-                });
-            } else {
-                db.ref('courses').push(data).then(() => {
-                    showToast('✅ تم إضافة الكورس', 'success');
-                    closeModal();
-                });
-            }
-        }
-
-        function deleteCourse(courseId) {
-            if (!confirm('⚠️ هل أنت متأكد من حذف هذا الكورس؟')) return;
-            db.ref('courses/' + courseId).remove().then(() => {
-                showToast('✅ تم حذف الكورس', 'success');
-            });
-        }
-
-        function showAddLessonModal() {
-            const courseOptions = allCourses.map(c =>
-                `<option value="${c.id}">${c.title}</option>`
-            ).join('');
-
-            const html = `
-                <div class="form-group">
-                    <label>عنوان الحصة *</label>
-                    <input type="text" id="lessonTitle" placeholder="عنوان الحصة">
-                </div>
-                <div class="form-group">
-                    <label>الكورس *</label>
-                    <select id="lessonCourse">${courseOptions}</select>
-                </div>
-                <div class="form-group">
-                    <label>رابط الفيديو (YouTube)</label>
-                    <input type="text" id="lessonVideo" placeholder="https://youtu.be/...">
-                </div>
-                <div class="form-group">
-                    <label>نقاط المشاهدة</label>
-                    <input type="number" id="lessonAtoms" value="5">
-                </div>
-                <div class="form-actions">
-                    <button class="btn-cancel" onclick="closeModal()">إلغاء</button>
-                    <button class="btn-submit" onclick="saveLesson()">💾 حفظ</button>
-                </div>
-            `;
-            openModal('➕ إضافة حصة جديدة', html);
-            window._editLessonId = null;
-        }
-
-        function saveLesson() {
-            const title = document.getElementById('lessonTitle').value.trim();
-            const courseId = document.getElementById('lessonCourse').value;
-            const videoUrl = document.getElementById('lessonVideo').value.trim();
-            const atomsReward = parseInt(document.getElementById('lessonAtoms').value) || 5;
-
-            if (!title) { showToast('يرجى إدخال عنوان الحصة', 'error'); return; }
-            if (!courseId) { showToast('يرجى اختيار الكورس', 'error'); return; }
-
-            const data = {
-                title: title,
-                courseId: courseId,
-                videoUrl: videoUrl || '',
-                atomsReward: atomsReward,
-                pdfUrl: '',
-                quizId: '',
-                examId: '',
-                assignmentId: '',
-                hasQuiz: false,
-                hasExam: false,
-                hasAssignment: false,
-                updatedAt: new Date().toISOString()
-            };
-
-            db.ref('lessons').push(data).then(() => {
-                showToast('✅ تم إضافة الحصة', 'success');
-                closeModal();
-            });
-        }
-
-        // ============================================================
         // SETTINGS
         // ============================================================
         function renderSettings() {
@@ -3350,17 +3319,17 @@
                     </div>
                     <div style="display:grid;gap:1rem;">
                         <div style="background:var(--bg-input);padding:1rem;border-radius:var(--radius-sm);">
-                            <h4 style="font-weight:700;margin-bottom:0.5rem;">👥 إدارة المسؤولين</h4>
-                            <div style="display:flex;gap:0.5rem;margin-top:0.5rem;flex-wrap:wrap;">
-                                <input type="text" id="adminUidInput" placeholder="UID المستخدم" style="flex:1;min-width:200px;padding:0.4rem 0.8rem;border-radius:var(--radius-sm);border:1px solid var(--border-color);background:var(--bg-input);color:var(--text-primary);">
+                            <h4 style="font-weight:700;margin-bottom:0.3rem;">👥 إدارة المسؤولين</h4>
+                            <div style="display:flex;gap:0.5rem;margin-top:0.3rem;flex-wrap:wrap;">
+                                <input type="text" id="adminUidInput" placeholder="UID المستخدم" style="flex:1;min-width:150px;padding:0.3rem 0.6rem;border-radius:var(--radius-sm);border:1px solid var(--border-color);background:var(--bg-input);color:var(--text-primary);font-size:0.75rem;">
                                 <button class="btn-sm primary" onclick="addAdmin()">➕ إضافة مسؤول</button>
                             </div>
-                            <div id="adminsList" style="margin-top:0.5rem;">
-                                <p style="color:var(--text-muted);font-size:0.8rem;">جاري تحميل قائمة المسؤولين...</p>
+                            <div id="adminsList" style="margin-top:0.3rem;">
+                                <p style="color:var(--text-muted);font-size:0.75rem;">جاري تحميل قائمة المسؤولين...</p>
                             </div>
                         </div>
                         <div style="background:var(--bg-input);padding:1rem;border-radius:var(--radius-sm);">
-                            <h4 style="font-weight:700;margin-bottom:0.5rem;">⚠️ إجراءات خطيرة</h4>
+                            <h4 style="font-weight:700;margin-bottom:0.3rem;">⚠️ إجراءات خطيرة</h4>
                             <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
                                 <button class="btn-sm danger" onclick="clearAllData()">🗑️ مسح جميع البيانات</button>
                                 <button class="btn-sm warning" onclick="resetAtoms()">🔄 إعادة تعيين النقاط</button>
@@ -3382,13 +3351,13 @@
                     if (child.val() === true) admins.push(child.key);
                 });
                 if (admins.length === 0) {
-                    container.innerHTML = '<p style="color:var(--text-muted);font-size:0.8rem;">لا يوجد مسؤولين</p>';
+                    container.innerHTML = '<p style="color:var(--text-muted);font-size:0.75rem;">لا يوجد مسؤولين</p>';
                     return;
                 }
                 container.innerHTML = admins.map(uid =>
-                    `<div style="display:flex;justify-content:space-between;align-items:center;background:var(--bg-card);padding:0.3rem 0.8rem;border-radius:var(--radius-sm);margin-bottom:0.2rem;border:1px solid var(--border-color);">
-                        <span style="font-size:0.8rem;font-family:monospace;">${uid}</span>
-                        ${uid !== currentUser.uid ? `<button class="btn-sm danger icon-only" onclick="removeAdmin('${uid}')" title="إزالة"><i class="fas fa-times"></i></button>` : '<span style="font-size:0.7rem;color:var(--text-muted);">(أنت)</span>'}
+                    `<div style="display:flex;justify-content:space-between;align-items:center;background:var(--bg-card);padding:0.2rem 0.6rem;border-radius:var(--radius-sm);margin-bottom:0.15rem;border:1px solid var(--border-color);font-size:0.75rem;">
+                        <span style="font-family:monospace;font-size:0.7rem;">${uid}</span>
+                        ${uid !== currentUser.uid ? `<button class="btn-sm danger icon-only" onclick="removeAdmin('${uid}')" title="إزالة"><i class="fas fa-times"></i></button>` : '<span style="font-size:0.6rem;color:var(--text-muted);">(أنت)</span>'}
                     </div>`
                 ).join('');
             });
@@ -3427,7 +3396,8 @@
                 db.ref('subscriptions').remove(),
                 db.ref('onlineSessions').remove(),
                 db.ref('activationCodes').remove(),
-                db.ref('adminLogs').remove()
+                db.ref('adminLogs').remove(),
+                db.ref('pointsAudit').remove()
             ]).then(() => {
                 showToast('✅ تم مسح جميع البيانات', 'success');
             });
@@ -3451,9 +3421,11 @@
             if (e.target === this) closeModal();
         });
 
-        console.log('🚀 Admin Panel v9.0 - يلا كيمياء (Real-Time بالكامل)');
-        console.log('📡 Real-time listeners active: Online, Users, Courses, Subscriptions, Codes, Logs');
-        console.log('✅ Using correct paths: onlineSessions, adminLogs, activationCodes, subscriptions');
+        console.log('🚀 Admin Panel v10.0 - يلا كيمياء (REAL-TIME FULL)');
+        console.log('📡 Real-time listeners: Online, Users, Courses, Subscriptions, Codes, Logs, PointsAudit');
+        console.log('🟢 Online: ' + Object.keys(onlineSessions).length + ' متصل');
+        console.log('👥 Users: ' + allUsers.length + ' طالب');
+        console.log('✅ Powered by Firebase Realtime Database');
     </script>
 
 </body>
